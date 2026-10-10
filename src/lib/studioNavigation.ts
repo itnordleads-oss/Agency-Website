@@ -3,8 +3,8 @@
  *
  * English chrome labels only. Full localized nav copy remains F10.
  * `/work` stays unpublished until F7 content is approved for publication.
- * Product routes (`/platform`, `/workflow`, pricing anchors) stay reachable
- * for F9 retirement work but are not listed in the public studio navbar.
+ * Product routes (`/platform`, `/workflow`, product pricing) are retired in F9
+ * (redirect to agency destinations) and are not listed in the public studio navbar.
  */
 
 export type StudioNavItemId = "home" | "services" | "about" | "work" | "contact";

@@ -1,19 +1,26 @@
 import React from "react";
 import { Building2, Workflow, SlidersHorizontal, Send } from "lucide-react";
+import { isMetricsModuleEnabled } from "../lib/trustModules";
 import { useSiteCopy } from "../lib/useSiteCopy";
+
+const PROOF_ICONS = [Building2, Workflow, SlidersHorizontal, Send] as const;
 
 export default function ProofBand() {
   const { proofBand } = useSiteCopy();
+  const items = Array.isArray(proofBand) ? proofBand : [];
 
-  const proofPoints = [
-    { icon: Building2, stat: proofBand[0].stat, label: proofBand[0].label },
-    { icon: Workflow, stat: proofBand[1].stat, label: proofBand[1].label },
-    { icon: SlidersHorizontal, stat: proofBand[2].stat, label: proofBand[2].label },
-    { icon: Send, stat: proofBand[3].stat, label: proofBand[3].label },
-  ];
+  if (!isMetricsModuleEnabled() || items.length === 0) {
+    return null;
+  }
+
+  const proofPoints = items.map((point, index) => ({
+    icon: PROOF_ICONS[index % PROOF_ICONS.length],
+    stat: point.stat,
+    label: point.label,
+  }));
 
   return (
-    <section className="relative overflow-hidden min-w-0" aria-label="Why teams trust ADealForge">
+    <section className="relative overflow-hidden min-w-0" aria-label="Why teams work with us">
       <div className="max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 min-w-0">
         <div className="rounded-2xl border border-white/[0.1] bg-white/[0.02] backdrop-blur-md overflow-hidden">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/[0.08]">

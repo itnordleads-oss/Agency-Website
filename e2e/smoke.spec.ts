@@ -64,6 +64,17 @@ test.describe("smoke", () => {
     await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
+      "href",
+      "#main-content"
+    );
+  });
+
+  test("unpublished /work rewrites to homepage", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/work");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/(?:$|\?)/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
   });
 
   test("company carousel replaces and repositions the homepage trust block", async ({ page }) => {
@@ -814,13 +825,15 @@ test.describe("smoke", () => {
     expect(pageErrors).toEqual([]);
   });
 
-  test("platform page updates when language changes", async ({ page }) => {
+  test("platform page keeps fixed english seo when language changes", async ({ page }) => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
     await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
       timeout: 15_000,
     });
+    await expect(page).toHaveTitle(/Platform — Agency/i);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
 
     await page
       .locator("header")
@@ -829,7 +842,9 @@ test.describe("smoke", () => {
       .click();
     await page.getByRole("option", { name: /^DE$/i }).first().click();
 
-    await expect(page).toHaveTitle(/Plattform/i);
+    // Document title stays English/noindex; visible UI copy may still localize.
+    await expect(page).toHaveTitle(/Platform — Agency/i);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
     await expect(page.getByRole("heading", { level: 1, name: "Plattform" })).toBeVisible({
       timeout: 15_000,
     });
@@ -1057,11 +1072,16 @@ test.describe("smoke", () => {
     }
   });
 
-  test("workflow page updates when language changes", async ({ page }) => {
+  test("workflow page keeps fixed english seo when language changes", async ({ page }) => {
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Workflow/i);
+    await expect(page).toHaveTitle(/Workflow — Agency/i);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      /retired from the agency site index/i
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
 
     await page
       .locator("header")
@@ -1070,11 +1090,13 @@ test.describe("smoke", () => {
       .click();
     await page.getByRole("option", { name: /^DE$/i }).first().click();
 
-    await expect(page).toHaveTitle(/Workflow/i);
+    // Document SEO stays English/noindex after locale switch.
+    await expect(page).toHaveTitle(/Workflow — Agency/i);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
-      /Sehen Sie, wie ADealForge/
+      /retired from the agency site index/i
     );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
     await expect(page.locator("main#workflow-page > section#workflow")).toHaveCount(1);
     await expect(
       page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Services" })
@@ -1211,14 +1233,15 @@ test.describe("smoke", () => {
     ).toBeVisible();
 
     // Outcome nodes are not clickable buttons.
-    await expect(benefits.getByRole("button", { name: /ADealForge/i })).toHaveCount(0);
+    await expect(benefits.getByRole("button", { name: /Agency/i })).toHaveCount(0);
     await expect(benefits.getByRole("button", { name: /Better company matches/i })).toHaveCount(0);
     await expect(
       benefits.getByRole("button", { name: /More qualified conversations/i })
     ).toHaveCount(0);
     await expect(benefits.locator("[aria-expanded]")).toHaveCount(0);
 
-    await expect(benefits.getByText("ADealForge").first()).toBeVisible();
+    await expect(benefits.getByText("Agency").first()).toBeVisible();
+    await expect(benefits.getByText("ADealForge")).toHaveCount(0);
     await expect(benefits.getByText(/Better company matches/i).first()).toBeVisible();
     await expect(benefits.getByText(/More qualified conversations/i).first()).toBeVisible();
     await expect(benefits.getByText(/Account research eats selling hours/i)).toHaveCount(0);
@@ -1418,7 +1441,7 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       await page.getByRole("button", { name: "Toggle menu" }).click();
-      const mobileMenu = page.getByRole("dialog", { name: "Toggle menu" });
+      const mobileMenu = page.getByRole("dialog", { name: "Main menu" });
       await expect(mobileMenu.getByText("Platform", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Workflow", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Pricing", { exact: true })).toHaveCount(0);

@@ -1,8 +1,15 @@
 import React from "react";
+import { isMetricsModuleEnabled } from "../../lib/trustModules";
 import { useHomepageCopy } from "./homepageVariantContext";
 
 export default function HomeV2Trust() {
   const { trust } = useHomepageCopy();
+  const metrics = Array.isArray(trust.metrics) ? trust.metrics : [];
+  const logoLabels = Array.isArray(trust.logoLabels) ? trust.logoLabels : [];
+
+  if (!isMetricsModuleEnabled() || (metrics.length === 0 && logoLabels.length === 0)) {
+    return null;
+  }
 
   return (
     <section
@@ -15,29 +22,41 @@ export default function HomeV2Trust() {
           {trust.title}
         </p>
 
-        <div className="mx-auto grid max-w-3xl grid-cols-3 gap-3 sm:gap-6">
-          {trust.metrics.map((point) => (
-            <div key={point.stat} className="min-w-0 text-center">
-              <p className="text-base font-extrabold tracking-tight text-white sm:text-xl">
-                {point.stat}
-              </p>
-              <p className="mt-0.5 text-[0.65rem] leading-snug text-white/50 sm:text-xs">
-                {point.label}
-              </p>
-            </div>
-          ))}
-        </div>
+        {metrics.length > 0 ? (
+          <div
+            className={`mx-auto grid max-w-3xl gap-3 sm:gap-6 ${
+              metrics.length === 1
+                ? "grid-cols-1"
+                : metrics.length === 2
+                  ? "grid-cols-2"
+                  : "grid-cols-3"
+            }`}
+          >
+            {metrics.map((point) => (
+              <div key={point.stat} className="min-w-0 text-center">
+                <p className="text-base font-extrabold tracking-tight text-white sm:text-xl">
+                  {point.stat}
+                </p>
+                <p className="mt-0.5 text-[0.65rem] leading-snug text-white/50 sm:text-xs">
+                  {point.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : null}
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:mt-6">
-          {trust.logoLabels.map((label) => (
-            <span
-              key={label}
-              className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-white/45 sm:text-[0.7rem]"
-            >
-              {label}
-            </span>
-          ))}
-        </div>
+        {logoLabels.length > 0 ? (
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:mt-6">
+            {logoLabels.map((label) => (
+              <span
+                key={label}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-white/45 sm:text-[0.7rem]"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );

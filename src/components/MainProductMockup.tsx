@@ -347,7 +347,7 @@ export default function MainProductMockup({ showBackHome = false }: { showBackHo
         ) : null}
 
         <div className="mb-6 flex flex-col items-center text-center md:mb-8">
-          <h2 className="section-title max-w-3xl">{workflow.title}</h2>
+          <h1 className="section-title max-w-3xl">{workflow.title}</h1>
           <p className="mt-3 max-w-xl text-base leading-relaxed text-muted md:text-lg">
             {workflow.subtitle}
           </p>

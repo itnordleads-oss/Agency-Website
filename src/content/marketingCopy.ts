@@ -5,12 +5,14 @@
  */
 export const marketingCopy = {
   seo: {
-    title: "ADealForge | Managed B2B Outbound Services for Qualified Pipeline Growth",
+    // F11: provisional agency SEO until leadership-approved identity lands (F2/F10).
+    // Runtime metadata uses studioBranding getters — do not reintroduce product-era copy here.
+    title: "Agency Website",
     description:
-      "ADealForge runs managed B2B outbound programs that combine ICP targeting, account research, and personalized email outreach to help sales teams generate qualified pipeline.",
+      "Marketing website for the agency. Brand identity details are pending leadership approval.",
     organizationDescription:
-      "ADealForge is a managed B2B outbound partner that helps revenue teams target ideal accounts, launch personalized outreach, and book more qualified sales meetings.",
-    websiteDescription: "Managed B2B outbound prospecting and personalized email outreach service.",
+      "Marketing website for the agency. Organization schema fields remain unpublished until approved.",
+    websiteDescription: "Marketing website for the agency.",
   },
 
   hero: {
