@@ -7,7 +7,7 @@ import { onModalClose, onModalOpen } from "../lib/modalManager";
 import { navigateToContact } from "../App";
 import "./floatingScheduleMeeting.css";
 
-const STORAGE_KEY = "adealforge:schedule-meeting-dismissed-at";
+const STORAGE_KEY = "agency:schedule-meeting-dismissed-at";
 const DISMISS_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const SHOW_DELAY_MS = 10_000;
 const AUTO_COLLAPSE_MS = 10_000;

@@ -124,7 +124,7 @@ function PlatformUnderConstructionIllustration({ ariaLabel }: { ariaLabel: strin
  */
 export default function PlatformPage() {
   const { platformPage, common } = useSiteCopy();
-  usePlatformPageMetadata(platformPage.documentTitle || "ADealForge | Platform");
+  usePlatformPageMetadata(platformPage.documentTitle || "Platform");
 
   return (
     <main className="flex-grow overflow-x-hidden min-w-0" id="platform-page">

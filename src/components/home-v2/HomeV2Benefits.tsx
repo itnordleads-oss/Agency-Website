@@ -45,7 +45,7 @@ type ConnectionLine = {
 };
 
 const CENTER_NODE = {
-  title: "ADealForge",
+  title: "Our team",
   description: "We find companies, check details, prepare emails, and send them for you.",
 } as const;
 
@@ -107,7 +107,7 @@ const OUTCOMES: OutcomeNode[] = [
 ];
 
 /**
- * Radial "Why ADealForge" outcomes section (Homepage V3).
+ * Radial outcomes section (Homepage V3).
  * Hover highlights outcomes and connection lines on the desktop/tablet radial stage.
  */
 export default function HomeV2Benefits() {
