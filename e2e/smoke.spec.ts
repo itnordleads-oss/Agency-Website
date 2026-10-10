@@ -978,9 +978,10 @@ test.describe("smoke", () => {
 
       await expect(page.locator("main#workflow-page > section")).toHaveCount(1);
 
+      // F3: product Workflow is no longer in the public studio navbar.
       await expect(
-        page.getByRole("navigation", { name: "Primary" }).getByRole("button", { name: "Workflow" })
-      ).toHaveAttribute("aria-current", "page");
+        page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Workflow" })
+      ).toHaveCount(0);
 
       expect(consoleErrors).toEqual([]);
       expect(pageErrors).toEqual([]);
@@ -1076,8 +1077,11 @@ test.describe("smoke", () => {
     );
     await expect(page.locator("main#workflow-page > section#workflow")).toHaveCount(1);
     await expect(
-      page.getByRole("navigation", { name: "Primary" }).getByRole("button", { name: "Workflow" })
+      page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Services" })
     ).toBeVisible();
+    await expect(
+      page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Workflow" })
+    ).toHaveCount(0);
   });
 
   test(
@@ -1100,12 +1104,9 @@ test.describe("smoke", () => {
       });
 
       // Fresh homepage load — Yearly must be active before any tab click.
-      await page.goto("/");
+      // F3 removed Pricing from the public studio navbar; open the section by hash.
+      await page.goto("/#pricing");
       await acceptCookiesIfPresent(page);
-      await page
-        .getByRole("navigation", { name: "Primary" })
-        .getByRole("link", { name: "Pricing" })
-        .click();
       await expect(page).toHaveURL(/\/#pricing$/);
       await expectHomepageSectionBelowNavbar(page, "pricing");
 
@@ -1326,7 +1327,7 @@ test.describe("smoke", () => {
     expect(consoleErrors).toEqual([]);
   });
 
-  test("homepage navbar keeps only the approved section link", async ({ page }) => {
+  test("homepage navbar exposes studio routes only", async ({ page }) => {
     const consoleErrors: string[] = [];
     const pageErrors: string[] = [];
     page.on("console", (message) => {
@@ -1340,72 +1341,95 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     const primaryNavigation = page.getByRole("navigation", { name: "Primary" });
+    await expect(primaryNavigation.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/"
+    );
+    await expect(primaryNavigation.getByRole("link", { name: "Services" })).toHaveAttribute(
+      "href",
+      "/services"
+    );
+    await expect(primaryNavigation.getByRole("link", { name: "About" })).toHaveAttribute(
+      "href",
+      "/about"
+    );
+    await expect(primaryNavigation.getByRole("link", { name: "Contact" })).toHaveAttribute(
+      "href",
+      "/contact"
+    );
+
+    // Product-era and unpublished routes stay out of the public studio navbar.
+    await expect(primaryNavigation.getByRole("link", { name: "Platform" })).toHaveCount(0);
+    await expect(primaryNavigation.getByRole("link", { name: "Workflow" })).toHaveCount(0);
+    await expect(primaryNavigation.getByRole("link", { name: "Pricing" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Product" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Benefits" })).toHaveCount(0);
+    await expect(primaryNavigation.getByRole("link", { name: "Work" })).toHaveCount(0);
 
-    const pricingLink = primaryNavigation.getByRole("link", { name: "Pricing" });
-    await expect(pricingLink).toHaveAttribute("href", "/#pricing");
-    await pricingLink.focus();
+    const servicesLink = primaryNavigation.getByRole("link", { name: "Services" });
+    await servicesLink.focus();
     await page.keyboard.press("Enter");
-    await expect(page).toHaveURL(/\/#pricing$/);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expect(page).toHaveURL(/\/services$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
 
     expect(consoleErrors).toEqual([]);
     expect(pageErrors).toEqual([]);
   });
 
   test(
-    "homepage section links navigate correctly from every public route",
+    "studio nav links navigate correctly from every public route",
     { tag: "@critical" },
     async ({ page }) => {
       test.setTimeout(90_000);
-      await page.emulateMedia({ reducedMotion: "reduce" });
 
       for (const source of [
-        { path: "/workflow", label: "Pricing", sectionId: "pricing" },
-        { path: "/platform", label: "Pricing", sectionId: "pricing" },
-        { path: "/contact", label: "Pricing", sectionId: "pricing" },
-        { path: "/terms", label: "Pricing", sectionId: "pricing" },
+        { path: "/", target: "Services", href: "/services", heading: "Services" },
+        { path: "/contact", target: "About", href: "/about", heading: "About" },
+        {
+          path: "/services",
+          target: "Contact",
+          href: "/contact",
+          heading: /Tell us about your project/i,
+        },
+        { path: "/about", target: "Home", href: "/", heading: /meetings|busywork/i },
       ] as const) {
         await page.goto(source.path);
         await acceptCookiesIfPresent(page);
 
         const link = page
           .getByRole("navigation", { name: "Primary" })
-          .getByRole("link", { name: source.label });
-        await expect(link).toHaveAttribute("href", `/#${source.sectionId}`);
+          .getByRole("link", { name: source.target });
+        await expect(link).toHaveAttribute("href", source.href);
         await link.click();
-        await expect(page).toHaveURL(new RegExp(`/#${source.sectionId}$`));
-        await expectHomepageSectionBelowNavbar(page, source.sectionId);
-        await expect(
-          page.locator("section#pricing").getByRole("heading", { level: 2 })
-        ).toBeVisible();
-        await expect(
-          page.locator("section#pricing").getByRole("group", { name: /Select pricing mode/i })
-        ).toBeVisible();
+        await expect(page).toHaveURL(
+          source.href === "/" ? /\/(?:$|\?)/ : new RegExp(`${source.href}$`)
+        );
+        await expect(page.getByRole("heading", { level: 1 })).toContainText(source.heading);
       }
     }
   );
 
   test(
-    "mobile navbar section link routes home and closes the menu",
+    "mobile navbar studio link routes and closes the menu",
     { tag: "@critical" },
     async ({ page }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto("/workflow");
+      await page.goto("/contact");
       await acceptCookiesIfPresent(page);
 
       await page.getByRole("button", { name: "Toggle menu" }).click();
       const mobileMenu = page.getByRole("dialog", { name: "Toggle menu" });
-      await expect(mobileMenu.getByText("Product", { exact: true })).toHaveCount(0);
-      await expect(mobileMenu.getByText("Benefits", { exact: true })).toHaveCount(0);
-      const pricingLink = mobileMenu.getByRole("link", { name: "Pricing" });
-      await expect(pricingLink).toHaveAttribute("href", "/#pricing");
-      await pricingLink.click();
+      await expect(mobileMenu.getByText("Platform", { exact: true })).toHaveCount(0);
+      await expect(mobileMenu.getByText("Workflow", { exact: true })).toHaveCount(0);
+      await expect(mobileMenu.getByText("Pricing", { exact: true })).toHaveCount(0);
+      await expect(mobileMenu.getByText("Work", { exact: true })).toHaveCount(0);
+      const aboutLink = mobileMenu.getByRole("link", { name: "About" });
+      await expect(aboutLink).toHaveAttribute("href", "/about");
+      await aboutLink.click();
 
-      await expect(page).toHaveURL(/\/#pricing$/);
+      await expect(page).toHaveURL(/\/about$/);
       await expect(mobileMenu).toHaveCount(0);
-      await expectHomepageSectionBelowNavbar(page, "pricing");
+      await expect(page.getByRole("heading", { level: 1, name: "About" })).toBeVisible();
     }
   );
 
@@ -1475,7 +1499,7 @@ test.describe("smoke", () => {
   });
 
   test.describe("contact form keyboard submit", () => {
-    const nameError = "Add your name or company.";
+    const nameError = "Add your name.";
 
     async function openContactForm(page: Page) {
       await page.goto("/contact");
@@ -1505,7 +1529,7 @@ test.describe("smoke", () => {
       await form.locator("#business-name").press("Enter");
 
       await expect(form.getByText(nameError)).toHaveCount(0);
-      await expect(form.getByText("Add the email where we should reply.")).toBeVisible();
+      await expect(form.getByText("Add the work email where we should reply.")).toBeVisible();
       expect(await submitCount(page)).toBe(1);
     });
 
@@ -1641,9 +1665,15 @@ test.describe("smoke", () => {
         const nav = footer.locator("nav.site-footer__nav");
         const navLinks = nav.locator("a");
 
-        await expect(navLinks).toHaveCount(6);
+        // Home, Services, About, Contact, Terms
+        await expect(navLinks).toHaveCount(5);
         await expect(footer.locator("nav.site-footer__nav button")).toHaveCount(0);
         await expect(navLinks.first()).toHaveAttribute("href", "/");
+        await expect(footer.getByRole("link", { name: "Services" })).toHaveAttribute(
+          "href",
+          "/services"
+        );
+        await expect(footer.getByRole("link", { name: "Platform" })).toHaveCount(0);
 
         const widths = await page.evaluate(() => {
           const compose = document.querySelector(".site-footer__compose");
@@ -1743,7 +1773,7 @@ test.describe("smoke", () => {
       page,
     }) => {
       const footer = await openContactFooter(page);
-      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(6);
+      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(5);
 
       for (const width of [1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
@@ -1778,12 +1808,14 @@ test.describe("smoke", () => {
 
         expect(metrics, `footer metrics at ${width}px`).not.toBeNull();
         expect(metrics?.brandGap, `token match at ${width}px`).toBe(metrics?.composeGap);
-        // Text brand mark (logo TBC) can differ a few px from flex gap measurement vs image lockup.
-        expect(
-          Math.abs((metrics?.logoGap ?? 0) - (metrics?.brandGap ?? 0)),
-          `logo gap at ${width}px`
-        ).toBeLessThanOrEqual(8);
+        // Desktop brand uses space-between so the description shares the nav baseline.
+        // Visual logo→copy gap may exceed the CSS gap token when the nav column is taller
+        // (studio Explore/Company groups vs the former three-column product footer).
         expect(metrics?.logoGap, `logo gap size at ${width}px`).toBeGreaterThanOrEqual(20);
+        expect(
+          metrics?.logoGap ?? 0,
+          `logo gap at least spacing token at ${width}px`
+        ).toBeGreaterThanOrEqual((metrics?.brandGap ?? 0) - 8);
         expect(
           Math.abs((metrics?.brandBottom ?? 0) - (metrics?.navBottom ?? 0)),
           `nav baseline at ${width}px`
@@ -2002,7 +2034,7 @@ test.describe("smoke", () => {
       });
 
       await page.addInitScript(() => {
-        window.localStorage.removeItem("adealforge:schedule-meeting-dismissed-at");
+        window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
       const routes = ["/", "/platform", "/workflow", "/contact"] as const;
@@ -2052,7 +2084,7 @@ test.describe("smoke", () => {
 
         // Auto-collapse must not persist, so the invitation returns on the next page load.
         const autoCollapseDismissedAt = await page.evaluate(() =>
-          window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+          window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
         );
         expect(autoCollapseDismissedAt).toBeNull();
       }
@@ -2066,7 +2098,7 @@ test.describe("smoke", () => {
       await expect(dismissiblePrompt).toHaveCount(0, { timeout: 5_000 });
       await expect(page.locator(".email-fab")).toHaveCount(0);
       const dismissedAt = await page.evaluate(() =>
-        window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+        window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
       );
       expect(Number(dismissedAt)).toBeGreaterThan(0);
 
