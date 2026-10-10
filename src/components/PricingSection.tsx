@@ -12,6 +12,7 @@ import {
   PRICING_TIER_ORDER,
   type PricingTierId,
 } from "../lib/pricingVariants";
+import { isPricingModuleEnabled } from "../lib/trustModules";
 import "./pricingSection.css";
 
 type PricingTierView = {
@@ -29,6 +30,10 @@ export default function PricingSection() {
   const { pricing } = useSiteCopy();
   const variantId = useMemo(() => resolvePricingVariantId(), []);
   const variant = useMemo(() => getPricingVariantConfig(variantId), [variantId]);
+
+  if (!isPricingModuleEnabled()) {
+    return null;
+  }
 
   const tiers: PricingTierView[] = PRICING_TIER_ORDER.map((tierId) => {
     const tierCopy = pricing.tiers[tierId];

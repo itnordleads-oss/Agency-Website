@@ -19,7 +19,7 @@ import { isExpired } from "./baseline";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PROD_BASELINE_PATH = path.join(HERE, "..", "..", "scripts", "production-smoke-baseline.json");
 
-const SPA_ROUTES = ["/", "/contact", "/platform", "/workflow", "/terms"] as const;
+const SPA_ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
 const GA_HOST_PATTERN = /googletagmanager\.com|google-analytics\.com/i;
 const CONSOLE_NOISE_PATTERN = /googletagmanager|google-analytics|doubleclick|facebook|linkedin/i;
 

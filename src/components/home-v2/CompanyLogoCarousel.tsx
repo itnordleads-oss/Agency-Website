@@ -1,4 +1,5 @@
 import React from "react";
+import { isClientLogosModuleEnabled } from "../../lib/trustModules";
 import { COMPANY_LOGO_CAROUSEL_HEADING, COMPANY_LOGOS, type CompanyLogo } from "./companyLogos";
 import "./companyLogoCarousel.css";
 
@@ -60,6 +61,10 @@ function CompanyLogoSet({
 }
 
 export default function CompanyLogoCarousel() {
+  if (!isClientLogosModuleEnabled() || COMPANY_LOGOS.length === 0) {
+    return null;
+  }
+
   return (
     <section
       id="company-logo-carousel"

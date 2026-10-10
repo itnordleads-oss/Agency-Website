@@ -2,7 +2,7 @@ import React from "react";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
 import { navigateToContact } from "../../App";
 import HomeV2ProductFrame from "./HomeV2ProductFrame";
-import HomeV2CampaignAnimation from "./HomeV2CampaignAnimation";
+import HomeAgencyHeroPanel from "./HomeAgencyHeroPanel";
 import { useHomepageCopy, useHomepageVariant } from "./homepageVariantContext";
 import { scrollToHomepageSection } from "../../lib/homepageSections";
 
@@ -12,9 +12,8 @@ export default function HomeV2Hero() {
   const isV3 = variant === "v3";
 
   const scrollToSecondarySection = () => {
-    // V3: same section land as nav hashes. V2: jump to the workflow strip.
     if (isV3) {
-      scrollToHomepageSection("product");
+      scrollToHomepageSection("process");
       return;
     }
     document.getElementById("v2-workflow")?.scrollIntoView({ behavior: "smooth" });
@@ -58,9 +57,7 @@ export default function HomeV2Hero() {
 
           <div className={`relative min-w-0 ${isV3 ? "" : "lg:pl-2"}`}>
             {isV3 ? (
-              <HomeV2ProductFrame badge={hero.previewBadge} className="lg:mx-6">
-                <HomeV2CampaignAnimation />
-              </HomeV2ProductFrame>
+              <HomeAgencyHeroPanel />
             ) : (
               <HomeV2ProductFrame
                 badge={hero.previewBadge}
