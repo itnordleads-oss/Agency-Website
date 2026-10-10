@@ -66,6 +66,110 @@ const en = {
       "We're a remote company that works online. The address below is our registered business address for legal registration and official mail. All meetings and client work are conducted remotely.",
     mapOpenMaps: "Open in Google Maps",
   },
+  /**
+   * F6 — About page copy.
+   * Anchored to footer brandDescription and defensible delivery qualities.
+   * No founders, history, team, metrics, or invented service catalog.
+   */
+  aboutPage: {
+    backHome: "Back to homepage",
+    documentTitleSuffix: "About",
+    hero: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle:
+        "Custom software and digital product delivery for growing teams—with practical engineering and clear communication.",
+    },
+    focus: {
+      eyebrow: "What we do",
+      title: "Software and product work that stays practical",
+      subtitle:
+        "We help teams plan, build, and launch custom software and modern web experiences. Detailed service offerings live on our Services page as they are published.",
+    },
+    approach: {
+      eyebrow: "Our approach",
+      title: "Clear collaboration from first conversation to launch",
+      subtitle:
+        "We keep priorities visible, decisions grounded, and delivery sized to what the product needs next—not overbuilt for its own sake.",
+      items: [
+        {
+          title: "Understand the problem",
+          description: "Clarify goals, constraints, and what success looks like before building.",
+        },
+        {
+          title: "Define scope",
+          description: "Shape a focused plan so work stays reviewable and aligned.",
+        },
+        {
+          title: "Build and review",
+          description: "Implement with steady progress and shared checkpoints for feedback.",
+        },
+        {
+          title: "Iterate and deliver",
+          description: "Refine based on review, then ship with clear next steps.",
+        },
+      ],
+    },
+    capabilities: {
+      eyebrow: "Capabilities",
+      title: "Areas we focus on",
+      subtitle:
+        "Delivery qualities and work areas we apply across software and digital product projects.",
+      items: [
+        {
+          title: "Custom software delivery",
+          description: "Application work shaped around real product workflows and constraints.",
+        },
+        {
+          title: "Digital product experiences",
+          description:
+            "Modern web experiences that stay clear for users and maintainable for teams.",
+        },
+        {
+          title: "Frontend and backend development",
+          description:
+            "Contemporary application development across the stack when the project needs it.",
+        },
+        {
+          title: "Structured project delivery",
+          description: "A simple path from understanding needs through review and launch.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Ready to start a project?",
+      subtitle: "Tell us what you need. We will explain how we can help.",
+      primaryCta: "Get in Touch",
+      footnote: ["Real conversation", "No obligation"],
+    },
+  },
   platformPage: {
     documentTitle: "Agency | Platform",
     backHome: "Back to homepage",
