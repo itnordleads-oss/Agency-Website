@@ -1516,7 +1516,7 @@ test.describe("smoke", () => {
 
         const prompt = page.locator(".schedule-meeting-float");
         const launcher = page.locator(".schedule-meeting-float__launcher");
-        const launcherByName = page.getByRole("button", { name: /Let's Start a Conversation/i });
+        const launcherByName = page.getByRole("button", { name: /Have a project in mind/i });
         const emailFab = page.locator(".email-fab");
         await expect(prompt).toHaveCount(0);
 
@@ -1524,13 +1524,13 @@ test.describe("smoke", () => {
         await expect(prompt).toBeVisible({ timeout: 18_000 });
 
         // The expanded window is only AUTO_COLLAPSE_MS (10s) wide, so assert the card first.
-        const startHere = prompt.getByRole("button", { name: /Start Here/i });
+        const startHere = prompt.getByRole("button", { name: /Get in Touch/i });
 
         await expect(
-          prompt.getByRole("heading", { level: 2, name: /Let's Start a Conversation/i })
+          prompt.getByRole("heading", { level: 2, name: /Have a project in mind/i })
         ).toBeVisible();
         await expect(prompt.locator(".schedule-meeting-float__subtitle")).toHaveText(
-          "No pressure. No obligation. Just a friendly conversation."
+          "Share a short note about what you need. We will follow up."
         );
         await expect(prompt.getByText(/learn a little about your business/i)).toHaveCount(0);
         await expect(startHere).toBeVisible();
