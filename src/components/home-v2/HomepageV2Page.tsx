@@ -20,11 +20,7 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
-
-const V2_TITLE = "ADealForge | Homepage V2";
-const V3_TITLE = "ADealForge | Outbound Sales Automation for B2B Teams";
-const V3_DESCRIPTION =
-  "ADealForge helps sales teams book more meetings with less outbound busywork—prospect research, clear first emails, and live campaign support in one workflow.";
+import { getBrandAriaLabel, getSeoDescription, getSeoTitle } from "../../lib/studioBranding";
 
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
@@ -35,12 +31,13 @@ function useHomepageMetadata(variant: HomepageVariant) {
     const previousTitle = document.title;
     const descriptionTag = document.querySelector('meta[name="description"]');
     const previousDescription = descriptionTag?.getAttribute("content") ?? null;
+    const brandLabel = getBrandAriaLabel();
 
     if (variant === "v3") {
-      document.title = V3_TITLE;
-      descriptionTag?.setAttribute("content", V3_DESCRIPTION);
+      document.title = getSeoTitle();
+      descriptionTag?.setAttribute("content", getSeoDescription());
     } else {
-      document.title = V2_TITLE;
+      document.title = `${brandLabel} | Homepage V2`;
     }
 
     // Keep hash targets (e.g. /#pricing) — do not wipe the pending section scroll.

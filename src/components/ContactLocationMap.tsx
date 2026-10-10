@@ -6,7 +6,9 @@ import {
   BUSINESS_LOCATION,
   formatBusinessAddress,
   formatBusinessAddressLines,
+  hasBusinessLocation,
 } from "./contactLocation";
+
 type ContactLocationMapProps = {
   title?: string;
   subtitle?: string;
@@ -15,7 +17,7 @@ type ContactLocationMapProps = {
 
 /**
  * Office info + Google Map styled to match the Contact form card.
- * Map uses aspect-ratio sizing (no absolute iframe) so it cannot overlap the heading.
+ * Hidden entirely while leadership-approved location details remain TBC.
  */
 export default function ContactLocationMap({
   title = "Our office",
@@ -26,6 +28,18 @@ export default function ContactLocationMap({
   const openMapsUrl = useMemo(() => buildGoogleMapsOpenUrl(), []);
   const formattedAddress = formatBusinessAddress();
   const addressLines = formatBusinessAddressLines();
+
+  if (
+    !hasBusinessLocation() ||
+    !BUSINESS_LOCATION ||
+    !embedUrl ||
+    !openMapsUrl ||
+    !formattedAddress ||
+    addressLines.length === 0
+  ) {
+    return null;
+  }
+
   const iframeTitle = `${BUSINESS_LOCATION.name} office location — ${formattedAddress}`;
 
   return (

@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import LanguageDropdown from "./LanguageDropdown";
 import { changeAppLanguage, resolveActiveLanguage, type SupportedLanguage } from "../i18n";
+import { getBrandAriaLabel } from "../lib/studioBranding";
 import {
   emitModalClose,
   emitModalOpen,
@@ -100,7 +101,7 @@ function readActiveHomepageSectionId(): string | null {
 }
 
 export default function Navbar() {
-  const { t, nav, common, homepageV3 } = useSiteCopy();
+  const { t, nav, homepageV3 } = useSiteCopy();
   const { i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [path, setPath] = useState(() =>
@@ -297,7 +298,7 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="flex items-center cursor-pointer min-w-0"
-            aria-label={common.brand}
+            aria-label={getBrandAriaLabel()}
           >
             <HeaderLogo />
           </a>

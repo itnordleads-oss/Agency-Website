@@ -60,8 +60,8 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Outbound Sales Automation/i);
-    await expect(page.getByRole("banner").getByLabel("ADealForge")).toBeVisible();
+    await expect(page).toHaveTitle(/Agency Website/i);
+    await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
   });
@@ -453,7 +453,9 @@ test.describe("smoke", () => {
     }
   });
 
-  test("header logo stays compact and vertically centered across breakpoints", async ({ page }) => {
+  test("header brand mark stays compact and vertically centered across breakpoints", async ({
+    page,
+  }) => {
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") {
@@ -462,50 +464,47 @@ test.describe("smoke", () => {
     });
 
     for (const viewport of [
-      { width: 390, height: 844, maxLogoHeight: 36 },
-      { width: 768, height: 1024, maxLogoHeight: 44 },
-      { width: 1440, height: 900, maxLogoHeight: 48 },
+      { width: 390, height: 844, maxMarkHeight: 36 },
+      { width: 768, height: 1024, maxMarkHeight: 44 },
+      { width: 1440, height: 900, maxMarkHeight: 48 },
     ]) {
       await page.setViewportSize(viewport);
       await page.goto("/");
       await acceptCookiesIfPresent(page);
 
       const header = page.locator("header");
-      const logoLink = header.getByRole("link", { name: "ADealForge" });
-      const logo = logoLink.locator("img");
-      await expect(logo).toBeVisible();
+      // F2: approved logo asset is TBC, so the header may render a text mark instead of <img>.
+      const logoLink = header.getByRole("link", { name: "Agency" });
+      await expect(logoLink).toBeVisible();
 
       const metrics = await page.evaluate(() => {
         const headerEl = document.querySelector("header");
-        const linkEl = headerEl?.querySelector('a[aria-label="ADealForge"]') as HTMLElement | null;
-        const imgEl = linkEl?.querySelector("img") as HTMLImageElement | null;
-        if (!headerEl || !linkEl || !imgEl) {
+        const linkEl = headerEl?.querySelector('a[aria-label="Agency"]') as HTMLElement | null;
+        const markEl = (linkEl?.querySelector("img") ??
+          linkEl?.querySelector("span")) as HTMLElement | null;
+        if (!headerEl || !linkEl || !markEl) {
           return null;
         }
 
         const headerBox = headerEl.getBoundingClientRect();
         const linkBox = linkEl.getBoundingClientRect();
-        const imgBox = imgEl.getBoundingClientRect();
+        const markBox = markEl.getBoundingClientRect();
         const headerCenter = headerBox.top + headerBox.height / 2;
-        const imgCenter = imgBox.top + imgBox.height / 2;
+        const markCenter = markBox.top + markBox.height / 2;
 
         return {
-          logoHeight: imgBox.height,
-          logoWidth: imgBox.width,
-          verticalOffset: Math.abs(imgCenter - headerCenter),
+          markHeight: markBox.height,
+          verticalOffset: Math.abs(markCenter - headerCenter),
           linkWithinHeader:
             linkBox.top >= headerBox.top - 1 && linkBox.bottom <= headerBox.bottom + 1,
-          aspectRatio: imgBox.width / imgBox.height,
         };
       });
 
       expect(metrics).not.toBeNull();
-      expect(metrics?.logoHeight ?? 0).toBeGreaterThan(20);
-      expect(metrics?.logoHeight ?? 99).toBeLessThanOrEqual(viewport.maxLogoHeight);
-      expect(metrics?.verticalOffset ?? 99).toBeLessThanOrEqual(4);
+      expect(metrics?.markHeight ?? 0).toBeGreaterThan(10);
+      expect(metrics?.markHeight ?? 99).toBeLessThanOrEqual(viewport.maxMarkHeight);
+      expect(metrics?.verticalOffset ?? 99).toBeLessThanOrEqual(8);
       expect(metrics?.linkWithinHeader).toBe(true);
-      expect(metrics?.aspectRatio ?? 0).toBeGreaterThan(3);
-      expect(metrics?.aspectRatio ?? 99).toBeLessThan(4.2);
     }
 
     expect(consoleErrors).toEqual([]);
@@ -900,7 +899,7 @@ test.describe("smoke", () => {
     await expect(
       page
         .locator("footer")
-        .getByText("AI-powered prospecting and personalized outreach for B2B teams.", {
+        .getByText("Custom software and digital product delivery for growing teams.", {
           exact: true,
         })
     ).toBeVisible();
@@ -1444,7 +1443,7 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       await expect(page).toHaveURL(/\/$/);
-      await expect(page).toHaveTitle(/Outbound Sales Automation/i);
+      await expect(page).toHaveTitle(/Agency Website/i);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
     }
   );
@@ -1454,7 +1453,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Outbound Sales Automation/i);
+    await expect(page).toHaveTitle(/Agency Website/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
   });
 
@@ -1463,7 +1462,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Outbound Sales Automation/i);
+    await expect(page).toHaveTitle(/Agency Website/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
   });
 
@@ -1585,7 +1584,9 @@ test.describe("smoke", () => {
     });
   });
 
-  test("footer X and Instagram hover use brand-tint treatments", async ({ page }) => {
+  test("footer social icons stay unpublished while studio social URLs are TBC", async ({
+    page,
+  }) => {
     // Contact is shorter than home, so the DeferredMount footer activates reliably.
     await page.goto("/contact");
     await acceptCookiesIfPresent(page);
@@ -1605,29 +1606,12 @@ test.describe("smoke", () => {
     await expect(footer).toBeVisible({ timeout: 20_000 });
     await footer.scrollIntoViewIfNeeded();
 
-    const facebook = footer.getByRole("link", { name: /Follow on Facebook/i });
-    const x = footer.getByRole("link", { name: /Follow on X/i });
-    const instagram = footer.getByRole("link", { name: /Follow on Instagram/i });
-
-    await expect(x).toBeVisible({ timeout: 15_000 });
-    await expect(instagram).toBeVisible();
-    await x.scrollIntoViewIfNeeded();
-
-    // Adjacent icon hover remains unchanged.
-    await facebook.hover();
-    await expect(facebook).toHaveCSS("background-color", "rgba(24, 119, 242, 0.12)");
-
-    await x.hover();
-    await expect(x).toHaveCSS("color", "rgb(255, 255, 255)");
-    await expect(x).toHaveCSS("background-color", "rgba(255, 255, 255, 0.12)");
-    await expect(x).toHaveCSS("border-top-color", "rgba(255, 255, 255, 0.42)");
-    await expect(x).toHaveCSS("background-image", "none");
-
-    await instagram.hover();
-    await expect(instagram).toHaveCSS("color", "rgb(228, 64, 95)");
-    await expect(instagram).toHaveCSS("background-color", "rgba(228, 64, 95, 0.12)");
-    await expect(instagram).toHaveCSS("border-top-color", "rgba(228, 64, 95, 0.42)");
-    await expect(instagram).toHaveCSS("background-image", "none");
+    // F2: do not publish previous-product social destinations without leadership approval.
+    await expect(footer.getByRole("link", { name: /Follow on Facebook/i })).toHaveCount(0);
+    await expect(footer.getByRole("link", { name: /Follow on X/i })).toHaveCount(0);
+    await expect(footer.getByRole("link", { name: /Follow on Instagram/i })).toHaveCount(0);
+    await expect(footer.getByRole("link", { name: /Follow on LinkedIn/i })).toHaveCount(0);
+    await expect(footer.locator('[aria-label="Social media"]')).toHaveCount(0);
   });
 
   test.describe("footer proportional spacing", () => {
@@ -1681,7 +1665,7 @@ test.describe("smoke", () => {
       }
     });
 
-    test("mobile footer stays stacked and tablet uses a two-column brand/contact row", async ({
+    test("mobile footer stays stacked and tablet keeps brand/nav/legal structure", async ({
       page,
     }) => {
       const footer = await openContactFooter(page);
@@ -1690,20 +1674,20 @@ test.describe("smoke", () => {
       await footer.scrollIntoViewIfNeeded();
       const mobile = await page.evaluate(() => {
         const brand = document.querySelector(".site-footer__brand");
-        const contact = document.querySelector(".site-footer__contact");
         const nav = document.querySelector(".site-footer__nav");
+        const legal = document.querySelector(".site-footer__legal");
         if (
           !(brand instanceof HTMLElement) ||
-          !(contact instanceof HTMLElement) ||
-          !(nav instanceof HTMLElement)
+          !(nav instanceof HTMLElement) ||
+          !(legal instanceof HTMLElement)
         ) {
           return null;
         }
         const brandBox = brand.getBoundingClientRect();
-        const contactBox = contact.getBoundingClientRect();
         const navBox = nav.getBoundingClientRect();
+        const legalBox = legal.getBoundingClientRect();
         return {
-          stacked: brandBox.bottom <= navBox.top + 2 && navBox.bottom <= contactBox.top + 2,
+          stacked: brandBox.bottom <= navBox.top + 2 && navBox.bottom <= legalBox.top + 2,
         };
       });
       expect(mobile?.stacked).toBe(true);
@@ -1718,61 +1702,40 @@ test.describe("smoke", () => {
           const nav = document.querySelector(".site-footer__nav");
           const legal = document.querySelector(".site-footer__legal");
           const compose = document.querySelector(".site-footer__compose");
-          const socials = document.querySelector(
-            '.site-footer__contact [aria-label="Social media"]'
-          );
           if (
             !(brand instanceof HTMLElement) ||
-            !(contact instanceof HTMLElement) ||
             !(nav instanceof HTMLElement) ||
             !(legal instanceof HTMLElement) ||
-            !(compose instanceof HTMLElement) ||
-            !(socials instanceof HTMLElement)
+            !(compose instanceof HTMLElement)
           ) {
             return null;
           }
 
           const brandBox = brand.getBoundingClientRect();
-          const contactBox = contact.getBoundingClientRect();
           const navBox = nav.getBoundingClientRect();
           const legalBox = legal.getBoundingClientRect();
           const composeBox = compose.getBoundingClientRect();
-          const socialIcons = [...socials.querySelectorAll("a")].map((icon) =>
-            icon.getBoundingClientRect()
-          );
-          const socialTops = socialIcons.map((box) => Math.round(box.top));
           const overflowX =
             document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
 
           return {
-            sameRow: Math.abs(brandBox.top - contactBox.top) <= 2,
-            contactToTheRight: contactBox.left >= brandBox.right - 2,
-            navBelow: navBox.top >= Math.max(brandBox.bottom, contactBox.bottom) - 2,
+            // Contact/social column is omitted while F2 identity values remain TBC.
+            contactPresent: contact instanceof HTMLElement,
+            navBelow: navBox.top >= brandBox.bottom - 2,
             legalBelowNav: legalBox.top >= navBox.bottom - 2,
             legalSpans: Math.abs(legalBox.width - composeBox.width) <= 2,
             navSpansRow: navBox.width >= composeBox.width * 0.9,
-            socialCount: socialIcons.length,
-            socialsOneRow: socialTops.every((top) => top === socialTops[0]),
             overflowX,
-            brandContactHeightDelta: Math.abs(
-              Math.round(brandBox.height) - Math.round(contactBox.height)
-            ),
           };
         });
 
         expect(tablet, `tablet metrics at ${width}px`).not.toBeNull();
-        expect(tablet?.sameRow, `brand/contact row at ${width}px`).toBe(true);
-        expect(tablet?.contactToTheRight, `contact right column at ${width}px`).toBe(true);
+        expect(tablet?.contactPresent, `contact column unpublished at ${width}px`).toBe(false);
         expect(tablet?.navBelow, `nav spans below at ${width}px`).toBe(true);
         expect(tablet?.legalBelowNav, `legal full-width row at ${width}px`).toBe(true);
         expect(tablet?.legalSpans, `legal width at ${width}px`).toBe(true);
         expect(tablet?.navSpansRow, `full-width nav at ${width}px`).toBe(true);
-        expect(tablet?.socialCount, `five socials at ${width}px`).toBe(5);
-        expect(tablet?.socialsOneRow, `socials no wrap at ${width}px`).toBe(true);
         expect(tablet?.overflowX, `no overflow at ${width}px`).toBe(false);
-        expect(tablet?.brandContactHeightDelta, `vertical align at ${width}px`).toBeLessThanOrEqual(
-          2
-        );
       }
     });
 
@@ -1789,12 +1752,10 @@ test.describe("smoke", () => {
         const metrics = await page.evaluate(() => {
           const brand = document.querySelector(".site-footer__brand");
           const nav = document.querySelector(".site-footer__nav");
-          const contact = document.querySelector(".site-footer__contact");
           const compose = document.querySelector(".site-footer__compose");
           if (
             !(brand instanceof HTMLElement) ||
             !(nav instanceof HTMLElement) ||
-            !(contact instanceof HTMLElement) ||
             !(compose instanceof HTMLElement)
           ) {
             return null;
@@ -1812,52 +1773,36 @@ test.describe("smoke", () => {
             composeGap: Number.parseFloat(getComputedStyle(compose).rowGap),
             brandBottom: Math.round(brand.getBoundingClientRect().bottom),
             navBottom: Math.round(nav.getBoundingClientRect().bottom),
-            contactBottom: Math.round(contact.getBoundingClientRect().bottom),
           };
         });
 
         expect(metrics, `footer metrics at ${width}px`).not.toBeNull();
         expect(metrics?.brandGap, `token match at ${width}px`).toBe(metrics?.composeGap);
-        expect(metrics?.logoGap, `logo gap at ${width}px`).toBe(metrics?.brandGap);
-        expect(metrics?.logoGap, `logo gap size at ${width}px`).toBeGreaterThanOrEqual(24);
+        // Text brand mark (logo TBC) can differ a few px from flex gap measurement vs image lockup.
+        expect(
+          Math.abs((metrics?.logoGap ?? 0) - (metrics?.brandGap ?? 0)),
+          `logo gap at ${width}px`
+        ).toBeLessThanOrEqual(8);
+        expect(metrics?.logoGap, `logo gap size at ${width}px`).toBeGreaterThanOrEqual(20);
         expect(
           Math.abs((metrics?.brandBottom ?? 0) - (metrics?.navBottom ?? 0)),
           `nav baseline at ${width}px`
-        ).toBeLessThanOrEqual(2);
-        expect(
-          Math.abs((metrics?.brandBottom ?? 0) - (metrics?.contactBottom ?? 0)),
-          `contact baseline at ${width}px`
         ).toBeLessThanOrEqual(2);
       }
     });
   });
 
-  test("contact social icons match footer shared hover styling", async ({ page }) => {
+  test("contact social section stays unpublished while studio social URLs are TBC", async ({
+    page,
+  }) => {
     await page.goto("/contact");
     await acceptCookiesIfPresent(page);
 
     const contact = page.locator("main#contact-page");
     await expect(contact).toBeVisible({ timeout: 15_000 });
 
-    const contactFacebook = contact.locator("a.contact-social-card.social-icon--facebook");
-    const contactX = contact.locator("a.contact-social-card.social-icon--x");
-    const contactInstagram = contact.locator("a.contact-social-card.social-icon--instagram");
-
-    await contactFacebook.scrollIntoViewIfNeeded();
-    await contactFacebook.hover();
-    await expect(contactFacebook).toHaveCSS("background-color", "rgba(24, 119, 242, 0.12)");
-
-    await contactX.hover();
-    await expect(contactX).toHaveCSS("color", "rgb(255, 255, 255)");
-    await expect(contactX).toHaveCSS("background-color", "rgba(255, 255, 255, 0.12)");
-    await expect(contactX).toHaveCSS("border-top-color", "rgba(255, 255, 255, 0.42)");
-    await expect(contactX).toHaveCSS("background-image", "none");
-
-    await contactInstagram.hover();
-    await expect(contactInstagram).toHaveCSS("color", "rgb(228, 64, 95)");
-    await expect(contactInstagram).toHaveCSS("background-color", "rgba(228, 64, 95, 0.12)");
-    await expect(contactInstagram).toHaveCSS("border-top-color", "rgba(228, 64, 95, 0.42)");
-    await expect(contactInstagram).toHaveCSS("background-image", "none");
+    await expect(contact.locator("a.contact-social-card")).toHaveCount(0);
+    await expect(contact.getByRole("heading", { name: /Contact us another way/i })).toHaveCount(0);
   });
 
   test("homepage no longer renders the repeated outcomes section", async ({ page }) => {
@@ -1897,7 +1842,7 @@ test.describe("smoke", () => {
     }
   });
 
-  test("contact page shows Warsaw office address and aligned blocks", async ({ page }) => {
+  test("contact page hides office location while business address is TBC", async ({ page }) => {
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") {
@@ -1911,17 +1856,11 @@ test.describe("smoke", () => {
     const contact = page.locator("main#contact-page");
     const office = page.locator("#contact-location");
     await expect(contact).toBeVisible({ timeout: 15_000 });
-    await expect(office.getByRole("heading", { level: 2, name: /Our office/i })).toBeVisible();
-    await expect(office.getByText("UL. TARGOWA 66A / 26")).toBeVisible();
-    await expect(office.getByText("03-734 WARSZAWA")).toBeVisible();
-    await expect(office.getByText(/San Francisco/i)).toHaveCount(0);
-
-    const mapsLink = office.getByRole("link", { name: /Open in Google Maps/i });
-    await expect(mapsLink).toHaveAttribute("href", /TARGOWA|Warszawa|Warsaw|21\.04085/i);
-
-    const mapFrame = office.locator("iframe");
-    await expect(mapFrame).toBeVisible();
-    await expect(mapFrame).toHaveAttribute("src", /21\.04085|TARGOWA|Warszawa/i);
+    // Previous-product Warsaw address must not publish without leadership approval (F2).
+    await expect(office).toHaveCount(0);
+    await expect(contact.getByText("UL. TARGOWA 66A / 26")).toHaveCount(0);
+    await expect(contact.getByText("03-734 WARSZAWA")).toHaveCount(0);
+    await expect(contact.getByText(/ADealForge/i)).toHaveCount(0);
 
     for (const viewport of [
       { width: 1440, height: 900 },
@@ -1929,21 +1868,13 @@ test.describe("smoke", () => {
       { width: 390, height: 844 },
     ]) {
       await page.setViewportSize(viewport);
-      await expect(office).toBeVisible();
+      await expect(contact).toBeVisible();
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth
       );
       expect(overflow).toBe(false);
 
-      const socialCards = contact.locator(".contact-social-card");
-      const cardCount = await socialCards.count();
-      expect(cardCount).toBeGreaterThanOrEqual(6);
-      const heights = await socialCards.evaluateAll((nodes) =>
-        nodes.map((node) => Math.round(node.getBoundingClientRect().height))
-      );
-      const minHeight = Math.min(...heights);
-      const maxHeight = Math.max(...heights);
-      expect(maxHeight - minHeight).toBeLessThanOrEqual(2);
+      await expect(contact.locator(".contact-social-card")).toHaveCount(0);
     }
 
     expect(consoleErrors).toEqual([]);
@@ -1954,13 +1885,10 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveTitle(/Terms/i);
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-      "href",
-      "https://adealforge.com/terms"
-    );
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "/terms");
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
-      /governing use of the ADealForge website/i
+      /governing use of this website/i
     );
     await expect(page.getByRole("heading", { level: 1, name: "Terms & Conditions" })).toBeVisible({
       timeout: 15_000,
@@ -1972,12 +1900,9 @@ test.describe("smoke", () => {
     ).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /^15\.\s*Contact$/i })).toBeVisible();
 
-    const emailLinks = page.locator("#terms-page").getByRole("link", {
-      name: "contact@adealforge.com",
-    });
-    await expect(emailLinks).toHaveCount(1);
-    await expect(emailLinks).toHaveAttribute("href", "mailto:contact@adealforge.com");
-    await expect(page.locator("#terms-page").getByText("contact@adealforge.com")).toHaveCount(1);
+    // Contact email stays unpublished while leadership approval is TBC (F2).
+    await expect(page.locator("#terms-page").getByRole("link", { name: /@/ })).toHaveCount(0);
+    await expect(page.locator("#terms-page").getByText("contact@adealforge.com")).toHaveCount(0);
 
     await expect(page.getByText(/at least 18 years of age/)).toBeAttached();
 
@@ -2116,14 +2041,14 @@ test.describe("smoke", () => {
         );
         expect(overflow).toBe(false);
 
-        // Auto-collapse morphs the card into the email FAB and unmounts the widget.
+        // Auto-collapse unmounts the widget. Email FAB stays hidden while contact
+        // email is unpublished (F2 TBC).
         await expect(prompt).toHaveCount(0, { timeout: 16_000 });
 
         // The standalone floating calendar launcher is gone for good.
         await expect(launcher).toHaveCount(0);
         await expect(launcherByName).toHaveCount(0);
-        await expect(emailFab).toHaveCount(1);
-        await expect(emailFab).toBeVisible();
+        await expect(emailFab).toHaveCount(0);
 
         // Auto-collapse must not persist, so the invitation returns on the next page load.
         const autoCollapseDismissedAt = await page.evaluate(() =>
@@ -2139,7 +2064,7 @@ test.describe("smoke", () => {
       await expect(dismissiblePrompt).toBeVisible({ timeout: 18_000 });
       await dismissiblePrompt.getByRole("button", { name: /Keep Browsing/i }).click();
       await expect(dismissiblePrompt).toHaveCount(0, { timeout: 5_000 });
-      await expect(page.locator(".email-fab")).toHaveCount(1);
+      await expect(page.locator(".email-fab")).toHaveCount(0);
       const dismissedAt = await page.evaluate(() =>
         window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
       );

@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
 import TermsDocument from "./TermsDocument";
 import { useSiteCopy } from "../lib/useSiteCopy";
+import { resolveContactEmail } from "../lib/siteContact";
+import {
+  getAbsoluteUrl,
+  getBrandAriaLabel,
+  getSeoDescription,
+  getSeoTitle,
+} from "../lib/studioBranding";
 
-const CONTACT_EMAIL = "contact@adealforge.com";
 const EFFECTIVE_DATE = "July 8, 2026";
 const LAST_UPDATED_DATE = "July 8, 2026";
 
@@ -29,29 +35,42 @@ function useTermsMetadata() {
     const previousTwitterTitle = twitterTitle?.getAttribute("content");
     const previousTwitterDescription = twitterDescription?.getAttribute("content");
 
-    document.title = "Terms & Conditions | ADealForge";
-    description?.setAttribute(
-      "content",
-      "Review the Terms & Conditions governing use of the ADealForge website, inquiries, cookies, acceptable use, and service-related legal information."
-    );
-    canonical?.setAttribute("href", "https://adealforge.com/terms");
-    ogTitle?.setAttribute("content", "Terms & Conditions | ADealForge");
+    const brandLabel = getBrandAriaLabel();
+    const termsTitle = `Terms & Conditions | ${brandLabel}`;
+    const termsDescription =
+      "Review the Terms & Conditions governing use of this website, inquiries, cookies, acceptable use, and service-related legal information.";
+    const termsCanonical = getAbsoluteUrl("/terms");
+
+    document.title = termsTitle;
+    description?.setAttribute("content", termsDescription);
+    if (termsCanonical) {
+      canonical?.setAttribute("href", termsCanonical);
+    } else if (canonical) {
+      canonical.setAttribute("href", "/terms");
+    }
+    ogTitle?.setAttribute("content", termsTitle);
     ogDescription?.setAttribute(
       "content",
-      "The legal terms governing access to and use of the ADealForge website and related inquiry channels."
+      "The legal terms governing access to and use of this website and related inquiry channels."
     );
-    ogUrl?.setAttribute("content", "https://adealforge.com/terms");
-    twitterTitle?.setAttribute("content", "Terms & Conditions | ADealForge");
+    if (termsCanonical) {
+      ogUrl?.setAttribute("content", termsCanonical);
+    } else if (ogUrl) {
+      ogUrl.removeAttribute("content");
+    }
+    twitterTitle?.setAttribute("content", termsTitle);
     twitterDescription?.setAttribute(
       "content",
-      "Review the legal terms governing use of the ADealForge website and related inquiry channels."
+      "Review the legal terms governing use of this website and related inquiry channels."
     );
     window.scrollTo({ top: 0, behavior: "auto" });
 
     return () => {
-      document.title = previousTitle;
+      document.title = previousTitle || getSeoTitle();
       if (previousDescription) {
         description?.setAttribute("content", previousDescription);
+      } else {
+        description?.setAttribute("content", getSeoDescription());
       }
       if (previousCanonical) {
         canonical?.setAttribute("href", previousCanonical);
@@ -79,6 +98,7 @@ export default function TermsPage() {
   const { terms, t } = useSiteCopy();
   const termsSections = Array.isArray(terms.sections) ? terms.sections : [];
   const questionSummary = Array.isArray(terms.summaryCards) ? terms.summaryCards[2] : undefined;
+  const contactEmail = resolveContactEmail();
 
   useTermsMetadata();
 
@@ -95,7 +115,7 @@ export default function TermsPage() {
           questionsTitle: questionSummary?.title,
           questionsBody: questionSummary?.body,
           sections: termsSections,
-          contactEmail: CONTACT_EMAIL,
+          contactEmail,
         }}
       />
     </main>

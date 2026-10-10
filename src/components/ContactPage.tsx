@@ -5,6 +5,8 @@ import ContactSocialSection from "./ContactSocialSection";
 import ContactLocationMap from "./ContactLocationMap";
 import BackToHomepage from "./BackToHomepage";
 import { useSiteCopy } from "../lib/useSiteCopy";
+import { resolveContactEmail } from "../lib/siteContact";
+import { getBrandAriaLabel } from "../lib/studioBranding";
 
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
 const TURNSTILE_SCRIPT_SRC =
@@ -12,7 +14,6 @@ const TURNSTILE_SCRIPT_SRC =
 const DEFAULT_TURNSTILE_SITE_KEY = "0x4AAAAAADdxXGLk61QWaDnx";
 /** Cloudflare dummy site key (always passes). Used on local preview hosts that are not allowlisted. */
 const TURNSTILE_ALWAYS_PASS_SITE_KEY = "1x00000000000000000000AA";
-const CONTACT_EMAIL = "contact@adealforge.com";
 const defaultFormData = { name: "", email: "", msg: "", website: "" };
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -73,7 +74,7 @@ function useContactPageMetadata(enabled = true) {
     }
 
     const previousTitle = document.title;
-    document.title = "ADealForge | Contact";
+    document.title = `${getBrandAriaLabel()} | Contact`;
     window.scrollTo({ top: 0, behavior: "auto" });
 
     return () => {
@@ -237,11 +238,16 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
       setSubmitted(true);
     } catch (err) {
       resetTurnstile();
-      setServerError(
-        err instanceof Error
-          ? err.message
-          : t("footer.validation.fallbackError", { email: CONTACT_EMAIL })
-      );
+      setServerError(() => {
+        if (err instanceof Error) {
+          return err.message;
+        }
+        const publishedEmail = resolveContactEmail();
+        if (publishedEmail) {
+          return t("footer.validation.fallbackError", { email: publishedEmail });
+        }
+        return t("footer.validation.fallbackErrorNoEmail");
+      });
     } finally {
       setSubmitting(false);
     }

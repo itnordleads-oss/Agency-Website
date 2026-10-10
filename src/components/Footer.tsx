@@ -2,7 +2,8 @@ import React from "react";
 import { Mail } from "lucide-react";
 import FooterLogo from "./FooterLogo";
 import FooterSocialIcons from "./FooterSocialIcons";
-import { CONTACT_EMAIL } from "../lib/siteContact";
+import { getContactMailtoHref, hasContactEmail, resolveContactEmail } from "../lib/siteContact";
+import { socialLinkItems } from "../lib/socialLinks";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { navigateAppPath, navigateToSection } from "../App";
 import { getHomepageSectionHref, resolveHomepageSectionId } from "../lib/homepageSections";
@@ -65,6 +66,7 @@ export default function Footer() {
 
   const footerNavLinkClassName =
     "text-left text-sm text-muted font-medium hover:text-white transition-colors py-0.5";
+  const showContactColumn = hasContactEmail() || socialLinkItems.length > 0;
 
   return (
     <footer className="site-footer border-t border-white/[0.1] bg-[#0A0F19] text-white/70 relative z-10">
@@ -124,16 +126,20 @@ export default function Footer() {
               ))}
             </nav>
 
-            <div className="site-footer__contact">
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="inline-flex items-center gap-2 text-sm text-body hover:text-white transition-colors w-fit"
-              >
-                <Mail className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
-                {CONTACT_EMAIL}
-              </a>
-              <FooterSocialIcons />
-            </div>
+            {showContactColumn ? (
+              <div className="site-footer__contact">
+                {hasContactEmail() ? (
+                  <a
+                    href={getContactMailtoHref() ?? undefined}
+                    className="inline-flex items-center gap-2 text-sm text-body hover:text-white transition-colors w-fit"
+                  >
+                    <Mail className="w-4 h-4 text-brand shrink-0" aria-hidden="true" />
+                    {resolveContactEmail()}
+                  </a>
+                ) : null}
+                <FooterSocialIcons />
+              </div>
+            ) : null}
 
             <div className="site-footer__legal">
               <p className="text-subtle text-xs shrink-0">{footer.copyright}</p>

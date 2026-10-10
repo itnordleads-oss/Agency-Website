@@ -1,6 +1,8 @@
 const en = {
   common: {
-    brand: "ADealForge",
+    // F2 English baseline: layout chrome only. Leadership-approved studio name is TBC.
+    // Full marketing copy rebrand across locales is tracked for F10.
+    brand: "Agency",
     ctaBookPilot: "Let's Talk",
   },
   nav: {
@@ -65,7 +67,7 @@ const en = {
     mapOpenMaps: "Open in Google Maps",
   },
   platformPage: {
-    documentTitle: "ADealForge | Platform",
+    documentTitle: "Agency | Platform",
     backHome: "Back to homepage",
     eyebrowLabel: "Platform",
     eyebrowTag: "B2B sales outreach",
@@ -80,7 +82,7 @@ const en = {
     illustrationAriaLabel: "Platform under construction illustration",
   },
   workflowPage: {
-    documentTitle: "ADealForge | Workflow",
+    documentTitle: "Agency | Workflow",
     backHome: "Back to homepage",
     metaDescription:
       "See how ADealForge runs outbound end to end — from finding fit companies to prepared first emails and live campaign support.",
@@ -290,10 +292,10 @@ const en = {
       "We'll suggest the best plan.",
       "If we can help, we'll plan the next step together.",
     ],
-    brandDescription: "AI-powered prospecting and personalized outreach for B2B teams.",
-    copyright: "© 2026 ADealForge. All rights reserved.",
+    brandDescription: "Custom software and digital product delivery for growing teams.",
+    copyright: "© 2026. All rights reserved.",
     tagline:
-      "Managed B2B lead generation for B2B teams: prospect research, personalized sales emails, and managed email sending for outbound sales.",
+      "Development studio website — brand identity and service copy pending leadership approval.",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring outbound for {{sector}}. Happy to share more about our goals.",
@@ -306,6 +308,7 @@ const en = {
       turnstileExpired: "Please confirm you're human again before sending.",
       captchaFailed: "Please refresh the page and try again.",
       fallbackError: "Something went wrong. Please try again or email {{email}}.",
+      fallbackErrorNoEmail: "Something went wrong. Please try again in a moment.",
     },
   },
   hero: {

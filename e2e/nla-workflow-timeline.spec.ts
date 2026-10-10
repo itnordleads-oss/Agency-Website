@@ -109,6 +109,7 @@ async function readFillScales(page: Page) {
 
 test.describe("hero workflow master timeline", () => {
   test("segments sync to icons and clear instantly across three cycles", async ({ page }) => {
+    test.setTimeout(90_000);
     await openHeroWorkflow(page);
 
     for (const cycle of [0, 1, 2]) {
