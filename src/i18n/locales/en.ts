@@ -122,11 +122,13 @@ const en = {
         },
         {
           title: "Digital product experiences",
-          description: "Modern web experiences that stay clear for users and maintainable for teams.",
+          description:
+            "Modern web experiences that stay clear for users and maintainable for teams.",
         },
         {
           title: "Frontend and backend development",
-          description: "Contemporary application development across the stack when the project needs it.",
+          description:
+            "Contemporary application development across the stack when the project needs it.",
         },
         {
           title: "Structured project delivery",

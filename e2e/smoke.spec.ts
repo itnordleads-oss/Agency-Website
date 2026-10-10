@@ -1440,62 +1440,66 @@ test.describe("smoke", () => {
     }
   );
 
-  test("about page renders agency content without invented claims", { tag: "@critical" }, async ({
-    page,
-  }) => {
-    const consoleErrors: string[] = [];
-    page.on("console", (message) => {
-      if (message.type() === "error") {
-        consoleErrors.push(message.text());
-      }
-    });
+  test(
+    "about page renders agency content without invented claims",
+    { tag: "@critical" },
+    async ({ page }) => {
+      const consoleErrors: string[] = [];
+      page.on("console", (message) => {
+        if (message.type() === "error") {
+          consoleErrors.push(message.text());
+        }
+      });
 
-    await page.goto("/about");
-    await acceptCookiesIfPresent(page);
-
-    await expect(page).toHaveTitle(/About/i);
-    await expect(page.locator("main#about-page")).toBeVisible();
-    await expect(
-      page.getByRole("heading", { level: 1, name: /development studio|useful delivery/i })
-    ).toBeVisible();
-    await expect(page.getByText(/Temporary route shell/i)).toHaveCount(0);
-    await expect(page.getByText(/ADealForge/i)).toHaveCount(0);
-    await expect(page.getByText(/Lorem/i)).toHaveCount(0);
-    await expect(page.getByText(/founded/i)).toHaveCount(0);
-    await expect(page.getByText(/team members/i)).toHaveCount(0);
-    await expect(page.getByText(/\d+\+ (clients|projects|years)/i)).toHaveCount(0);
-    await expect(
-      page.getByRole("heading", { level: 2, name: /Software and product work/i })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { level: 2, name: /Clear collaboration/i })
-    ).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: /Areas we focus on/i })).toBeVisible();
-    await expect(
-      page.getByRole("heading", { level: 2, name: /simple path from idea to launch/i })
-    ).toBeVisible();
-    await expect(page.getByRole("button", { name: /Get in Touch/i })).toBeVisible();
-
-    await page.getByRole("button", { name: /Get in Touch/i }).click();
-    await expect(page).toHaveURL(/\/contact$/);
-
-    for (const viewport of [
-      { width: 1440, height: 900 },
-      { width: 768, height: 1024 },
-      { width: 390, height: 844 },
-    ]) {
-      await page.setViewportSize(viewport);
       await page.goto("/about");
       await acceptCookiesIfPresent(page);
-      await expect(page.locator("main#about-page")).toBeVisible();
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-      );
-      expect(overflow).toBe(false);
-    }
 
-    expect(consoleErrors).toEqual([]);
-  });
+      await expect(page).toHaveTitle(/About/i);
+      await expect(page.locator("main#about-page")).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 1, name: /development studio|useful delivery/i })
+      ).toBeVisible();
+      await expect(page.getByText(/Temporary route shell/i)).toHaveCount(0);
+      await expect(page.getByText(/ADealForge/i)).toHaveCount(0);
+      await expect(page.getByText(/Lorem/i)).toHaveCount(0);
+      await expect(page.getByText(/founded/i)).toHaveCount(0);
+      await expect(page.getByText(/team members/i)).toHaveCount(0);
+      await expect(page.getByText(/\d+\+ (clients|projects|years)/i)).toHaveCount(0);
+      await expect(
+        page.getByRole("heading", { level: 2, name: /Software and product work/i })
+      ).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 2, name: /Clear collaboration/i })
+      ).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 2, name: /Areas we focus on/i })
+      ).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 2, name: /simple path from idea to launch/i })
+      ).toBeVisible();
+      await expect(page.getByRole("button", { name: /Get in Touch/i })).toBeVisible();
+
+      await page.getByRole("button", { name: /Get in Touch/i }).click();
+      await expect(page).toHaveURL(/\/contact$/);
+
+      for (const viewport of [
+        { width: 1440, height: 900 },
+        { width: 768, height: 1024 },
+        { width: 390, height: 844 },
+      ]) {
+        await page.setViewportSize(viewport);
+        await page.goto("/about");
+        await acceptCookiesIfPresent(page);
+        await expect(page.locator("main#about-page")).toBeVisible();
+        const overflow = await page.evaluate(
+          () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+        );
+        expect(overflow).toBe(false);
+      }
+
+      expect(consoleErrors).toEqual([]);
+    }
+  );
 
   test("homepage section hashes survive refresh and browser history navigation", async ({
     page,

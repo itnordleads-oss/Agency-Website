@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { ArrowRight, Code2, Layers, ListChecks, MessagesSquare, type LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  Code2,
+  Layers,
+  ListChecks,
+  MessagesSquare,
+  type LucideIcon,
+} from "lucide-react";
 import SectionEyebrow from "./SectionEyebrow";
 import BackToHomepage from "./BackToHomepage";
 import GlassCard from "./GlassCard";
@@ -40,7 +47,11 @@ export default function AboutPage() {
   useAboutPageMetadata(documentTitle);
 
   return (
-    <main className="min-w-0 flex-grow overflow-x-hidden" id="about-page" aria-labelledby="about-hero-title">
+    <main
+      className="min-w-0 flex-grow overflow-x-hidden"
+      id="about-page"
+      aria-labelledby="about-hero-title"
+    >
       <div className="mx-auto w-full min-w-0 max-w-7xl px-3 py-8 max-[340px]:py-7 min-[341px]:px-4 sm:px-6 sm:py-12 md:py-16">
         <BackToHomepage label={aboutPage.backHome} />
 
@@ -106,7 +117,9 @@ export default function AboutPage() {
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04]">
                       <Icon className="h-4 w-4 text-[#00D2FF]" aria-hidden />
                     </span>
-                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">{item.title}</h3>
+                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">
+                      {item.title}
+                    </h3>
                     <p className="mt-1 text-sm leading-snug text-white/60">{item.description}</p>
                   </GlassCard>
                 );
@@ -137,7 +150,9 @@ export default function AboutPage() {
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04]">
                       <Icon className="h-4 w-4 text-[#00D2FF]" aria-hidden />
                     </span>
-                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">{item.title}</h3>
+                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">
+                      {item.title}
+                    </h3>
                     <p className="mt-1 text-sm leading-snug text-white/60">{item.description}</p>
                   </GlassCard>
                 );
@@ -198,7 +213,10 @@ export default function AboutPage() {
                   {aboutPage.finalCta.subtitle}
                 </p>
                 <div className="flex justify-center pt-1">
-                  <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+                  <PrimaryButton
+                    onClick={navigateToContact}
+                    className="w-full px-8 py-3.5 sm:w-auto"
+                  >
                     {aboutPage.finalCta.primaryCta}
                   </PrimaryButton>
                 </div>
