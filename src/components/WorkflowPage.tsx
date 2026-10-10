@@ -1,68 +1,45 @@
 import React, { useEffect } from "react";
 import MainProductMockup from "./MainProductMockup";
-import { useSiteCopy } from "../lib/useSiteCopy";
+import { getBrandAriaLabel } from "../lib/studioBranding";
 
 /**
- * Public Workflow page — one dashboard/process component under the production
- * App shell (global Navbar + Footer).
+ * Product Workflow page — still routable until F9 retirement.
+ * F13: noindex + agency chrome title; page keeps a single h1 via MainProductMockup.
  */
-function useWorkflowPageMetadata(documentTitle: string, metaDescription: string) {
+function useWorkflowPageMetadata() {
   useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
 
     const previousTitle = document.title;
+    const robots = document.querySelector('meta[name="robots"]');
+    const previousRobots = robots?.getAttribute("content") ?? null;
     const description = document.querySelector('meta[name="description"]');
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-
     const previousDescription = description?.getAttribute("content");
-    const previousOgTitle = ogTitle?.getAttribute("content");
-    const previousOgDescription = ogDescription?.getAttribute("content");
-    const previousTwitterTitle = twitterTitle?.getAttribute("content");
-    const previousTwitterDescription = twitterDescription?.getAttribute("content");
 
-    document.title = documentTitle;
-    description?.setAttribute("content", metaDescription);
-    // Canonical/domain ownership remains with F11 once the agency domain is approved.
-    ogTitle?.setAttribute("content", documentTitle);
-    ogDescription?.setAttribute("content", metaDescription);
-    twitterTitle?.setAttribute("content", documentTitle);
-    twitterDescription?.setAttribute("content", metaDescription);
+    document.title = `Workflow — ${getBrandAriaLabel()}`;
+    description?.setAttribute(
+      "content",
+      "This product page is retired from the agency site index."
+    );
+    robots?.setAttribute("content", "noindex, nofollow");
     window.scrollTo({ top: 0, behavior: "auto" });
 
     return () => {
       document.title = previousTitle;
+      if (previousRobots) {
+        robots?.setAttribute("content", previousRobots);
+      }
       if (previousDescription) {
         description?.setAttribute("content", previousDescription);
       }
-      if (previousOgTitle) {
-        ogTitle?.setAttribute("content", previousOgTitle);
-      }
-      if (previousOgDescription) {
-        ogDescription?.setAttribute("content", previousOgDescription);
-      }
-      if (previousTwitterTitle) {
-        twitterTitle?.setAttribute("content", previousTwitterTitle);
-      }
-      if (previousTwitterDescription) {
-        twitterDescription?.setAttribute("content", previousTwitterDescription);
-      }
     };
-  }, [documentTitle, metaDescription]);
+  }, []);
 }
 
 export default function WorkflowPage() {
-  const { workflowPage } = useSiteCopy();
-
-  useWorkflowPageMetadata(
-    workflowPage.documentTitle || "Workflow",
-    workflowPage.metaDescription ||
-      "See how delivery moves from discovery to a clear, reviewed next step."
-  );
+  useWorkflowPageMetadata();
 
   return (
     <main id="workflow-page" className="flex-grow overflow-x-hidden min-w-0">

@@ -22,7 +22,6 @@ import { findEntry, isExpired, loadBaseline } from "./baseline";
  */
 
 const SPA_ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
-const LANDING_ROUTE = "/services";
 const GATE_IMPACTS = new Set(["critical", "serious"]);
 
 interface ViolationRecord {
@@ -74,12 +73,8 @@ test.describe("accessibility", () => {
     await acceptCookiesIfPresent(page);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole("button", { name: "Toggle menu" }).click();
-    await page.getByRole("dialog", { name: "Toggle menu" }).waitFor({ state: "visible" });
+    await page.getByRole("dialog", { name: "Main menu" }).waitFor({ state: "visible" });
     records.push(...(await scan(page, "/ :: mobile menu open")));
-
-    await page.goto(LANDING_ROUTE);
-    await page.locator("main").first().waitFor({ state: "attached", timeout: 15_000 });
-    records.push(...(await scan(page, `${LANDING_ROUTE} :: static page`)));
 
     const baseline = loadBaseline("a11y-baseline.json");
     const newFailures: string[] = [];

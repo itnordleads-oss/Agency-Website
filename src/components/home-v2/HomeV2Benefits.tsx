@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import SectionEyebrow from "../SectionEyebrow";
 import { useSiteCopy } from "../../lib/useSiteCopy";
+import { getBrandAriaLabel } from "../../lib/studioBranding";
 import {
   clientRectToLocalCenter,
   edgeToEdgeSegment,
@@ -44,10 +45,12 @@ type ConnectionLine = {
   end: Point;
 };
 
-const CENTER_NODE = {
-  title: "Our team",
-  description: "We find companies, check details, prepare emails, and send them for you.",
-} as const;
+function getCenterNode() {
+  return {
+    title: getBrandAriaLabel(),
+    description: "We find companies, check details, prepare emails, and send them for you.",
+  };
+}
 
 const CENTER_POSITION = { x: 50, y: 50 } as const;
 
@@ -107,12 +110,13 @@ const OUTCOMES: OutcomeNode[] = [
 ];
 
 /**
- * Radial outcomes section (Homepage V3).
+ * Radial "Why ADealForge" outcomes section (Homepage V3).
  * Hover highlights outcomes and connection lines on the desktop/tablet radial stage.
  */
 export default function HomeV2Benefits() {
   const { homepageV3 } = useSiteCopy();
   const { benefits } = homepageV3;
+  const centerNode = getCenterNode();
   const stageRef = useRef<HTMLDivElement>(null);
   const centerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Map<string, HTMLDivElement | null>>(new Map());
@@ -401,8 +405,8 @@ export default function HomeV2Benefits() {
                 className="homepage-v3-benefits__center"
                 style={{ left: `${CENTER_POSITION.x}%`, top: `${CENTER_POSITION.y}%` }}
               >
-                <span className="homepage-v3-benefits__center-title">{CENTER_NODE.title}</span>
-                <span className="homepage-v3-benefits__center-desc">{CENTER_NODE.description}</span>
+                <span className="homepage-v3-benefits__center-title">{centerNode.title}</span>
+                <span className="homepage-v3-benefits__center-desc">{centerNode.description}</span>
               </div>
 
               {OUTCOMES.map((outcome) => {
@@ -432,8 +436,8 @@ export default function HomeV2Benefits() {
           ) : (
             <div className="homepage-v3-benefits__mobile">
               <div className="homepage-v3-benefits__center homepage-v3-benefits__center--mobile">
-                <span className="homepage-v3-benefits__center-title">{CENTER_NODE.title}</span>
-                <span className="homepage-v3-benefits__center-desc">{CENTER_NODE.description}</span>
+                <span className="homepage-v3-benefits__center-title">{centerNode.title}</span>
+                <span className="homepage-v3-benefits__center-desc">{centerNode.description}</span>
               </div>
 
               <ul className="homepage-v3-benefits__mobile-grid">
