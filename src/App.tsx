@@ -14,8 +14,6 @@ import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
 import PlatformPage from "./components/PlatformPage";
 import WorkflowPage from "./components/WorkflowPage";
-import ServicesPage from "./components/ServicesPage";
-import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
 import {
   getHomepageSectionHref,
@@ -23,13 +21,12 @@ import {
   resolveHomepageSectionId,
   scrollToHomepageSection,
 } from "./lib/homepageSections";
-import { getStudioNavHref } from "./lib/studioNavigation";
 
 /**
  * Legacy preview URLs — redirected to production `/` (Homepage V3).
  * Homepage V1 (`HomepageV1Page.tsx`) and Homepage V2 (`home-v2/HomepageV2Page.tsx`)
  * source remain in the repo; V2 layout is reused by V3.
- * Product `/platform` and `/workflow` remain routable until F9 retirement.
+ * Public Workflow page at `/workflow` renders the preserved workflow dashboard.
  */
 const LEGACY_HOMEPAGE_PATHS = new Set(["/homepage-v1", "/homepage-v2", "/homepage-v3"]);
 
@@ -78,21 +75,6 @@ function replaceAppPath(path: string) {
 export function navigateToSection(targetId: string) {
   if (targetId === "contact") {
     navigateAppPath("/contact");
-    return;
-  }
-
-  if (targetId === "services") {
-    navigateAppPath(getStudioNavHref("services"));
-    return;
-  }
-
-  if (targetId === "about") {
-    navigateAppPath(getStudioNavHref("about"));
-    return;
-  }
-
-  if (targetId === "work") {
-    navigateAppPath(getStudioNavHref("work"));
     return;
   }
 
@@ -178,14 +160,6 @@ export function navigateToContact() {
   navigateAppPath("/contact");
 }
 
-export function navigateToServices() {
-  navigateAppPath(getStudioNavHref("services"));
-}
-
-export function navigateToAbout() {
-  navigateAppPath(getStudioNavHref("about"));
-}
-
 export function navigateToPlatform() {
   navigateAppPath("/platform");
 }
@@ -222,8 +196,6 @@ export default function App() {
   const [path, setPath] = useState(getInitialPublicPath);
   const isTermsPage = path === "/terms";
   const isContactPage = path === "/contact";
-  const isServicesPage = path === "/services";
-  const isAboutPage = path === "/about";
   const isPlatformPage = path === "/platform";
   const isWorkflowPage = path === "/workflow";
 
@@ -253,20 +225,6 @@ export default function App() {
         ) : isContactPage ? (
           <>
             <ContactPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isServicesPage ? (
-          <>
-            <ServicesPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isAboutPage ? (
-          <>
-            <AboutPage />
             <DeferredMount rootMargin="0px" minHeight="32rem">
               <Footer />
             </DeferredMount>

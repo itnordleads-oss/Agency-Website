@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import SectionEyebrow from "../SectionEyebrow";
 import GlassCard from "../GlassCard";
+import { isTestimonialsModuleEnabled } from "../../lib/trustModules";
 import { useHomepageCopy, useHomepageVariant } from "./homepageVariantContext";
 import "./homeV2TestimonialsCarousel.css";
 
@@ -308,6 +309,10 @@ export default function HomeV2Testimonials() {
   const setRef = useRef<HTMLDivElement>(null);
 
   useTestimonialsMarquee(viewportRef, setRef, items.length);
+
+  if (!isTestimonialsModuleEnabled() || items.length === 0) {
+    return null;
+  }
 
   return (
     <section

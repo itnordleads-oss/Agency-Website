@@ -20,6 +20,12 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
+import {
+  isClientLogosModuleEnabled,
+  isMetricsModuleEnabled,
+  isPricingModuleEnabled,
+  isTestimonialsModuleEnabled,
+} from "../../lib/trustModules";
 import { getBrandAriaLabel, getSeoDescription, getSeoTitle } from "../../lib/studioBranding";
 
 function useHomepageMetadata(variant: HomepageVariant) {
@@ -170,22 +176,22 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
         </DeferredMount>
 
         {isV3 ? (
-          <div className="min-w-0">
-            <CompanyLogoCarousel />
-          </div>
-        ) : (
+          isClientLogosModuleEnabled() ? (
+            <div className="min-w-0">
+              <CompanyLogoCarousel />
+            </div>
+          ) : null
+        ) : isMetricsModuleEnabled() ? (
           <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="6rem">
             <HomeV2Trust />
           </DeferredMount>
-        )}
+        ) : null}
 
         <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="20rem">
           <HomeV2ProductOverview />
         </DeferredMount>
 
-        {isV3 ? (
-          // Keep trust mounted (not DeferredMount): the carousel smoke test jump-scrolls
-          // to document end and can skip a short deferred host, leaving #v2-trust unmounted.
+        {isV3 && isMetricsModuleEnabled() ? (
           <div className="min-w-0">
             <HomeV2Trust />
           </div>
@@ -208,16 +214,13 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
           </>
         )}
 
-        {/* Customer-story SEO quote must stay in the document (not DeferredMount) for crawl + E2E. */}
-        <HomeV2Testimonials />
+        {isTestimonialsModuleEnabled() ? <HomeV2Testimonials /> : null}
 
-        {/*
-          Pricing hash expands rootMargin so the section mounts in place.
-          Do not swap the wrapper — remounting is why click missed and refresh hit.
-        */}
-        <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
-          <HomeV2PricingPreview />
-        </DeferredMount>
+        {isPricingModuleEnabled() ? (
+          <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+            <HomeV2PricingPreview />
+          </DeferredMount>
+        ) : null}
 
         <DeferredMount rootMargin="0px" minHeight="14rem">
           <HomeV2Faq />

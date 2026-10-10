@@ -89,24 +89,8 @@ export const marketingCopy = {
     ],
   },
 
-  proofBand: [
-    {
-      stat: "Up to 100,000",
-      label: "companies reached in a single managed outbound program",
-    },
-    {
-      stat: "End-to-end",
-      label: "delivery from account research to inbox-ready execution",
-    },
-    {
-      stat: "Your voice, your offer",
-      label: "outreach messaging aligned with your sales narrative",
-    },
-    {
-      stat: "Your domains or ours",
-      label: "sending infrastructure configured for steady inbox placement",
-    },
-  ],
+  // F12: unverified metrics removed until leadership approves real proof.
+  proofBand: [] as ReadonlyArray<{ stat: string; label: string }>,
 
   workflow: {
     eyebrow: "Inside your campaign",

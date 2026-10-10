@@ -420,24 +420,8 @@ const en = {
       },
     ],
   },
-  proofBand: [
-    {
-      stat: "Up to 100,000",
-      label: "companies reached in a single managed outbound program",
-    },
-    {
-      stat: "End-to-end",
-      label: "delivery from account research to inbox-ready execution",
-    },
-    {
-      stat: "Your voice, your offer",
-      label: "outreach messaging aligned with your sales narrative",
-    },
-    {
-      stat: "Your domains or ours",
-      label: "sending infrastructure configured for steady inbox placement",
-    },
-  ],
+  // F12: unverified metrics removed until leadership approves real proof.
+  proofBand: [] as ReadonlyArray<{ stat: string; label: string }>,
   workflow: {
     eyebrow: "Inside your campaign",
     title: "See what your sales team receives at every outreach step",
@@ -802,35 +786,15 @@ const en = {
     title: "Teams choose ADealForge to fill pipeline with better conversations.",
     subtitle:
       "Operators and revenue leaders use managed outbound to reach the right accounts without building a full internal prospecting stack.",
-    items: [
-      {
-        quote:
-          "We finally stopped guessing at lists. ADealForge delivered researched accounts and outreach that sounded like us — and meetings followed within the first pilot cycle.",
-        name: "Elena Marquez",
-        title: "Head of Growth",
-        company: "Northline Logistics",
-        rating: 5,
-        logoInitials: "NL",
-      },
-      {
-        quote:
-          "The workflow from targeting to CRM-ready export was clear and fast. Our sales team spent time on conversations instead of cleaning data and drafting cold emails.",
-        name: "James Okoro",
-        title: "VP of Sales",
-        company: "BuildSpan Group",
-        rating: 5,
-        logoInitials: "BG",
-      },
-      {
-        quote:
-          "Onboarding was straightforward, messaging quality was strong, and support stayed close through launch. It felt like an extension of our revenue team.",
-        name: "Sofia Bergström",
-        title: "Revenue Operations Lead",
-        company: "Facet Facilities",
-        rating: 5,
-        logoInitials: "FF",
-      },
-    ],
+    // F12: unverified testimonials removed until leadership approves quotes.
+    items: [] as ReadonlyArray<{
+      quote: string;
+      name: string;
+      title: string;
+      company: string;
+      rating: number;
+      logoInitials: string;
+    }>,
   },
   bookDemo: {
     eyebrow: "Live product demo",
@@ -922,12 +886,9 @@ const en = {
     },
     trust: {
       title: "Built for teams that want more sales conversations",
-      metrics: [
-        { stat: "100k+", label: "Companies in a single campaign" },
-        { stat: "Full service", label: "We handle the outreach work" },
-        { stat: "Ready for sales", label: "Clean results for your team" },
-      ],
-      logoLabels: ["B2B SaaS", "Services", "Industrial", "Staffing", "Logistics"],
+      // F12: unverified metrics / industry chips removed until approved.
+      metrics: [] as ReadonlyArray<{ stat: string; label: string }>,
+      logoLabels: [] as ReadonlyArray<string>,
     },
     product: {
       eyebrow: "Product",
@@ -995,32 +956,15 @@ const en = {
     testimonials: {
       eyebrow: "Results",
       title: "What teams notice first",
-      items: [
-        {
-          quote: "Better company lists and emails that sounded like us. We got meetings quickly.",
-          name: "Elena Marquez",
-          title: "Head of Growth",
-          company: "Northline Logistics",
-          result: "Faster meetings",
-          logoInitials: "NL",
-        },
-        {
-          quote: "Clean lists for our sales tools. Our team talked to real buyers—not bad data.",
-          name: "James Okoro",
-          title: "VP of Sales",
-          company: "BuildSpan Group",
-          result: "More time selling",
-          logoInitials: "BG",
-        },
-        {
-          quote: "Clear emails and helpful support from day one.",
-          name: "Sofia Bergström",
-          title: "Revenue Operations",
-          company: "Facet Facilities",
-          result: "Easier launch",
-          logoInitials: "FF",
-        },
-      ],
+      // F12: unverified testimonials removed until leadership approves quotes.
+      items: [] as ReadonlyArray<{
+        quote: string;
+        name: string;
+        title: string;
+        company: string;
+        result: string;
+        logoInitials: string;
+      }>,
     },
     pricing: {
       eyebrow: "Pricing",
@@ -1187,12 +1131,9 @@ const en = {
     },
     trust: {
       title: "Built for outbound teams across industries",
-      metrics: [
-        { stat: "100k+", label: "Companies reached in outbound programs" },
-        { stat: "Full service", label: "Research to outreach handled for you" },
-        { stat: "Sales ready", label: "Clean handoff for your sellers" },
-      ],
-      logoLabels: ["B2B SaaS", "Services", "Industrial", "Staffing", "Logistics"],
+      // F12: unverified metrics / industry chips removed until approved.
+      metrics: [] as ReadonlyArray<{ stat: string; label: string }>,
+      logoLabels: [] as ReadonlyArray<string>,
     },
     product: {
       eyebrow: "Platform",
@@ -1316,58 +1257,21 @@ const en = {
       eyebrow: "Outcomes",
       title: "What this means for your business",
       subtitle: "See how our managed service helps your sales team.",
-      items: [
-        {
-          stat: "Steady sales flow",
-          label: "We run outreach regularly, not as one-time campaigns.",
-        },
-        {
-          stat: "Expert help without hiring",
-          label:
-            "Our team handles the work from research to sending. No hiring or new tools needed.",
-        },
-        {
-          stat: "Quality at every size",
-          label: "Every account is researched and checked, whether you target 50 or 5,000.",
-        },
-        {
-          stat: "See every step",
-          label: "See every step from target company to booked meeting.",
-        },
-      ],
+      // F12: unverified outcome metrics removed until approved.
+      items: [] as ReadonlyArray<{ stat: string; label: string }>,
     },
     testimonials: {
       eyebrow: "Customer stories",
       title: "Clearer sales outreach for your team.",
-      items: [
-        {
-          quote:
-            "Our outbound sales finally felt clear. Better lists, better emails, and more qualified meetings.",
-          name: "Elena Marquez",
-          title: "Head of Growth",
-          company: "Northline Logistics",
-          result: "More qualified meetings",
-          logoInitials: "NL",
-        },
-        {
-          quote:
-            "Sales automation saved our team hours each week and streamlined our outbound sales workflow.",
-          name: "James Okoro",
-          title: "VP of Sales",
-          company: "BuildSpan Group",
-          result: "More time selling",
-          logoInitials: "BG",
-        },
-        {
-          quote:
-            "B2B outbound sales felt easier from week one. Clear emails and support we could trust.",
-          name: "Sofia Bergström",
-          title: "Revenue Operations",
-          company: "Facet Facilities",
-          result: "Faster launch",
-          logoInitials: "FF",
-        },
-      ],
+      // F12: unverified testimonials removed until leadership approves quotes.
+      items: [] as ReadonlyArray<{
+        quote: string;
+        name: string;
+        title: string;
+        company: string;
+        result: string;
+        logoInitials: string;
+      }>,
     },
     pricing: {
       eyebrow: "Pricing",
