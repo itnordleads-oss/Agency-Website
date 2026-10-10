@@ -510,330 +510,33 @@ test.describe("smoke", () => {
     expect(consoleErrors).toEqual([]);
   });
 
-  test("platform page loads", { tag: "@critical" }, async ({ page }) => {
+  test("retired platform route redirects to services", { tag: "@critical" }, async ({ page }) => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
-
-    await expect(page).toHaveTitle(/Platform/i);
-    await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
+    await expect(page).toHaveURL(/\/services\/?$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
       timeout: 15_000,
     });
-
-    await page.evaluate(async () => {
-      for (let attempt = 0; attempt < 24; attempt += 1) {
-        window.scrollTo(0, document.documentElement.scrollHeight);
-        await new Promise((resolve) => window.setTimeout(resolve, 80));
-      }
-    });
-
-    const overviewStrip = page.locator("#platform-overview-strip");
-    await expect(overviewStrip).toBeVisible({ timeout: 15_000 });
-    await overviewStrip.scrollIntoViewIfNeeded();
-    await expect(overviewStrip.getByRole("button", { name: /Let's Talk/i })).toHaveCount(0);
-    await expect(
-      overviewStrip.getByText("No pressure. No obligation.", { exact: true })
-    ).toHaveCount(0);
-    for (const title of [
-      "Find the right companies",
-      "Research before you write",
-      "Launch with support",
-    ]) {
-      await expect(overviewStrip.getByText(title, { exact: true })).toBeVisible();
-    }
-    await expect(overviewStrip.getByRole("button")).toHaveCount(0);
-    await expect(overviewStrip.getByRole("link")).toHaveCount(0);
+    await expect(page.locator("main#platform-page")).toHaveCount(0);
   });
 
-  test("platform capabilities use interactive walkthrough and preserve content", async ({
-    page,
-  }) => {
-    test.setTimeout(90_000);
-
-    const consoleErrors: string[] = [];
-    const pageErrors: string[] = [];
-    page.on("console", (message) => {
-      if (message.type() === "error") {
-        consoleErrors.push(message.text());
-      }
-    });
-    page.on("pageerror", (error) => pageErrors.push(error.message));
-
-    const mountCapabilities = async () => {
-      await page.goto("/platform");
-      await acceptCookiesIfPresent(page);
-      await page.evaluate(async () => {
-        for (let attempt = 0; attempt < 24; attempt += 1) {
-          window.scrollTo(0, document.documentElement.scrollHeight);
-          await new Promise((resolve) => window.setTimeout(resolve, 80));
-        }
-      });
-
-      const section = page.locator("section#platform-anchor");
-      await expect(section).toBeVisible({ timeout: 15_000 });
-      await section.scrollIntoViewIfNeeded();
-      return section;
-    };
-
-    const capabilityContent = [
-      {
-        title: "Find matching companies",
-        description:
-          "Your ICP filters produce a ranked shortlist — industry, geography, company size, and buying signals applied before anyone researches accounts.",
-      },
-      {
-        title: "Company research",
-        description:
-          "Each account gets a brief: what they do, where they sell, team size, and the signal that makes them worth contacting.",
-      },
-      {
-        title: "Check contact details",
-        description:
-          "Every contact is checked for a deliverable email route; uncertain addresses are flagged before outreach starts.",
-      },
-      {
-        title: "Personalized sales emails",
-        description:
-          "First-touch drafts reference real account context — company, role, and signal — written in your voice and ready for approval.",
-      },
-      {
-        title: "Managed email sending",
-        description:
-          "Send from your domain or warmed inboxes while inbox health, warmup status, and delivery routing stay monitored.",
-      },
-    ];
-
-    await page.emulateMedia({ reducedMotion: "no-preference" });
-
-    for (const viewport of [
-      { width: 320, height: 720, layout: "accordion" },
-      { width: 390, height: 844, layout: "accordion" },
-      { width: 768, height: 1024, layout: "stacked" },
-      { width: 1440, height: 900, layout: "columns" },
-    ] as const) {
-      await page.setViewportSize(viewport);
-      const section = await mountCapabilities();
-      const intro = section.locator(".platform-capabilities__intro");
-      const panelStack = section.locator("[data-capability-panel]");
-      const accordion = section.locator("[data-capability-accordion]");
-      const nav = section.locator(".platform-capabilities__nav");
-
-      const layout = await page.evaluate(() => {
-        const sectionEl = document.querySelector<HTMLElement>("section#platform-anchor");
-        const introEl = sectionEl?.querySelector<HTMLElement>(".platform-capabilities__intro");
-        const panelEl = sectionEl?.querySelector<HTMLElement>("[data-capability-panel]");
-        const accordionEl = sectionEl?.querySelector<HTMLElement>("[data-capability-accordion]");
-        const navEl = sectionEl?.querySelector<HTMLElement>(".platform-capabilities__nav");
-        const sectionBox = sectionEl?.getBoundingClientRect();
-        const introBox = introEl?.getBoundingClientRect();
-        const panelBox = panelEl?.getBoundingClientRect();
-        const accordionBox = accordionEl?.getBoundingClientRect();
-        const navStyles = navEl ? window.getComputedStyle(navEl) : null;
-        const panelStyles = panelEl ? window.getComputedStyle(panelEl) : null;
-        const accordionStyles = accordionEl ? window.getComputedStyle(accordionEl) : null;
-
-        return {
-          documentFitsViewport:
-            document.documentElement.scrollWidth <= document.documentElement.clientWidth,
-          sectionFitsViewport:
-            (sectionBox?.left ?? -1) >= -1 &&
-            (sectionBox?.right ?? Number.POSITIVE_INFINITY) <=
-              document.documentElement.clientWidth + 1,
-          intro: introBox
-            ? { top: introBox.top, right: introBox.right, bottom: introBox.bottom }
-            : null,
-          panel: panelBox
-            ? { top: panelBox.top, left: panelBox.left, width: panelBox.width }
-            : null,
-          accordion: accordionBox
-            ? { top: accordionBox.top, left: accordionBox.left, height: accordionBox.height }
-            : null,
-          introRight: introBox?.right ?? 0,
-          navDisplay: navStyles?.display ?? "none",
-          panelDisplay: panelStyles?.display ?? "none",
-          accordionDisplay: accordionStyles?.display ?? "none",
-        };
-      });
-
-      expect(layout.documentFitsViewport).toBe(true);
-      expect(layout.sectionFitsViewport).toBe(true);
-      expect(layout.intro).not.toBeNull();
-      await expect(intro).toBeVisible();
-
-      if (viewport.layout === "accordion") {
-        expect(layout.navDisplay).toBe("none");
-        expect(layout.panelDisplay).toBe("none");
-        expect(layout.accordionDisplay).not.toBe("none");
-        expect(layout.accordion?.top ?? 0).toBeGreaterThan((layout.intro?.bottom ?? 0) + 8);
-        await expect(accordion).toBeVisible();
-        await expect(section.locator("[data-capability-card]")).toHaveCount(5);
-        const openCard = section.locator("[data-capability-card].is-open");
-        await expect(openCard.getByText(capabilityContent[0].title)).toBeVisible();
-        await expect(
-          openCard.getByText(capabilityContent[0].description, { exact: true })
-        ).toBeVisible();
-        await expect(
-          openCard.locator(".capability-preview[data-preview='discovery']")
-        ).toBeVisible();
-      } else {
-        expect(layout.navDisplay).not.toBe("none");
-        expect(layout.panelDisplay).not.toBe("none");
-        expect(layout.accordionDisplay).toBe("none");
-        await expect(nav).toBeVisible();
-        await expect(panelStack).toBeVisible();
-        await expect(section.getByRole("tab")).toHaveCount(5);
-        await expect(section.getByRole("tab", { selected: true })).toHaveCount(1);
-        await expect(
-          section.getByRole("tab", { name: capabilityContent[0].title, selected: true })
-        ).toBeVisible();
-        const activePanel = section
-          .getByRole("tabpanel")
-          .filter({ hasText: capabilityContent[0].description });
-        await expect(activePanel).toBeVisible();
-        await expect(
-          activePanel.locator(".capability-preview[data-preview='discovery']")
-        ).toBeVisible();
-
-        if (viewport.layout === "columns") {
-          expect(layout.panel?.left ?? 0).toBeGreaterThan(layout.introRight + 20);
-        } else {
-          expect(layout.panel?.top ?? 0).toBeGreaterThan((layout.intro?.bottom ?? 0) + 8);
-        }
-      }
-    }
-
-    await page.setViewportSize({ width: 1440, height: 900 });
-    const section = await mountCapabilities();
-    await expect(
-      section.getByRole("heading", { level: 2, name: "The work behind better outbound." })
-    ).toBeVisible();
-    await expect(
-      section.getByText(
-        "Each step produces something your team can review — from a filtered account list to inbox-ready outreach.",
-        { exact: true }
-      )
-    ).toBeVisible();
-
-    const capabilityPreviews = [
-      { preview: "discovery", marker: "ICP shortlist ready" },
-      { preview: "intelligence", marker: "Account rationale ready" },
-      { preview: "validation", marker: "Reliable routes prioritized" },
-      { preview: "messaging", marker: "Ready for review" },
-      { preview: "sending", marker: "Managed send" },
-    ] as const;
-
-    for (const [index, capability] of capabilityContent.entries()) {
-      const tab = section.getByRole("tab", { name: capability.title });
-      await tab.click();
-      await expect(tab).toHaveAttribute("aria-selected", "true");
-      const panel = section.getByRole("tabpanel").filter({ hasText: capability.title });
-      await expect(panel).toBeVisible();
-      await expect(panel.getByRole("heading", { level: 3, name: capability.title })).toBeVisible();
-      await expect(panel.getByText(capability.description, { exact: true })).toBeVisible();
-      await expect(panel.getByText(`Capability ${index + 1} of 5`)).toBeVisible();
-      await expect(
-        panel.locator(`.capability-preview[data-preview='${capabilityPreviews[index].preview}']`)
-      ).toBeVisible();
-      await expect(
-        panel.getByText(capabilityPreviews[index].marker, { exact: true })
-      ).toBeVisible();
-      const previewBox = await panel.locator(".capability-preview").boundingBox();
-      expect(previewBox?.height ?? 0).toBeGreaterThan(120);
-    }
-
-    const firstTab = section.getByRole("tab", { name: capabilityContent[0].title });
-    await firstTab.click();
-    await firstTab.focus();
-    await expect(firstTab).toBeFocused();
-    await page.keyboard.press("ArrowDown");
-    await expect(
-      section.getByRole("tab", { name: capabilityContent[1].title, selected: true })
-    ).toBeFocused();
-    await expect(
-      section.getByRole("tabpanel").filter({ hasText: capabilityContent[1].description })
-    ).toBeVisible();
-
-    for (const pill of ["Human review", "Verified data", "Campaign visibility"]) {
-      await expect(section.getByText(pill, { exact: true })).toBeVisible();
-    }
-    await expect(section.locator(".platform-capabilities__stages")).toHaveCount(0);
-
-    const frame = section.locator(".platform-capabilities__frame");
-    const initialFrameHeight = await frame.evaluate(
-      (element) => element.getBoundingClientRect().height
-    );
-    await section.getByRole("tab", { name: capabilityContent[4].title }).hover();
-    await expect(
-      section.getByRole("tab", { name: capabilityContent[4].title, selected: true })
-    ).toBeVisible();
-    await expect(
-      section.getByRole("tabpanel").filter({ hasText: capabilityContent[4].description })
-    ).toBeVisible();
-    await page.waitForTimeout(300);
-    const stableFrameHeight = await frame.evaluate(
-      (element) => element.getBoundingClientRect().height
-    );
-    expect(Math.abs(stableFrameHeight - initialFrameHeight)).toBeLessThanOrEqual(2);
-
-    const secondaryCta = section.getByRole("button", { name: "See how it works" });
-    await secondaryCta.focus();
-    await expect(secondaryCta).toBeFocused();
-    const scrollBeforeSecondaryCta = await page.evaluate(() => window.scrollY);
-    await page.keyboard.press("Enter");
-    await expect
-      .poll(() => page.evaluate(() => window.scrollY), { timeout: 5_000 })
-      .toBeLessThan(scrollBeforeSecondaryCta);
-
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    const reducedMotionSection = await mountCapabilities();
-    const accordionItems = reducedMotionSection.locator("[data-capability-card]");
-    await expect(accordionItems).toHaveCount(5);
-    await accordionItems.nth(2).locator("button").click();
-    await expect(accordionItems.nth(2)).toHaveClass(/is-open/);
-    await expect(
-      accordionItems.nth(2).getByText(capabilityContent[2].description, { exact: true })
-    ).toBeVisible();
-    await expect(
-      accordionItems.nth(2).locator(".capability-preview[data-preview='validation']")
-    ).toBeVisible();
-    await expect(accordionItems.nth(0)).not.toHaveClass(/is-open/);
-
-    const panelAnimation = await reducedMotionSection
-      .locator(".platform-capabilities__panel-inner")
-      .first()
-      .evaluate((element) => getComputedStyle(element).animationName);
-    expect(panelAnimation === "none" || panelAnimation === "").toBe(true);
-
-    const primaryCta = reducedMotionSection.getByRole("button", {
-      name: "Start the Conversation",
-    });
-    await primaryCta.click();
-    await expect(page).toHaveURL(/\/contact$/);
-
-    expect(consoleErrors).toEqual([]);
-    expect(pageErrors).toEqual([]);
-  });
-
-  test("platform page updates when language changes", async ({ page }) => {
-    await page.goto("/platform");
+  test("retired workflow route redirects to services", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
-
-    await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
+    await expect(page).toHaveURL(/\/services\/?$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
       timeout: 15_000,
     });
+    await expect(page.locator("main#workflow-page")).toHaveCount(0);
+  });
 
-    await page
-      .locator("header")
-      .getByRole("button", { name: /Language/i })
-      .first()
-      .click();
-    await page.getByRole("option", { name: /^DE$/i }).first().click();
-
-    await expect(page).toHaveTitle(/Plattform/i);
-    await expect(page.getByRole("heading", { level: 1, name: "Plattform" })).toBeVisible({
+  test("retired product landing path redirects to services", async ({ page }) => {
+    await page.goto("/landing/b2b-lead-generation/");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/services\/?$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page.getByRole("button", { name: /Gespräch starten/i }).first()).toBeVisible();
   });
 
   test("approved SEO copy appears on active public routes", async ({ page }) => {
@@ -881,14 +584,8 @@ test.describe("smoke", () => {
           { exact: true }
         )
     ).toHaveCount(1);
-    await expect(
-      page
-        .locator("section#pricing")
-        .getByText(
-          "Choose a plan that fits B2B sales teams and growing companies ready to scale outbound sales.",
-          { exact: true }
-        )
-    ).toBeVisible();
+    await expect(page.locator("section#pricing")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /^Monthly$/i })).toHaveCount(0);
     await expect(
       page
         .locator("section#v2-faq")
@@ -904,290 +601,30 @@ test.describe("smoke", () => {
         })
     ).toBeVisible();
 
-    await page.goto("/platform");
-    await acceptCookiesIfPresent(page);
-
-    const platform = page.locator("main#platform-page");
-    await expect(
-      platform.getByText(
-        "Find the right companies, conduct prospect research, and prepare personalized first sales emails with human review and live campaign support.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(
-      platform.getByText(
-        "Managed outreach is available now through a reviewed workflow. Public platform access stays closed while development continues.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(
-      platform.getByText(
-        "Tell us your outbound goals and we’ll share how managed services can help—no pressure.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(platform.getByText(/The platform is still being built/i)).toHaveCount(0);
-    await expect(platform.getByText(/Curious about what we're building\?/i)).toHaveCount(0);
-
     expect(consoleErrors).toEqual([]);
   });
 
-  test(
-    "workflow page renders only the workflow dashboard",
-    { tag: "@critical" },
-    async ({ page }) => {
-      const consoleErrors: string[] = [];
-      const pageErrors: string[] = [];
-      page.on("console", (message) => {
-        if (message.type() === "error") {
-          consoleErrors.push(message.text());
-        }
-      });
-      page.on("pageerror", (error) => pageErrors.push(error.message));
-
-      await page.goto("/workflow");
-      await acceptCookiesIfPresent(page);
-
-      await expect(page).toHaveTitle(/Workflow/i);
-      await expect(page.locator("main#workflow-page > section#workflow")).toHaveCount(1);
-      await expect(page.locator("section#workflow")).toBeVisible({ timeout: 15_000 });
-      await expect(
-        page.locator("section#workflow").getByRole("navigation", { name: "Workflow navigation" })
-      ).toBeVisible();
-
-      for (const removedSectionId of [
-        "hero",
-        "platform",
-        "how-it-works",
-        "proof",
-        "sectors",
-        "capabilities",
-        "pricing",
-        "faq",
-        "final-cta",
-        "contact",
-        "product",
-        "benefits",
-        "v2-results",
-        "v2-testimonials",
-        "v2-faq",
-        "v2-final-cta",
-      ]) {
-        await expect(page.locator(`#${removedSectionId}`)).toHaveCount(0);
-      }
-
-      await expect(page.locator("main#workflow-page > section")).toHaveCount(1);
-
-      // F3: product Workflow is no longer in the public studio navbar.
-      await expect(
-        page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Workflow" })
-      ).toHaveCount(0);
-
-      expect(consoleErrors).toEqual([]);
-      expect(pageErrors).toEqual([]);
-    }
-  );
-
-  test("workflow dashboard remains responsive on mobile", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/workflow");
+  test("product pricing section is not exposed on homepage", async ({ page }) => {
+    await page.goto("/");
     await acceptCookiesIfPresent(page);
-
-    const workflow = page.locator("main#workflow-page > section#workflow");
-    await expect(workflow).toBeVisible({ timeout: 15_000 });
-    await expect(workflow.getByRole("group", { name: "Workflow stages" })).toBeVisible();
-    await expect(page.locator("main#workflow-page > section")).toHaveCount(1);
-
-    const workflowBox = await workflow.boundingBox();
-    expect(workflowBox).not.toBeNull();
-    expect(workflowBox?.x).toBeGreaterThanOrEqual(0);
-    expect((workflowBox?.x ?? 0) + (workflowBox?.width ?? 0)).toBeLessThanOrEqual(390);
-  });
-
-  test("workflow header-to-content top spacing matches Platform and Contact", async ({ page }) => {
-    test.setTimeout(90_000);
-
-    let cookiesHandled = false;
-    const readHeaderToBackGap = async (path: string, mainSelector: string) => {
-      await page.goto(path);
-      if (!cookiesHandled) {
-        await acceptCookiesIfPresent(page);
-        cookiesHandled = true;
+    await page.evaluate(async () => {
+      for (let attempt = 0; attempt < 30; attempt += 1) {
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 60));
       }
-      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "auto" }));
-
-      const main = page.locator(mainSelector);
-      await expect(main).toBeVisible({ timeout: 15_000 });
-
-      const back = main.getByRole("button", { name: /Back to homepage/i }).first();
-      await expect(back).toBeVisible();
-
-      return page.evaluate((selector) => {
-        const header = document.querySelector("header");
-        const mainEl = document.querySelector(selector);
-        const target = Array.from(mainEl?.querySelectorAll("button") ?? []).find((button) =>
-          /Back to homepage/i.test(button.textContent ?? "")
-        );
-        if (!header || !target) {
-          return null;
-        }
-        return target.getBoundingClientRect().top - header.getBoundingClientRect().bottom;
-      }, mainSelector);
-    };
-
-    for (const viewport of [
-      { width: 390, height: 844 },
-      { width: 768, height: 1024 },
-      { width: 1440, height: 900 },
-    ]) {
-      await page.setViewportSize(viewport);
-
-      const platformGap = await readHeaderToBackGap("/platform", "main#platform-page");
-      const contactGap = await readHeaderToBackGap("/contact", "main#contact-page");
-      const workflowGap = await readHeaderToBackGap("/workflow", "main#workflow-page");
-
-      expect(platformGap).not.toBeNull();
-      expect(contactGap).not.toBeNull();
-      expect(workflowGap).not.toBeNull();
-
-      // Shared page-shell padding; allow small sub-pixel / Contact border-t variance.
-      expect(Math.abs((platformGap as number) - (contactGap as number))).toBeLessThanOrEqual(2);
-      expect(Math.abs((workflowGap as number) - (platformGap as number))).toBeLessThanOrEqual(2);
-      expect(workflowGap as number).toBeGreaterThanOrEqual(8);
-    }
+    });
+    await expect(page.locator("section#pricing")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: /^Monthly$/i })).toHaveCount(0);
+    await expect(page.getByText(/verified leads/i)).toHaveCount(0);
   });
 
-  test("workflow page updates when language changes", async ({ page }) => {
-    await page.goto("/workflow");
+  test("homepage pricing hash navigates to contact", async ({ page }) => {
+    await page.goto("/#pricing");
     await acceptCookiesIfPresent(page);
-
-    await expect(page).toHaveTitle(/Workflow/i);
-
-    await page
-      .locator("header")
-      .getByRole("button", { name: /Language/i })
-      .first()
-      .click();
-    await page.getByRole("option", { name: /^DE$/i }).first().click();
-
-    await expect(page).toHaveTitle(/Workflow/i);
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
-      "content",
-      /Sehen Sie, wie ADealForge/
-    );
-    await expect(page.locator("main#workflow-page > section#workflow")).toHaveCount(1);
-    await expect(
-      page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Services" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Workflow" })
-    ).toHaveCount(0);
+    await expect(page).toHaveURL(/\/contact\/?$/, { timeout: 15_000 });
+    await expect(page.locator("main#contact-page")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
-
-  test(
-    "homepage pricing modes switch monthly yearly and one-time leads",
-    { tag: "@critical" },
-    async ({ page, browserName }) => {
-      // REM-XB-1 (pre-existing): on WebKit the click-stability check never settles
-      // for the pricing nav/toggle while smooth-scroll/animations run, so the test
-      // always dies on the 30s test timeout (timeout failures cannot be marked as
-      // expected-fail). Skipped on WebKit until triaged; runs normally elsewhere.
-      test.fixme(
-        browserName === "webkit",
-        "REM-XB-1: WebKit click-stability timeout on pricing controls"
-      );
-      const consoleErrors: string[] = [];
-      page.on("console", (message) => {
-        if (message.type() === "error") {
-          consoleErrors.push(message.text());
-        }
-      });
-
-      // Fresh homepage load — Yearly must be active before any tab click.
-      // F3 removed Pricing from the public studio navbar; open the section by hash.
-      await page.goto("/#pricing");
-      await acceptCookiesIfPresent(page);
-      await expect(page).toHaveURL(/\/#pricing$/);
-      await expectHomepageSectionBelowNavbar(page, "pricing");
-
-      const pricing = page.locator("section#pricing");
-      await expect(pricing).toBeVisible({ timeout: 15_000 });
-      await expect(pricing.getByText(/most popular/i)).toHaveCount(0);
-      await expect(pricing.getByText(/25,?000 contacts/i)).toHaveCount(0);
-
-      const monthly = pricing.getByRole("button", { name: /^Monthly$/i });
-      const yearly = pricing.getByRole("button", { name: /Yearly/i });
-      const oneTime = pricing.getByRole("button", { name: /^One-Time$/i });
-
-      await expect(yearly).toHaveAttribute("aria-pressed", "true");
-      await expect(monthly).toHaveAttribute("aria-pressed", "false");
-      await expect(oneTime).toHaveAttribute("aria-pressed", "false");
-      await expect(yearly.getByText(/Save 20%/i)).toBeVisible();
-      await expect(pricing.getByText(/Billed once a year/i).first()).toBeVisible();
-      await expect(pricing.getByRole("article", { name: /FREE plan/i })).toBeVisible();
-      await expect(pricing.getByText("$0").first()).toBeVisible();
-      await expect(pricing.getByText(/50,?000 contacts/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Custom pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText("$559")).toHaveCount(0);
-      await expect(pricing.getByText("$699")).toHaveCount(0);
-
-      const featureList = pricing.locator(".homepage-v2-pricing__features").first();
-      await expect(featureList).toHaveCSS("gap", "4px");
-
-      await monthly.click();
-      await expect(monthly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText("/month").first()).toBeVisible();
-      await expect(pricing.getByText(/50,?000 contacts/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Custom pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText(/25,?000 contacts/i)).toHaveCount(0);
-      await expect(pricing.getByText(/Billed once a year/i)).toHaveCount(0);
-
-      await yearly.click();
-      await expect(yearly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText(/Billed once a year/i).first()).toBeVisible();
-
-      await oneTime.click();
-      await expect(oneTime).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText(/one-time/i).first()).toBeVisible();
-      await expect(pricing.getByText(/No subscription/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Fixed number of verified leads/i).first()).toBeVisible();
-      await expect(pricing.getByText(/^Starter$/i)).toBeVisible();
-      await expect(pricing.getByText(/^Growth$/i)).toBeVisible();
-      await expect(pricing.getByText(/^Flexible$/i)).toBeVisible();
-      await expect(pricing.getByText(/50,?000 verified leads/i)).toBeVisible();
-      await expect(pricing.getByText(/Contact us for pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText(/\/month/i)).toHaveCount(0);
-      await expect(pricing.getByText(/\/year/i)).toHaveCount(0);
-      await expect(pricing.getByText(/Billed once a year/i)).toHaveCount(0);
-      await expect(pricing.getByText(/billed monthly/i)).toHaveCount(0);
-      await expect(pricing.getByText(/most popular/i)).toHaveCount(0);
-
-      await monthly.click();
-      await expect(monthly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText("/month").first()).toBeVisible();
-
-      for (const viewport of [
-        { width: 1440, height: 900 },
-        { width: 768, height: 1024 },
-        { width: 390, height: 844 },
-      ]) {
-        await page.setViewportSize(viewport);
-        await expect(pricing.getByRole("group", { name: /Select pricing mode/i })).toBeVisible();
-        const cards = pricing.locator("article.homepage-v2-pricing__card");
-        await expect(cards).toHaveCount(3);
-        const gaps = await pricing
-          .locator(".homepage-v2-pricing__features")
-          .evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).gap));
-        expect(gaps.every((gap) => gap === "4px")).toBe(true);
-        const overflow = await page.evaluate(
-          () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-        );
-        expect(overflow).toBe(false);
-      }
-
-      expect(consoleErrors).toEqual([]);
-    }
-  );
 
   test("homepage benefits section presents radial business outcomes", async ({ page }) => {
     test.setTimeout(90_000);
@@ -1436,27 +873,27 @@ test.describe("smoke", () => {
   test("homepage section hashes survive refresh and browser history navigation", async ({
     page,
   }) => {
-    await page.goto("/#pricing");
+    await page.goto("/#product");
     await acceptCookiesIfPresent(page);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expectHomepageSectionBelowNavbar(page, "product");
 
     await page.reload();
-    await expect(page).toHaveURL(/\/#pricing$/);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expect(page).toHaveURL(/\/#product$/);
+    await expectHomepageSectionBelowNavbar(page, "product");
 
     await page.evaluate(() => {
-      window.location.hash = "product";
+      window.location.hash = "benefits";
     });
-    await expect(page).toHaveURL(/\/#product$/);
-    await expectHomepageSectionBelowNavbar(page, "product");
+    await expect(page).toHaveURL(/\/#benefits$/);
+    await expectHomepageSectionBelowNavbar(page, "benefits");
 
     await page.goBack();
-    await expect(page).toHaveURL(/\/#pricing$/);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
-
-    await page.goForward();
     await expect(page).toHaveURL(/\/#product$/);
     await expectHomepageSectionBelowNavbar(page, "product");
+
+    await page.goForward();
+    await expect(page).toHaveURL(/\/#benefits$/);
+    await expectHomepageSectionBelowNavbar(page, "benefits");
   });
 
   test(
@@ -2037,7 +1474,7 @@ test.describe("smoke", () => {
         window.localStorage.removeItem("adealforge:schedule-meeting-dismissed-at");
       });
 
-      const routes = ["/", "/platform", "/workflow", "/contact"] as const;
+      const routes = ["/", "/services", "/about", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);

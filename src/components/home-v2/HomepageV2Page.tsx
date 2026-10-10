@@ -77,6 +77,13 @@ function useHomepageSectionNavigation() {
       return;
     }
 
+    // F9: product pricing section removed from Homepage V3 — send hash traffic to Contact.
+    if (requestedSectionId === "pricing") {
+      window.history.replaceState({}, "", "/contact");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+      return;
+    }
+
     let cancelled = false;
     let frameId = 0;
     let attempts = 0;
@@ -95,7 +102,7 @@ function useHomepageSectionNavigation() {
       if (!document.querySelector("main h1")) {
         return false;
       }
-      if (requestedSectionId === "pricing" || requestedSectionId === "benefits") {
+      if (requestedSectionId === "benefits") {
         const product = document.getElementById("product");
         // Placeholder DeferredMount host is 20rem; wait until real product layout exists.
         return !!product && product.offsetHeight > 360;
@@ -212,12 +219,14 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
         <HomeV2Testimonials />
 
         {/*
-          Pricing hash expands rootMargin so the section mounts in place.
-          Do not swap the wrapper — remounting is why click missed and refresh hit.
+          F9: product pricing is retired from the public Homepage V3 surface.
+          V2 layout (preserved in-repo, not publicly routed) may still preview pricing.
         */}
-        <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
-          <HomeV2PricingPreview />
-        </DeferredMount>
+        {!isV3 ? (
+          <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+            <HomeV2PricingPreview />
+          </DeferredMount>
+        ) : null}
 
         <DeferredMount rootMargin="0px" minHeight="14rem">
           <HomeV2Faq />
