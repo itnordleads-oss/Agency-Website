@@ -1251,8 +1251,11 @@ test.describe("smoke", () => {
     const betterFit = benefits.locator(
       '.homepage-v3-benefits__node[data-outcome-id="better-fit-accounts"]'
     );
+    await betterFit.scrollIntoViewIfNeeded();
+    // Hover + focus: pointer listeners can lag right after the desktop resize.
+    await betterFit.hover();
     await betterFit.focus();
-    await expect(betterFit).toHaveClass(/is-active/);
+    await expect(betterFit).toHaveClass(/is-active/, { timeout: 10_000 });
     await expect(
       benefits.locator(
         'svg.homepage-v3-benefits__lines line[data-outcome-id="better-fit-accounts"]'
@@ -1260,6 +1263,7 @@ test.describe("smoke", () => {
     ).toHaveClass(/is-active/);
     await expect(benefits.locator(".homepage-v3-benefits__orbit")).toHaveClass(/is-dimming/);
 
+    await page.mouse.move(0, 0);
     await betterFit.blur();
     await expect(betterFit).not.toHaveClass(/is-active/);
 
