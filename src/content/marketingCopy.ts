@@ -5,12 +5,12 @@
  */
 export const marketingCopy = {
   seo: {
-    title: "ADealForge | Managed B2B Outbound Services for Qualified Pipeline Growth",
+    title: "Home",
     description:
-      "ADealForge runs managed B2B outbound programs that combine ICP targeting, account research, and personalized email outreach to help sales teams generate qualified pipeline.",
+      "Tell us about your project. We will review what you share and follow up with a clear next step.",
     organizationDescription:
-      "ADealForge is a managed B2B outbound partner that helps revenue teams target ideal accounts, launch personalized outreach, and book more qualified sales meetings.",
-    websiteDescription: "Managed B2B outbound prospecting and personalized email outreach service.",
+      "A professional team helping clients plan and deliver digital projects. Brand details remain subject to leadership approval.",
+    websiteDescription: "Agency website for project inquiries and delivery conversations.",
   },
 
   hero: {
@@ -114,7 +114,7 @@ export const marketingCopy = {
     subtitle:
       "Follow one target account from initial qualification to send-ready outreach and see what your team gets at each stage.",
     consoleTitle: "Deal Intelligence Console",
-    workspaceName: "ADealForge Workspace",
+    workspaceName: "Workspace preview",
     workspaceNote: "Managed by our team",
     cta: "Book a Pilot Strategy Call",
     sampleAccountLabel: "Sample account",
@@ -406,7 +406,7 @@ export const marketingCopy = {
   },
 
   finalCta: {
-    eyebrow: "ADealForge Managed Outbound",
+    eyebrow: "Project conversations",
     title: "Turn your target market into consistent qualified conversations.",
     subtitle:
       "Start with a focused pilot. We handle research, personalization, and campaign execution so your team gets meetings worth their time.",

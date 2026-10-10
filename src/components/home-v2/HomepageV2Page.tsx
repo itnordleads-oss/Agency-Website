@@ -22,7 +22,11 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
-import { getBrandAriaLabel, getSeoDescription, getSeoTitle } from "../../lib/studioBranding";
+
+const V2_TITLE = "Home";
+const V3_TITLE = "Home";
+const V3_DESCRIPTION =
+  "Tell us about your project. We will review what you share and follow up with a clear next step.";
 
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
@@ -33,13 +37,12 @@ function useHomepageMetadata(variant: HomepageVariant) {
     const previousTitle = document.title;
     const descriptionTag = document.querySelector('meta[name="description"]');
     const previousDescription = descriptionTag?.getAttribute("content") ?? null;
-    const brandLabel = getBrandAriaLabel();
 
     if (variant === "v3") {
-      document.title = getSeoTitle();
-      descriptionTag?.setAttribute("content", getSeoDescription());
+      document.title = V3_TITLE;
+      descriptionTag?.setAttribute("content", V3_DESCRIPTION);
     } else {
-      document.title = `${brandLabel} | Homepage V2`;
+      document.title = V2_TITLE;
     }
 
     // Keep hash targets (e.g. /#process) — do not wipe the pending section scroll.
