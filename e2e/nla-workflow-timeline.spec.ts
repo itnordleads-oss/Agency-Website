@@ -107,7 +107,8 @@ async function readFillScales(page: Page) {
   });
 }
 
-test.describe("hero workflow master timeline", () => {
+// F4 agency homepage uses HomeAgencyHeroPanel — product `.nla` timeline is no longer mounted.
+test.describe.skip("hero workflow master timeline", () => {
   test("segments sync to icons and clear instantly across three cycles", async ({ page }) => {
     test.setTimeout(90_000);
     await openHeroWorkflow(page);
@@ -225,7 +226,7 @@ test.describe("hero workflow master timeline", () => {
   });
 });
 
-test.describe("hero workflow stage 3 contacts", () => {
+test.describe.skip("hero workflow stage 3 contacts", () => {
   test("four contacts settle to three centered with equal spacing", async ({ page }) => {
     for (const width of [375, 1440]) {
       await page.setViewportSize({ width, height: width === 375 ? 812 : 900 });

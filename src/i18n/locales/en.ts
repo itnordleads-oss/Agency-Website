@@ -1170,361 +1170,207 @@ const en = {
   },
   homepageV3: {
     hero: {
-      eyebrow: "Outbound sales automation",
-      headline: "More meetings. Less sales email work.",
+      eyebrow: "Software development agency",
+      headline: "Build clear digital products with a focused delivery partner.",
       subheadline:
-        "ADealForge finds qualified companies, prepares personalized first emails, and keeps outbound sales campaigns moving—so your sales team can focus on conversations.",
-      primaryCta: "Let's Talk",
+        "We help growing teams plan, build, and launch custom software and modern web experiences—with practical engineering and clear communication.",
+      primaryCta: "Get in Touch",
       secondaryCta: "See How We Work",
-      previewBadge: "Outbound sales view",
-      previewTitle: "Campaign progress",
+      previewBadge: "Delivery overview",
+      previewTitle: "How we deliver",
       previewRows: [
-        { label: "Matching companies", value: "1,240" },
-        { label: "Checked contacts", value: "880" },
-        { label: "Ready to send", value: "70%" },
-        { label: "Status", value: "Sending" },
+        { label: "Understand", value: "Scope" },
+        { label: "Plan", value: "Approach" },
+        { label: "Build", value: "Delivery" },
+        { label: "Review", value: "Feedback" },
       ],
     },
-    trust: {
-      title: "Built for outbound teams across industries",
-      metrics: [
-        { stat: "100k+", label: "Companies reached in outbound programs" },
-        { stat: "Full service", label: "Research to outreach handled for you" },
-        { stat: "Sales ready", label: "Clean handoff for your sellers" },
+    services: {
+      eyebrow: "Services",
+      title: "Practical delivery for product and engineering needs",
+      subtitle:
+        "Explore how we can help with software development and digital product work. The full services overview lives on our Services page.",
+      cta: "View services",
+    },
+    value: {
+      eyebrow: "Why work with us",
+      title: "Delivery qualities you can count on",
+      subtitle:
+        "We keep collaboration straightforward and engineering decisions grounded in what the product needs next.",
+      items: [
+        {
+          title: "Clear communication",
+          description: "Plain status updates, shared priorities, and decisions you can follow.",
+        },
+        {
+          title: "Practical engineering",
+          description: "Solutions sized to the problem—not overbuilt stacks for their own sake.",
+        },
+        {
+          title: "Modern frontend and backend",
+          description: "Contemporary web and application development for real product workflows.",
+        },
+        {
+          title: "Structured delivery",
+          description: "A simple process from understanding needs through review and launch.",
+        },
       ],
-      logoLabels: ["B2B SaaS", "Services", "Industrial", "Staffing", "Logistics"],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    aboutPreview: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle: "Learn more about how we approach software projects and client collaboration.",
+      cta: "About us",
+    },
+    // Retained for unmounted legacy V3 product components / type compatibility.
+    // Not rendered on the production agency homepage (F4).
+    trust: {
+      title: "",
+      metrics: [] as Array<{ stat: string; label: string }>,
+      logoLabels: [] as string[],
     },
     product: {
-      eyebrow: "Platform",
-      title: "See your outreach in one place",
-      subtitle:
-        "A live view of companies moving from research to ready-to-send—so your team always knows what is happening.",
-      highlights: [
-        {
-          title: "Find right companies",
-          description: "Target accounts that match your market before outreach starts.",
-        },
-        {
-          title: "Prepare clear first emails",
-          description: "Use real company context so messages feel relevant, not generic.",
-        },
-        {
-          title: "Hand off sales-ready work",
-          description: "Give your team clean lists and messaging instead of messy spreadsheets.",
-        },
-      ],
-      panelBadge: "Live campaign",
-      panelTitle: "Companies being checked",
-      accounts: [
-        { company: "Nordic Build Partners", fit: "Strong", stage: "Sending" },
-        { company: "Vertex Logistics EU", fit: "Good fit", stage: "Research" },
-        { company: "Facet Facilities", fit: "Good fit", stage: "Ready" },
-        { company: "BuildSpan Group", fit: "Strong", stage: "Sending" },
-      ],
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      highlights: [] as Array<{ title: string; description: string }>,
+      panelBadge: "",
+      panelTitle: "",
+      accounts: [] as Array<{ company: string; fit: string; stage: string }>,
     },
     features: {
-      eyebrow: "What you get",
-      title: "Everything you need for outbound sales",
-      items: [
-        {
-          title: "Prospect Research",
-          description: "Build focused lists of companies that fit your ideal buyer profile.",
-        },
-        {
-          title: "Sales Intelligence Software",
-          description: "See the company details that help sales teams write better first emails.",
-        },
-        {
-          title: "Cold Email Personalization",
-          description: "Send clear first messages based on real research—not copy-paste templates.",
-        },
-        {
-          title: "Outbound Sales Automation",
-          description:
-            "Keep research, writing, and sending moving in one simple sales automation flow.",
-        },
-        {
-          title: "Revenue Intelligence",
-          description: "Spot which accounts and messages create replies and qualified meetings.",
-        },
-        {
-          title: "Agentic Workflow",
-          description: "Let guided steps handle the busywork while your team focuses on closing.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{ title: string; description: string }>,
     },
     benefits: {
-      eyebrow: "Why teams choose ADealForge",
-      title: "From outreach work to sales results",
-      subtitle:
-        "Building reliable outbound internally requires research, validation, personalisation, campaign operations, and continuous quality control. ADealForge handles that work as one managed system.",
+      eyebrow: "",
+      title: "",
+      subtitle: "",
       contrast: {
-        withoutLabel: "Without ADealForge",
-        withLabel: "With ADealForge",
-        withoutPoints: [
-          "Hours spent finding and qualifying companies by hand",
-          "Contacts and first emails checked across separate tools",
-          "Research, enrichment, review, and sending split across handoffs",
-          "Sellers lose conversation time to preparation and campaign ops",
-        ],
-        withPoints: [
-          "ICP-matched shortlists arrive with account context",
-          "Validated records and account-specific first emails with human review",
-          "One visible process from research through send-ready outreach",
-          "Preparation is handled before qualified conversations reach sellers",
-        ],
+        withoutLabel: "",
+        withLabel: "",
+        withoutPoints: [] as string[],
+        withPoints: [] as string[],
       },
       labels: {
-        problem: "Problem",
-        workRequired: "Work required",
-        solution: "How ADealForge helps",
-        outcome: "Business outcome",
+        problem: "",
+        workRequired: "",
+        solution: "",
+        outcome: "",
       },
-      items: [
-        {
-          problem: "Account research eats selling hours.",
-          workRequired:
-            "Teams dig through lists, websites, and notes to decide which companies are worth contacting.",
-          solution: "We build an ICP-matched shortlist with the account context sellers need.",
-          outcome: "Your team starts from relevant accounts—not raw databases.",
-        },
-        {
-          problem: "Weak contacts and generic messaging weaken campaigns.",
-          workRequired:
-            "Someone has to verify records, rewrite openers, and catch quality issues before launch.",
-          solution:
-            "We validate records and prepare account-specific first emails with human quality review.",
-          outcome: "Outreach starts with cleaner data and stronger relevance.",
-        },
-        {
-          problem: "Outbound ops stretch across tools and handoffs.",
-          workRequired:
-            "Research, enrichment, review, sending, and status tracking live in different places.",
-          solution: "We run the workflow as one visible process your team can follow.",
-          outcome: "Fewer steps. Less operational fragmentation.",
-        },
-        {
-          problem: "Internal execution steals time from buyers.",
-          workRequired:
-            "Salespeople spend cycles on prep, coordination, and campaign operations instead of conversations.",
-          solution: "We handle the work before qualified conversations reach your sales team.",
-          outcome: "More capacity stays on buyers and active opportunities.",
-        },
-      ],
+      items: [] as Array<{
+        problem: string;
+        workRequired: string;
+        solution: string;
+        outcome: string;
+      }>,
     },
     results: {
-      eyebrow: "Outcomes",
-      title: "What this means for your business",
-      subtitle: "See how our managed service helps your sales team.",
-      items: [
-        {
-          stat: "Steady sales flow",
-          label: "We run outreach regularly, not as one-time campaigns.",
-        },
-        {
-          stat: "Expert help without hiring",
-          label:
-            "Our team handles the work from research to sending. No hiring or new tools needed.",
-        },
-        {
-          stat: "Quality at every size",
-          label: "Every account is researched and checked, whether you target 50 or 5,000.",
-        },
-        {
-          stat: "See every step",
-          label: "See every step from target company to booked meeting.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      items: [] as Array<{ stat: string; label: string }>,
     },
     testimonials: {
-      eyebrow: "Customer stories",
-      title: "Clearer sales outreach for your team.",
-      items: [
-        {
-          quote:
-            "Our outbound sales finally felt clear. Better lists, better emails, and more qualified meetings.",
-          name: "Elena Marquez",
-          title: "Head of Growth",
-          company: "Northline Logistics",
-          result: "More qualified meetings",
-          logoInitials: "NL",
-        },
-        {
-          quote:
-            "Sales automation saved our team hours each week and streamlined our outbound sales workflow.",
-          name: "James Okoro",
-          title: "VP of Sales",
-          company: "BuildSpan Group",
-          result: "More time selling",
-          logoInitials: "BG",
-        },
-        {
-          quote:
-            "B2B outbound sales felt easier from week one. Clear emails and support we could trust.",
-          name: "Sofia Bergström",
-          title: "Revenue Operations",
-          company: "Facet Facilities",
-          result: "Faster launch",
-          logoInitials: "FF",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{
+        quote: string;
+        name: string;
+        title: string;
+        company: string;
+        result: string;
+        logoInitials: string;
+      }>,
     },
     pricing: {
-      eyebrow: "Pricing",
-      title: "Pricing for managed outbound sales",
-      subtitle:
-        "Choose a plan that fits B2B sales teams and growing companies ready to scale outbound sales.",
-      priceSuffix: "/month",
-      yearlyBillingNote: "Billed once a year",
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      priceSuffix: "",
+      yearlyBillingNote: "",
       billingToggle: {
-        groupLabel: "Select pricing mode",
-        monthly: "Monthly",
-        yearly: "Yearly",
-        oneTimeLeads: "One-Time",
-        saveLabel: "Save 20%",
+        groupLabel: "",
+        monthly: "",
+        yearly: "",
+        oneTimeLeads: "",
+        saveLabel: "",
       },
       oneTimeLeads: {
-        priceSuffix: "one-time",
-        billingNote: "No subscription",
-        quantityLabel: "Fixed number of verified leads",
-        leadCountLabel: "{{count}} verified leads",
+        priceSuffix: "",
+        billingNote: "",
+        quantityLabel: "",
+        leadCountLabel: "",
       },
-      tiers: [
-        {
-          id: "free",
-          name: "FREE",
-          monthlyPrice: 0,
-          description: "A clear start for small sales teams testing outbound sales automation.",
-          cta: "Get Started",
-          features: [
-            "Prospect research basics",
-            "Contact details added",
-            "Email checks",
-            "5,000 contacts",
-            "Cold email software outreach",
-            "Connect to your sales tools",
-            "Simple dashboard",
-            "Basic reports",
-            "Standard support",
-          ],
-        },
-        {
-          id: "growth",
-          name: "Growth",
-          monthlyPrice: 399,
-          featured: true,
-          description: "Built for growing B2B teams that want more outbound sales volume.",
-          cta: "Let's Talk",
-          features: [
-            "Everything in Free",
-            "50,000 contacts",
-            "Cold email personalization help",
-            "Automated follow-ups",
-            "LinkedIn outreach",
-            "Smart reminders",
-            "Better revenue intelligence reports",
-            "Team access",
-            "Sales tool sync",
-            "Extra integrations",
-            "Priority support",
-          ],
-        },
-        {
-          id: "flexible",
-          name: "FLEXIBLE",
-          monthlyPrice: 0,
-          customPricing: true,
-          priceLabel: "Custom pricing",
-          description:
-            "Flexible pricing based on your lead volume, workflow requirements, and campaign goals.",
-          cta: "Contact Us",
-          features: [
-            "Everything in Growth",
-            "Tailored lead volume",
-            "Custom outbound sales setup",
-            "Workflow-aligned campaign scope",
-            "Your own support manager",
-            "Guided setup",
-            "Strong security",
-            "One login for your team",
-            "Custom connections",
-            "Guaranteed support times",
-          ],
-        },
-      ],
+      tiers: [] as Array<{
+        id: string;
+        name: string;
+        monthlyPrice: number;
+        description: string;
+        cta: string;
+        features: string[];
+        featured?: boolean;
+        customPricing?: boolean;
+        priceLabel?: string;
+      }>,
     },
     blog: {
-      eyebrow: "Insights",
-      title: "Ideas to strengthen outbound sales",
-      description:
-        "Practical tips on outbound sales automation, prospect research, and better first emails.",
-      readArticleLabel: "Read article",
-      posts: [
-        {
-          category: "Outbound sales",
-          title: "How to Build Stronger Outbound Sales Lists",
-          description:
-            "Use prospect research to choose the right companies before you start outreach.",
-          readingTime: "6 min read",
-          href: "/blog/build-a-b2b-prospect-list",
-          imageAlt: "Illustration for outbound sales list building and prospect research",
-        },
-        {
-          category: "Outbound sales automation",
-          title: "Outbound Sales Automation That Feels Personal",
-          description:
-            "See how cold email personalization and AI cold email support improve reply rates.",
-          readingTime: "5 min read",
-          href: "/blog/ai-in-b2b-outreach",
-          imageAlt: "Illustration for outbound sales automation and AI cold email",
-        },
-        {
-          category: "Sales intelligence",
-          title: "Using Sales Intelligence to Start Better Conversations",
-          description:
-            "Turn company context into clearer outbound sales conversations with less guesswork.",
-          readingTime: "7 min read",
-          href: "/blog/cold-lead-to-qualified-meeting",
-          imageAlt: "Illustration for sales intelligence software and meeting booking",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      description: "",
+      readArticleLabel: "",
+      posts: [] as Array<{
+        category: string;
+        title: string;
+        description: string;
+        readingTime: string;
+        href: string;
+        imageAlt: string;
+      }>,
     },
     faq: {
-      eyebrow: "FAQ",
-      title: "Common questions",
-      items: [
-        {
-          q: "What happens after I contact you?",
-          a: "We learn about your outbound sales goals and explain how we can help.",
-        },
-        {
-          q: "How soon can we start?",
-          a: "Most teams start after a short intro call to confirm your market and message. Then we can move from research to sending without a long setup.",
-        },
-        {
-          q: "Do we need a large sales team?",
-          a: "No. Small and growing B2B teams use ADealForge. You stay focused on selling. We handle the research and email work.",
-        },
-        {
-          q: "What industries work best?",
-          a: "We work with B2B teams in SaaS, services, industrial, staffing, logistics, and similar markets.",
-        },
-        {
-          q: "Do we stay in control of messaging and targeting?",
-          a: "Yes. You decide who we contact and what the message should say. We handle the research, prep, and sending. Your team stays focused on conversations.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{ q: string; a: string }>,
     },
     finalCta: {
-      title: "Tell us what you need",
-      subtitle: "Tell us what you need. We'll explain how we can help.",
-      primaryCta: "Start the Conversation",
-      footnote: ["Talk to our team", ""],
+      title: "Ready to start a project?",
+      subtitle: "Tell us what you need. We will explain how we can help.",
+      primaryCta: "Contact Us",
+      footnote: ["Real conversation", "No obligation"],
     },
     conversationPrompt: {
-      title: "Let's Start a Conversation",
-      subtitle: "No pressure. No obligation. Just a friendly conversation.",
-      primaryCta: "Start Here",
+      title: "Have a project in mind?",
+      subtitle: "Share a short note about what you need. We will follow up.",
+      primaryCta: "Get in Touch",
       dismissCta: "Keep Browsing",
       closeLabel: "Dismiss conversation card",
     },
