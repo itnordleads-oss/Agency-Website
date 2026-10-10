@@ -23,7 +23,7 @@ import {
   resolveHomepageSectionId,
   scrollToHomepageSection,
 } from "./lib/homepageSections";
-import { getStudioNavHref } from "./lib/studioNavigation";
+import { getStudioNavHref, IS_WORK_NAV_PUBLISHED } from "./lib/studioNavigation";
 
 /**
  * Legacy preview URLs — redirected to production `/` (Homepage V3).
@@ -41,10 +41,18 @@ function isLegacyHomepagePath(pathname: string) {
   return LEGACY_HOMEPAGE_PATHS.has(normalizePath(pathname));
 }
 
-/** Resolve the public path, rewriting retired homepage URLs to `/`. */
+/** Unpublished Work must not silently render the homepage under `/work`. */
+function isUnpublishedWorkPath(pathname: string) {
+  return normalizePath(pathname) === "/work" && !IS_WORK_NAV_PUBLISHED;
+}
+
+/** Resolve the public path, rewriting retired/unpublished URLs to `/`. */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
-  return isLegacyHomepagePath(path) ? "/" : path;
+  if (isLegacyHomepagePath(path) || isUnpublishedWorkPath(path)) {
+    return "/";
+  }
+  return path;
 }
 
 /**
@@ -210,7 +218,7 @@ function getInitialPublicPath() {
   }
 
   const path = normalizePath(window.location.pathname);
-  if (isLegacyHomepagePath(path)) {
+  if (isLegacyHomepagePath(path) || isUnpublishedWorkPath(path)) {
     window.history.replaceState({}, "", "/");
     return "/";
   }
@@ -230,7 +238,7 @@ export default function App() {
   useEffect(() => {
     const onPopState = () => {
       const next = normalizePath(window.location.pathname);
-      if (isLegacyHomepagePath(next)) {
+      if (isLegacyHomepagePath(next) || isUnpublishedWorkPath(next)) {
         replaceAppPath("/");
         setPath("/");
         return;
@@ -243,57 +251,62 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#0C111B] text-white selection:bg-brand/35 selection:text-white font-sans w-full max-w-[100vw] min-w-0 touch-fast app-root">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <PageBackground />
 
       <div className="relative z-10 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
         <Navbar />
 
-        {isTermsPage ? (
-          <TermsPage />
-        ) : isContactPage ? (
-          <>
-            <ContactPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isServicesPage ? (
-          <>
-            <ServicesPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isAboutPage ? (
-          <>
-            <AboutPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isPlatformPage ? (
-          <>
-            <PlatformPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isWorkflowPage ? (
-          <>
-            <WorkflowPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : (
-          <>
-            {/* Production homepage — Homepage V3 only. V1/V2 remain preserved in-repo. */}
-            <HomepageV3Page />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        )}
+        <div id="main-content" tabIndex={-1} className="flex flex-col flex-1 min-w-0 outline-none">
+          {isTermsPage ? (
+            <TermsPage />
+          ) : isContactPage ? (
+            <>
+              <ContactPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isServicesPage ? (
+            <>
+              <ServicesPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isAboutPage ? (
+            <>
+              <AboutPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isPlatformPage ? (
+            <>
+              <PlatformPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isWorkflowPage ? (
+            <>
+              <WorkflowPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : (
+            <>
+              {/* Production homepage — Homepage V3 only. V1/V2 remain preserved in-repo. */}
+              <HomepageV3Page />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          )}
+        </div>
 
         {!isTermsPage ? <FloatingEmailButton /> : null}
         <FloatingScheduleMeeting />

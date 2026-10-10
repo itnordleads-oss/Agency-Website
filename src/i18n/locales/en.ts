@@ -1254,13 +1254,14 @@ const en = {
       ],
     },
     benefits: {
-      eyebrow: "Why teams choose ADealForge",
+      // F13: use layout brand fallback until F10 replaces product copy.
+      eyebrow: "Why teams choose Agency",
       title: "From outreach work to sales results",
       subtitle:
-        "Building reliable outbound internally requires research, validation, personalisation, campaign operations, and continuous quality control. ADealForge handles that work as one managed system.",
+        "Building reliable outbound internally requires research, validation, personalisation, campaign operations, and continuous quality control. Agency handles that work as one managed system.",
       contrast: {
-        withoutLabel: "Without ADealForge",
-        withLabel: "With ADealForge",
+        withoutLabel: "Without Agency",
+        withLabel: "With Agency",
         withoutPoints: [
           "Hours spent finding and qualifying companies by hand",
           "Contacts and first emails checked across separate tools",
@@ -1277,7 +1278,7 @@ const en = {
       labels: {
         problem: "Problem",
         workRequired: "Work required",
-        solution: "How ADealForge helps",
+        solution: "How Agency helps",
         outcome: "Business outcome",
       },
       items: [

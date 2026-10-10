@@ -9,22 +9,31 @@ import PlatformCapabilities from "./PlatformCapabilities";
 import FinalCTA from "./FinalCTA";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { navigateToContact } from "../App";
+import { getBrandAriaLabel } from "../lib/studioBranding";
 import "./platformPage.css";
 
-function usePlatformPageMetadata(documentTitle: string) {
+/** Product surface — noindex until F9 retirement redirects land. */
+function usePlatformPageMetadata() {
   useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
 
     const previousTitle = document.title;
-    document.title = documentTitle;
+    const robots = document.querySelector('meta[name="robots"]');
+    const previousRobots = robots?.getAttribute("content") ?? null;
+
+    document.title = `Platform — ${getBrandAriaLabel()}`;
+    robots?.setAttribute("content", "noindex, nofollow");
     window.scrollTo({ top: 0, behavior: "auto" });
 
     return () => {
       document.title = previousTitle;
+      if (previousRobots) {
+        robots?.setAttribute("content", previousRobots);
+      }
     };
-  }, [documentTitle]);
+  }, []);
 }
 
 function PlatformUnderConstructionIllustration({ ariaLabel }: { ariaLabel: string }) {
@@ -124,7 +133,7 @@ function PlatformUnderConstructionIllustration({ ariaLabel }: { ariaLabel: strin
  */
 export default function PlatformPage() {
   const { platformPage, common } = useSiteCopy();
-  usePlatformPageMetadata(platformPage.documentTitle || "ADealForge | Platform");
+  usePlatformPageMetadata();
 
   return (
     <main className="flex-grow overflow-x-hidden min-w-0" id="platform-page">

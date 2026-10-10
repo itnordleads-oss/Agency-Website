@@ -427,7 +427,7 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
                   title={contactPageCopy.socialTitle ?? "Connect with us"}
                   subtitle={
                     contactPageCopy.socialSubtitle ??
-                    "Follow ADealForge for product updates, outbound insights, and company news."
+                    "Follow the agency for updates and company news."
                   }
                 />
               ) : null}

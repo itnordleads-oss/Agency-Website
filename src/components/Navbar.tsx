@@ -22,7 +22,7 @@ import {
 import { navigateAppPath, navigateToContact, resolvePublicPath } from "../App";
 
 export default function Navbar() {
-  const { t, nav, homepageV3 } = useSiteCopy();
+  const { nav, homepageV3 } = useSiteCopy();
   const { i18n } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [path, setPath] = useState(() =>
@@ -184,7 +184,7 @@ export default function Navbar() {
             className="md:hidden border-b border-white/10 bg-[#0C111B]/95 backdrop-blur-2xl overflow-hidden"
             role="dialog"
             aria-modal="true"
-            aria-label={t("nav.toggleMenuLabel")}
+            aria-label="Main menu"
           >
             <div className="px-3 min-[341px]:px-4 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-4 min-[341px]:gap-5">
               {menuItems.map((item) => {

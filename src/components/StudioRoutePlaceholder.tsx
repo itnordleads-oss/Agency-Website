@@ -5,7 +5,7 @@ import { getBrandAriaLabel } from "../lib/studioBranding";
 type StudioRoutePlaceholderProps = {
   title: string;
   routePath: string;
-  /** Internal ownership note — not marketing copy. */
+  /** Internal ownership note — not shown in the public UI (F13). */
   ownershipNote: string;
 };
 
@@ -16,7 +16,7 @@ type StudioRoutePlaceholderProps = {
 export default function StudioRoutePlaceholder({
   title,
   routePath,
-  ownershipNote,
+  ownershipNote: _ownershipNote,
 }: StudioRoutePlaceholderProps) {
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -27,7 +27,7 @@ export default function StudioRoutePlaceholder({
     const robots = document.querySelector('meta[name="robots"]');
     const previousRobots = robots?.getAttribute("content") ?? null;
 
-    document.title = `${title} | ${getBrandAriaLabel()}`;
+    document.title = `${title} — ${getBrandAriaLabel()}`;
     robots?.setAttribute("content", "noindex, nofollow");
     window.scrollTo({ top: 0, behavior: "auto" });
 
@@ -47,20 +47,15 @@ export default function StudioRoutePlaceholder({
     >
       <section className="max-w-3xl mx-auto px-3 min-[341px]:px-4 sm:px-6 py-14 sm:py-20">
         <BackToHomepage label="Back to homepage" />
-        <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-white/45">
-          Temporary route shell
-        </p>
         <h1
           id="studio-route-placeholder-title"
-          className="mt-3 text-3xl sm:text-4xl font-semibold tracking-tight text-white"
+          className="mt-8 text-3xl sm:text-4xl font-semibold tracking-tight text-white"
         >
           {title}
         </h1>
         <p className="mt-4 text-base leading-relaxed text-white/70">
-          This page route is reserved for the Development Studio site. Final page content is not
-          published here yet.
+          This page is not published yet. Final content will appear here when it is approved.
         </p>
-        <p className="mt-3 text-sm leading-relaxed text-white/50">{ownershipNote}</p>
       </section>
     </main>
   );

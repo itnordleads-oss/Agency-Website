@@ -31,6 +31,39 @@
   --focus-ring-glow: color-mix(in srgb, var(--color-brand) 20%, transparent);
 }
 
+/* F13 — skip link for keyboard users (visually hidden until focused). */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border-radius: 9999px;
+  background: #0c111b;
+  color: #fff;
+  border: 1px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--focus-ring-glow),
+    0 0 0 1px var(--focus-ring-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}
+
 /*
  * Sitewide keyboard focus — same blue border + soft glow as Contact inputs.
  * :focus removes the UA outline for mouse clicks; the ring is :focus-visible only.
