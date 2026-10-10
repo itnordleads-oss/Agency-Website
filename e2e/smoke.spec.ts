@@ -858,7 +858,7 @@ test.describe("smoke", () => {
           path: "/services",
           target: "Contact",
           href: "/contact",
-          heading: /start the conversation/i,
+          heading: /Tell us about your project/i,
         },
         {
           path: "/about",
@@ -1042,7 +1042,7 @@ test.describe("smoke", () => {
   });
 
   test.describe("contact form keyboard submit", () => {
-    const nameError = "Add your name or company.";
+    const nameError = "Add your name.";
 
     async function openContactForm(page: Page) {
       await page.goto("/contact");
@@ -1072,7 +1072,7 @@ test.describe("smoke", () => {
       await form.locator("#business-name").press("Enter");
 
       await expect(form.getByText(nameError)).toHaveCount(0);
-      await expect(form.getByText("Add the email where we should reply.")).toBeVisible();
+      await expect(form.getByText("Add the work email where we should reply.")).toBeVisible();
       expect(await submitCount(page)).toBe(1);
     });
 
@@ -1574,7 +1574,7 @@ test.describe("smoke", () => {
       });
 
       await page.addInitScript(() => {
-        window.localStorage.removeItem("adealforge:schedule-meeting-dismissed-at");
+        window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
       const routes = ["/", "/platform", "/workflow", "/contact"] as const;
@@ -1624,7 +1624,7 @@ test.describe("smoke", () => {
 
         // Auto-collapse must not persist, so the invitation returns on the next page load.
         const autoCollapseDismissedAt = await page.evaluate(() =>
-          window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+          window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
         );
         expect(autoCollapseDismissedAt).toBeNull();
       }
@@ -1638,7 +1638,7 @@ test.describe("smoke", () => {
       await expect(dismissiblePrompt).toHaveCount(0, { timeout: 5_000 });
       await expect(page.locator(".email-fab")).toHaveCount(0);
       const dismissedAt = await page.evaluate(() =>
-        window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+        window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
       );
       expect(Number(dismissedAt)).toBeGreaterThan(0);
 
