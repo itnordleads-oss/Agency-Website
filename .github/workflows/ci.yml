@@ -9,19 +9,27 @@ on:
     branches:
       - develop
       - main
+      - "feature/agency-*"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   quality:
+    name: Quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
+          # Matches existing CI/@types/node 22; no .nvmrc or package.json engines field.
           node-version: 22
           cache: npm
 
@@ -40,11 +48,34 @@ jobs:
       - name: Build
         run: npm run build
 
+  e2e:
+    name: E2E
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Playwright serves dist via vite preview; build must exist before test:ci.
+      - name: Build
+        run: npm run build
+
       - name: Install Playwright Chromium
         run: npx playwright install chromium --with-deps
 
       - name: Playwright tests
         run: npm run test:ci
+        env:
+          CI: true
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
@@ -55,6 +86,7 @@ jobs:
           retention-days: 7
 
   commitlint:
+    name: Commitlint
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
