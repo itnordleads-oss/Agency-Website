@@ -1246,8 +1246,7 @@ const en = {
     aboutPreview: {
       eyebrow: "About",
       title: "A development studio focused on useful delivery",
-      subtitle:
-        "Learn more about how we approach software projects and client collaboration.",
+      subtitle: "Learn more about how we approach software projects and client collaboration.",
       cta: "About us",
     },
     // Retained for unmounted legacy V3 product components / type compatibility.

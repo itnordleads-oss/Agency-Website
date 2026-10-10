@@ -63,7 +63,9 @@ test.describe("smoke", () => {
     await expect(page).toHaveTitle(/Agency Website/i);
     await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/digital products|delivery partner/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /digital products|delivery partner/i
+    );
   });
 
   test("homepage hides unverified trust modules and product surfaces", async ({ page }) => {
@@ -853,7 +855,12 @@ test.describe("smoke", () => {
           href: "/contact",
           heading: /start the conversation/i,
         },
-        { path: "/about", target: "Home", href: "/", heading: /digital products|delivery partner/i },
+        {
+          path: "/about",
+          target: "Home",
+          href: "/",
+          heading: /digital products|delivery partner/i,
+        },
       ] as const) {
         await page.goto(source.path);
         await acceptCookiesIfPresent(page);
@@ -930,7 +937,9 @@ test.describe("smoke", () => {
 
       await expect(page).toHaveURL(/\/$/);
       await expect(page).toHaveTitle(/Agency Website/i);
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(/digital products|delivery partner/i);
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(
+        /digital products|delivery partner/i
+      );
     }
   );
 
@@ -940,7 +949,9 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/digital products|delivery partner/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /digital products|delivery partner/i
+    );
   });
 
   test("legacy homepage v3 redirects to production home", async ({ page }) => {
@@ -949,7 +960,9 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/digital products|delivery partner/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /digital products|delivery partner/i
+    );
   });
 
   test("contact page loads", { tag: "@critical" }, async ({ page }) => {
