@@ -52,9 +52,8 @@ function createCloudflarePlugins(command: "build" | "serve"): PluginOption[] {
 
   return [
     cloudflare({
-      // Prefer the Vite-oriented SPA config. wrangler.toml remains the deploy
-      // Worker source (see scripts/verify-deploy-config.mjs).
-      configPath: "./wrangler.jsonc",
+      // F14: single Wrangler config (wrangler.toml) for Vite + deploy.
+      configPath: "./wrangler.toml",
       // Avoid an extra inspector pipe that can also EOF when workerd dies early.
       inspectorPort: false,
     }),

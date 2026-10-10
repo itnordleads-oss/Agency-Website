@@ -15,7 +15,6 @@ interface Env {
 interface ContactRequestBody {
   name?: string;
   email?: string;
-  company?: string;
   message?: string;
   website?: string;
   turnstileToken?: string;
@@ -39,7 +38,9 @@ const normalize = (value: unknown) => (typeof value === "string" ? value.trim() 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TERMS_PATHS = new Set(["/terms", "/terms/"]);
 const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
-/** F9 — retired product surfaces permanently redirect to agency destinations. */
+/** Agency studio routes — rewrite to SPA shell before assets (F3/F14). */
+const SERVICES_PATHS = new Set(["/services", "/services/"]);
+const ABOUT_PATHS = new Set(["/about", "/about/"]);
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
 const WORKFLOW_PATHS = new Set(["/workflow", "/workflow/"]);
 /** Retired homepage preview URLs — permanently redirect to production `/` (Homepage V3). */
@@ -52,12 +53,20 @@ const LEGACY_HOMEPAGE_PATHS = new Set([
   "/homepage-v3/",
 ]);
 
-function isBlogPath(pathname: string) {
-  return pathname === "/blog" || pathname === "/blog/" || pathname.startsWith("/blog/");
+function isSpaDocumentPath(pathname: string) {
+  return (
+    TERMS_PATHS.has(pathname) ||
+    CONTACT_PATHS.has(pathname) ||
+    SERVICES_PATHS.has(pathname) ||
+    ABOUT_PATHS.has(pathname) ||
+    PLATFORM_PATHS.has(pathname) ||
+    WORKFLOW_PATHS.has(pathname) ||
+    isBlogPath(pathname)
+  );
 }
 
-function isRetiredLandingPath(pathname: string) {
-  return pathname === "/landing" || pathname === "/landing/" || pathname.startsWith("/landing/");
+function isBlogPath(pathname: string) {
+  return pathname === "/blog" || pathname === "/blog/" || pathname.startsWith("/blog/");
 }
 
 function rewriteRequestPath(request: Request, pathname: string) {
@@ -66,15 +75,10 @@ function rewriteRequestPath(request: Request, pathname: string) {
   return new Request(url.toString(), request);
 }
 
-function redirectToPath(request: Request, pathname: string) {
-  const url = new URL(request.url);
-  url.pathname = pathname;
-  url.hash = "";
-  return Response.redirect(url.toString(), 301);
-}
-
 function redirectToProductionHome(request: Request) {
-  return redirectToPath(request, "/");
+  const url = new URL(request.url);
+  url.pathname = "/";
+  return Response.redirect(url.toString(), 301);
 }
 
 async function verifyTurnstile(token: string, secret: string, ipAddress: string | null) {
@@ -102,7 +106,7 @@ async function verifyTurnstile(token: string, secret: string, ipAddress: string 
 
 async function saveLead(
   env: Env,
-  payload: { name: string; email: string; company: string; message: string },
+  payload: { name: string; email: string; message: string },
   request: Request
 ) {
   const submittedAt = new Date().toISOString();
@@ -117,7 +121,6 @@ async function saveLead(
       submittedAt,
       name: payload.name,
       email: payload.email,
-      company: payload.company || undefined,
       message: payload.message,
       host: url.host,
       pathname: url.pathname,
@@ -144,7 +147,6 @@ async function handleContactSubmit(request: Request, env: Env) {
 
   const name = normalize(payload.name);
   const email = normalize(payload.email);
-  const company = normalize(payload.company);
   const message = normalize(payload.message);
   const turnstileToken = normalize(payload.turnstileToken);
 
@@ -152,12 +154,12 @@ async function handleContactSubmit(request: Request, env: Env) {
     return json({ error: "Missing required fields." }, 400);
   }
 
-  if (name.length > 120 || email.length > 320 || company.length > 160 || message.length > 4000) {
+  if (name.length > 120 || email.length > 320 || message.length > 4000) {
     return json({ error: "Submitted data is too long." }, 400);
   }
 
   if (!emailPattern.test(email)) {
-    return json({ error: "Please enter a valid work email." }, 400);
+    return json({ error: "Please enter a valid business email." }, 400);
   }
 
   if (!env.TURNSTILE_SECRET_KEY) {
@@ -175,11 +177,14 @@ async function handleContactSubmit(request: Request, env: Env) {
       return json({ error: "Captcha verification failed. Please try again." }, 400);
     }
 
-    await saveLead(env, { name, email, company, message }, request);
+    await saveLead(env, { name, email, message }, request);
     return json({ ok: true });
   } catch (error) {
     console.error("Contact form request failed", error);
-    return json({ error: "We couldn't send your message. Please try again." }, 500);
+    return json(
+      { error: "We could not store your request right now. Please try again shortly." },
+      500
+    );
   }
 }
 
@@ -195,38 +200,6 @@ export default {
       return handleContactSubmit(request, env);
     }
 
-    if (TERMS_PATHS.has(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
-    if (
-      CONTACT_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
-    if (
-      PLATFORM_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return redirectToPath(request, "/services");
-    }
-
-    if (
-      WORKFLOW_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return redirectToPath(request, "/services");
-    }
-
-    if (
-      isRetiredLandingPath(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return redirectToPath(request, "/services");
-    }
-
     if (
       LEGACY_HOMEPAGE_PATHS.has(url.pathname) &&
       (request.method === "GET" || request.method === "HEAD")
@@ -234,7 +207,13 @@ export default {
       return redirectToProductionHome(request);
     }
 
-    if (isBlogPath(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
+    // Explicit SPA shell rewrite for known document routes. Assets also use
+    // not_found_handling = "single-page-application" in wrangler.toml.
+    // Product /platform and /workflow remain SPA-served until F9 retirement redirects land.
+    if (
+      isSpaDocumentPath(url.pathname) &&
+      (request.method === "GET" || request.method === "HEAD")
+    ) {
       return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
     }
 

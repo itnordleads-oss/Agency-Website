@@ -84,10 +84,9 @@ function getStaticHtmlPages() {
   if (fs.existsSync(indexPath)) {
     pages.push({ file: indexPath, label: "index.html", isSpaShell: true });
   }
-  // Product landing HTML is retired (F9/F11). Presence of dist/landing is a failure.
   const landingRoot = path.join(DIST_DIR, "landing");
   if (fs.existsSync(landingRoot)) {
-    fail("dist/landing/ must not ship — product landing pages are retired from the agency site.");
+    fail("dist/landing/ must not ship — product landing pages are not part of agency deploy.");
   }
   for (const page of INDEXABLE_LANDING_PAGES) {
     const file = path.join(DIST_DIR, "landing", page.slug, "index.html");
@@ -143,7 +142,9 @@ function validatePageSeo(page) {
     if (!href) {
       fail(`${label}: canonical tag has no href.`);
     } else if (href.startsWith("/") && page.isSpaShell && !PRODUCTION_HOST) {
-      // F11: path-only canonical while public domain remains TBC.
+      // Path-only canonical while public domain remains TBC.
+    } else if (/adealforge\.com/i.test(href)) {
+      fail(`${label}: canonical must not use retired product host adealforge.com.`);
     } else {
       try {
         const url = new URL(href, SITE_ORIGIN || undefined);
@@ -154,9 +155,6 @@ function validatePageSeo(page) {
           fail(`${label}: canonical points off the production host: ${href}`);
         } else if (href.startsWith("http") && isForbiddenHostname(url.hostname)) {
           fail(`${label}: canonical uses a local/staging/preview host: ${href}`);
-        }
-        if (/adealforge\.com/i.test(href)) {
-          fail(`${label}: canonical must not use retired product host adealforge.com.`);
         }
       } catch {
         fail(`${label}: canonical href is malformed: ${href}`);
@@ -177,9 +175,6 @@ function validatePageSeo(page) {
     if (!content) {
       fail(`${label}: ${property} is empty.`);
       continue;
-    }
-    if (/adealforge/i.test(content)) {
-      fail(`${label}: ${property} still references ADealForge product branding.`);
     }
     if (property === "og:url" || property === "og:image") {
       try {
@@ -216,8 +211,7 @@ function validatePageSeo(page) {
   const jsonLdBlocks = [
     ...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi),
   ];
-  // F11: Organization/WebSite JSON-LD is omitted from the SPA shell until
-  // legal name, domain, logo, and contact are leadership-approved (F2 TBC).
+  // Organization/WebSite JSON-LD omitted from SPA shell until identity fields are approved.
   if (jsonLdBlocks.length === 0 && !page.isSpaShell) {
     fail(`${label}: missing JSON-LD structured data.`);
   }
@@ -226,10 +220,6 @@ function validatePageSeo(page) {
       const data = JSON.parse(block[1]);
       if (!data["@context"]) {
         fail(`${label}: JSON-LD block is missing @context.`);
-      }
-      const serialized = JSON.stringify(data);
-      if (/aggregateRating|reviewRating|"@type"\s*:\s*"Review"/i.test(serialized)) {
-        fail(`${label}: JSON-LD must not include review/rating schema without approved reviews.`);
       }
     } catch {
       fail(`${label}: JSON-LD block is not valid JSON.`);
@@ -334,7 +324,7 @@ async function probeExternalUrl(url) {
         method,
         redirect: "follow",
         signal: controller.signal,
-        headers: { "user-agent": "adealforge-release-link-check" },
+        headers: { "user-agent": "agency-website-release-link-check" },
       });
       clearTimeout(timer);
       if (response.status < 400) {

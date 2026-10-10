@@ -1,9 +1,12 @@
 /**
- * F11 — resolve the public site origin for sitemap/robots generation.
+ * F14 — resolve the public site origin for sitemap/robots and release checks.
  *
- * Never defaults to adealforge.com or any other guessed production domain.
- * Approved domain is injected at deploy/build via env (same family as VITE_STUDIO_DOMAIN).
+ * Never defaults to adealforge.com or any guessed production domain.
+ * Set SITE_ORIGIN, PUBLIC_SITE_ORIGIN, or VITE_STUDIO_DOMAIN at build/deploy time.
  */
+
+/** Retired product host — must not be used as the Agency Website origin. */
+export const RETIRED_PRODUCT_HOST = "adealforge.com";
 
 /**
  * @returns {string | null} Absolute origin such as `https://example.com`, or null when TBC.
@@ -34,14 +37,18 @@ export function resolveSiteOrigin() {
       if (url.protocol !== "http:" && url.protocol !== "https:") {
         continue;
       }
-      return `${url.protocol}//${url.host}`;
-    } catch {
+      const origin = `${url.protocol}//${url.host}`;
+      if (url.hostname.replace(/^www\./i, "").toLowerCase() === RETIRED_PRODUCT_HOST) {
+        throw new Error(`SITE_ORIGIN must not be ${RETIRED_PRODUCT_HOST} for the Agency Website.`);
+      }
+      return origin;
+    } catch (error) {
+      if (error instanceof Error && error.message.includes(RETIRED_PRODUCT_HOST)) {
+        throw error;
+      }
       continue;
     }
   }
 
   return null;
 }
-
-/** Retired product host — must not appear in agency sitemap/robots artifacts. */
-export const RETIRED_PRODUCT_HOST = "adealforge.com";

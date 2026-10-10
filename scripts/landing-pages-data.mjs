@@ -248,11 +248,10 @@ export const landingPages = [
 /**
  * Public site origin for release/smoke tooling.
  * Null when leadership-approved domain is TBC — never defaults to adealforge.com.
- * Set SITE_ORIGIN, PUBLIC_SITE_ORIGIN, or VITE_STUDIO_DOMAIN at build/deploy time.
  */
 export const SITE_ORIGIN = resolveSiteOrigin();
 export const CONTACT_PATH = "/contact";
 export const HOME_PATH = "/";
 export const TERMS_PATH = "/terms";
-/** Product landings are retired from the indexable agency surface (F9/F11). */
+/** Product landings are not part of the Agency Website deploy surface. */
 export const INDEXABLE_LANDING_PAGES = [];

@@ -1,12 +1,12 @@
 /**
- * F11 — agency sitemap + robots static SEO artifacts.
+ * F14 — agency sitemap + robots static artifacts (post-build).
  *
- * Product landing HTML generation is retired (F9). This script only refreshes
- * sitemap.xml and robots.txt for indexable agency routes.
+ * Product landing HTML generation is not part of Agency-Website deployment prep.
+ * This script refreshes sitemap.xml and robots.txt for indexable agency routes.
  *
  * Canonical host: SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN.
- * When unset, sitemap omits absolute <loc> entries (domain blocker) and robots
- * omits the Sitemap: line — never hardcodes adealforge.com.
+ * When unset, absolute <loc> / Sitemap URLs are omitted (domain blocker).
+ * Never writes adealforge.com.
  *
  * Run after Vite build: npm run build
  * Standalone: npm run generate:landing
@@ -51,7 +51,7 @@ function buildSitemapXml(siteOrigin) {
     return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!--
-    F11: SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN is not configured.
+    SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN is not configured.
     Absolute loc entries are omitted until a leadership-approved public domain
     is provided. Do not default to any retired product host.
     Indexable agency paths (for when origin is set): ${AGENCY_SITEMAP_ROUTES.map((r) => r.path).join(", ")}
@@ -81,8 +81,7 @@ function buildRobotsTxt(siteOrigin) {
   const lines = ["User-agent: *", "Allow: /", ""];
 
   if (siteOrigin) {
-    lines.push(`Sitemap: ${siteOrigin}/sitemap.xml`);
-    lines.push("");
+    lines.push(`Sitemap: ${siteOrigin}/sitemap.xml`, "");
   } else {
     lines.push(
       `# Sitemap absolute URL is written at build time when SITE_ORIGIN,`,
@@ -108,10 +107,6 @@ function writeArtifacts() {
   ensureDir(PUBLIC_DIR);
 
   const siteOrigin = resolveSiteOrigin();
-  if (siteOrigin && new RegExp(RETIRED_PRODUCT_HOST.replace(/\./g, "\\."), "i").test(siteOrigin)) {
-    throw new Error(`SITE_ORIGIN must not be ${RETIRED_PRODUCT_HOST} for the Agency Website.`);
-  }
-
   const sitemap = buildSitemapXml(siteOrigin);
   const robots = buildRobotsTxt(siteOrigin);
 
@@ -129,7 +124,7 @@ function writeArtifacts() {
 function main() {
   removeRetiredLandingOutput();
   const siteOrigin = writeArtifacts();
-  console.log("F11: skipped product landing page generation (retired).");
+  console.log("Skipped product landing page generation (not part of agency deploy).");
   if (siteOrigin) {
     console.log(`Updated agency sitemap.xml + robots.txt for origin ${siteOrigin}`);
   } else {

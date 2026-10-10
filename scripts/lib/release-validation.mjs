@@ -21,7 +21,7 @@ export function isForbiddenHostname(hostname) {
   );
 }
 
-/** Product surfaces retired from indexing (F9/F11) — still may exist in App.tsx until redirects land. */
+/** Product surfaces excluded from agency sitemap until F9 redirects remove them. */
 export const SITEMAP_EXCLUDED_SPA_ROUTES = new Set(["/platform", "/workflow"]);
 
 /** SPA routes are derived from App.tsx page guards so a routing refactor fails loudly. */
@@ -39,7 +39,7 @@ export function getExpectedSpaRoutes(rootDir) {
   return routes;
 }
 
-/** Indexable agency SPA routes for sitemap expectations (excludes retired product paths). */
+/** Indexable agency SPA routes for sitemap expectations. */
 export function getIndexableSpaRoutes(rootDir) {
   const routes = getExpectedSpaRoutes(rootDir);
   for (const excluded of SITEMAP_EXCLUDED_SPA_ROUTES) {
@@ -49,9 +49,7 @@ export function getIndexableSpaRoutes(rootDir) {
 }
 
 /**
- * Expected sitemap URLs for the agency surface.
- * When `siteOrigin` is null (domain TBC), returns an empty set — absolute locs must be omitted.
- * Product landings are not indexable; pass `landingPages` only if intentionally re-enabled.
+ * Expected sitemap URLs. When `siteOrigin` is null (domain TBC), returns empty set.
  */
 export function getExpectedSitemapUrls(spaRoutes, siteOrigin, landingPages = []) {
   const expected = new Set();

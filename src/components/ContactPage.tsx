@@ -12,6 +12,11 @@ import { applyPageMetadata } from "../lib/pageMetadata";
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
 const TURNSTILE_SCRIPT_SRC =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+/**
+ * Fallback public site key only when VITE_TURNSTILE_SITE_KEY is unset.
+ * Production must set an Agency-specific Turnstile site key via env.
+ * Do not treat this as an approved long-term Agency production key.
+ */
 const DEFAULT_TURNSTILE_SITE_KEY = "0x4AAAAAADdxXGLk61QWaDnx";
 /** Cloudflare dummy site key (always passes). Used on local preview hosts that are not allowlisted. */
 const TURNSTILE_ALWAYS_PASS_SITE_KEY = "1x00000000000000000000AA";
@@ -25,6 +30,7 @@ function isLocalPreviewHost(hostname: string): boolean {
 /**
  * Production Turnstile keys 400 on unlisted hosts (e.g. Playwright vite preview on 127.0.0.1).
  * Prefer Cloudflare's always-pass dummy key for those local hosts only.
+ * Secret validation uses TURNSTILE_SECRET_KEY on the Worker — never a VITE_* value.
  */
 function resolveTurnstileSiteKey(): string {
   const configured = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim() || DEFAULT_TURNSTILE_SITE_KEY;

@@ -23,6 +23,18 @@ const SPA_ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
 const GA_HOST_PATTERN = /googletagmanager\.com|google-analytics\.com/i;
 const CONSOLE_NOISE_PATTERN = /googletagmanager|google-analytics|doubleclick|facebook|linkedin/i;
 
+function configuredProductionHostname(): string {
+  const base = process.env.PRODUCTION_BASE_URL?.trim();
+  if (!base) {
+    throw new Error("PRODUCTION_BASE_URL is required for production-smoke browser checks.");
+  }
+  return new URL(base).hostname;
+}
+
+function isSameOriginHost(host: string, productionHost: string): boolean {
+  return host === productionHost || host.endsWith(`.${productionHost}`);
+}
+
 interface RouteResult {
   route: string;
   status: number;
@@ -72,21 +84,20 @@ async function checkRoute(
       consoleErrors.push(message.text());
     }
   });
+  const productionHost = configuredProductionHostname();
+
   page.on("requestfailed", (request) => {
     const host = new URL(request.url()).hostname;
-    if (host === "adealforge.com" || host.endsWith(".adealforge.com")) {
+    if (isSameOriginHost(host, productionHost)) {
       sameOriginFailures.push(`${request.url()} — ${request.failure()?.errorText ?? "failed"}`);
     } else {
       thirdPartyFailures.push(request.url());
     }
   });
-  page.on("response", (response) => {
-    const host = new URL(response.url()).hostname;
-    if (
-      (host === "adealforge.com" || host.endsWith(".adealforge.com")) &&
-      response.status() >= 400
-    ) {
-      sameOriginFailures.push(`${response.url()} — HTTP ${response.status()}`);
+  page.on("response", (responseEvent) => {
+    const host = new URL(responseEvent.url()).hostname;
+    if (isSameOriginHost(host, productionHost) && responseEvent.status() >= 400) {
+      sameOriginFailures.push(`${responseEvent.url()} — HTTP ${responseEvent.status()}`);
     }
   });
 
@@ -124,11 +135,19 @@ async function checkRoute(
   }
   if (!head.canonical) {
     failures.push(`${route}: canonical missing.`);
+  } else if (head.canonical.startsWith("/")) {
+    // Path-only canonical is acceptable while SITE_ORIGIN remains TBC.
+    if (head.canonical !== route) {
+      failures.push(`${route}: path-only canonical is not self-referencing: ${head.canonical}`);
+    }
   } else {
     try {
       const canonical = new URL(head.canonical);
-      if (canonical.protocol !== "https:" || canonical.hostname !== "adealforge.com") {
+      if (canonical.protocol !== "https:" || canonical.hostname !== productionHost) {
         failures.push(`${route}: canonical is not production HTTPS: ${head.canonical}`);
+      }
+      if (/adealforge\.com$/i.test(canonical.hostname)) {
+        failures.push(`${route}: canonical uses retired product host: ${head.canonical}`);
       }
     } catch {
       failures.push(`${route}: canonical malformed: ${head.canonical}`);

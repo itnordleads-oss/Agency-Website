@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!--
-    F11: SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN is not configured.
+    SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN is not configured.
     Absolute loc entries are omitted until a leadership-approved public domain
     is provided. Do not default to any retired product host.
     Indexable agency paths (for when origin is set): /, /services, /about, /contact, /terms

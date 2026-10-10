@@ -22,6 +22,7 @@ import {
   getExpectedSitemapUrls,
   getIndexableSpaRoutes,
   isBaselineEntryExpired,
+  isForbiddenHostname,
   loadBaseline,
   validateRobotsContent,
   validateSitemapContent,
@@ -412,7 +413,13 @@ function writeStepSummary() {
 
 async function main() {
   const targetHost = new URL(BASE_URL).hostname;
-  if (targetHost !== PRODUCTION_HOST && !ALLOW_NON_PROD) {
+  if (/adealforge\.com$/i.test(targetHost) && !ALLOW_NON_PROD) {
+    console.error(
+      `Refusing to run Agency Website production smoke against retired product host "${targetHost}".`
+    );
+    process.exit(2);
+  }
+  if (isForbiddenHostname(targetHost) && !ALLOW_NON_PROD) {
     console.error(
       `Refusing to run production smoke against non-production host "${targetHost}". ` +
         "Set ALLOW_NON_PRODUCTION_TARGET=1 only for local mock-server tests."
