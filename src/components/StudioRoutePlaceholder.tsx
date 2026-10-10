@@ -1,43 +1,46 @@
 import React, { useEffect } from "react";
 import BackToHomepage from "./BackToHomepage";
-import { getBrandAriaLabel } from "../lib/studioBranding";
+import { getAgencyPageSeo, type AgencySeoPageId } from "../lib/agencyPageSeo";
+import { applyPageMetadata } from "../lib/pageMetadata";
 
 type StudioRoutePlaceholderProps = {
   title: string;
   routePath: string;
   /** Internal ownership note — not marketing copy. */
   ownershipNote: string;
+  /** Maps to agency SEO page definitions for unique title/description. */
+  seoPageId: Extract<AgencySeoPageId, "services" | "about" | "work">;
 };
 
 /**
  * Temporary accessible shell for studio routes whose final content is owned
- * by a later feature (F5 Services, F6 About). Not finished studio content.
+ * by a later feature (F5 Services, F6 About, F7 Work). Not finished studio content.
+ *
+ * F11: applies unique indexable metadata so public nav destinations are not
+ * silent homepage clones. Final marketing copy remains F5/F6/F7/F10.
  */
 export default function StudioRoutePlaceholder({
   title,
   routePath,
   ownershipNote,
+  seoPageId,
 }: StudioRoutePlaceholderProps) {
   useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
 
-    const previousTitle = document.title;
-    const robots = document.querySelector('meta[name="robots"]');
-    const previousRobots = robots?.getAttribute("content") ?? null;
-
-    document.title = `${title} | ${getBrandAriaLabel()}`;
-    robots?.setAttribute("content", "noindex, nofollow");
+    const seo = getAgencyPageSeo(seoPageId);
+    const restore = applyPageMetadata({
+      title: seo.title,
+      description: seo.description,
+      pathname: seo.pathname,
+      robots: seo.indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow",
+    });
     window.scrollTo({ top: 0, behavior: "auto" });
 
-    return () => {
-      document.title = previousTitle;
-      if (previousRobots) {
-        robots?.setAttribute("content", previousRobots);
-      }
-    };
-  }, [title]);
+    return restore;
+  }, [seoPageId]);
 
   return (
     <main

@@ -9,22 +9,27 @@ import PlatformCapabilities from "./PlatformCapabilities";
 import FinalCTA from "./FinalCTA";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { navigateToContact } from "../App";
+import { applyPageMetadata } from "../lib/pageMetadata";
+import { getSeoSiteName } from "../lib/studioBranding";
 import "./platformPage.css";
 
-function usePlatformPageMetadata(documentTitle: string) {
+/** Retired product surface — noindex until F9 redirects remove the route. */
+function usePlatformPageMetadata() {
   useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
 
-    const previousTitle = document.title;
-    document.title = documentTitle;
+    const restore = applyPageMetadata({
+      title: `Platform — ${getSeoSiteName()}`,
+      description: "This product page is retired and is not part of the agency site index.",
+      pathname: "/platform",
+      robots: "noindex, nofollow",
+    });
     window.scrollTo({ top: 0, behavior: "auto" });
 
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [documentTitle]);
+    return restore;
+  }, []);
 }
 
 function PlatformUnderConstructionIllustration({ ariaLabel }: { ariaLabel: string }) {
@@ -124,7 +129,7 @@ function PlatformUnderConstructionIllustration({ ariaLabel }: { ariaLabel: strin
  */
 export default function PlatformPage() {
   const { platformPage, common } = useSiteCopy();
-  usePlatformPageMetadata(platformPage.documentTitle || "ADealForge | Platform");
+  usePlatformPageMetadata();
 
   return (
     <main className="flex-grow overflow-x-hidden min-w-0" id="platform-page">

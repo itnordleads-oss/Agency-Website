@@ -10,6 +10,7 @@ export default function AboutPage() {
     <StudioRoutePlaceholder
       title="About"
       routePath="/about"
+      seoPageId="about"
       ownershipNote="Final About content will land via feature F6."
     />
   );

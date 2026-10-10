@@ -20,7 +20,9 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
-import { getBrandAriaLabel, getSeoDescription, getSeoTitle } from "../../lib/studioBranding";
+import { getAgencyPageSeo } from "../../lib/agencyPageSeo";
+import { applyPageMetadata } from "../../lib/pageMetadata";
+import { getBrandAriaLabel } from "../../lib/studioBranding";
 
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
@@ -28,29 +30,27 @@ function useHomepageMetadata(variant: HomepageVariant) {
       return;
     }
 
-    const previousTitle = document.title;
-    const descriptionTag = document.querySelector('meta[name="description"]');
-    const previousDescription = descriptionTag?.getAttribute("content") ?? null;
-    const brandLabel = getBrandAriaLabel();
-
-    if (variant === "v3") {
-      document.title = getSeoTitle();
-      descriptionTag?.setAttribute("content", getSeoDescription());
-    } else {
-      document.title = `${brandLabel} | Homepage V2`;
-    }
+    const home = getAgencyPageSeo("home");
+    const restore =
+      variant === "v3"
+        ? applyPageMetadata({
+            title: home.title,
+            description: home.description,
+            pathname: home.pathname,
+          })
+        : applyPageMetadata({
+            title: `${getBrandAriaLabel()} — Homepage V2`,
+            description: home.description,
+            pathname: home.pathname,
+            robots: "noindex, nofollow",
+          });
 
     // Keep hash targets (e.g. /#pricing) — do not wipe the pending section scroll.
     if (!readHomepageSectionHash()) {
       window.scrollTo({ top: 0, behavior: "auto" });
     }
 
-    return () => {
-      document.title = previousTitle;
-      if (variant === "v3" && descriptionTag && previousDescription !== null) {
-        descriptionTag.setAttribute("content", previousDescription);
-      }
-    };
+    return restore;
   }, [variant]);
 }
 

@@ -1,85 +1,32 @@
 import React, { useEffect } from "react";
 import MainProductMockup from "./MainProductMockup";
-import { useSiteCopy } from "../lib/useSiteCopy";
-import { getAbsoluteUrl } from "../lib/studioBranding";
+import { applyPageMetadata } from "../lib/pageMetadata";
+import { getSeoSiteName } from "../lib/studioBranding";
 
 /**
- * Public Workflow page — one dashboard/process component under the production
- * App shell (global Navbar + Footer).
+ * Product Workflow page — still routable until F9 retirement redirects land.
+ * F11: noindex + no product-era SEO copy; excluded from agency sitemap.
  */
-function useWorkflowPageMetadata(documentTitle: string, metaDescription: string) {
+function useWorkflowPageMetadata() {
   useEffect(() => {
     if (typeof document === "undefined") {
       return;
     }
 
-    const previousTitle = document.title;
-    const description = document.querySelector('meta[name="description"]');
-    const canonical = document.querySelector('link[rel="canonical"]');
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-
-    const previousDescription = description?.getAttribute("content");
-    const previousCanonical = canonical?.getAttribute("href");
-    const previousOgTitle = ogTitle?.getAttribute("content");
-    const previousOgDescription = ogDescription?.getAttribute("content");
-    const previousOgUrl = ogUrl?.getAttribute("content");
-    const previousTwitterTitle = twitterTitle?.getAttribute("content");
-    const previousTwitterDescription = twitterDescription?.getAttribute("content");
-
-    document.title = documentTitle;
-    description?.setAttribute("content", metaDescription);
-    const workflowCanonical = getAbsoluteUrl("/workflow") ?? "/workflow";
-    canonical?.setAttribute("href", workflowCanonical);
-    ogTitle?.setAttribute("content", documentTitle);
-    ogDescription?.setAttribute("content", metaDescription);
-    if (getAbsoluteUrl("/workflow")) {
-      ogUrl?.setAttribute("content", getAbsoluteUrl("/workflow")!);
-    } else {
-      ogUrl?.removeAttribute("content");
-    }
-    twitterTitle?.setAttribute("content", documentTitle);
-    twitterDescription?.setAttribute("content", metaDescription);
+    const restore = applyPageMetadata({
+      title: `Workflow — ${getSeoSiteName()}`,
+      description: "This product page is retired and is not part of the agency site index.",
+      pathname: "/workflow",
+      robots: "noindex, nofollow",
+    });
     window.scrollTo({ top: 0, behavior: "auto" });
 
-    return () => {
-      document.title = previousTitle;
-      if (previousDescription) {
-        description?.setAttribute("content", previousDescription);
-      }
-      if (previousCanonical) {
-        canonical?.setAttribute("href", previousCanonical);
-      }
-      if (previousOgTitle) {
-        ogTitle?.setAttribute("content", previousOgTitle);
-      }
-      if (previousOgDescription) {
-        ogDescription?.setAttribute("content", previousOgDescription);
-      }
-      if (previousOgUrl) {
-        ogUrl?.setAttribute("content", previousOgUrl);
-      }
-      if (previousTwitterTitle) {
-        twitterTitle?.setAttribute("content", previousTwitterTitle);
-      }
-      if (previousTwitterDescription) {
-        twitterDescription?.setAttribute("content", previousTwitterDescription);
-      }
-    };
-  }, [documentTitle, metaDescription]);
+    return restore;
+  }, []);
 }
 
 export default function WorkflowPage() {
-  const { workflowPage } = useSiteCopy();
-
-  useWorkflowPageMetadata(
-    workflowPage.documentTitle || "ADealForge | Workflow",
-    workflowPage.metaDescription ||
-      "See how ADealForge runs outbound end to end — from finding fit companies to prepared first emails and live campaign support."
-  );
+  useWorkflowPageMetadata();
 
   return (
     <main id="workflow-page" className="flex-grow overflow-x-hidden min-w-0">

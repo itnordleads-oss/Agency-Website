@@ -10,6 +10,7 @@ export default function ServicesPage() {
     <StudioRoutePlaceholder
       title="Services"
       routePath="/services"
+      seoPageId="services"
       ownershipNote="Final Services content will land via feature F5."
     />
   );

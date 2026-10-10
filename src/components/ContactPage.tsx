@@ -6,7 +6,8 @@ import ContactLocationMap from "./ContactLocationMap";
 import BackToHomepage from "./BackToHomepage";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { resolveContactEmail } from "../lib/siteContact";
-import { getBrandAriaLabel } from "../lib/studioBranding";
+import { getAgencyPageSeo } from "../lib/agencyPageSeo";
+import { applyPageMetadata } from "../lib/pageMetadata";
 
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
 const TURNSTILE_SCRIPT_SRC =
@@ -73,13 +74,15 @@ function useContactPageMetadata(enabled = true) {
       return;
     }
 
-    const previousTitle = document.title;
-    document.title = `${getBrandAriaLabel()} | Contact`;
+    const seo = getAgencyPageSeo("contact");
+    const restore = applyPageMetadata({
+      title: seo.title,
+      description: seo.description,
+      pathname: seo.pathname,
+    });
     window.scrollTo({ top: 0, behavior: "auto" });
 
-    return () => {
-      document.title = previousTitle;
-    };
+    return restore;
   }, [enabled]);
 }
 
