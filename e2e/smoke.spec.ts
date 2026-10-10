@@ -825,13 +825,15 @@ test.describe("smoke", () => {
     expect(pageErrors).toEqual([]);
   });
 
-  test("platform page updates when language changes", async ({ page }) => {
+  test("platform page keeps fixed english seo when language changes", async ({ page }) => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
     await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
       timeout: 15_000,
     });
+    await expect(page).toHaveTitle(/Platform — Agency/i);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
 
     await page
       .locator("header")
@@ -840,7 +842,9 @@ test.describe("smoke", () => {
       .click();
     await page.getByRole("option", { name: /^DE$/i }).first().click();
 
-    await expect(page).toHaveTitle(/Plattform/i);
+    // Document title stays English/noindex; visible UI copy may still localize.
+    await expect(page).toHaveTitle(/Platform — Agency/i);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
     await expect(page.getByRole("heading", { level: 1, name: "Plattform" })).toBeVisible({
       timeout: 15_000,
     });
@@ -1068,11 +1072,16 @@ test.describe("smoke", () => {
     }
   });
 
-  test("workflow page updates when language changes", async ({ page }) => {
+  test("workflow page keeps fixed english seo when language changes", async ({ page }) => {
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Workflow/i);
+    await expect(page).toHaveTitle(/Workflow — Agency/i);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      "content",
+      /retired from the agency site index/i
+    );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
 
     await page
       .locator("header")
@@ -1081,11 +1090,13 @@ test.describe("smoke", () => {
       .click();
     await page.getByRole("option", { name: /^DE$/i }).first().click();
 
-    await expect(page).toHaveTitle(/Workflow/i);
+    // Document SEO stays English/noindex after locale switch.
+    await expect(page).toHaveTitle(/Workflow — Agency/i);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
       "content",
-      /Sehen Sie, wie ADealForge/
+      /retired from the agency site index/i
     );
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
     await expect(page.locator("main#workflow-page > section#workflow")).toHaveCount(1);
     await expect(
       page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Services" })
