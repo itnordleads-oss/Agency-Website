@@ -76,16 +76,14 @@ const en = {
       "This page describes how work can be organized from discovery through delivery. Details are confirmed after we understand your goals.",
     statusNote:
       "Public product access remains limited while the agency site is being prepared. Contact us to discuss your project.",
-    ctaLead:
-      "Tell us about your project — no pressure.",
+    ctaLead: "Tell us about your project — no pressure.",
     primaryCta: "Contact Us",
     illustrationAriaLabel: "Platform under construction illustration",
   },
   workflowPage: {
     documentTitle: "Workflow",
     backHome: "Back to homepage",
-    metaDescription:
-      "See how delivery moves from discovery to a clear, reviewed next step.",
+    metaDescription: "See how delivery moves from discovery to a clear, reviewed next step.",
   },
   cookie: {
     consentModal: {
@@ -266,8 +264,7 @@ const en = {
     confidential: "No pressure. No commitment. Friendly conversation.",
     scaleProof: "Your information stays private and is only used to respond to your inquiry.",
     successTitle: "Your message has been received.",
-    successBody:
-      "Thanks for reaching out. We'll review what you shared and reply by email.",
+    successBody: "Thanks for reaching out. We'll review what you shared and reply by email.",
     submitAnother: "Send another message",
     fields: {
       businessName: "Name",
@@ -275,8 +272,7 @@ const en = {
       businessEmail: "Work email",
       businessEmailPlaceholder: "you@company.com",
       targetMarket: "Message",
-      targetMarketPlaceholder:
-        "A few sentences about your project or what you'd like help with",
+      targetMarketPlaceholder: "A few sentences about your project or what you'd like help with",
       website: "Website",
     },
     loadingProtection: "Loading…",
@@ -799,8 +795,7 @@ const en = {
       tag: "Trusted by B2B teams",
     },
     title: "Teams choose partners who help them focus on the work that matters.",
-    subtitle:
-      "Client stories will appear here when approved.",
+    subtitle: "Client stories will appear here when approved.",
     items: [] as ReadonlyArray<{
       quote: string;
       name: string;
@@ -1311,8 +1306,7 @@ const en = {
     pricing: {
       eyebrow: "Pricing",
       title: "Pricing details are shared after we understand your needs",
-      subtitle:
-        "Plans depend on scope. Contact us to discuss what fits.",
+      subtitle: "Plans depend on scope. Contact us to discuss what fits.",
       priceSuffix: "/month",
       yearlyBillingNote: "Billed once a year",
       billingToggle: {
@@ -1395,8 +1389,7 @@ const en = {
     blog: {
       eyebrow: "Insights",
       title: "Ideas worth sharing",
-      description:
-        "Practical notes on planning, delivery, and clearer project conversations.",
+      description: "Practical notes on planning, delivery, and clearer project conversations.",
       readArticleLabel: "Read article",
       posts: [
         {
@@ -1420,8 +1413,7 @@ const en = {
         {
           category: "Sales intelligence",
           title: "Using Sales Intelligence to Start Better Conversations",
-          description:
-            "Turn project context into clearer decisions with less guesswork.",
+          description: "Turn project context into clearer decisions with less guesswork.",
           readingTime: "7 min read",
           href: "/blog/cold-lead-to-qualified-meeting",
           imageAlt: "Illustration for sales intelligence software and meeting booking",
