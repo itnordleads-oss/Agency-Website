@@ -35,7 +35,8 @@
 
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* F3 studio footer: Explore + Company (Work unpublished). */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--footer-space);
   row-gap: 1.5rem;
   justify-content: stretch;
@@ -86,6 +87,7 @@
 @media (max-width: 767px) {
   .site-footer__nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.25rem;
   }
 }
 
@@ -169,9 +171,9 @@
     grid-area: nav;
     justify-self: center;
     align-self: stretch;
-    width: min(100%, 34rem);
+    width: min(100%, 28rem);
     max-width: 100%;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 2.5rem;
     row-gap: 1.75rem;
     justify-items: center;
