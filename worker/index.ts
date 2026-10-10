@@ -15,6 +15,7 @@ interface Env {
 interface ContactRequestBody {
   name?: string;
   email?: string;
+  company?: string;
   message?: string;
   website?: string;
   turnstileToken?: string;
@@ -38,6 +39,7 @@ const normalize = (value: unknown) => (typeof value === "string" ? value.trim() 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TERMS_PATHS = new Set(["/terms", "/terms/"]);
 const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
+/** F9 — retired product surfaces permanently redirect to agency destinations. */
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
 const WORKFLOW_PATHS = new Set(["/workflow", "/workflow/"]);
 /** Retired homepage preview URLs — permanently redirect to production `/` (Homepage V3). */
@@ -54,16 +56,25 @@ function isBlogPath(pathname: string) {
   return pathname === "/blog" || pathname === "/blog/" || pathname.startsWith("/blog/");
 }
 
+function isRetiredLandingPath(pathname: string) {
+  return pathname === "/landing" || pathname === "/landing/" || pathname.startsWith("/landing/");
+}
+
 function rewriteRequestPath(request: Request, pathname: string) {
   const url = new URL(request.url);
   url.pathname = pathname;
   return new Request(url.toString(), request);
 }
 
-function redirectToProductionHome(request: Request) {
+function redirectToPath(request: Request, pathname: string) {
   const url = new URL(request.url);
-  url.pathname = "/";
+  url.pathname = pathname;
+  url.hash = "";
   return Response.redirect(url.toString(), 301);
+}
+
+function redirectToProductionHome(request: Request) {
+  return redirectToPath(request, "/");
 }
 
 async function verifyTurnstile(token: string, secret: string, ipAddress: string | null) {
@@ -91,7 +102,7 @@ async function verifyTurnstile(token: string, secret: string, ipAddress: string 
 
 async function saveLead(
   env: Env,
-  payload: { name: string; email: string; message: string },
+  payload: { name: string; email: string; company: string; message: string },
   request: Request
 ) {
   const submittedAt = new Date().toISOString();
@@ -106,6 +117,7 @@ async function saveLead(
       submittedAt,
       name: payload.name,
       email: payload.email,
+      company: payload.company || undefined,
       message: payload.message,
       host: url.host,
       pathname: url.pathname,
@@ -132,6 +144,7 @@ async function handleContactSubmit(request: Request, env: Env) {
 
   const name = normalize(payload.name);
   const email = normalize(payload.email);
+  const company = normalize(payload.company);
   const message = normalize(payload.message);
   const turnstileToken = normalize(payload.turnstileToken);
 
@@ -139,12 +152,12 @@ async function handleContactSubmit(request: Request, env: Env) {
     return json({ error: "Missing required fields." }, 400);
   }
 
-  if (name.length > 120 || email.length > 320 || message.length > 4000) {
+  if (name.length > 120 || email.length > 320 || company.length > 160 || message.length > 4000) {
     return json({ error: "Submitted data is too long." }, 400);
   }
 
   if (!emailPattern.test(email)) {
-    return json({ error: "Please enter a valid business email." }, 400);
+    return json({ error: "Please enter a valid work email." }, 400);
   }
 
   if (!env.TURNSTILE_SECRET_KEY) {
@@ -162,14 +175,11 @@ async function handleContactSubmit(request: Request, env: Env) {
       return json({ error: "Captcha verification failed. Please try again." }, 400);
     }
 
-    await saveLead(env, { name, email, message }, request);
+    await saveLead(env, { name, email, company, message }, request);
     return json({ ok: true });
   } catch (error) {
     console.error("Contact form request failed", error);
-    return json(
-      { error: "We could not store your request right now. Please try again shortly." },
-      500
-    );
+    return json({ error: "We couldn't send your message. Please try again." }, 500);
   }
 }
 
@@ -200,14 +210,21 @@ export default {
       PLATFORM_PATHS.has(url.pathname) &&
       (request.method === "GET" || request.method === "HEAD")
     ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
+      return redirectToPath(request, "/services");
     }
 
     if (
       WORKFLOW_PATHS.has(url.pathname) &&
       (request.method === "GET" || request.method === "HEAD")
     ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
+      return redirectToPath(request, "/services");
+    }
+
+    if (
+      isRetiredLandingPath(url.pathname) &&
+      (request.method === "GET" || request.method === "HEAD")
+    ) {
+      return redirectToPath(request, "/services");
     }
 
     if (

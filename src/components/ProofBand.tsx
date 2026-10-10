@@ -20,7 +20,7 @@ export default function ProofBand() {
   }));
 
   return (
-    <section className="relative overflow-hidden min-w-0" aria-label="Why teams trust ADealForge">
+    <section className="relative overflow-hidden min-w-0" aria-label="Why teams work with us">
       <div className="max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 min-w-0">
         <div className="rounded-2xl border border-white/[0.1] bg-white/[0.02] backdrop-blur-md overflow-hidden">
           <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-white/[0.08]">

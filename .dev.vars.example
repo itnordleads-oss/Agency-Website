@@ -1,1 +1,4 @@
-TURNSTILE_SECRET_KEY=your_turnstile_secret_key
+# Server-side Worker secrets for local `wrangler dev`.
+# Provision Agency-Website-specific Turnstile secret keys.
+# Do not copy secrets from other products into git.
+TURNSTILE_SECRET_KEY=your_agency_turnstile_secret_key

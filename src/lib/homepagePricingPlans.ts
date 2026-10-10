@@ -62,7 +62,7 @@ export const HOMEPAGE_SUBSCRIPTION_PLANS: readonly HomepageSubscriptionPlan[] = 
     monthlyPrice: 399,
     featured: true,
     description: "Built for growing B2B teams that want more outbound sales volume.",
-    ctaLabel: "Let's Talk",
+    ctaLabel: "Contact Us",
     features: [
       "Everything in Free",
       "50,000 contacts",
