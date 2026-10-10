@@ -1,0 +1,89 @@
+name: Deploy Production
+
+# PRODUCTION DEPLOYMENT — currently DISABLED by design.
+# This workflow is manual-only (workflow_dispatch) and additionally gated by
+# scripts/verify-deploy-config.mjs, which FAILS while the wrangler.toml /
+# wrangler.jsonc conflict exists. Until the Wrangler consolidation is approved
+# and applied, this workflow cannot deploy anything.
+# No push trigger exists on purpose: automatic deployment on push to main
+# requires explicit management approval first.
+on:
+  workflow_dispatch:
+    inputs:
+      release_run_id:
+        description: "Run ID of the passed Pre-Release Gate run whose artifact should be deployed"
+        required: true
+        type: string
+      confirm:
+        description: "Type DEPLOY (uppercase) to confirm production deployment"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read # required to download the artifact from the pre-release run
+
+concurrency:
+  group: production-deploy
+  # Never cancel an in-flight production deployment — a half-applied deploy
+  # leaves ambiguous state.
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy verified release artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deployment guard
+        run: |
+          if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "::error::Production deployments are only allowed from main (current ref: ${GITHUB_REF})."
+            exit 1
+          fi
+          if [ "${{ inputs.confirm }}" != "DEPLOY" ]; then
+            echo "::error::Deployment not confirmed — set the confirm input to DEPLOY."
+            exit 1
+          fi
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID repository secrets are not configured."
+            echo "::error::Create a least-privilege token (Account > Workers Scripts: Edit, scoped to this account) first."
+            exit 1
+          fi
+          echo "Deployment guard passed (ref, confirmation, credentials present)."
+
+      - name: Verify deploy configuration
+        run: node scripts/verify-deploy-config.mjs
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download verified release artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: release-dist-*
+          path: dist/
+          run-id: ${{ inputs.release_run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy
+
+      - name: Record deployment
+        run: |
+          echo "Deployed commit: ${GITHUB_SHA}"
+          echo "Source pre-release run: ${{ inputs.release_run_id }}"
+          echo "wrangler prints the deployment/version ID above — record it in the release notes."

@@ -1,0 +1,83 @@
+{
+  "name": "agency-website",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build && node scripts/generate-landing-pages.mjs",
+    "generate:landing": "node scripts/generate-landing-pages.mjs",
+    "preview": "vite preview",
+    "preview:workers": "npm run build && wrangler dev",
+    "clean": "rm -rf dist server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run build && playwright test",
+    "test:ci": "playwright test",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run build && npm run test:ci",
+    "deploy": "npm run build && wrangler deploy",
+    "pdf:kan150": "node scripts/generate-kan150-report-pdf.mjs",
+    "pdf:kan150:cheapest": "node scripts/generate-kan150-cheapest-pdf.mjs",
+    "pdf:kan150:cheapest:pdf": "node scripts/generate-kan150-cheapest-pdf.mjs --pdf",
+    "pdf:kan150:html": "node docs/research/_gen-html.mjs",
+    "pdf:kan150:pdf": "node scripts/generate-kan150-report-pdf.mjs --pdf",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,html,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "i18next": "^26.3.4",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-i18next": "^17.0.8",
+    "vanilla-cookieconsent": "^3.1.0",
+    "vite": "^6.2.3"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@cloudflare/vite-plugin": "^1.39.1",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@eslint/js": "^10.0.1",
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.61.1",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "globals": "^17.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.9.5",
+    "tailwindcss": "^4.1.14",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2",
+    "typescript-eslint": "^8.63.0",
+    "vite": "^6.2.3",
+    "wrangler": "^4.96.0"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "description": "Confirmed PRE-EXISTING rendered-SEO defects captured at the first automated baseline (2026-08-11). Each entry suppresses a known finding as a warning until its expiry date; expired entries fail. New findings always fail. Do not add entries for unverified issues.",
+  "entries": [
+    {
+      "id": "description-inherited",
+      "route": "/contact",
+      "reason": "ContactPage only sets document.title; meta description stays the homepage copy.",
+      "ticket": "REM-SEO-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "canonical-self",
+      "route": "/contact",
+      "reason": "ContactPage does not update the canonical; it remains https://adealforge.com/ on /contact.",
+      "ticket": "REM-SEO-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-title-inherited",
+      "route": "/contact",
+      "reason": "ContactPage does not update og:title; it stays the homepage value.",
+      "ticket": "REM-SEO-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-description-inherited",
+      "route": "/contact",
+      "reason": "ContactPage does not update og:description; it stays the homepage value.",
+      "ticket": "REM-SEO-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-url-self",
+      "route": "/contact",
+      "reason": "ContactPage does not update og:url; it remains https://adealforge.com/ on /contact.",
+      "ticket": "REM-SEO-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "description-inherited",
+      "route": "/platform",
+      "reason": "PlatformPage only sets document.title; meta description stays the homepage copy.",
+      "ticket": "REM-SEO-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "canonical-self",
+      "route": "/platform",
+      "reason": "PlatformPage does not update the canonical; it remains https://adealforge.com/ on /platform.",
+      "ticket": "REM-SEO-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-title-inherited",
+      "route": "/platform",
+      "reason": "PlatformPage does not update og:title; it stays the homepage value.",
+      "ticket": "REM-SEO-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-description-inherited",
+      "route": "/platform",
+      "reason": "PlatformPage does not update og:description; it stays the homepage value.",
+      "ticket": "REM-SEO-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "og-url-self",
+      "route": "/platform",
+      "reason": "PlatformPage does not update og:url; it remains https://adealforge.com/ on /platform.",
+      "ticket": "REM-SEO-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "h1-count",
+      "route": "/workflow",
+      "reason": "Workflow page renders no <h1> (top heading is an h2). Metadata itself is complete.",
+      "ticket": "REM-SEO-3",
+      "expires": "2026-11-11"
+    }
+  ]
+}

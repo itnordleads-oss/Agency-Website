@@ -1,0 +1,6 @@
+{
+  "name": "ADealForge",
+  "description": "Premium B2B SaaS landing page skeleton for ADealForge - an AI-powered B2B prospecting and outreach automation platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,54 @@
+/*
+ * Platform page only — equal outer gaps around Final CTA.
+ * Previous-section bottom padding is removed; one gap token is used
+ * for space above and below the CTA card (card internals untouched).
+ */
+
+/* Kill stacked space from the section above the CTA (capabilities / accordion). */
+#platform-page .platform-capabilities {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+#platform-page .platform-page__capabilities-mount {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/*
+ * Host owns the outer gaps. CTA section vertical padding is forced to 0 so
+ * default FinalCTA py cannot reintroduce an unequal top gap (~218px vs ~121px).
+ */
+#platform-page .platform-page__final-cta-host {
+  --platform-cta-outer-gap: 3.5rem;
+  padding-top: var(--platform-cta-outer-gap);
+  padding-bottom: var(--platform-cta-outer-gap);
+  margin: 0;
+}
+
+#platform-page .platform-page__final-cta-host #final-cta,
+#platform-page .platform-page__final-cta {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 340px) {
+  #platform-page .platform-page__final-cta-host {
+    --platform-cta-outer-gap: 3rem;
+  }
+}
+
+@media (min-width: 640px) {
+  #platform-page .platform-page__final-cta-host {
+    --platform-cta-outer-gap: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #platform-page .platform-page__final-cta-host {
+    /* ~120px — matches measured CTA→footer gap; top uses the same value */
+    --platform-cta-outer-gap: 7.5rem;
+  }
+}

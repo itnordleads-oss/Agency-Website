@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor U as User
+  participant Web as Next.js
+  participant API as Campaigns API
+  participant DB as PostgreSQL
+  participant Q as BullMQ
+  participant S as Sender Adapter
+  U->>Web: Launch campaign
+  Web->>API: POST /campaigns/:id/launch
+  API->>DB: validate + status running
+  API->>Q: enqueue schedule
+  API-->>Web: 202
+  Q->>API: worker schedule
+  loop due steps
+    API->>S: send or export
+    S-->>API: provider id
+    API->>DB: CampaignEvent
+  end
+  API-->>Web: SSE stats

@@ -1,0 +1,12 @@
+flowchart TB
+  User --> CF[Cloudflare DNS/CDN/WAF]
+  CF --> Tunnel[Cloudflare Tunnel]
+  Tunnel --> Traefik[Traefik/Nginx]
+  Traefik --> Web[web: Next.js]
+  Traefik --> API[api: NestJS]
+  API --> PG[(postgres)]
+  API --> Redis[(redis)]
+  Worker[worker: collection] --> Redis
+  Worker --> PG
+  API --> R2[Cloudflare R2]
+  Mkt[Marketing on CF Workers] --> KV[(LEADS_KV)]

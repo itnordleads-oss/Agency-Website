@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor U as User
+  participant Web as Next.js
+  participant API as Agent Module
+  participant LLM as LLM Provider
+  participant Tools as Domain Tools
+  participant DB as PostgreSQL
+  U->>Web: Natural language request
+  Web->>API: POST /agent/threads/:id/messages
+  API->>DB: store user message
+  API->>LLM: messages + tool schemas
+  LLM-->>API: tool_call
+  API->>Tools: execute tenant-scoped
+  Tools->>DB: query or write
+  Tools-->>API: result
+  API->>LLM: tool result
+  LLM-->>API: final message
+  API->>DB: persist audit
+  API-->>Web: SSE answer

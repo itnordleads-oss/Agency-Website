@@ -1,0 +1,88 @@
+/* Pricing-only animated border. Scoped to #pricing so it does not affect other cards. */
+#pricing .pricing-card-frame {
+  position: relative;
+  border-radius: 1rem;
+  min-width: 0;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+#pricing .pricing-card-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(61, 129, 227, 0.06) 0deg,
+    rgba(61, 129, 227, 0.18) 55deg,
+    rgba(0, 210, 255, 0.24) 130deg,
+    rgba(164, 244, 253, 0.16) 210deg,
+    rgba(61, 129, 227, 0.1) 290deg,
+    rgba(61, 129, 227, 0.06) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.5;
+  animation: pricing-border-run 8s linear infinite;
+  will-change: transform;
+}
+
+#pricing .pricing-card-frame--featured::before {
+  padding: 2px;
+  opacity: 0.92;
+  background: conic-gradient(
+    from 0deg,
+    rgba(61, 129, 227, 0.18) 0deg,
+    rgba(61, 129, 227, 0.62) 48deg,
+    rgba(164, 244, 253, 0.78) 108deg,
+    rgba(0, 210, 255, 0.52) 168deg,
+    rgba(61, 129, 227, 0.42) 228deg,
+    rgba(61, 129, 227, 0.18) 300deg,
+    rgba(61, 129, 227, 0.18) 360deg
+  );
+  animation-duration: 5s;
+}
+
+@keyframes pricing-border-run {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pricing .pricing-card-frame::before {
+    animation: none;
+    will-change: auto;
+    transform: none;
+  }
+
+  #pricing .pricing-card-frame--featured::before {
+    background: linear-gradient(
+      135deg,
+      rgba(61, 129, 227, 0.42),
+      rgba(0, 210, 255, 0.28) 50%,
+      rgba(61, 129, 227, 0.34)
+    );
+    opacity: 0.75;
+  }
+
+  #pricing .pricing-card-frame:not(.pricing-card-frame--featured)::before {
+    background: linear-gradient(
+      135deg,
+      rgba(61, 129, 227, 0.16),
+      rgba(255, 255, 255, 0.06) 50%,
+      rgba(61, 129, 227, 0.12)
+    );
+    opacity: 0.4;
+  }
+}

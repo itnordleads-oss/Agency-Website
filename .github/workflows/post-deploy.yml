@@ -1,0 +1,65 @@
+name: Post-Deploy Production Verification
+
+# Read-only verification of the live production site.
+# - workflow_dispatch: run manually against production at any time (safe).
+# - workflow_run: runs automatically after a successful "Deploy Production" run.
+# This workflow never mutates production: GET/HEAD checks plus two non-mutating
+# contact Worker probes (honeypot + intentionally-invalid Turnstile token).
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Deploy Production"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-smoke
+  # Verification is read-only — superseding a stale run is safe.
+  cancel-in-progress: true
+
+jobs:
+  production-smoke:
+    name: Production smoke verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: HTTP-level production smoke
+        run: node scripts/check-production-smoke.mjs
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser production smoke
+        run: npx playwright test --config=playwright.production.config.ts
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-smoke-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 7

@@ -1,0 +1,12 @@
+﻿name = "agency-website"
+compatibility_date = "2026-06-02"
+main = "./worker/index.ts"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+
+[[kv_namespaces]]
+binding = "LEADS_KV"
+id = "1e160c5d95074707adb2946f60aaad9e"

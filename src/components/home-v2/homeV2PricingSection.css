@@ -1,0 +1,118 @@
+/* Homepage V2/V3 pricing — toggle + featured elevation only (cards use GlassCard) */
+#pricing .homepage-v2-pricing__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 1.75rem;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+#pricing .homepage-v2-pricing__toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: clamp(0.8125rem, 0.95vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 250ms ease,
+    background-color 250ms ease;
+}
+
+#pricing .homepage-v2-pricing__toggle-btn--active {
+  color: #ffffff;
+  background: rgba(61, 129, 227, 0.18);
+}
+
+#pricing .homepage-v2-pricing__toggle-btn:hover {
+  color: #ffffff;
+}
+
+#pricing .homepage-v2-pricing__toggle-btn:focus {
+  outline: none;
+}
+
+#pricing .homepage-v2-pricing__toggle-btn:focus-visible {
+  outline: none;
+  border-color: var(--focus-ring-border);
+  box-shadow: 0 0 0 2px var(--focus-ring-glow);
+}
+
+#pricing .homepage-v2-pricing__toggle-save {
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(164, 244, 253, 0.25);
+  background: rgba(164, 244, 253, 0.1);
+  color: #a4f4fd;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#pricing .homepage-v2-pricing__price {
+  transition: opacity 200ms ease;
+}
+
+#pricing .homepage-v2-pricing__features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#pricing .homepage-v2-pricing__card {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+}
+
+#pricing .homepage-v2-pricing__card > .liquid-glass {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+#pricing .homepage-v2-pricing__card > .liquid-glass > div {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+@media (max-width: 639px) {
+  #pricing .homepage-v2-pricing__toggle {
+    width: 100%;
+    border-radius: 1rem;
+  }
+
+  #pricing .homepage-v2-pricing__toggle-btn {
+    flex: 1 1 auto;
+    min-width: calc(50% - 0.25rem);
+    padding: 0.4rem 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pricing .homepage-v2-pricing__price {
+    transition: none;
+  }
+}

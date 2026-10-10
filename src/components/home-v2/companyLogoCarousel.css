@@ -1,0 +1,353 @@
+/* Homepage company logo marquee - scoped to #company-logo-carousel only */
+#company-logo-carousel {
+  --company-logo-gap: 2rem;
+  --company-logo-slot-width: 150px;
+  --company-logo-slot-height: 70px;
+  --company-logo-slot-padding-x: 20px;
+  --company-logo-slot-padding-y: 14px;
+  --company-logo-max-width: 88px;
+  --company-logo-max-height: 34px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+  overflow: hidden;
+  border-block: 1px solid rgba(255, 255, 255, 0.06);
+  padding-block: 1.5rem;
+}
+
+#company-logo-carousel .company-logo-carousel__heading-wrap {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+}
+
+/*
+ * Near-ultrawide only (1921-2559): slightly wider heading band.
+ * At 2560px+ the base 80rem centered shell applies.
+ */
+@media (min-width: 1921px) and (max-width: 2559.98px) {
+  #company-logo-carousel .company-logo-carousel__heading-wrap {
+    max-width: 96vw;
+  }
+}
+
+#company-logo-carousel .company-logo-carousel__heading {
+  margin: 0 0 1.25rem;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#company-logo-carousel .company-logo-carousel__viewport {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  padding-inline-start: clamp(0.75rem, 2vw, 1.5rem);
+  /* Display-only marquee: the logos are not hover, click, drag or selection targets. */
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#company-logo-carousel .company-logo-carousel__track {
+  display: flex;
+  width: max-content;
+  min-width: 0;
+  align-items: center;
+  backface-visibility: hidden;
+  will-change: transform;
+  animation: company-logo-carousel-scroll 34s linear infinite;
+}
+
+#company-logo-carousel .company-logo-carousel__set {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--company-logo-gap);
+  margin-right: var(--company-logo-gap);
+}
+
+#company-logo-carousel .company-logo-carousel__item {
+  display: flex;
+  box-sizing: border-box;
+  width: var(--company-logo-slot-width);
+  height: var(--company-logo-slot-height);
+  flex: 0 0 var(--company-logo-slot-width);
+  align-items: center;
+  justify-content: center;
+  padding: var(--company-logo-slot-padding-y) var(--company-logo-slot-padding-x);
+}
+
+#company-logo-carousel .company-logo-carousel__link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+}
+
+#company-logo-carousel .company-logo-carousel__link:focus {
+  outline: none;
+}
+
+#company-logo-carousel .company-logo-carousel__link:focus-visible {
+  outline: none;
+  border-color: var(--focus-ring-border);
+  box-shadow: 0 0 0 2px var(--focus-ring-glow);
+}
+
+#company-logo-carousel .company-logo-carousel__image {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(var(--company-logo-max-width), 100%);
+  max-height: min(var(--company-logo-max-height), 100%);
+  object-fit: contain;
+  -webkit-user-drag: none;
+  filter: grayscale(1) brightness(0) invert(1);
+  opacity: 0.68;
+  transition:
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+/* Wide horizontal wordmarks */
+#company-logo-carousel .company-logo-carousel__image--wide {
+  --company-logo-max-width: 96px;
+  --company-logo-max-height: 30px;
+}
+
+/* Square or moderately wide logos */
+#company-logo-carousel .company-logo-carousel__image--standard {
+  --company-logo-max-width: 82px;
+  --company-logo-max-height: 34px;
+}
+
+/* Bold or heavy artwork */
+#company-logo-carousel .company-logo-carousel__image--compact {
+  --company-logo-max-width: 70px;
+  --company-logo-max-height: 32px;
+}
+
+/* Circular or square marks */
+#company-logo-carousel .company-logo-carousel__image--square {
+  --company-logo-max-width: 38px;
+  --company-logo-max-height: 38px;
+}
+
+/* Vertical marks */
+#company-logo-carousel .company-logo-carousel__image--tall {
+  --company-logo-max-width: 36px;
+  --company-logo-max-height: 34px;
+}
+
+@keyframes company-logo-carousel-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333333%, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  #company-logo-carousel {
+    --company-logo-slot-width: 125px;
+    --company-logo-slot-height: 62px;
+    --company-logo-slot-padding-x: 16px;
+    --company-logo-slot-padding-y: 12px;
+    --company-logo-max-width: 72px;
+    --company-logo-max-height: 29px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--wide {
+    --company-logo-max-width: 78px;
+    --company-logo-max-height: 26px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--standard {
+    --company-logo-max-width: 68px;
+    --company-logo-max-height: 29px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--compact {
+    --company-logo-max-width: 58px;
+    --company-logo-max-height: 27px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--square {
+    --company-logo-max-width: 32px;
+    --company-logo-max-height: 32px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--tall {
+    --company-logo-max-width: 30px;
+    --company-logo-max-height: 29px;
+  }
+}
+
+@media (min-width: 640px) {
+  #company-logo-carousel {
+    --company-logo-gap: 2.5rem;
+    padding-block: 1.75rem;
+  }
+
+  #company-logo-carousel .company-logo-carousel__heading-wrap {
+    padding-inline: 1.5rem;
+  }
+
+  #company-logo-carousel .company-logo-carousel__heading {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #company-logo-carousel {
+    --company-logo-gap: 3rem;
+    padding-block: 2rem;
+  }
+}
+
+/*
+ * Ultrawide only (>1920). Keep 1920 and below identical.
+ * Full-bleed marquee (no narrow max-width). Slightly denser slots/gaps so
+ * logos use the wider band without stretching artwork.
+ */
+@media (min-width: 1921px) {
+  #company-logo-carousel {
+    --company-logo-gap: 3.5rem;
+    --company-logo-slot-width: 168px;
+    --company-logo-slot-height: 74px;
+    --company-logo-slot-padding-x: 22px;
+    --company-logo-slot-padding-y: 15px;
+    --company-logo-max-width: 94px;
+    --company-logo-max-height: 36px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__viewport {
+    max-width: none;
+    width: 100%;
+    margin-inline: 0;
+    padding-inline-start: clamp(1rem, 1.25vw, 2rem);
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--wide {
+    --company-logo-max-width: 102px;
+    --company-logo-max-height: 32px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--standard {
+    --company-logo-max-width: 88px;
+    --company-logo-max-height: 36px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--compact {
+    --company-logo-max-width: 76px;
+    --company-logo-max-height: 34px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--square {
+    --company-logo-max-width: 40px;
+    --company-logo-max-height: 40px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--tall {
+    --company-logo-max-width: 38px;
+    --company-logo-max-height: 36px;
+  }
+}
+
+/*
+ * Ultrawide (2560px+): center the marquee to the same max-w-7xl shell (80rem).
+ * Overrides the 1921+ full-bleed max-width: none without touching 1920 and below.
+ * Logo slot/gap tokens below are unchanged.
+ */
+@media (min-width: 2560px) {
+  #company-logo-carousel .company-logo-carousel__viewport {
+    max-width: 80rem;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline-start: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  #company-logo-carousel {
+    --company-logo-gap: 4rem;
+    --company-logo-slot-width: 180px;
+    --company-logo-slot-height: 78px;
+    --company-logo-max-width: 100px;
+    --company-logo-max-height: 38px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--wide {
+    --company-logo-max-width: 108px;
+    --company-logo-max-height: 34px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--standard {
+    --company-logo-max-width: 92px;
+    --company-logo-max-height: 38px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--compact {
+    --company-logo-max-width: 80px;
+    --company-logo-max-height: 36px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--square {
+    --company-logo-max-width: 42px;
+    --company-logo-max-height: 42px;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image--tall {
+    --company-logo-max-width: 40px;
+    --company-logo-max-height: 38px;
+  }
+}
+
+@media (min-width: 3440px) {
+  #company-logo-carousel {
+    --company-logo-gap: 4.5rem;
+    --company-logo-slot-width: 188px;
+    --company-logo-slot-height: 80px;
+  }
+}
+
+@media (min-width: 5120px) {
+  #company-logo-carousel {
+    --company-logo-gap: 5rem;
+    --company-logo-slot-width: 196px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #company-logo-carousel .company-logo-carousel__viewport {
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    /* Autoplay is off here, so scrolling is the only way to reach every logo. */
+    pointer-events: auto;
+  }
+
+  #company-logo-carousel .company-logo-carousel__track {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+
+  #company-logo-carousel .company-logo-carousel__set--duplicate {
+    display: none;
+  }
+
+  #company-logo-carousel .company-logo-carousel__set {
+    margin-right: 0;
+  }
+
+  #company-logo-carousel .company-logo-carousel__image {
+    transition: none;
+  }
+}

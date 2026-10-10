@@ -1,0 +1,24 @@
+/**
+ * Workflow sidebar stage buttons - keyboard focus only.
+ * Same treatment as .platform-capabilities__nav-item:focus-visible.
+ */
+
+.workflow-stage-nav__btn:focus {
+  outline: none;
+}
+
+.workflow-stage-nav__btn:focus-visible {
+  outline: 2px solid rgba(164, 244, 253, 0.7);
+  outline-offset: 2px;
+}
+
+/**
+ * Right content panel containment - keep width inside the console.
+ * Do not use overflow:hidden here: it clips the export CTA :focus-visible ring.
+ */
+.workflow-console-panel {
+  box-sizing: border-box;
+  isolation: isolate;
+  min-width: 0;
+  max-width: 100%;
+}

@@ -1,0 +1,255 @@
+/* Customer Stories continuous marquee — scoped to #v2-testimonials only */
+#v2-testimonials {
+  --testimonials-cards-visible: 1;
+  --testimonials-card-gap: 0.75rem;
+  /* Keeps mobile cards narrower than the viewport. */
+  --testimonials-side-inset: 1rem;
+  /*
+   * Mobile: no outer box-shadow (clips while scrolling). Active card uses inset glow.
+   * Glow pad still reserves room so desktop/tablet shadows are not clipped.
+   */
+  --testimonials-glow-pad-x: 0.75rem;
+  --testimonials-glow-pad-y: 0.875rem;
+  --testimonials-card-glow: none;
+}
+
+@media (min-width: 768px) {
+  #v2-testimonials {
+    --testimonials-cards-visible: 2;
+    --testimonials-card-gap: 1rem;
+    --testimonials-side-inset: 0px;
+    --testimonials-glow-pad-x: 1rem;
+    --testimonials-glow-pad-y: 1.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #v2-testimonials {
+    --testimonials-cards-visible: 3;
+    --testimonials-glow-pad-x: 1.125rem;
+    --testimonials-glow-pad-y: 1.25rem;
+  }
+}
+
+/*
+ * Section ambient glow is disabled at all breakpoints.
+ * The decorative node remains in markup; do not paint the blue orb.
+ */
+#v2-testimonials .testimonials-carousel__glow {
+  display: none;
+}
+
+/*
+ * Desktop/tablet: full-bleed strip (original). Breaks out of the max-w-7xl shell.
+ * Ultra-wide centered cap is scoped below at min-width: 2560px only.
+ */
+#v2-testimonials .testimonials-carousel {
+  box-sizing: border-box;
+  width: 100vw;
+  max-width: 100vw;
+  min-width: 0;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-inline: 0;
+}
+
+/*
+ * Ultra-wide only: cancel the 100vw breakout and stay inside the centered
+ * max-w-7xl shell (80rem). Do not apply this below 2560px.
+ */
+@media (min-width: 2560px) {
+  #v2-testimonials .testimonials-carousel {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+#v2-testimonials .testimonials-carousel__viewport {
+  box-sizing: border-box;
+  container-type: inline-size;
+  container-name: testimonials-carousel;
+  /* Clip only — motion is GPU transform on the track (not scrollLeft). */
+  overflow: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+  min-width: 0;
+  margin-inline: 0;
+  /* Side inset (mobile card narrowing) + glow pad so shadows paint inside the clip. */
+  padding-inline: calc(var(--testimonials-side-inset) + var(--testimonials-glow-pad-x));
+  padding-block: var(--testimonials-glow-pad-y);
+  /* Page scroll (wheel/trackpad) over the carousel; no drag/grab interaction. */
+  touch-action: pan-y;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#v2-testimonials .testimonials-carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* Freeze GlassCard hover affordances — hover must not visually or interactively react. */
+#v2-testimonials .testimonials-carousel__card-surface:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+#v2-testimonials .testimonials-carousel__card,
+#v2-testimonials .testimonials-carousel__card * {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+#v2-testimonials .testimonials-carousel__track {
+  display: flex;
+  width: max-content;
+  align-items: stretch;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
+  /* Never ease/transition the marquee transform — causes stutter at wrap. */
+  transition: none;
+}
+
+#v2-testimonials .testimonials-carousel__set {
+  display: flex;
+  flex-shrink: 0;
+  /*
+   * Must be max-content, not 100cqi. Cards are sized from the viewport (100cqi) and
+   * item count can exceed --testimonials-cards-visible (mobile shows 1, but 3 items).
+   * A 100cqi set box made the clone start after one "page" while leftover original
+   * cards still painted — full-card overlaps, ghosted text, and a too-short stride.
+   * backdrop-filter previously soft-masked the overlap; the mobile glow fix exposed it.
+   */
+  width: max-content;
+  align-items: stretch;
+  gap: var(--testimonials-card-gap);
+  /* Trailing gap so start-of-clone - start-of-original equals one seamless stride. */
+  margin-right: var(--testimonials-card-gap);
+}
+
+#v2-testimonials .testimonials-carousel__set--clone {
+  /* Must match original set metrics exactly for an invisible wrap. */
+  margin-right: var(--testimonials-card-gap);
+}
+
+#v2-testimonials .testimonials-carousel__card {
+  position: relative;
+  z-index: 0;
+  box-sizing: border-box;
+  flex: 0 0
+    calc(
+      (100cqi - ((var(--testimonials-cards-visible) - 1) * var(--testimonials-card-gap))) /
+        var(--testimonials-cards-visible)
+    );
+  min-width: 0;
+  max-width: calc(
+    (100cqi - ((var(--testimonials-cards-visible) - 1) * var(--testimonials-card-gap))) /
+      var(--testimonials-cards-visible)
+  );
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+}
+
+#v2-testimonials .testimonials-carousel__card > * {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+}
+
+/*
+ * Carousel cards use one solid border — not the global liquid-glass gradient ring.
+ * Backdrop blur paints a rectangular field under transform + overflow clipping and
+ * makes borders look broken; disable it here only.
+ */
+#v2-testimonials .testimonials-carousel__card-surface {
+  border-radius: 1rem;
+  /* Stronger solid stroke + inset ring so left/right edges stay visible under GPU translate. */
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overflow: visible;
+}
+
+#v2-testimonials .testimonials-carousel__card-surface::before,
+#v2-testimonials .testimonials-carousel__card-surface::after {
+  content: none;
+  display: none;
+  padding: 0;
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+}
+
+@media (max-width: 767.98px) {
+  #v2-testimonials .testimonials-carousel__card {
+    isolation: isolate;
+  }
+
+  #v2-testimonials .testimonials-carousel__card.is-active .testimonials-carousel__card-surface {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+      inset 0 0 18px rgba(61, 129, 227, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #v2-testimonials .testimonials-carousel__viewport {
+    overflow-x: visible;
+    cursor: default;
+    touch-action: auto;
+    padding-inline: calc(var(--testimonials-side-inset) + var(--testimonials-glow-pad-x));
+    padding-block: var(--testimonials-glow-pad-y);
+  }
+
+  #v2-testimonials .testimonials-carousel {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #v2-testimonials .testimonials-carousel__track {
+    width: 100%;
+    display: block;
+  }
+
+  #v2-testimonials .testimonials-carousel__set--clone {
+    display: none;
+  }
+
+  #v2-testimonials .testimonials-carousel__set {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--testimonials-card-gap);
+    margin-right: 0;
+    width: 100%;
+  }
+
+  #v2-testimonials .testimonials-carousel__card {
+    flex: none;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 768px) {
+  #v2-testimonials .testimonials-carousel__set {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (min-width: 1024px) {
+  #v2-testimonials .testimonials-carousel__set {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

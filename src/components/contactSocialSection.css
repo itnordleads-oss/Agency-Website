@@ -1,0 +1,14 @@
+/* Contact-page social cards — layout only. Hover styles come from shared .social-icon rules. */
+
+#contact-page .contact-social-card {
+  align-self: stretch;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #contact-page .contact-social-card,
+  #contact-page .contact-social-card:hover,
+  #contact-page .contact-social-card:active {
+    transform: none;
+  }
+}

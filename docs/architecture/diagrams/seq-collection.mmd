@@ -1,0 +1,22 @@
+sequenceDiagram
+  actor U as User
+  participant Web as Next.js
+  participant API as Main API
+  participant Q as Redis/BullMQ
+  participant W as Collection Worker
+  participant Src as External Source
+  participant DB as PostgreSQL
+  U->>Web: Start collection job
+  Web->>API: POST /collection-jobs
+  API->>DB: Insert job queued
+  API->>Q: enqueue collect
+  API-->>Web: 202 jobId
+  Web->>API: GET /sse/jobs/:id
+  Q->>W: deliver job
+  W->>Src: fetch with rate limit
+  Src-->>W: raw data
+  W->>DB: upsert companies/people
+  W->>DB: update job progress
+  API-->>Web: SSE progress
+  W->>DB: job completed
+  API-->>Web: SSE completed

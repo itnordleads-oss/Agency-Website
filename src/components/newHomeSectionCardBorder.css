@@ -1,0 +1,89 @@
+/* Animated border for newly added Homepage sections only.
+ * Visually based on Pricing card animation, with 2px stroke for clearer visibility.
+ * Class names are scoped so existing website cards are unaffected.
+ */
+.new-home-section-card-frame {
+  position: relative;
+  border-radius: 1rem;
+  min-width: 0;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.new-home-section-card-frame.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.new-home-section-card-frame.rounded-2xl {
+  border-radius: 1rem;
+}
+
+.new-home-section-card-frame.rounded-3xl {
+  border-radius: 1.5rem;
+}
+
+.new-home-section-card-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(61, 129, 227, 0.16) 0deg,
+    rgba(61, 129, 227, 0.42) 55deg,
+    rgba(0, 210, 255, 0.52) 130deg,
+    rgba(164, 244, 253, 0.4) 210deg,
+    rgba(61, 129, 227, 0.3) 290deg,
+    rgba(61, 129, 227, 0.16) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.82;
+  animation: new-home-section-border-run 8s linear infinite;
+  will-change: transform;
+  filter: drop-shadow(0 0 5px rgba(61, 129, 227, 0.28));
+  transition:
+    opacity 350ms ease,
+    filter 350ms ease;
+}
+
+.new-home-section-card-frame:hover::before {
+  opacity: 0.96;
+  filter: drop-shadow(0 0 9px rgba(0, 210, 255, 0.34));
+}
+
+@keyframes new-home-section-border-run {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .new-home-section-card-frame::before {
+    animation: none;
+    will-change: auto;
+    transform: none;
+    transition: none;
+    background: linear-gradient(
+      135deg,
+      rgba(61, 129, 227, 0.32),
+      rgba(0, 210, 255, 0.18) 50%,
+      rgba(61, 129, 227, 0.26)
+    );
+    opacity: 0.78;
+    filter: drop-shadow(0 0 5px rgba(61, 129, 227, 0.24));
+  }
+
+  .new-home-section-card-frame:hover::before {
+    filter: drop-shadow(0 0 5px rgba(61, 129, 227, 0.28));
+  }
+}

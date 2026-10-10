@@ -1,0 +1,41 @@
+flowchart TB
+  subgraph FE[Product Frontend]
+    UI[Next.js App Router]
+    TQ[TanStack Query]
+    SSEClient[SSE Client]
+  end
+  subgraph MAIN[Main API Service]
+    AuthMod[Auth Module]
+    OrgMod[Orgs/RBAC]
+    CrmMod[Prospects Module]
+    CampMod[Campaigns Module]
+    AiMod[AI / Agent Module]
+    BillMod[Billing Module]
+    Realtime[SSE Gateway]
+    APIQ[Queue Producers]
+  end
+  subgraph COL[Data Collection Service]
+    Consumers[BullMQ Workers]
+    Adapters[Source Adapters]
+    Normalizer[Normalizer]
+    RL[Rate Limiter]
+  end
+  subgraph DATA[Data Plane]
+    PG[(PostgreSQL)]
+    Redis[(Redis)]
+    R2[(R2)]
+  end
+  UI --> TQ --> AuthMod
+  UI --> SSEClient --> Realtime
+  AuthMod --> PG
+  CrmMod --> PG
+  CampMod --> PG
+  AiMod --> PG
+  AiMod --> LLM
+  APIQ --> Redis
+  Consumers --> Redis
+  Consumers --> Adapters --> Ext[External Sources]
+  Normalizer --> PG
+  RL --> Redis
+  BillMod --> Stripe
+  CrmMod --> R2

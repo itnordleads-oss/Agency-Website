@@ -1,0 +1,592 @@
+/* Cookie consent — theme + positioning (isolated from site layout) */
+:root {
+  --cc-z-index: 2147483647;
+  --cc-consent-actions-gap: clamp(0.75rem, 0.45rem + 0.6vw, 0.95rem);
+  --cc-consent-body-gap: clamp(1.125rem, 0.7rem + 1.2vw, 1.75rem);
+  --cc-consent-body-padding-block: clamp(1.35rem, 0.9rem + 1.2vw, 1.75rem);
+  --cc-consent-body-padding-inline: clamp(1.35rem, 0.85rem + 1.5vw, 1.85rem);
+  --cc-consent-actions-max-width: min(100%, 23em);
+}
+
+#cc-main {
+  --cc-font-family:
+    "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --cc-bg: #080b12;
+  --cc-primary-color: #ffffff;
+  --cc-secondary-color: rgba(228, 232, 239, 0.82);
+  --cc-btn-primary-bg: #ffffff;
+  --cc-btn-primary-color: #080b12;
+  --cc-btn-primary-border-color: #ffffff;
+  --cc-btn-primary-hover-bg: #f4f4f5;
+  --cc-btn-secondary-bg: rgba(255, 255, 255, 0.08);
+  --cc-btn-secondary-color: #ffffff;
+  --cc-btn-secondary-border-color: rgba(255, 255, 255, 0.22);
+  /* Library default hover color is #000 — must override for dark theme readability */
+  --cc-btn-secondary-hover-bg: rgba(255, 255, 255, 0.14);
+  --cc-btn-secondary-hover-color: #ffffff;
+  --cc-btn-secondary-hover-border-color: rgba(255, 255, 255, 0.36);
+  --cc-toggle-readonly-bg: rgba(255, 255, 255, 0.14);
+  /* Enabled toggles reuse the read-only neutral so no accent color is introduced */
+  --cc-toggle-on-bg: var(--cc-toggle-readonly-bg);
+  --cc-separator-border-color: rgba(255, 255, 255, 0.1);
+  --cc-section-category-border: rgba(255, 255, 255, 0.1);
+  --cc-cookie-category-block-bg: rgba(255, 255, 255, 0.03);
+  --cc-cookie-category-block-border: rgba(255, 255, 255, 0.1);
+  --cc-cookie-category-block-hover-bg: rgba(255, 255, 255, 0.06);
+  --cc-cookie-category-block-hover-border: rgba(255, 255, 255, 0.14);
+  --cc-cookie-category-expanded-block-bg: rgba(255, 255, 255, 0.02);
+  --cc-cookie-category-expanded-block-hover-bg: rgba(255, 255, 255, 0.06);
+  --cc-overlay-bg: rgba(8, 11, 18, 0.65);
+  --cc-text: #e4e8ef;
+  --cc-modal-border-radius: 0.875rem;
+  --cc-btn-border-radius: 0.625rem;
+  --cc-z-index: 2147483647;
+
+  /* Full-viewport layer so fixed modals are not clipped by page overflow */
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100dvh;
+  z-index: var(--cc-z-index);
+  pointer-events: none;
+}
+
+/* Ensure the banner becomes visible once consent is required */
+html.show--consent #cc-main .cm {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
+#cc-main .cm,
+#cc-main .pm {
+  box-sizing: border-box;
+  color: var(--cc-text);
+}
+
+/*
+ * #cc-main is a full-viewport fixed layer (see above). Never leave wrappers
+ * clickable when the banner is hidden — that created an invisible blocker for
+ * returning visitors who already accepted cookies.
+ */
+#cc-main .cm-wrapper,
+#cc-main .pm-wrapper {
+  pointer-events: none;
+}
+
+html.show--consent #cc-main .cm-wrapper {
+  pointer-events: auto;
+}
+
+html.show--consent #cc-main .cm {
+  pointer-events: auto;
+}
+
+#cc-main .cm {
+  z-index: var(--cc-z-index);
+}
+
+html.show--preferences #cc-main .cm,
+html.show--preferences #cc-main .cm-wrapper {
+  pointer-events: none !important;
+}
+
+html.show--preferences #cc-main .cm {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(1rem) !important;
+}
+
+html.show--preferences #cc-main .pm-wrapper {
+  pointer-events: auto;
+}
+
+/* Consent bar: floating premium panel anchored to viewport bottom */
+#cc-main .cm.cm--bar,
+#cc-main .cm.cm--bar.cm--inline,
+#cc-main .cm.cm--bar.cm--bottom {
+  left: max(0.75rem, env(safe-area-inset-left, 0px)) !important;
+  right: max(0.75rem, env(safe-area-inset-right, 0px)) !important;
+  bottom: max(0.75rem, env(safe-area-inset-bottom, 0px)) !important;
+  top: auto !important;
+  width: auto !important;
+  max-width: min(76rem, calc(100vw - 1.5rem)) !important;
+  margin-inline: auto;
+  border-radius: 1.125rem;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.03)),
+    rgba(8, 11, 18, 0.92);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+#cc-main .cm__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: var(--cc-consent-body-gap);
+  align-items: center;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: var(--cc-consent-body-padding-block) var(--cc-consent-body-padding-inline);
+  box-sizing: border-box;
+  container-type: inline-size;
+  container-name: cc-consent-body;
+}
+
+#cc-main .cm--bar.cm--inline .cm__body {
+  padding: var(--cc-consent-body-padding-block) var(--cc-consent-body-padding-inline);
+}
+
+#cc-main .cm--bar.cm--inline .cm__texts {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+}
+
+#cc-main .cm__texts {
+  max-width: 46rem;
+  min-width: 0;
+  padding: 0;
+}
+
+#cc-main .cm__title,
+#cc-main .cm__desc {
+  padding: 0;
+}
+
+#cc-main .cm__title {
+  margin-bottom: 0.55rem;
+  padding: 0.35rem 0.15rem 0.2rem;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+#cc-main .cm__desc {
+  color: rgba(228, 232, 239, 0.82);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+#cc-main .cm__desc a,
+#cc-main .pm__section-desc a {
+  color: #a4f4fd;
+}
+
+#cc-main .cm__btns {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--cc-consent-actions-gap);
+  width: max-content;
+  min-width: min(100%, 11rem);
+  max-width: var(--cc-consent-actions-max-width);
+  padding: 0;
+  border-top: none;
+  justify-self: end;
+  align-self: center;
+}
+
+#cc-main .cm--bar.cm--inline .cm__btns {
+  flex-direction: column;
+  justify-content: center;
+  max-width: var(--cc-consent-actions-max-width);
+  padding: 0;
+  border-top: none;
+}
+
+#cc-main .cm__btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--cc-consent-actions-gap);
+  width: 100%;
+  min-width: 0;
+}
+
+#cc-main .cm--bar.cm--inline .cm__btn-group {
+  display: flex;
+  flex-direction: column;
+  grid-auto-flow: unset;
+}
+
+#cc-main .cm--bar.cm--inline .cm__btn-group + .cm__btn,
+#cc-main .cm--bar.cm--inline .cm__btn + .cm__btn {
+  margin: 0;
+}
+
+#cc-main .cm--bar .cm__btn {
+  min-width: 0;
+  padding: 0.8rem 1.25rem;
+}
+
+#cc-main .cm--bar.cm--inline .cm__title {
+  padding: 0.35rem 0.15rem 0.2rem;
+}
+
+#cc-main .cm--bar.cm--inline .cm__desc {
+  padding: 0;
+}
+
+#cc-main .cm__btn,
+#cc-main .pm__btn {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.8rem 1.25rem;
+  margin: 0;
+  line-height: 1.3;
+  opacity: 1;
+  transition:
+    transform 180ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease;
+}
+
+#cc-main .cm__btn {
+  white-space: nowrap;
+  height: 2.75rem;
+}
+
+#cc-main .pm__btn {
+  white-space: normal;
+  text-wrap: balance;
+  hyphens: auto;
+}
+
+/* Accept All (primary) is solid white for contrast. The first-visit consent
+   banner and the preferences modal share one treatment so the same action never
+   looks like two different buttons. */
+#cc-main .cm__btn:not(.cm__btn--secondary),
+#cc-main .pm__btn:not(.pm__btn--secondary) {
+  color: #080b12;
+  background: #ffffff;
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  opacity: 1;
+}
+
+#cc-main .cm__btn:not(.cm__btn--secondary):hover,
+#cc-main .pm__btn:not(.pm__btn--secondary):hover {
+  color: #080b12;
+  background: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+#cc-main .cm__btn:not(.cm__btn--secondary):active,
+#cc-main .pm__btn:not(.pm__btn--secondary):active {
+  color: #080b12;
+  background: #f5f7fa;
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  transform: translateY(0) scale(0.99);
+  opacity: 1;
+}
+
+#cc-main .cm__btn--secondary,
+#cc-main .pm__btn--secondary {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  opacity: 1;
+}
+
+#cc-main .cm__btn--secondary:hover,
+#cc-main .pm__btn--secondary:hover,
+#cc-main .cm__btn--secondary:focus-visible,
+#cc-main .pm__btn--secondary:focus-visible {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.36);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+
+#cc-main .cm__btn--secondary:active,
+#cc-main .pm__btn--secondary:active {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(0) scale(0.99);
+  opacity: 1;
+}
+
+#cc-main .cm__btn:focus,
+#cc-main .pm__btn:focus {
+  outline: none;
+}
+
+#cc-main .cm__btn:focus-visible,
+#cc-main .pm__btn:focus-visible {
+  outline: none;
+  border-color: var(--focus-ring-border);
+  box-shadow: 0 0 0 2px var(--focus-ring-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #cc-main .cm__btn,
+  #cc-main .pm__btn {
+    transition:
+      background-color 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease,
+      box-shadow 220ms ease;
+  }
+
+  #cc-main .cm__btn:not(.cm__btn--secondary):hover,
+  #cc-main .pm__btn:not(.pm__btn--secondary):hover,
+  #cc-main .cm__btn:not(.cm__btn--secondary):active,
+  #cc-main .pm__btn:not(.pm__btn--secondary):active,
+  #cc-main .cm__btn--secondary:hover,
+  #cc-main .pm__btn--secondary:hover,
+  #cc-main .cm__btn--secondary:active,
+  #cc-main .pm__btn--secondary:active {
+    transform: none;
+  }
+}
+
+#cc-main .pm-wrapper {
+  padding: 1rem;
+}
+
+#cc-main .pm {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.035)),
+    rgba(8, 11, 18, 0.985);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+#cc-main .pm-overlay {
+  background: rgba(3, 5, 10, 0.78);
+  backdrop-filter: blur(2px);
+}
+
+#cc-main .pm__body,
+#cc-main .pm__footer {
+  background: transparent;
+}
+
+#cc-main .pm__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.5rem;
+}
+
+#cc-main .pm__title,
+#cc-main .pm__section-title {
+  color: #ffffff;
+}
+
+#cc-main .pm__section-desc,
+#cc-main .pm__section-table {
+  color: rgba(228, 232, 239, 0.78);
+}
+
+#cc-main .pm__badge {
+  color: #a4f4fd;
+  background: rgba(61, 129, 227, 0.12);
+  border: 1px solid rgba(61, 129, 227, 0.28);
+}
+
+#cc-main .pm__footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#cc-main .pm__close-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+#cc-main .pm__close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Preferences accordion — keep arrows and titles visible on hover */
+#cc-main .pm__section--expandable .pm__section-arrow {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+#cc-main .pm__section--expandable .pm__section-arrow svg,
+#cc-main .pm__section--toggle .pm__section-arrow svg {
+  stroke: #a4f4fd;
+}
+
+#cc-main .pm__section--toggle .pm__section-title:hover,
+#cc-main .pm__section--expandable .pm__section-title:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+  opacity: 1;
+}
+
+#cc-main .pm__section--toggle .pm__section-title:hover .pm__section-arrow,
+#cc-main .pm__section--expandable .pm__section-title:hover .pm__section-arrow {
+  background: rgba(255, 255, 255, 0.18);
+  opacity: 1;
+}
+
+#cc-main .pm__section--toggle .pm__section-title:hover .pm__section-arrow svg,
+#cc-main .pm__section--expandable .pm__section-title:hover .pm__section-arrow svg,
+#cc-main .pm__section--toggle.is-expanded .pm__section-arrow svg {
+  stroke: #a4f4fd;
+  opacity: 1;
+}
+
+/* The library strokes the enabled checkmark with --cc-toggle-on-bg, which is now
+   translucent white; reuse the read-only knob icon color so it stays visible. */
+#cc-main .section__toggle:checked:not(:disabled) ~ .toggle__icon .toggle__icon-on svg {
+  stroke: var(--cc-toggle-readonly-knob-icon-color);
+}
+
+/* Stack when the banner content area is too narrow for a balanced two-column layout */
+@container cc-consent-body (max-width: 52rem) {
+  #cc-main .cm__body {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  #cc-main .cm__btns {
+    width: 100%;
+    max-width: var(--cc-consent-actions-max-width);
+    justify-self: center;
+    margin-inline: auto;
+    align-self: stretch;
+  }
+}
+
+@container cc-consent-body (max-width: 24rem) {
+  #cc-main .cm__btns {
+    max-width: 100%;
+  }
+}
+
+/* Fallback for browsers without container queries */
+@media (max-width: 920px) {
+  #cc-main .cm__body {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  #cc-main .cm__btns {
+    width: 100%;
+    max-width: var(--cc-consent-actions-max-width);
+    justify-self: center;
+    margin-inline: auto;
+    align-self: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  #cc-main .cm.cm--bar,
+  #cc-main .cm.cm--bar.cm--inline,
+  #cc-main .cm.cm--bar.cm--bottom {
+    left: max(0.875rem, env(safe-area-inset-left, 0px)) !important;
+    right: max(0.875rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: max(0.875rem, env(safe-area-inset-bottom, 0px)) !important;
+    max-width: calc(100vw - 1.75rem) !important;
+    border-radius: 1rem;
+  }
+
+  /* Specificity must beat #cc-main .cm--bar.cm--inline .cm__body desktop padding. */
+  #cc-main .cm__body,
+  #cc-main .cm--bar .cm__body,
+  #cc-main .cm--bar.cm--inline .cm__body,
+  #cc-main .cm--bar.cm--bottom .cm__body {
+    padding: 1.125rem 0.875rem !important;
+    gap: 0.875rem !important;
+  }
+
+  #cc-main .cm__texts,
+  #cc-main .cm--bar.cm--inline .cm__texts {
+    padding: 0;
+    max-width: none;
+  }
+
+  #cc-main .cm__title,
+  #cc-main .cm--bar.cm--inline .cm__title {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+
+  #cc-main .cm__desc,
+  #cc-main .cm--bar.cm--inline .cm__desc {
+    padding: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  #cc-main .cm__btns,
+  #cc-main .cm--bar.cm--inline .cm__btns {
+    width: 100%;
+    max-width: none;
+    justify-self: stretch;
+    margin-inline: 0;
+    gap: 0.625rem;
+  }
+
+  #cc-main .cm__btn-group,
+  #cc-main .cm--bar.cm--inline .cm__btn-group {
+    width: 100%;
+    gap: 0.625rem;
+  }
+
+  #cc-main .cm--bar .cm__btn,
+  #cc-main .cm__btn {
+    min-height: 2.75rem;
+    height: auto;
+    padding: 0.7rem 1rem;
+    white-space: normal;
+  }
+
+  #cc-main .pm-wrapper {
+    padding: 0.875rem;
+  }
+}
+
+@media (max-width: 360px) {
+  #cc-main .cm.cm--bar,
+  #cc-main .cm.cm--bar.cm--inline,
+  #cc-main .cm.cm--bar.cm--bottom {
+    left: max(0.75rem, env(safe-area-inset-left, 0px)) !important;
+    right: max(0.75rem, env(safe-area-inset-right, 0px)) !important;
+    bottom: max(0.75rem, env(safe-area-inset-bottom, 0px)) !important;
+    max-width: calc(100vw - 1.5rem) !important;
+  }
+
+  #cc-main .cm__body,
+  #cc-main .cm--bar .cm__body,
+  #cc-main .cm--bar.cm--inline .cm__body,
+  #cc-main .cm--bar.cm--bottom .cm__body {
+    padding: 1rem 0.75rem !important;
+    gap: 0.75rem !important;
+  }
+}

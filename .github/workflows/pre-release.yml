@@ -1,0 +1,312 @@
+name: Pre-Release Gate
+
+# Production release gate for PRs targeting main (the verified production branch).
+# Non-blocking by design: this workflow is intentionally NOT a required status
+# check yet. It produces release signal only; branch protection changes are a
+# separate, manually approved step.
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pre-release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-release-build:
+    name: Production build & artifact hygiene
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Public client-side values (shipped in the bundle by design). Server
+      # secrets such as TURNSTILE_SECRET_KEY must never be added here.
+      VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify production build configuration
+        run: |
+          if [ -z "${VITE_GA_MEASUREMENT_ID:-}" ]; then
+            echo "::error::VITE_GA_MEASUREMENT_ID is not configured for this repository."
+            echo "::error::Add it under Settings > Secrets and variables > Actions > Variables."
+            echo "::error::This is a public client-side value that ships in the bundle; without it the release build silently disables analytics."
+            exit 1
+          fi
+
+      - name: Production build
+        run: npm run build
+
+      - name: Build-output hygiene checks
+        run: node scripts/check-release-build.mjs
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
+
+  pre-release-seo:
+    name: Sitemap, robots, static SEO & links
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: pre-release-build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+
+      - name: Validate sitemap, robots, static SEO and links
+        run: node scripts/check-release-seo.mjs
+
+  pre-release-rendered-seo:
+    name: Rendered SPA SEO
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: pre-release-build
+    env:
+      PLAYWRIGHT_RELEASE_MODE: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Rendered SEO checks
+        run: npx playwright test e2e/release/rendered-seo.spec.ts --project=chromium
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-seo-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 7
+
+  pre-release-a11y:
+    name: Accessibility (axe-core)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: pre-release-build
+    env:
+      PLAYWRIGHT_RELEASE_MODE: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Axe accessibility checks
+        run: npx playwright test e2e/release/a11y.spec.ts --project=chromium
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 7
+
+  pre-release-browser-smoke:
+    name: Critical smoke (Firefox & WebKit)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: pre-release-build
+    env:
+      PLAYWRIGHT_RELEASE_MODE: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: playwright-${{ runner.os }}-
+
+      - name: Install Playwright Firefox and WebKit
+        run: npx playwright install --with-deps firefox webkit
+
+      # Project-level grep in playwright.config.ts limits these to @critical tests.
+      - name: Critical cross-browser smoke
+        run: npx playwright test --project=firefox --project=webkit
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-smoke-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 7
+
+  pre-release-lighthouse:
+    name: Lighthouse (${{ matrix.preset }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: pre-release-build
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [desktop, mobile]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dist-${{ github.sha }}
+          path: dist/
+
+      # INFORMATIONAL ONLY: quality regressions are warnings, never job failures.
+      # A red job here means Lighthouse infrastructure itself failed (server,
+      # Chrome, missing artifact) — that distinction is intentional.
+      - name: Lighthouse collect (${{ matrix.preset }})
+        run: node scripts/run-lighthouse.mjs --preset=${{ matrix.preset }} --runs=3
+
+      - name: Lighthouse report & regression comparison
+        run: node scripts/report-lighthouse.mjs
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.preset }}-${{ github.sha }}
+          path: lighthouse-results/
+          retention-days: 7
+
+  pre-release-security:
+    name: Secret scan & production dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Secret detection
+        # gitleaks binary pinned by exact version + SHA-256 instead of a
+        # floating third-party action. --redact keeps secrets out of logs.
+        run: |
+          set -euo pipefail
+          VERSION=8.30.1
+          ARCHIVE="gitleaks_${VERSION}_linux_x64.tar.gz"
+          EXPECTED_SHA256=551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/${ARCHIVE}" -o /tmp/gitleaks.tar.gz
+          echo "${EXPECTED_SHA256}  /tmp/gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf /tmp/gitleaks.tar.gz -C /tmp gitleaks
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            /tmp/gitleaks git --redact --log-opts="${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}" .
+          else
+            /tmp/gitleaks dir --redact .
+          fi
+
+      - name: Production dependency audit
+        # Warning-only until existing findings are triaged; never blocks the gate.
+        run: |
+          npm audit --omit=dev --json > audit-report.json || true
+          node -e "const r=require('./audit-report.json'); const v=(r.metadata&&r.metadata.vulnerabilities)||{}; console.log('Production dependency audit:'); console.log('  critical: '+(v.critical||0)); console.log('  high: '+(v.high||0)); console.log('  moderate: '+(v.moderate||0)); console.log('  low: '+(v.low||0)); const names=Object.keys(r.vulnerabilities||{}); if(names.length){ console.log('  affected: '+names.join(', ')); } if((v.critical||0)+(v.high||0)>0){ console.log('::warning::Production dependency audit found '+(v.critical||0)+' critical and '+(v.high||0)+' high advisories (non-blocking, triage separately).'); }"
+          rm -f audit-report.json

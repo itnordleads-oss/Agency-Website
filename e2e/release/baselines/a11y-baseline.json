@@ -1,0 +1,54 @@
+{
+  "description": "Confirmed PRE-EXISTING axe violations captured at the first automated accessibility baseline (2026-08-11). All are serious color-contrast findings on low-opacity light text over dark backgrounds. Entries suppress known findings as warnings until expiry; expired entries fail. NEW critical/serious violations always fail. Moderate/minor findings are report-only and never need entries here.",
+  "entries": [
+    {
+      "id": "color-contrast::.mb-4",
+      "route": "/ :: banner visible",
+      "reason": "Homepage low-contrast text block (.mb-4) — white/45-style text on dark background below WCAG AA.",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.sm\\:text-\\[0\\.7rem\\].bg-white\\/\\[0\\.03\\].text-white\\/45*",
+      "route": "/ :: banner visible",
+      "reason": "Homepage eyebrow/stat items using text-white/45 on dark background — five nodes sharing one component class (prefix match).",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.mb-4",
+      "route": "/ :: banner dismissed",
+      "reason": "Same homepage .mb-4 contrast issue, scanned after cookie consent dismissal.",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.sm\\:text-\\[0\\.7rem\\].bg-white\\/\\[0\\.03\\].text-white\\/45*",
+      "route": "/ :: banner dismissed",
+      "reason": "Same homepage eyebrow/stat contrast issue, scanned after cookie consent dismissal (prefix match).",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.text-white\\/45",
+      "route": "/contact :: banner visible",
+      "reason": "Contact page secondary text at white/45 on dark background below WCAG AA.",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.text-white\\/45",
+      "route": "/contact :: banner dismissed",
+      "reason": "Same contact page contrast issue, scanned after cookie consent dismissal.",
+      "ticket": "REM-A11Y-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "color-contrast::.lp-eyebrow",
+      "route": "/landing/b2b-lead-generation/ :: static page",
+      "reason": "Generated landing page eyebrow label contrast below WCAG AA (affects the shared landing template).",
+      "ticket": "REM-A11Y-2",
+      "expires": "2026-11-11"
+    }
+  ]
+}

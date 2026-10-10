@@ -1,0 +1,47 @@
+{
+  "description": "CURRENT PRODUCTION DEBT baseline for the post-deploy smoke check. Production currently serves the OLD single-page main build (verified 2026-08-11): the new SPA routes, landing pages, full sitemap, and legacy redirects only exist in develop and go live with the first release. These entries downgrade the resulting alerts to warnings. After the first release ships, every entry here must be re-verified and removed; expired entries fail. Entry id ending in * matches by prefix.",
+  "entries": [
+    {
+      "id": "route-status::*",
+      "reason": "Current production is the pre-release single-page build; /contact, /platform, /workflow, /terms return 404 until the first develop→main release.",
+      "ticket": "REM-PROD-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "landing-status::*",
+      "reason": "Generated landing pages exist only in develop; they 404 on current production until the first release.",
+      "ticket": "REM-PROD-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "sitemap-route-set",
+      "reason": "Current production sitemap is the static 1-URL file from main; the 13-URL generated sitemap ships with the first release.",
+      "ticket": "REM-PROD-1",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "redirect::*",
+      "reason": "The deployed main-era Worker predates the legacy homepage redirects; /homepage-v1..v3 currently 404 instead of 301 → /.",
+      "ticket": "REM-PROD-2",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "security-headers::*",
+      "reason": "Production responses currently lack HSTS/CSP/X-Content-Type-Options/Referrer-Policy/Permissions-Policy/frame protection; header remediation is a separate approved task.",
+      "ticket": "REM-PROD-3",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "ga-config-missing",
+      "reason": "The live main-era bundle was built without VITE_GA_MEASUREMENT_ID, so analytics is compiled out on current production; the release build must include it.",
+      "ticket": "REM-PROD-4",
+      "expires": "2026-11-11"
+    },
+    {
+      "id": "consent-ui-current-production",
+      "reason": "Current production runs the main-era cookie consent UI (no 'Accept All' button); the verified consent flow ships with the first release, so consent/analytics browser checks are deferred until then.",
+      "ticket": "REM-PROD-1",
+      "expires": "2026-11-11"
+    }
+  ]
+}

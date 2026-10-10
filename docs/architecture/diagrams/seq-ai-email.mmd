@@ -1,0 +1,17 @@
+sequenceDiagram
+  actor U as User
+  participant Web as Next.js
+  participant API as Main API
+  participant DB as PostgreSQL
+  participant LLM as LLM Provider
+  U->>Web: Generate email
+  Web->>API: POST /emails/generate SSE
+  API->>DB: load context
+  API->>DB: check entitlements
+  API->>LLM: stream completion
+  loop tokens
+    LLM-->>API: token
+    API-->>Web: SSE token
+  end
+  API->>DB: save EmailAsset
+  API-->>Web: SSE done

@@ -1,0 +1,19 @@
+erDiagram
+  ORGANIZATION ||--o{ MEMBERSHIP : has
+  USER ||--o{ MEMBERSHIP : has
+  ORGANIZATION ||--o{ WORKSPACE : has
+  WORKSPACE ||--o{ PROJECT : has
+  ORGANIZATION ||--o{ COMPANY : owns
+  COMPANY ||--o{ PERSON : has
+  ORGANIZATION ||--o{ PROSPECT_LIST : owns
+  PROSPECT_LIST }o--o{ COMPANY : contains
+  ORGANIZATION ||--o{ COLLECTION_JOB : owns
+  ORGANIZATION ||--o{ CAMPAIGN : owns
+  CAMPAIGN ||--o{ CAMPAIGN_MEMBERSHIP : includes
+  PERSON ||--o{ CAMPAIGN_MEMBERSHIP : targeted
+  CAMPAIGN ||--o{ SEQUENCE_STEP : defines
+  PERSON ||--o{ EMAIL_ASSET : drafts
+  USER ||--o{ AGENT_THREAD : chats
+  AGENT_THREAD ||--o{ AGENT_MESSAGE : has
+  ORGANIZATION ||--o{ AUDIT_LOG : records
+  ORGANIZATION ||--|| SUBSCRIPTION : bills

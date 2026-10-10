@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+coverage
+.wrangler
+lighthouse-reports
+.agents
+.cursor
+package-lock.json
+public/sitemap.xml
+*.min.js
+**/*.tmp.*
+scripts/**/*.tmp.mjs
+test-results
+playwright-report
+blob-report

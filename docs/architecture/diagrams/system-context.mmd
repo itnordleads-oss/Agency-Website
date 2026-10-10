@@ -1,0 +1,14 @@
+flowchart TB
+  Visitor --> Marketing[Marketing CF Worker]
+  Marketing --> KV[(LEADS_KV)]
+  User --> WebApp[Next.js App]
+  WebApp --> API[Main API NestJS]
+  API --> PG[(PostgreSQL)]
+  API --> Redis[(Redis/BullMQ)]
+  API --> LLM[LLM Provider]
+  API --> R2[Cloudflare R2]
+  Collect[Data Collection Service] --> Redis
+  Collect --> Sources[Web/Maps/Registries]
+  Collect --> PG
+  API --> Stripe
+  API --> ESP[Email ESP]
