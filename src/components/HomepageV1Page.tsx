@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  isMetricsModuleEnabled,
+  isPricingModuleEnabled,
+  isTestimonialsModuleEnabled,
+} from "../lib/trustModules";
 import DeferredMount from "./DeferredMount";
 import MainProductMockup from "./MainProductMockup";
 import ProofBand from "./ProofBand";
@@ -30,9 +35,11 @@ export default function HomepageV1Page() {
           <Hero id="hero" />
         </DeferredMount>
 
-        <DeferredMount rootMargin="0px" minHeight="10rem">
-          <ProofBand />
-        </DeferredMount>
+        {isMetricsModuleEnabled() ? (
+          <DeferredMount rootMargin="0px" minHeight="10rem">
+            <ProofBand />
+          </DeferredMount>
+        ) : null}
 
         <div id="platform">
           <DeferredMount rootMargin="0px" minHeight="12rem">
@@ -64,13 +71,17 @@ export default function HomepageV1Page() {
           <DataQuality />
         </DeferredMount>
 
-        <DeferredMount rootMargin="0px" minHeight="28rem">
-          <PricingSection />
-        </DeferredMount>
+        {isPricingModuleEnabled() ? (
+          <DeferredMount rootMargin="0px" minHeight="28rem">
+            <PricingSection />
+          </DeferredMount>
+        ) : null}
 
-        <DeferredMount rootMargin="0px" minHeight="28rem">
-          <TestimonialsSection />
-        </DeferredMount>
+        {isTestimonialsModuleEnabled() ? (
+          <DeferredMount rootMargin="0px" minHeight="28rem">
+            <TestimonialsSection />
+          </DeferredMount>
+        ) : null}
 
         <DeferredMount rootMargin="0px" minHeight="16rem">
           <BookDemoSection />

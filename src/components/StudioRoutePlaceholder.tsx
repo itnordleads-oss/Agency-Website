@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import BackToHomepage from "./BackToHomepage";
 import { getBrandAriaLabel } from "../lib/studioBranding";
 
 type StudioRoutePlaceholderProps = {
   title: string;
   routePath: string;
-  /** Internal ownership note — not shown in the public UI (F13). */
+  /** Internal ownership note ΓÇö not shown in the public UI (F13). */
   ownershipNote: string;
 };
 
@@ -27,7 +27,7 @@ export default function StudioRoutePlaceholder({
     const robots = document.querySelector('meta[name="robots"]');
     const previousRobots = robots?.getAttribute("content") ?? null;
 
-    document.title = `${title} — ${getBrandAriaLabel()}`;
+    document.title = `${title} ΓÇö ${getBrandAriaLabel()}`;
     robots?.setAttribute("content", "noindex, nofollow");
     window.scrollTo({ top: 0, behavior: "auto" });
 

@@ -1,16 +1,23 @@
 import React from "react";
 import { Building2, Workflow, SlidersHorizontal, Send } from "lucide-react";
+import { isMetricsModuleEnabled } from "../lib/trustModules";
 import { useSiteCopy } from "../lib/useSiteCopy";
+
+const PROOF_ICONS = [Building2, Workflow, SlidersHorizontal, Send] as const;
 
 export default function ProofBand() {
   const { proofBand } = useSiteCopy();
+  const items = Array.isArray(proofBand) ? proofBand : [];
 
-  const proofPoints = [
-    { icon: Building2, stat: proofBand[0].stat, label: proofBand[0].label },
-    { icon: Workflow, stat: proofBand[1].stat, label: proofBand[1].label },
-    { icon: SlidersHorizontal, stat: proofBand[2].stat, label: proofBand[2].label },
-    { icon: Send, stat: proofBand[3].stat, label: proofBand[3].label },
-  ];
+  if (!isMetricsModuleEnabled() || items.length === 0) {
+    return null;
+  }
+
+  const proofPoints = items.map((point, index) => ({
+    icon: PROOF_ICONS[index % PROOF_ICONS.length],
+    stat: point.stat,
+    label: point.label,
+  }));
 
   return (
     <section className="relative overflow-hidden min-w-0" aria-label="Why teams work with us">

@@ -6,17 +6,15 @@ import { acceptCookiesIfPresent } from "../helpers/cookies";
 import { findEntry, isExpired, loadBaseline } from "./baseline";
 
 /**
- * Rendered SPA SEO release check.
- * Validates metadata of the JavaScript-rendered app for every public SPA route.
+ * Rendered SPA SEO release check (F11 agency surface).
+ * Validates metadata of the JavaScript-rendered app for public agency routes.
  * Static/generated HTML is covered separately by scripts/check-release-seo.mjs.
  *
- * Triage mode: confirmed pre-existing defects listed in
- * e2e/release/baselines/rendered-seo-baseline.json stay warnings (with expiry);
- * any NEW failure fails the test.
+ * Domain is TBC (studioBranding): path-only canonical is accepted when absolute
+ * HTTPS URLs are unavailable. og:image is optional until an approved asset exists.
  */
 
-const ROUTES = ["/", "/contact", "/platform", "/workflow", "/terms"] as const;
-const PROD_HOST = "adealforge.com";
+const ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
 
 interface RouteSnapshot {
   route: string;
@@ -44,8 +42,6 @@ async function snapshotRoute(page: Page, route: string): Promise<RouteSnapshot> 
 
   await page.goto(route);
   await acceptCookiesIfPresent(page);
-  // Wait for the app shell, not for an h1 — h1 presence is itself a check
-  // (at least one public route currently ships without one).
   await page.locator("main").first().waitFor({ state: "attached", timeout: 15_000 });
 
   const head = await page.evaluate(() => {
@@ -77,8 +73,17 @@ function collectRouteFindings(snapshot: RouteSnapshot, homepage: RouteSnapshot):
   if (!snapshot.title.trim()) {
     add("title-missing", "rendered document.title is empty");
   }
+  if (/adealforge/i.test(snapshot.title)) {
+    add("title-product-brand", `title still references ADealForge: ${snapshot.title}`);
+  }
   if (!snapshot.description?.trim()) {
     add("description-missing", "rendered meta description is missing or empty");
+  }
+  if (snapshot.description && /adealforge/i.test(snapshot.description)) {
+    add(
+      "description-product-brand",
+      `description still references ADealForge: ${snapshot.description}`
+    );
   }
   if (route !== "/" && snapshot.description && snapshot.description === homepage.description) {
     add(
@@ -96,14 +101,20 @@ function collectRouteFindings(snapshot: RouteSnapshot, homepage: RouteSnapshot):
     const href = snapshot.canonicals[0];
     if (!href) {
       add("canonical-empty", "canonical tag has no href");
+    } else if (/adealforge\.com/i.test(href)) {
+      add("canonical-product-host", `canonical uses retired product host: ${href}`);
+    } else if (href.startsWith("/")) {
+      if (href !== route) {
+        add(
+          "canonical-self",
+          `path-only canonical "${href}" is not self-referencing for route "${route}"`
+        );
+      }
     } else {
       try {
         const url = new URL(href);
         if (url.protocol !== "https:") {
           add("canonical-scheme", `canonical is not HTTPS: ${href}`);
-        }
-        if (url.hostname !== PROD_HOST) {
-          add("canonical-host", `canonical points off the production host: ${href}`);
         }
         const expectedPath = route;
         if (url.pathname !== expectedPath) {
@@ -134,28 +145,34 @@ function collectRouteFindings(snapshot: RouteSnapshot, homepage: RouteSnapshot):
   ) {
     add("og-description-inherited", "route inherits the homepage og:description");
   }
-  if (!snapshot.ogUrl?.trim()) {
-    add("og-url-missing", "og:url is missing or empty");
-  } else {
-    try {
-      const url = new URL(snapshot.ogUrl);
-      if (url.protocol !== "https:" || url.hostname !== PROD_HOST) {
-        add("og-url-host", `og:url is not on the production HTTPS host: ${snapshot.ogUrl}`);
+
+  // og:url / og:image require an approved domain / asset — optional while TBC.
+  if (snapshot.ogUrl?.trim()) {
+    if (/adealforge\.com/i.test(snapshot.ogUrl)) {
+      add("og-url-product-host", `og:url uses retired product host: ${snapshot.ogUrl}`);
+    } else {
+      try {
+        const url = new URL(snapshot.ogUrl);
+        if (url.protocol !== "https:") {
+          add("og-url-host", `og:url is not HTTPS: ${snapshot.ogUrl}`);
+        }
+        if (url.pathname !== route) {
+          add(
+            "og-url-self",
+            `og:url path "${url.pathname}" is not self-referencing for route "${route}"`
+          );
+        }
+      } catch {
+        add("og-url-malformed", `og:url is malformed: ${snapshot.ogUrl}`);
       }
-      if (url.pathname !== route) {
-        add(
-          "og-url-self",
-          `og:url path "${url.pathname}" is not self-referencing for route "${route}"`
-        );
-      }
-    } catch {
-      add("og-url-malformed", `og:url is malformed: ${snapshot.ogUrl}`);
     }
   }
-  if (!snapshot.ogImage?.trim()) {
-    add("og-image-missing", "og:image is missing or empty");
-  } else if (!snapshot.ogImage.startsWith("https://")) {
-    add("og-image-scheme", `og:image is not HTTPS: ${snapshot.ogImage}`);
+  if (snapshot.ogImage?.trim()) {
+    if (/adealforge/i.test(snapshot.ogImage)) {
+      add("og-image-product", `og:image still references product branding: ${snapshot.ogImage}`);
+    } else if (!snapshot.ogImage.startsWith("https://") && !snapshot.ogImage.startsWith("/")) {
+      add("og-image-scheme", `og:image is neither HTTPS nor site-relative: ${snapshot.ogImage}`);
+    }
   }
 
   if (snapshot.robotsMeta && /noindex/i.test(snapshot.robotsMeta)) {

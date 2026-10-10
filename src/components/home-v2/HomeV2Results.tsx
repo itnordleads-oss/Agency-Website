@@ -1,5 +1,6 @@
 import React from "react";
 import SectionEyebrow from "../SectionEyebrow";
+import { isMetricsModuleEnabled } from "../../lib/trustModules";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 
 /**
@@ -10,6 +11,10 @@ export default function HomeV2Results() {
   const { homepageV3 } = useSiteCopy();
   const results = homepageV3.results;
   const items = Array.isArray(results?.items) ? results.items : [];
+
+  if (!isMetricsModuleEnabled() || items.length === 0) {
+    return null;
+  }
 
   return (
     <section id="v2-results" className="relative min-w-0 overflow-hidden py-12 sm:py-14 md:py-16">
