@@ -13,7 +13,7 @@ import { SITE_ORIGIN, landingPages } from "./landing-pages-data.mjs";
 const PROFILE = process.env.MOCK_PROFILE || "healthy";
 const PORT = Number(process.env.MOCK_PORT || 4577);
 
-const SPA_ROUTES = ["/contact", "/platform", "/workflow", "/terms"];
+const SPA_ROUTES = ["/services", "/about", "/contact", "/terms"];
 
 function healthySitemap() {
   const urls = ["/", ...SPA_ROUTES, ...landingPages.map((page) => `/landing/${page.slug}/`)];

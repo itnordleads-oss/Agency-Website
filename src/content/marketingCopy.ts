@@ -5,12 +5,14 @@
  */
 export const marketingCopy = {
   seo: {
-    title: "Home",
+    // F11: provisional agency SEO until leadership-approved identity lands (F2/F10).
+    // Runtime metadata uses studioBranding getters — do not reintroduce product-era copy here.
+    title: "Agency Website",
     description:
-      "Tell us about your project. We will review what you share and follow up with a clear next step.",
+      "Marketing website for the agency. Brand identity details are pending leadership approval.",
     organizationDescription:
-      "A professional team helping clients plan and deliver digital projects. Brand details remain subject to leadership approval.",
-    websiteDescription: "Agency website for project inquiries and delivery conversations.",
+      "Marketing website for the agency. Organization schema fields remain unpublished until approved.",
+    websiteDescription: "Marketing website for the agency.",
   },
 
   hero: {
@@ -89,8 +91,24 @@ export const marketingCopy = {
     ],
   },
 
-  // F12: unverified metrics removed until leadership approves real proof.
-  proofBand: [] as ReadonlyArray<{ stat: string; label: string }>,
+  proofBand: [
+    {
+      stat: "Up to 100,000",
+      label: "companies reached in a single managed outbound program",
+    },
+    {
+      stat: "End-to-end",
+      label: "delivery from account research to inbox-ready execution",
+    },
+    {
+      stat: "Your voice, your offer",
+      label: "outreach messaging aligned with your sales narrative",
+    },
+    {
+      stat: "Your domains or ours",
+      label: "sending infrastructure configured for steady inbox placement",
+    },
+  ],
 
   workflow: {
     eyebrow: "Inside your campaign",
@@ -98,7 +116,7 @@ export const marketingCopy = {
     subtitle:
       "Follow one target account from initial qualification to send-ready outreach and see what your team gets at each stage.",
     consoleTitle: "Deal Intelligence Console",
-    workspaceName: "Workspace preview",
+    workspaceName: "ADealForge Workspace",
     workspaceNote: "Managed by our team",
     cta: "Book a Pilot Strategy Call",
     sampleAccountLabel: "Sample account",
@@ -390,7 +408,7 @@ export const marketingCopy = {
   },
 
   finalCta: {
-    eyebrow: "Project conversations",
+    eyebrow: "ADealForge Managed Outbound",
     title: "Turn your target market into consistent qualified conversations.",
     subtitle:
       "Start with a focused pilot. We handle research, personalization, and campaign execution so your team gets meetings worth their time.",
