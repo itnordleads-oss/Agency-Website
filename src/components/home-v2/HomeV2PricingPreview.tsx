@@ -13,6 +13,7 @@ import {
   type HomepageSubscriptionPlan,
   type PricingMode,
 } from "../../lib/homepagePricingPlans";
+import { isPricingModuleEnabled } from "../../lib/trustModules";
 import { useHomepageCopy } from "./homepageVariantContext";
 import "./homeV2PricingSection.css";
 
@@ -40,6 +41,10 @@ export default function HomeV2PricingPreview() {
     ...(pricing.oneTimeLeads ?? {}),
     toggleLabel: pricing.billingToggle.oneTimeLeads || ONE_TIME_LEADS_COPY_FALLBACK.toggleLabel,
   };
+
+  if (!isPricingModuleEnabled()) {
+    return null;
+  }
 
   return (
     <section
