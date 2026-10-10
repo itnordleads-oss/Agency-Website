@@ -14,9 +14,11 @@ import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
 import PlatformPage from "./components/PlatformPage";
 import WorkflowPage from "./components/WorkflowPage";
+import WorkPage from "./components/WorkPage";
 import ServicesPage from "./components/ServicesPage";
 import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
+import { isWorkPagePublished } from "./lib/workProjects";
 import {
   getHomepageSectionHref,
   requestInstantHomepageSectionScroll,
@@ -178,6 +180,18 @@ export function navigateToContact() {
   navigateAppPath("/contact");
 }
 
+/**
+ * Navigate to /work only when published case studies exist (F7).
+ * Otherwise keep callers on a safe public route.
+ */
+export function navigateToWork() {
+  if (!isWorkPagePublished()) {
+    navigateAppPath("/");
+    return;
+  }
+  navigateAppPath("/work");
+}
+
 export function navigateToServices() {
   navigateAppPath(getStudioNavHref("services"));
 }
@@ -226,6 +240,8 @@ export default function App() {
   const isAboutPage = path === "/about";
   const isPlatformPage = path === "/platform";
   const isWorkflowPage = path === "/workflow";
+  /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
+  const isWorkPage = path === "/work";
 
   useEffect(() => {
     const onPopState = () => {
@@ -284,6 +300,15 @@ export default function App() {
             <DeferredMount rootMargin="0px" minHeight="32rem">
               <Footer />
             </DeferredMount>
+          </>
+        ) : isWorkPage ? (
+          <>
+            <WorkPage />
+            {isWorkPagePublished() ? (
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            ) : null}
           </>
         ) : (
           <>
