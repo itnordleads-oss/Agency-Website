@@ -12,11 +12,11 @@ import Footer from "./components/Footer";
 import PageBackground from "./components/PageBackground";
 import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
-import PlatformPage from "./components/PlatformPage";
-import WorkflowPage from "./components/WorkflowPage";
+import WorkPage from "./components/WorkPage";
 import ServicesPage from "./components/ServicesPage";
 import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
+import { isWorkPagePublished } from "./lib/workProjects";
 import {
   getHomepageSectionHref,
   requestInstantHomepageSectionScroll,
@@ -24,32 +24,39 @@ import {
   scrollToHomepageSection,
 } from "./lib/homepageSections";
 import { getStudioNavHref } from "./lib/studioNavigation";
+import { normalizeAppPath, resolveProductRouteRedirect } from "./lib/productRouteRetirement";
 
 /**
  * Legacy preview URLs — redirected to production `/` (Homepage V3).
- * Homepage V1 (`HomepageV1Page.tsx`) and Homepage V2 (`home-v2/HomepageV2Page.tsx`)
- * source remain in the repo; V2 layout is reused by V3.
- * Product `/platform` and `/workflow` remain routable until F9 retirement.
+ * Homepage V1/V2 source remains in-repo; V2 layout is reused by V3.
+ * F9: `/platform`, `/workflow`, and `/landing/*` redirect to agency routes.
  */
 const LEGACY_HOMEPAGE_PATHS = new Set(["/homepage-v1", "/homepage-v2", "/homepage-v3"]);
 
 function normalizePath(pathname: string) {
-  return pathname.replace(/\/+$/, "") || "/";
+  return normalizeAppPath(pathname);
 }
 
 function isLegacyHomepagePath(pathname: string) {
   return LEGACY_HOMEPAGE_PATHS.has(normalizePath(pathname));
 }
 
-/** Resolve the public path, rewriting retired homepage URLs to `/`. */
+/**
+ * Resolve the public path:
+ * - legacy homepage previews → `/`
+ * - retired product surfaces → agency destinations (F9)
+ */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
-  return isLegacyHomepagePath(path) ? "/" : path;
+  if (isLegacyHomepagePath(path)) {
+    return "/";
+  }
+  return resolveProductRouteRedirect(path) ?? path;
 }
 
 /**
  * Soft client-side navigation helper for TermsPage / in-app links when needed.
- * Legacy homepage paths always resolve to production `/`.
+ * Legacy homepage and retired product paths resolve to their public destinations.
  */
 export function navigateAppPath(path: string) {
   const next = resolvePublicPath(path);
@@ -96,21 +103,15 @@ export function navigateToSection(targetId: string) {
     return;
   }
 
-  if (targetId === "platform") {
-    navigateAppPath("/platform");
+  // F9: product route ids resolve to Services.
+  if (targetId === "platform" || targetId === "workflow") {
+    navigateAppPath(getStudioNavHref("services"));
     return;
   }
 
-  if (targetId === "workflow") {
-    const currentPath = resolvePublicPath(window.location.pathname);
-    if (currentPath === "/workflow") {
-      document.getElementById("workflow")?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    navigateAppPath("/workflow");
-    window.setTimeout(() => {
-      document.getElementById("workflow")?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+  // Retired product pricing hash → Contact (no agency pricing page).
+  if (targetId === "pricing" || targetId === "v2-pricing") {
+    navigateAppPath("/contact");
     return;
   }
 
@@ -137,18 +138,14 @@ export function navigateToSection(targetId: string) {
       window.location.hash === `#${homepageSectionId}`;
 
     if (!isCurrentTarget) {
-      // Cross-route → /#section: mark the pending hash so homepage scroll owns it.
       if (resolvePublicPath(window.location.pathname) !== "/") {
         requestInstantHomepageSectionScroll(homepageSectionId);
       }
-      // Update hash/history only. HomepageV2Page is the single scroll owner for
-      // hash/popstate (avoids competing scrolls that shake Pricing navigation).
       window.history.pushState({}, "", href);
       window.dispatchEvent(new PopStateEvent("popstate"));
       return;
     }
 
-    // Same hash clicked again: hashchange/popstate will not re-fire, so scroll once.
     let attempts = 0;
     const tryScroll = () => {
       if (scrollToHomepageSection(homepageSectionId) || attempts >= 120) {
@@ -162,8 +159,7 @@ export function navigateToSection(targetId: string) {
   }
 
   const currentPath = resolvePublicPath(window.location.pathname);
-  // Non-navigation anchors may still scroll in place on the homepage or Workflow.
-  if (currentPath === "/" || currentPath === "/workflow") {
+  if (currentPath === "/") {
     document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
     return;
   }
@@ -178,6 +174,18 @@ export function navigateToContact() {
   navigateAppPath("/contact");
 }
 
+/**
+ * Navigate to /work only when published case studies exist (F7).
+ * Otherwise keep callers on a safe public route.
+ */
+export function navigateToWork() {
+  if (!isWorkPagePublished()) {
+    navigateAppPath("/");
+    return;
+  }
+  navigateAppPath("/work");
+}
+
 export function navigateToServices() {
   navigateAppPath(getStudioNavHref("services"));
 }
@@ -186,17 +194,14 @@ export function navigateToAbout() {
   navigateAppPath(getStudioNavHref("about"));
 }
 
+/** @deprecated F9 — product Platform retired; navigates to Services. */
 export function navigateToPlatform() {
-  navigateAppPath("/platform");
+  navigateAppPath(getStudioNavHref("services"));
 }
 
+/** @deprecated F9 — product Workflow retired; navigates to Services. */
 export function navigateToWorkflow() {
-  const currentPath = resolvePublicPath(window.location.pathname);
-  if (currentPath === "/workflow") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-  navigateAppPath("/workflow");
+  navigateAppPath(getStudioNavHref("services"));
 }
 
 /** Production homepage is Homepage V3 at `/`. */
@@ -210,12 +215,19 @@ function getInitialPublicPath() {
   }
 
   const path = normalizePath(window.location.pathname);
-  if (isLegacyHomepagePath(path)) {
-    window.history.replaceState({}, "", "/");
-    return "/";
+  const hash = window.location.hash.replace(/^#/, "");
+
+  // F9: product pricing hash retired — resolve before first paint so React state matches URL.
+  if ((hash === "pricing" || hash === "v2-pricing") && (path === "/" || path === "")) {
+    window.history.replaceState({}, "", "/contact");
+    return "/contact";
   }
 
-  return path;
+  const resolved = resolvePublicPath(path);
+  if (resolved !== path) {
+    window.history.replaceState({}, "", resolved);
+  }
+  return resolved;
 }
 
 export default function App() {
@@ -224,15 +236,16 @@ export default function App() {
   const isContactPage = path === "/contact";
   const isServicesPage = path === "/services";
   const isAboutPage = path === "/about";
-  const isPlatformPage = path === "/platform";
-  const isWorkflowPage = path === "/workflow";
+  /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
+  const isWorkPage = path === "/work";
 
   useEffect(() => {
     const onPopState = () => {
       const next = normalizePath(window.location.pathname);
-      if (isLegacyHomepagePath(next)) {
-        replaceAppPath("/");
-        setPath("/");
+      const resolved = resolvePublicPath(next);
+      if (resolved !== next) {
+        replaceAppPath(resolved);
+        setPath(resolved);
         return;
       }
       setPath(next);
@@ -271,19 +284,14 @@ export default function App() {
               <Footer />
             </DeferredMount>
           </>
-        ) : isPlatformPage ? (
+        ) : isWorkPage ? (
           <>
-            <PlatformPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isWorkflowPage ? (
-          <>
-            <WorkflowPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
+            <WorkPage />
+            {isWorkPagePublished() ? (
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            ) : null}
           </>
         ) : (
           <>
