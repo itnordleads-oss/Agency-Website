@@ -1,3 +1,5 @@
+import { resolveSiteOrigin } from "./site-origin.mjs";
+
 /** @typedef {{ heading: string; body?: string; bullets?: string[] }} LandingSection */
 
 /** @typedef {{
@@ -243,7 +245,13 @@ export const landingPages = [
   },
 ];
 
-export const SITE_ORIGIN = "https://adealforge.com";
+/**
+ * Public site origin for release/smoke tooling.
+ * Null when leadership-approved domain is TBC — never defaults to adealforge.com.
+ */
+export const SITE_ORIGIN = resolveSiteOrigin();
 export const CONTACT_PATH = "/contact";
 export const HOME_PATH = "/";
 export const TERMS_PATH = "/terms";
+/** Product landings are not part of the Agency Website deploy surface. */
+export const INDEXABLE_LANDING_PAGES = [];

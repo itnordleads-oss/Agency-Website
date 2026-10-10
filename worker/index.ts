@@ -38,6 +38,9 @@ const normalize = (value: unknown) => (typeof value === "string" ? value.trim() 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TERMS_PATHS = new Set(["/terms", "/terms/"]);
 const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
+/** Agency studio routes — rewrite to SPA shell before assets (F3/F14). */
+const SERVICES_PATHS = new Set(["/services", "/services/"]);
+const ABOUT_PATHS = new Set(["/about", "/about/"]);
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
 const WORKFLOW_PATHS = new Set(["/workflow", "/workflow/"]);
 /** Retired homepage preview URLs — permanently redirect to production `/` (Homepage V3). */
@@ -49,6 +52,18 @@ const LEGACY_HOMEPAGE_PATHS = new Set([
   "/homepage-v3",
   "/homepage-v3/",
 ]);
+
+function isSpaDocumentPath(pathname: string) {
+  return (
+    TERMS_PATHS.has(pathname) ||
+    CONTACT_PATHS.has(pathname) ||
+    SERVICES_PATHS.has(pathname) ||
+    ABOUT_PATHS.has(pathname) ||
+    PLATFORM_PATHS.has(pathname) ||
+    WORKFLOW_PATHS.has(pathname) ||
+    isBlogPath(pathname)
+  );
+}
 
 function isBlogPath(pathname: string) {
   return pathname === "/blog" || pathname === "/blog/" || pathname.startsWith("/blog/");
@@ -185,31 +200,6 @@ export default {
       return handleContactSubmit(request, env);
     }
 
-    if (TERMS_PATHS.has(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
-    if (
-      CONTACT_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
-    if (
-      PLATFORM_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
-    if (
-      WORKFLOW_PATHS.has(url.pathname) &&
-      (request.method === "GET" || request.method === "HEAD")
-    ) {
-      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
-    }
-
     if (
       LEGACY_HOMEPAGE_PATHS.has(url.pathname) &&
       (request.method === "GET" || request.method === "HEAD")
@@ -217,7 +207,13 @@ export default {
       return redirectToProductionHome(request);
     }
 
-    if (isBlogPath(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
+    // Explicit SPA shell rewrite for known document routes. Assets also use
+    // not_found_handling = "single-page-application" in wrangler.toml.
+    // Product /platform and /workflow remain SPA-served until F9 retirement redirects land.
+    if (
+      isSpaDocumentPath(url.pathname) &&
+      (request.method === "GET" || request.method === "HEAD")
+    ) {
       return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
     }
 

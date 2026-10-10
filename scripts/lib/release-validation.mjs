@@ -21,6 +21,9 @@ export function isForbiddenHostname(hostname) {
   );
 }
 
+/** Product surfaces excluded from agency sitemap until F9 redirects remove them. */
+export const SITEMAP_EXCLUDED_SPA_ROUTES = new Set(["/platform", "/workflow"]);
+
 /** SPA routes are derived from App.tsx page guards so a routing refactor fails loudly. */
 export function getExpectedSpaRoutes(rootDir) {
   const appSource = fs.readFileSync(path.join(rootDir, "src", "App.tsx"), "utf8");
@@ -36,9 +39,27 @@ export function getExpectedSpaRoutes(rootDir) {
   return routes;
 }
 
-export function getExpectedSitemapUrls(spaRoutes, siteOrigin, landingPages) {
+/** Indexable agency SPA routes for sitemap expectations. */
+export function getIndexableSpaRoutes(rootDir) {
+  const routes = getExpectedSpaRoutes(rootDir);
+  for (const excluded of SITEMAP_EXCLUDED_SPA_ROUTES) {
+    routes.delete(excluded);
+  }
+  return routes;
+}
+
+/**
+ * Expected sitemap URLs. When `siteOrigin` is null (domain TBC), returns empty set.
+ */
+export function getExpectedSitemapUrls(spaRoutes, siteOrigin, landingPages = []) {
   const expected = new Set();
+  if (!siteOrigin) {
+    return expected;
+  }
   for (const route of spaRoutes) {
+    if (SITEMAP_EXCLUDED_SPA_ROUTES.has(route)) {
+      continue;
+    }
     expected.add(route === "/" ? `${siteOrigin}/` : `${siteOrigin}${route}`);
   }
   for (const page of landingPages) {
@@ -93,8 +114,20 @@ export function validateSitemapContent(xml, { label, productionHost, expectedUrl
     failures.push(`${label} <urlset> is missing the sitemap 0.9 xmlns declaration.`);
   }
 
+  if (/adealforge\.com/i.test(xml)) {
+    failures.push(
+      `${label} must not reference adealforge.com (retired product domain; configure SITE_ORIGIN instead).`
+    );
+  }
+
   const locs = [...xml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map((m) => m[1]);
   if (locs.length === 0) {
+    if (!productionHost) {
+      warnings.push(
+        `${label} contains no <loc> entries — expected while SITE_ORIGIN is unset (domain blocker).`
+      );
+      return { failures, warnings, urls: [], routeSetFailures: [] };
+    }
     failures.push(`${label} contains no <loc> entries.`);
     return { failures, warnings, urls: [], routeSetFailures: [] };
   }
@@ -239,14 +272,25 @@ export function validateRobotsContent(text, { label, siteOrigin }) {
       `${label} contains \`Disallow: /\` for User-agent * — this would block the entire production site.`
     );
   }
-  const expectedSitemap = `Sitemap: ${siteOrigin}/sitemap.xml`;
-  if (
-    !new RegExp(
-      `^\\s*Sitemap:\\s*${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml\\s*$`,
-      "im"
-    ).test(text)
-  ) {
-    failures.push(`${label} does not reference the production sitemap URL (${expectedSitemap}).`);
+  if (/adealforge\.com/i.test(text)) {
+    failures.push(
+      `${label} must not reference adealforge.com (retired product domain; configure SITE_ORIGIN instead).`
+    );
+  }
+  if (siteOrigin) {
+    const expectedSitemap = `Sitemap: ${siteOrigin}/sitemap.xml`;
+    if (
+      !new RegExp(
+        `^\\s*Sitemap:\\s*${siteOrigin.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/sitemap\\.xml\\s*$`,
+        "im"
+      ).test(text)
+    ) {
+      failures.push(`${label} does not reference the production sitemap URL (${expectedSitemap}).`);
+    }
+  } else if (/^\s*Sitemap:\s*https?:\/\//im.test(text)) {
+    failures.push(
+      `${label} declares an absolute Sitemap URL while SITE_ORIGIN is unset — remove it or configure an approved origin.`
+    );
   }
   for (const line of text.split(/\r?\n/)) {
     const urlMatch = line.match(/https?:\/\/([^\s/]+)/i);

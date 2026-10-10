@@ -1,12 +1,26 @@
-﻿name = "agency-website"
+﻿# Agency-Website — single Wrangler configuration (F14).
+# Used by: `wrangler deploy`, `wrangler dev`, and the Cloudflare Vite plugin.
+# Do not reintroduce wrangler.jsonc — dual configs block production deploy.
+
+name = "agency-website"
 compatibility_date = "2026-06-02"
+compatibility_flags = ["nodejs_compat"]
 main = "./worker/index.ts"
+
+[observability]
+enabled = true
 
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+# SPA fallback: refresh on /services, /about, /contact, etc. serves index.html.
+not_found_handling = "single-page-application"
+# Worker handles /api/* before static assets (contact + Turnstile).
 run_worker_first = ["/api/*"]
 
+# LEADS_KV stores contact-form submissions. Confirm this namespace ID belongs to
+# the Agency-Website Cloudflare account before production deploy (do not reuse
+# an ADealForge account/project by accident).
 [[kv_namespaces]]
 binding = "LEADS_KV"
 id = "1e160c5d95074707adb2946f60aaad9e"
