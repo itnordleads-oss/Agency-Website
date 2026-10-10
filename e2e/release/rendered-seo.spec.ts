@@ -15,7 +15,7 @@ import { findEntry, isExpired, loadBaseline } from "./baseline";
  * any NEW failure fails the test.
  */
 
-const ROUTES = ["/", "/contact", "/platform", "/workflow", "/terms"] as const;
+const ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
 const PROD_HOST = "adealforge.com";
 
 interface RouteSnapshot {

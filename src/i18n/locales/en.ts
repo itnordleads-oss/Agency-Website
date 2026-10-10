@@ -1,7 +1,9 @@
 const en = {
   common: {
-    brand: "Home",
-    ctaBookPilot: "Contact Us",
+    // F2 English baseline: layout chrome only. Leadership-approved studio name is TBC.
+    // Full marketing copy rebrand across locales is tracked for F10.
+    brand: "Agency",
+    ctaBookPilot: "Let's Talk",
   },
   nav: {
     toggleMenuLabel: "Toggle menu",
@@ -66,24 +68,130 @@ const en = {
       "We're a remote company that works online. The address below is our registered business address for legal registration and official mail. All meetings and client work are conducted remotely.",
     mapOpenMaps: "Open in Google Maps",
   },
+  /**
+   * F6 — About page copy.
+   * Anchored to footer brandDescription and defensible delivery qualities.
+   * No founders, history, team, metrics, or invented service catalog.
+   */
+  aboutPage: {
+    backHome: "Back to homepage",
+    documentTitleSuffix: "About",
+    hero: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle:
+        "Custom software and digital product delivery for growing teams—with practical engineering and clear communication.",
+    },
+    focus: {
+      eyebrow: "What we do",
+      title: "Software and product work that stays practical",
+      subtitle:
+        "We help teams plan, build, and launch custom software and modern web experiences. Detailed service offerings live on our Services page as they are published.",
+    },
+    approach: {
+      eyebrow: "Our approach",
+      title: "Clear collaboration from first conversation to launch",
+      subtitle:
+        "We keep priorities visible, decisions grounded, and delivery sized to what the product needs next—not overbuilt for its own sake.",
+      items: [
+        {
+          title: "Understand the problem",
+          description: "Clarify goals, constraints, and what success looks like before building.",
+        },
+        {
+          title: "Define scope",
+          description: "Shape a focused plan so work stays reviewable and aligned.",
+        },
+        {
+          title: "Build and review",
+          description: "Implement with steady progress and shared checkpoints for feedback.",
+        },
+        {
+          title: "Iterate and deliver",
+          description: "Refine based on review, then ship with clear next steps.",
+        },
+      ],
+    },
+    capabilities: {
+      eyebrow: "Capabilities",
+      title: "Areas we focus on",
+      subtitle:
+        "Delivery qualities and work areas we apply across software and digital product projects.",
+      items: [
+        {
+          title: "Custom software delivery",
+          description: "Application work shaped around real product workflows and constraints.",
+        },
+        {
+          title: "Digital product experiences",
+          description:
+            "Modern web experiences that stay clear for users and maintainable for teams.",
+        },
+        {
+          title: "Frontend and backend development",
+          description:
+            "Contemporary application development across the stack when the project needs it.",
+        },
+        {
+          title: "Structured project delivery",
+          description: "A simple path from understanding needs through review and launch.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Ready to start a project?",
+      subtitle: "Tell us what you need. We will explain how we can help.",
+      primaryCta: "Get in Touch",
+      footnote: ["Real conversation", "No obligation"],
+    },
+  },
   platformPage: {
-    documentTitle: "Platform",
+    documentTitle: "Agency | Platform",
     backHome: "Back to homepage",
     eyebrowLabel: "Platform",
-    eyebrowTag: "Delivery overview",
+    eyebrowTag: "B2B sales outreach",
     title: "Platform",
     subtitle:
-      "This page describes how work can be organized from discovery through delivery. Details are confirmed after we understand your goals.",
+      "Find the right companies, conduct prospect research, and prepare personalized first sales emails with human review and live campaign support.",
     statusNote:
-      "Public product access remains limited while the agency site is being prepared. Contact us to discuss your project.",
-    ctaLead: "Tell us about your project — no pressure.",
-    primaryCta: "Contact Us",
+      "Managed outreach is available now through a reviewed workflow. Public platform access stays closed while development continues.",
+    ctaLead:
+      "Tell us your outbound goals and we’ll share how managed services can help—no pressure.",
+    primaryCta: "Start the Conversation",
     illustrationAriaLabel: "Platform under construction illustration",
   },
   workflowPage: {
-    documentTitle: "Workflow",
+    documentTitle: "Agency | Workflow",
     backHome: "Back to homepage",
-    metaDescription: "See how delivery moves from discovery to a clear, reviewed next step.",
+    metaDescription:
+      "See how ADealForge runs outbound end to end — from finding fit companies to prepared first emails and live campaign support.",
   },
   cookie: {
     consentModal: {
@@ -126,7 +234,7 @@ const en = {
     eyebrowTag: "Terms & Conditions",
     title: "Terms & Conditions",
     intro:
-      'These Terms & Conditions ("Terms") govern your access to and use of this website (the "Site"). By accessing or using the Site, you agree to be bound by these Terms. If you do not agree, you must not use the Site. Legal entity, jurisdiction, and commercial terms remain subject to review.',
+      'These Terms & Conditions ("Terms") govern your access to and use of the ADealForge website located at adealforge.com (the "Site"), operated by ADealForge ("ADealForge", "we", "us", or "our"). By accessing or using the Site, you agree to be bound by these Terms. If you do not agree, you must not use the Site.',
     effective: "Effective {{date}}",
     lastUpdated: "Last updated {{date}}",
     tableOfContents: "Table of contents",
@@ -142,7 +250,7 @@ const en = {
       },
       {
         title: "Client engagements",
-        body: "Any paid engagement or custom commercial scope is governed by its own proposal, order form, or master service agreement.",
+        body: "Any paid pilot, managed outbound program, or custom commercial scope is governed by its own proposal, order form, or master service agreement.",
       },
       {
         title: "Questions",
@@ -167,8 +275,8 @@ const en = {
       {
         title: "3. Description of the Site and Services",
         paragraphs: [
-          "The Site describes services and provides channels for prospective clients to contact us. Service details are confirmed only in written agreements.",
-          "Content on the Site is for general informational purposes only. It does not constitute a binding offer, legal advice, financial advice, or other regulated professional advice. Service scope, pricing, timelines, and deliverables are defined only in written commercial agreements executed between you and the Site operator.",
+          "The Site describes ADealForge's managed B2B outbound, prospecting, research, personalization, and related revenue-support offerings, and provides channels for prospective clients to contact us.",
+          "Content on the Site is for general informational purposes only. It does not constitute a binding offer, legal advice, financial advice, or other regulated professional advice. Service scope, pricing, timelines, and deliverables are defined only in written commercial agreements executed between you and ADealForge.",
         ],
       },
       {
@@ -189,7 +297,7 @@ const en = {
       {
         title: "6. Intellectual Property",
         paragraphs: [
-          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to the Site operator and are protected by copyright, trademark, and other intellectual property laws.",
+          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to ADealForge and are protected by copyright, trademark, and other intellectual property laws.",
           "Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Site for your internal business evaluation. No other rights are granted by implication or otherwise. You may not copy, modify, distribute, sell, lease, or commercially exploit Site content without our prior written consent, except for limited excerpts used in good-faith, non-commercial evaluation with attribution where customary.",
         ],
       },
@@ -197,7 +305,7 @@ const en = {
         title: "7. Third-Party Services and Links",
         paragraphs: [
           "The Site may integrate or link to third-party services such as analytics providers, spam-prevention tools (including CAPTCHA), payment or scheduling tools, and social media platforms. Those services are governed by their own terms and privacy policies.",
-          "The Site operator does not control and is not responsible for third-party content, availability, security, or practices. Linking to a third-party site does not imply endorsement.",
+          "ADealForge does not control and is not responsible for third-party content, availability, security, or practices. Linking to a third-party site does not imply endorsement.",
         ],
       },
       {
@@ -217,14 +325,14 @@ const en = {
       {
         title: "10. Limitation of Liability",
         paragraphs: [
-          "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SITE OPERATOR AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF (OR INABILITY TO USE) THE SITE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
+          "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ADEALFORGE AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF (OR INABILITY TO USE) THE SITE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
           "TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY ARISING OUT OF OR RELATED TO THE SITE WILL NOT EXCEED ONE HUNDRED U.S. DOLLARS (USD $100) OR THE MINIMUM AMOUNT REQUIRED BY APPLICABLE LAW, WHICHEVER IS GREATER. Some jurisdictions do not allow certain limitations; in those cases, our liability is limited to the fullest extent permitted.",
         ],
       },
       {
         title: "11. Indemnification",
         paragraphs: [
-          "You agree to defend, indemnify, and hold harmless the Site operator and its affiliates, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Site; (b) your violation of these Terms; or (c) your violation of any law or third-party right in connection with the Site.",
+          "You agree to defend, indemnify, and hold harmless ADealForge and its affiliates, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Site; (b) your violation of these Terms; or (c) your violation of any law or third-party right in connection with the Site.",
         ],
       },
       {
@@ -237,7 +345,7 @@ const en = {
       {
         title: "13. Governing Law and Dispute Resolution",
         paragraphs: [
-          "These Terms are governed by the laws applicable in the jurisdiction where the Site operator principally conducts business, without regard to conflict-of-law principles, except where mandatory consumer or local laws provide otherwise.",
+          "These Terms are governed by the laws applicable in the jurisdiction where ADealForge principally conducts business, without regard to conflict-of-law principles, except where mandatory consumer or local laws provide otherwise.",
           "Before filing a formal claim, you agree to contact us at {{email}} and attempt to resolve the dispute informally within thirty (30) days. If unresolved, disputes will be resolved in the courts of competent jurisdiction in that principal place of business, unless applicable law requires another forum.",
         ],
       },
@@ -245,14 +353,14 @@ const en = {
         title: "14. Severability and Entire Agreement",
         paragraphs: [
           "If any provision of these Terms is held unenforceable, that provision will be enforced to the maximum extent permissible, and the remaining provisions will remain in full force and effect.",
-          "These Terms, together with any notices or policies expressly referenced on the Site (including cookie preferences), constitute the entire agreement between you and the Site operator regarding Site use and supersede prior understandings on that subject. They do not supersede executed commercial agreements for paid services.",
+          "These Terms, together with any notices or policies expressly referenced on the Site (including cookie preferences), constitute the entire agreement between you and ADealForge regarding Site use and supersede prior understandings on that subject. They do not supersede executed commercial agreements for paid services.",
         ],
       },
       {
         title: "15. Contact",
         paragraphs: [
-          "For questions about these Terms & Conditions, contact the Site operator at {{email}}.",
-          "Active clients seeking information about commercial terms, confidentiality, data processing, or deliverables should refer to their signed agreement or contact their account representative.",
+          "For questions about these Terms & Conditions, contact ADealForge at {{email}}.",
+          "Active clients seeking information about commercial terms, confidentiality, data processing, or deliverables should refer to their signed agreement or contact their ADealForge representative.",
         ],
       },
     ],
@@ -271,6 +379,10 @@ const en = {
       businessNamePlaceholder: "Your name",
       businessEmail: "Work email",
       businessEmailPlaceholder: "you@company.com",
+      company: "Company (optional)",
+      companyPlaceholder: "Company or organization",
+      message: "Message",
+      messagePlaceholder: "A few sentences about your project or what you'd like help with",
       targetMarket: "Message",
       targetMarketPlaceholder: "A few sentences about your project or what you'd like help with",
       website: "Website",
@@ -284,35 +396,42 @@ const en = {
     noSpam: "No spam. A short, human reply from our team.",
     nextTitle: "What happens next",
     nextSteps: [
-      "We review your details.",
-      "We'll suggest the best plan.",
-      "If we can help, we'll plan the next step together.",
+      "We review your message.",
+      "We follow up by email if we can help.",
+      "We discuss next steps together when it's a fit.",
     ],
-    brandDescription: "A professional team helping clients plan and deliver digital projects.",
+    brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "© 2026. All rights reserved.",
     tagline:
-      "Tell us about your project — we will review your goals and suggest a clear next step.",
+      "Development studio website — brand identity and service copy pending leadership approval.",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring a project related to {{sector}}. Happy to share more details.",
     validation: {
-      nameRequired: "Add your name or company.",
-      emailRequired: "Add the email where we should reply.",
+      nameRequired: "Add your name.",
+      nameTooLong: "Please shorten your name.",
+      emailRequired: "Add the work email where we should reply.",
       emailInvalid: "Use a valid email address.",
-      messageRequired: "Share a short note about what you're working on.",
+      emailTooLong: "Please use a shorter email address.",
+      companyTooLong: "Please shorten the company name.",
+      messageRequired: "Share a short note about your project.",
+      messageTooLong: "Please shorten your message.",
       turnstileRequired: "Please confirm you're human to continue.",
       turnstileExpired: "Please confirm you're human again before sending.",
       captchaFailed: "Please refresh the page and try again.",
+      sendFailed: "We couldn't send your message. Please try again.",
+      formNotConfigured: "The contact form is not configured yet. Please try again later.",
       fallbackError: "Something went wrong. Please try again or email {{email}}.",
+      fallbackErrorNoEmail: "Something went wrong. Please try again in a moment.",
     },
   },
   hero: {
-    eyebrow: "Project conversations",
+    eyebrow: "Managed B2B outbound lead generation",
     headlineLead: "Build a predictable pipeline of qualified B2B opportunities",
     headlineAccent: "without building an in-house SDR operation",
     subheadline:
       "We identify right-fit accounts, research every company, and execute personalized first-touch outreach so your team can focus on meetings, demos, and closed revenue.",
-    primaryCta: "Contact Us",
+    primaryCta: "Let's Talk",
     secondaryCta: "See the Delivery Process",
     processLine: ["Finding prospects", "Research", "Review", "Personalization", "Outreach"],
     pills: [
@@ -320,7 +439,7 @@ const en = {
       "Works across B2B industries",
       "Fully managed by our team",
     ],
-    proofLine: "We focus on clear scope and practical next steps — no inflated scale claims.",
+    proofLine: "Proven in outbound programs scaled to up to 100,000 companies.",
     consoleTitle: "Deal Intelligence Console",
     workspaceBadge: "Pipeline workspace",
     cards: {
@@ -377,7 +496,7 @@ const en = {
         stage: "outreach",
       },
     ],
-    cta: "Contact Us",
+    cta: "Let's Talk",
     footnote: "No pressure. No obligation.",
   },
   capabilities: {
@@ -385,12 +504,12 @@ const en = {
       label: "Capabilities",
       tag: "What you get",
     },
-    title: "The work behind clear delivery.",
+    title: "The work behind better outbound.",
     subtitle:
       "Each step produces something your team can review — from a filtered account list to inbox-ready outreach.",
     pills: ["Human review", "Verified data", "Campaign visibility"],
     chips: ["Finding", "Research", "Review", "Messaging", "Sending", "Handoff"],
-    primaryCta: "Contact Us",
+    primaryCta: "Start the Conversation",
     secondaryCta: "See how it works",
     items: [
       {
@@ -417,8 +536,8 @@ const en = {
   },
   proofBand: [
     {
-      stat: "Scoped",
-      label: "milestones tracked in a typical engagement",
+      stat: "Up to 100,000",
+      label: "companies reached in a single managed outbound program",
     },
     {
       stat: "End-to-end",
@@ -439,9 +558,9 @@ const en = {
     subtitle:
       "Follow one target account from first check to emails ready to send and see what your team gets at each stage.",
     consoleTitle: "Campaign Overview",
-    workspaceName: "Workspace preview",
+    workspaceName: "ADealForge Workspace",
     workspaceNote: "Managed by our team",
-    cta: "Contact Us",
+    cta: "Let's Talk",
     sampleAccountLabel: "Sample account",
     sampleAccountIntro:
       "Watch one account progress from initial match to send-ready as the workflow advances.",
@@ -579,7 +698,7 @@ const en = {
     title: "Built for the way modern B2B teams sell and scale.",
     subtitle:
       "Whether you focus on one niche or multiple verticals, we help you reach the right companies with outreach aligned to buying behavior.",
-    ctaLink: "Discuss a project in this area",
+    ctaLink: "Plan outbound strategy for this sector",
     items: [
       {
         title: "Construction & Subcontracting",
@@ -633,7 +752,7 @@ const en = {
     title: "From target market definition to qualified sales conversations.",
     sidebar:
       "We turn market research into qualified accounts and outreach-ready execution so your team speaks with buyers, not spreadsheets.",
-    cta: "Contact Us",
+    cta: "Let's Talk",
     steps: [
       {
         step: 1,
@@ -774,7 +893,7 @@ const en = {
       label: "Product demo",
       tag: "See it in action",
     },
-    title: "See how structured delivery turns ideas into clear next steps.",
+    title: "See how ADealForge turns target markets into outreach-ready pipelines.",
     subtitle:
       "Watch a short walkthrough of targeting, enrichment, personalization, and campaign preparation — the workflow behind consistent qualified conversations.",
     watchCta: "Watch Demo",
@@ -785,7 +904,7 @@ const en = {
   scheduleMeeting: {
     title: "Schedule a Meeting",
     subtitle: "Book a short strategy call with our team.",
-    primaryCta: "Contact Us",
+    primaryCta: "Book a Meeting",
     dismissCta: "Maybe Later",
     closeLabel: "Dismiss schedule meeting card",
   },
@@ -794,23 +913,45 @@ const en = {
       label: "Testimonials",
       tag: "Trusted by B2B teams",
     },
-    title: "Teams choose partners who help them focus on the work that matters.",
-    subtitle: "Client stories will appear here when approved.",
-    items: [] as ReadonlyArray<{
-      quote: string;
-      name: string;
-      title: string;
-      company: string;
-      rating: number;
-      logoInitials: string;
-    }>,
+    title: "Teams choose ADealForge to fill pipeline with better conversations.",
+    subtitle:
+      "Operators and revenue leaders use managed outbound to reach the right accounts without building a full internal prospecting stack.",
+    items: [
+      {
+        quote:
+          "We finally stopped guessing at lists. ADealForge delivered researched accounts and outreach that sounded like us — and meetings followed within the first pilot cycle.",
+        name: "Elena Marquez",
+        title: "Head of Growth",
+        company: "Northline Logistics",
+        rating: 5,
+        logoInitials: "NL",
+      },
+      {
+        quote:
+          "The workflow from targeting to CRM-ready export was clear and fast. Our sales team spent time on conversations instead of cleaning data and drafting cold emails.",
+        name: "James Okoro",
+        title: "VP of Sales",
+        company: "BuildSpan Group",
+        rating: 5,
+        logoInitials: "BG",
+      },
+      {
+        quote:
+          "Onboarding was straightforward, messaging quality was strong, and support stayed close through launch. It felt like an extension of our revenue team.",
+        name: "Sofia Bergström",
+        title: "Revenue Operations Lead",
+        company: "Facet Facilities",
+        rating: 5,
+        logoInitials: "FF",
+      },
+    ],
   },
   bookDemo: {
     eyebrow: "Live product demo",
     title: "Book a live demo and see your market path end to end.",
     subtitle:
       "Walk through targeting, enrichment, AI personalization, and campaign setup with our team — then decide if a pilot is the right next step.",
-    primaryCta: "Contact Us",
+    primaryCta: "Book a Demo",
     secondaryCta: "Schedule a Meeting",
     footnote: ["Live walkthrough with our team", "No long sales pitch required"],
   },
@@ -823,11 +964,11 @@ const en = {
     subtitle:
       "Clear answers about the product, features, integrations, pricing, security, support, and onboarding.",
     footerNote: "Still have questions? Bring them to your strategy call.",
-    cta: "Contact Us",
+    cta: "Let's Talk",
     items: [
       {
-        q: "What do you help with?",
-        a: "We review your goals, clarify scope, and recommend a practical next step for your project.",
+        q: "What is ADealForge?",
+        a: "ADealForge is a managed B2B outbound platform that turns your target market into researched accounts, personalized outreach, and CRM-ready deliverables — so your team focuses on conversations that convert.",
       },
       {
         q: "What features do we get in a typical engagement?",
@@ -835,7 +976,7 @@ const en = {
       },
       {
         q: "What exactly do we receive in a pilot?",
-        a: "We review your goals and confirm deliverables in writing before work begins.",
+        a: "You receive a qualified account list, researched company context, personalized first-touch emails, and a CRM-ready export. We manage the outbound workflow end to end.",
       },
       {
         q: "Which tools and systems can you integrate with?",
@@ -871,8 +1012,8 @@ const en = {
     eyebrow: "Next step",
     title: "See if we're a good fit.",
     subtitle:
-      "Tell us about your project. We'll review what you share and suggest a clear next step — no pressure.",
-    primaryCta: "Contact Us",
+      "Tell us about your outbound goals. We'll review what you share and suggest a clear next step — no pressure.",
+    primaryCta: "Start the Conversation",
     secondaryCta: "See how it works",
     footnote: ["No pressure. No obligation.", "Usually reply within one business day"],
   },
@@ -882,25 +1023,25 @@ const en = {
       headline: "Find buyers. Send emails. Book meetings.",
       subheadline:
         "We help you reach the right companies with clear, personal emails. Your team can focus on closing deals.",
-      primaryCta: "Contact Us",
+      primaryCta: "Get Started",
       secondaryCta: "See how it works",
       previewBadge: "Your outreach view",
-      previewTitle: "Project progress",
+      previewTitle: "Campaign progress",
       previewRows: [
-        { label: "Discovery", value: "Scoped" },
-        { label: "Planning", value: "In review" },
-        { label: "Delivery", value: "On track" },
-        { label: "Status", value: "Active" },
+        { label: "Matching companies", value: "1,240" },
+        { label: "Checked contacts", value: "880" },
+        { label: "Ready to send", value: "70%" },
+        { label: "Status", value: "Sending" },
       ],
     },
     trust: {
       title: "Built for teams that want more sales conversations",
       metrics: [
-        { stat: "Focused delivery", label: "Clear milestones agreed before work begins" },
+        { stat: "100k+", label: "Companies in a single campaign" },
         { stat: "Full service", label: "We handle the outreach work" },
         { stat: "Ready for sales", label: "Clean results for your team" },
       ],
-      logoLabels: ["Product teams", "Services", "Operations", "Growth", "Technology"],
+      logoLabels: ["B2B SaaS", "Services", "Industrial", "Staffing", "Logistics"],
     },
     product: {
       eyebrow: "Product",
@@ -915,7 +1056,7 @@ const en = {
           description: "Your team spends time on meetings, not messy lists.",
         },
       ],
-      panelBadge: "Live project",
+      panelBadge: "Live campaign",
       panelTitle: "Companies in progress",
       accounts: [
         { company: "Nordic Build Partners", fit: "Strong", stage: "Sending" },
@@ -926,7 +1067,7 @@ const en = {
     },
     features: {
       eyebrow: "What you get",
-      title: "How we can help",
+      title: "What ADealForge does for you",
       items: [
         {
           title: "Choose your audience",
@@ -968,14 +1109,32 @@ const en = {
     testimonials: {
       eyebrow: "Results",
       title: "What teams notice first",
-      items: [] as ReadonlyArray<{
-        quote: string;
-        name: string;
-        title: string;
-        company: string;
-        result: string;
-        logoInitials: string;
-      }>,
+      items: [
+        {
+          quote: "Better company lists and emails that sounded like us. We got meetings quickly.",
+          name: "Elena Marquez",
+          title: "Head of Growth",
+          company: "Northline Logistics",
+          result: "Faster meetings",
+          logoInitials: "NL",
+        },
+        {
+          quote: "Clean lists for our sales tools. Our team talked to real buyers—not bad data.",
+          name: "James Okoro",
+          title: "VP of Sales",
+          company: "BuildSpan Group",
+          result: "More time selling",
+          logoInitials: "BG",
+        },
+        {
+          quote: "Clear emails and helpful support from day one.",
+          name: "Sofia Bergström",
+          title: "Revenue Operations",
+          company: "Facet Facilities",
+          result: "Easier launch",
+          logoInitials: "FF",
+        },
+      ],
     },
     pricing: {
       eyebrow: "Pricing",
@@ -1002,7 +1161,7 @@ const en = {
           name: "Starter",
           monthlyPrice: 199,
           description: "Perfect for startups and small businesses.",
-          cta: "Contact Us",
+          cta: "Get Started",
           features: [
             "Find the right companies",
             "Add contact details",
@@ -1021,7 +1180,7 @@ const en = {
           monthlyPrice: 399,
           featured: true,
           description: "Best for growing teams that want to reach more buyers.",
-          cta: "Contact Us",
+          cta: "Get Started",
           features: [
             "Everything in Starter",
             "50,000 contacts",
@@ -1041,7 +1200,7 @@ const en = {
           name: "Enterprise",
           monthlyPrice: 699,
           description: "Built for larger teams with bigger outreach needs.",
-          cta: "Contact Us",
+          cta: "Contact Sales",
           features: [
             "Everything in Growth",
             "Unlimited contacts",
@@ -1052,14 +1211,14 @@ const en = {
             "Strong security",
             "One login for your team",
             "Custom connections",
-            "Priority support response targets (agreed in writing)",
+            "Guaranteed support times",
           ],
         },
       ],
     },
     blog: {
       eyebrow: "Insights",
-      title: "Latest insights",
+      title: "Latest from ADealForge",
       description: "Simple tips on finding buyers, sending better emails, and growing sales.",
       readArticleLabel: "Read article",
       posts: [
@@ -1095,7 +1254,7 @@ const en = {
       title: "Common questions",
       items: [
         {
-          q: "What happens after I get in touch?",
+          q: "What does ADealForge do?",
           a: "We find the right companies, check contact details, write personal first emails, and prepare clean results for your sales team.",
         },
         {
@@ -1117,184 +1276,147 @@ const en = {
       ],
     },
     finalCta: {
-      title: "Ready to talk about your project?",
-      subtitle: "Start with a short message. We will follow up with a clear next step.",
-      primaryCta: "Contact Us",
+      title: "Ready for more sales conversations?",
+      subtitle: "Start today. We will help you reach the right companies with a clear plan.",
+      primaryCta: "Get Started",
       footnote: ["Easy to begin", "No long setup"],
     },
   },
   homepageV3: {
     hero: {
-      eyebrow: "Project conversations",
-      headline: "Tell us about your project.",
+      eyebrow: "Software development agency",
+      headline: "Build clear digital products with a focused delivery partner.",
       subheadline:
-        "Tell us about your project. We will review what you share and follow up with a clear next step.",
-      primaryCta: "Contact Us",
+        "We help growing teams plan, build, and launch custom software and modern web experiences—with practical engineering and clear communication.",
+      primaryCta: "Get in Touch",
       secondaryCta: "See How We Work",
-      previewBadge: "Delivery view",
-      previewTitle: "Project progress",
+      previewBadge: "Delivery overview",
+      previewTitle: "How we deliver",
       previewRows: [
-        { label: "Discovery", value: "Scoped" },
-        { label: "Planning", value: "In review" },
-        { label: "Delivery", value: "On track" },
-        { label: "Status", value: "Active" },
+        { label: "Understand", value: "Scope" },
+        { label: "Plan", value: "Approach" },
+        { label: "Build", value: "Delivery" },
+        { label: "Review", value: "Feedback" },
       ],
     },
-    trust: {
-      title: "Built for teams that value clear delivery",
-      metrics: [
-        { stat: "Clear scope", label: "Practical next steps after we review your goals" },
-        { stat: "Collaborative", label: "Direct communication from kickoff to handoff" },
-        { stat: "Practical", label: "No hype — just a clear plan for what happens next" },
+    services: {
+      eyebrow: "Services",
+      title: "Practical delivery for product and engineering needs",
+      subtitle:
+        "Explore how we can help with software development and digital product work. The full services overview lives on our Services page.",
+      cta: "View services",
+    },
+    value: {
+      eyebrow: "Why work with us",
+      title: "Delivery qualities you can count on",
+      subtitle:
+        "We keep collaboration straightforward and engineering decisions grounded in what the product needs next.",
+      items: [
+        {
+          title: "Clear communication",
+          description: "Plain status updates, shared priorities, and decisions you can follow.",
+        },
+        {
+          title: "Practical engineering",
+          description: "Solutions sized to the problem—not overbuilt stacks for their own sake.",
+        },
+        {
+          title: "Modern frontend and backend",
+          description: "Contemporary web and application development for real product workflows.",
+        },
+        {
+          title: "Structured delivery",
+          description: "A simple process from understanding needs through review and launch.",
+        },
       ],
-      logoLabels: ["Product teams", "Services", "Operations", "Growth", "Technology"],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    aboutPreview: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle: "Learn more about how we approach software projects and client collaboration.",
+      cta: "About us",
+    },
+    // Retained for unmounted legacy V3 product components / type compatibility.
+    // Not rendered on the production agency homepage (F4).
+    trust: {
+      title: "",
+      metrics: [] as Array<{ stat: string; label: string }>,
+      logoLabels: [] as string[],
     },
     product: {
-      eyebrow: "Platform",
-      title: "Keep delivery visible",
-      subtitle:
-        "A simple view of progress from discovery to delivery—so your team always knows what is happening.",
-      highlights: [
-        {
-          title: "Clarify the goal",
-          description: "Align on outcomes and constraints before work begins.",
-        },
-        {
-          title: "Plan the path",
-          description: "Break the work into clear milestones your team can follow.",
-        },
-        {
-          title: "Deliver and hand off",
-          description: "Ship reviewed work with a clean handoff, not a messy dump.",
-        },
-      ],
-      panelBadge: "Live project",
-      panelTitle: "Work in progress",
-      accounts: [
-        { company: "Nordic Build Partners", fit: "Strong", stage: "Sending" },
-        { company: "Vertex Logistics EU", fit: "Good fit", stage: "Research" },
-        { company: "Facet Facilities", fit: "Good fit", stage: "Ready" },
-        { company: "BuildSpan Group", fit: "Strong", stage: "Sending" },
-      ],
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      highlights: [] as Array<{ title: string; description: string }>,
+      panelBadge: "",
+      panelTitle: "",
+      accounts: [] as Array<{ company: string; fit: string; stage: string }>,
     },
     features: {
-      eyebrow: "What you get",
-      title: "Support that stays practical",
-      items: [
-        {
-          title: "Prospect Research",
-          description: "Build focused lists of companies that fit your ideal buyer profile.",
-        },
-        {
-          title: "Sales Intelligence Software",
-          description: "See the company details that help sales teams write better first emails.",
-        },
-        {
-          title: "Cold Email Personalization",
-          description: "Send clear first messages based on real research—not copy-paste templates.",
-        },
-        {
-          title: "Outbound Sales Automation",
-          description:
-            "Keep research, writing, and sending moving in one simple sales automation flow.",
-        },
-        {
-          title: "Revenue Intelligence",
-          description: "Spot which accounts and messages create replies and qualified meetings.",
-        },
-        {
-          title: "Agentic Workflow",
-          description: "Let guided steps handle the busywork while your team focuses on closing.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{ title: string; description: string }>,
     },
     benefits: {
-      eyebrow: "Why teams work with us",
-      title: "From unclear requests to clear delivery",
-      subtitle:
-        "Shipping reliable work takes research, clear delivery, review, and ongoing coordination. We help keep that process focused and practical.",
+      eyebrow: "",
+      title: "",
+      subtitle: "",
       contrast: {
-        withoutLabel: "Without dedicated support",
-        withLabel: "With our team",
-        withoutPoints: [
-          "Hours spent finding and qualifying companies by hand",
-          "Contacts and first emails checked across separate tools",
-          "Research, enrichment, review, and sending split across handoffs",
-          "Sellers lose conversation time to preparation and campaign ops",
-        ],
-        withPoints: [
-          "ICP-matched shortlists arrive with account context",
-          "Validated records and account-specific first emails with human review",
-          "One visible process from research through send-ready outreach",
-          "Preparation is handled before qualified conversations reach sellers",
-        ],
+        withoutLabel: "",
+        withLabel: "",
+        withoutPoints: [] as string[],
+        withPoints: [] as string[],
       },
       labels: {
-        problem: "Problem",
-        workRequired: "Work required",
-        solution: "How we help",
-        outcome: "Business outcome",
+        problem: "",
+        workRequired: "",
+        solution: "",
+        outcome: "",
       },
-      items: [
-        {
-          problem: "Account research eats selling hours.",
-          workRequired:
-            "Teams dig through lists, websites, and notes to decide which companies are worth contacting.",
-          solution: "We build an ICP-matched shortlist with the account context sellers need.",
-          outcome: "Your team starts from relevant accounts—not raw databases.",
-        },
-        {
-          problem: "Weak contacts and generic messaging weaken campaigns.",
-          workRequired:
-            "Someone has to verify records, rewrite openers, and catch quality issues before launch.",
-          solution:
-            "We validate records and prepare account-specific first emails with human quality review.",
-          outcome: "Outreach starts with cleaner data and stronger relevance.",
-        },
-        {
-          problem: "Outbound ops stretch across tools and handoffs.",
-          workRequired:
-            "Research, enrichment, review, sending, and status tracking live in different places.",
-          solution: "We run the workflow as one visible process your team can follow.",
-          outcome: "Fewer steps. Less operational fragmentation.",
-        },
-        {
-          problem: "Internal execution steals time from buyers.",
-          workRequired:
-            "Salespeople spend cycles on prep, coordination, and campaign operations instead of conversations.",
-          solution: "We handle the work before qualified conversations reach your sales team.",
-          outcome: "More capacity stays on buyers and active opportunities.",
-        },
-      ],
+      items: [] as Array<{
+        problem: string;
+        workRequired: string;
+        solution: string;
+        outcome: string;
+      }>,
     },
     results: {
-      eyebrow: "Outcomes",
-      title: "What this means for your business",
-      subtitle: "See how our managed service helps your sales team.",
-      items: [
-        {
-          stat: "Steady sales flow",
-          label: "We run outreach regularly, not as one-time campaigns.",
-        },
-        {
-          stat: "Expert help without hiring",
-          label:
-            "Our team handles the work from research to sending. No hiring or new tools needed.",
-        },
-        {
-          stat: "Quality at every size",
-          label: "Every account is researched and checked, whether you target 50 or 5,000.",
-        },
-        {
-          stat: "See every step",
-          label: "See every step from target company to booked meeting.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      items: [] as Array<{ stat: string; label: string }>,
     },
     testimonials: {
-      eyebrow: "Customer stories",
-      title: "Client stories will appear here when approved.",
-      items: [] as ReadonlyArray<{
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{
         quote: string;
         name: string;
         title: string;
@@ -1304,158 +1426,65 @@ const en = {
       }>,
     },
     pricing: {
-      eyebrow: "Pricing",
-      title: "Pricing details are shared after we understand your needs",
-      subtitle: "Plans depend on scope. Contact us to discuss what fits.",
-      priceSuffix: "/month",
-      yearlyBillingNote: "Billed once a year",
+      eyebrow: "",
+      title: "",
+      subtitle: "",
+      priceSuffix: "",
+      yearlyBillingNote: "",
       billingToggle: {
-        groupLabel: "Select pricing mode",
-        monthly: "Monthly",
-        yearly: "Yearly",
-        oneTimeLeads: "One-Time",
-        saveLabel: "Save 20%",
+        groupLabel: "",
+        monthly: "",
+        yearly: "",
+        oneTimeLeads: "",
+        saveLabel: "",
       },
       oneTimeLeads: {
-        priceSuffix: "one-time",
-        billingNote: "No subscription",
-        quantityLabel: "Fixed number of verified leads",
-        leadCountLabel: "{{count}} verified leads",
+        priceSuffix: "",
+        billingNote: "",
+        quantityLabel: "",
+        leadCountLabel: "",
       },
-      tiers: [
-        {
-          id: "free",
-          name: "FREE",
-          monthlyPrice: 0,
-          description: "A clear start for small teams exploring a first engagement.",
-          cta: "Contact Us",
-          features: [
-            "Prospect research basics",
-            "Contact details added",
-            "Email checks",
-            "5,000 contacts",
-            "Cold email software outreach",
-            "Connect to your sales tools",
-            "Simple dashboard",
-            "Basic reports",
-            "Standard support",
-          ],
-        },
-        {
-          id: "growth",
-          name: "Growth",
-          monthlyPrice: 399,
-          featured: true,
-          description: "Built for growing teams that need clearer delivery capacity.",
-          cta: "Contact Us",
-          features: [
-            "Everything in Free",
-            "50,000 contacts",
-            "Cold email personalization help",
-            "Automated follow-ups",
-            "LinkedIn outreach",
-            "Smart reminders",
-            "Better revenue intelligence reports",
-            "Team access",
-            "Sales tool sync",
-            "Extra integrations",
-            "Priority support",
-          ],
-        },
-        {
-          id: "flexible",
-          name: "FLEXIBLE",
-          monthlyPrice: 0,
-          customPricing: true,
-          priceLabel: "Custom pricing",
-          description:
-            "Flexible pricing based on your lead volume, workflow requirements, and campaign goals.",
-          cta: "Contact Us",
-          features: [
-            "Everything in Growth",
-            "Tailored lead volume",
-            "Custom project setup",
-            "Workflow-aligned campaign scope",
-            "Your own support manager",
-            "Guided setup",
-            "Strong security",
-            "One login for your team",
-            "Custom connections",
-            "Priority support response targets (agreed in writing)",
-          ],
-        },
-      ],
+      tiers: [] as Array<{
+        id: string;
+        name: string;
+        monthlyPrice: number;
+        description: string;
+        cta: string;
+        features: string[];
+        featured?: boolean;
+        customPricing?: boolean;
+        priceLabel?: string;
+      }>,
     },
     blog: {
-      eyebrow: "Insights",
-      title: "Ideas worth sharing",
-      description: "Practical notes on planning, delivery, and clearer project conversations.",
-      readArticleLabel: "Read article",
-      posts: [
-        {
-          category: "Delivery",
-          title: "How to Build Stronger Outbound Sales Lists",
-          description:
-            "Use prospect research to choose the right companies before you start outreach.",
-          readingTime: "6 min read",
-          href: "/blog/build-a-b2b-prospect-list",
-          imageAlt: "Illustration for project planning",
-        },
-        {
-          category: "Planning",
-          title: "Outbound Sales Automation That Feels Personal",
-          description:
-            "See how cold email personalization and AI cold email support improve reply rates.",
-          readingTime: "5 min read",
-          href: "/blog/ai-in-b2b-outreach",
-          imageAlt: "Illustration for delivery collaboration",
-        },
-        {
-          category: "Sales intelligence",
-          title: "Using Sales Intelligence to Start Better Conversations",
-          description: "Turn project context into clearer decisions with less guesswork.",
-          readingTime: "7 min read",
-          href: "/blog/cold-lead-to-qualified-meeting",
-          imageAlt: "Illustration for sales intelligence software and meeting booking",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      description: "",
+      readArticleLabel: "",
+      posts: [] as Array<{
+        category: string;
+        title: string;
+        description: string;
+        readingTime: string;
+        href: string;
+        imageAlt: string;
+      }>,
     },
     faq: {
-      eyebrow: "FAQ",
-      title: "Common questions",
-      items: [
-        {
-          q: "What happens after I contact you?",
-          a: "We learn about your project goals and explain how we can help.",
-        },
-        {
-          q: "How soon can we start?",
-          a: "Most teams start after a short intro call to confirm your market and message. Then we can move from research to sending without a long setup.",
-        },
-        {
-          q: "Do we need a large sales team?",
-          a: "No. Small and growing teams can start with a conversation. We help clarify scope before anything moves forward.",
-        },
-        {
-          q: "What industries work best?",
-          a: "We work with B2B teams in SaaS, services, industrial, staffing, logistics, and similar markets.",
-        },
-        {
-          q: "Do we stay in control of messaging and targeting?",
-          a: "Yes. You decide who we contact and what the message should say. We handle the research, prep, and sending. Your team stays focused on conversations.",
-        },
-      ],
+      eyebrow: "",
+      title: "",
+      items: [] as Array<{ q: string; a: string }>,
     },
     finalCta: {
-      title: "Tell us what you need",
-      subtitle: "Tell us what you need. We'll explain how we can help.",
+      title: "Ready to start a project?",
+      subtitle: "Tell us what you need. We will explain how we can help.",
       primaryCta: "Contact Us",
-      footnote: ["Talk to our team", ""],
+      footnote: ["Real conversation", "No obligation"],
     },
     conversationPrompt: {
-      title: "Let's Start a Conversation",
-      subtitle: "No pressure. No obligation. Just a friendly conversation.",
-      primaryCta: "Contact Us",
+      title: "Have a project in mind?",
+      subtitle: "Share a short note about what you need. We will follow up.",
+      primaryCta: "Get in Touch",
       dismissCta: "Keep Browsing",
       closeLabel: "Dismiss conversation card",
     },
