@@ -1,12 +1,8 @@
 import React, { useEffect, useId, useState } from "react";
-import { useTranslation } from "react-i18next";
 import HeaderLogo from "./HeaderLogo";
 import { PrimaryButton } from "./Buttons";
 import { Menu, X } from "lucide-react";
 import { useSiteCopy } from "../lib/useSiteCopy";
-import LanguageDropdown from "./LanguageDropdown";
-import { changeAppLanguage, resolveActiveLanguage, type SupportedLanguage } from "../i18n";
-import { getBrandAriaLabel } from "../lib/studioBranding";
 import {
   getPublishedStudioNavItems,
   resolveActiveStudioNavId,
@@ -22,24 +18,15 @@ import {
 import { navigateAppPath, navigateToContact, resolvePublicPath } from "../App";
 
 export default function Navbar() {
-  const { t, nav, homepageV3 } = useSiteCopy();
-  const { i18n } = useTranslation();
+  const { t, nav, common, homepageV3 } = useSiteCopy();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [path, setPath] = useState(() =>
     typeof window !== "undefined" ? resolvePublicPath(window.location.pathname) : "/"
   );
   const menuId = useId();
-  const desktopLanguageSwitcherId = useId();
-  const mobileLanguageSwitcherId = useId();
   const menuItems = getPublishedStudioNavItems();
-  const activeLanguage = resolveActiveLanguage(i18n.resolvedLanguage ?? i18n.language);
-  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(activeLanguage);
   const primaryCtaLabel = homepageV3.hero.primaryCta;
   const activeNavId = resolveActiveStudioNavId(path);
-
-  useEffect(() => {
-    setSelectedLanguage(activeLanguage);
-  }, [activeLanguage]);
 
   useEffect(() => {
     const onPopState = () => {
@@ -87,21 +74,6 @@ export default function Navbar() {
     setPath(resolvePublicPath(href));
   };
 
-  const handleLanguageChange = (language: SupportedLanguage) => {
-    setSelectedLanguage(language);
-    void changeAppLanguage(language);
-  };
-
-  const renderLanguageSwitcher = (switcherId: string) => (
-    <LanguageDropdown
-      id={switcherId}
-      label={nav.languageLabel}
-      value={selectedLanguage}
-      languageLabels={nav.languages ?? {}}
-      onChange={handleLanguageChange}
-    />
-  );
-
   const desktopNavClassName = (isActive: boolean) =>
     `text-ui-button font-medium transition-colors cursor-pointer relative py-1 group ${
       isActive ? "text-white" : "text-white/70 hover:text-white"
@@ -131,7 +103,7 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className="flex items-center cursor-pointer min-w-0"
-            aria-label={getBrandAriaLabel()}
+            aria-label={common.brand}
           >
             <HeaderLogo />
           </a>
@@ -159,12 +131,11 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-3">
-            {renderLanguageSwitcher(desktopLanguageSwitcherId)}
+            {/* F10: English-only v1 — language switcher hidden until multilingual copy is approved. */}
             <PrimaryButton onClick={() => navigateToContact()}>{primaryCtaLabel}</PrimaryButton>
           </div>
 
           <div className="md:hidden flex items-center gap-2">
-            {renderLanguageSwitcher(mobileLanguageSwitcherId)}
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}

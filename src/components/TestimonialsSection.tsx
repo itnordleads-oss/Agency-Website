@@ -3,10 +3,16 @@ import { Star } from "lucide-react";
 import SectionEyebrow from "./SectionEyebrow";
 import GlassCard from "./GlassCard";
 import NewHomeSectionCardBorder from "./NewHomeSectionCardBorder";
+import { isTestimonialsModuleEnabled } from "../lib/trustModules";
 import { useSiteCopy } from "../lib/useSiteCopy";
 
 export default function TestimonialsSection() {
   const { testimonials } = useSiteCopy();
+  const items = Array.isArray(testimonials.items) ? testimonials.items : [];
+
+  if (!isTestimonialsModuleEnabled() || items.length === 0) {
+    return null;
+  }
 
   return (
     <section className="section-padding relative overflow-hidden" id="testimonials">
@@ -22,7 +28,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {testimonials.items.map((item) => (
+          {items.map((item) => (
             <NewHomeSectionCardBorder
               key={`${item.name}-${item.company}`}
               className="h-full rounded-2xl"

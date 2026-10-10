@@ -1,14 +1,20 @@
-export const HOMEPAGE_SECTION_IDS = ["product", "benefits", "pricing"] as const;
+export const HOMEPAGE_SECTION_IDS = ["services", "value", "process", "about"] as const;
 
 export type HomepageSectionId = (typeof HOMEPAGE_SECTION_IDS)[number];
 
 const HOMEPAGE_SECTION_ALIASES: Record<string, HomepageSectionId> = {
-  product: "product",
-  "v2-product": "product",
-  benefits: "benefits",
-  "v2-benefits": "benefits",
-  pricing: "pricing",
-  "v2-pricing": "pricing",
+  services: "services",
+  value: "value",
+  process: "process",
+  about: "about",
+  "about-preview": "about",
+  // Soft aliases from retired product hashes → nearest agency section.
+  product: "services",
+  "v2-product": "services",
+  benefits: "value",
+  "v2-benefits": "value",
+  pricing: "about",
+  "v2-pricing": "about",
 };
 
 /** Fallback when the header node is not measurable yet (matches min-[341px]:h-20). */
@@ -35,7 +41,7 @@ export type ScrollToHomepageSectionOptions = {
 
 /**
  * Mark the next scroll to this section. Used for cross-route jumps
- * (e.g. /platform → /#pricing). Instant only when reduced-motion or explicit auto.
+ * (e.g. /platform → /#process). Instant only when reduced-motion or explicit auto.
  */
 export function requestInstantHomepageSectionScroll(sectionId: HomepageSectionId) {
   pendingInstantSectionScroll = sectionId;
@@ -91,7 +97,6 @@ export function readHomepageSectionHash(): HomepageSectionId | null {
 /**
  * Prefer an explicit custom scroll reference when present
  * (`[data-homepage-scroll-ref="<sectionId>"]`), otherwise the section root `#id`.
- * Pricing never falls back to `#pricing` (that box includes section padding).
  */
 export function resolveHomepageSectionScrollTarget(
   sectionId: HomepageSectionId
@@ -103,10 +108,6 @@ export function resolveHomepageSectionScrollTarget(
   const custom = document.querySelector(`[data-homepage-scroll-ref="${sectionId}"]`);
   if (custom instanceof HTMLElement) {
     return custom;
-  }
-
-  if (sectionId === "pricing") {
-    return null;
   }
 
   return document.getElementById(sectionId);
@@ -306,10 +307,9 @@ function waitForSectionLayoutStable(sectionId: HomepageSectionId, token: number,
 }
 
 /**
- * Scroll to a homepage section. Same path for product, benefits, and pricing:
- * wait for a stable layout, then one smooth scroll to the eyebrow/ref with
- * visible header + 8px. Instant only for reduced-motion or explicit auto.
- * No snap at the end — that froze/chunked when Pricing stopped.
+ * Scroll to a homepage section. Wait for a stable layout, then one smooth scroll
+ * to the eyebrow/ref with visible header + 8px. Instant only for reduced-motion
+ * or explicit auto.
  * Returns false until the target exists.
  */
 export function scrollToHomepageSection(

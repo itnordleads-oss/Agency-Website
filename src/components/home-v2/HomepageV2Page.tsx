@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import DeferredMount from "../DeferredMount";
-import CompanyLogoCarousel from "./CompanyLogoCarousel";
 import HomeV2Hero from "./HomeV2Hero";
 import HomeV2Trust from "./HomeV2Trust";
 import HomeV2ProductOverview from "./HomeV2ProductOverview";
 import HomeV2Features from "./HomeV2Features";
 import HomeV2Workflow from "./HomeV2Workflow";
-import HomeV2Benefits from "./HomeV2Benefits";
 import HomeV2Testimonials from "./HomeV2Testimonials";
 import HomeV2PricingPreview from "./HomeV2PricingPreview";
 import HomeV2Faq from "./HomeV2Faq";
 import HomeV2Blog from "./HomeV2Blog";
 import HomeV2FinalCta from "./HomeV2FinalCta";
+import HomeAgencyServices from "./HomeAgencyServices";
+import HomeAgencyValue from "./HomeAgencyValue";
+import HomeAgencyProcess from "./HomeAgencyProcess";
+import HomeAgencyAbout from "./HomeAgencyAbout";
 import ScrollToTopButton from "../ScrollToTopButton";
 import { HomepageVariantProvider, type HomepageVariant } from "./homepageVariantContext";
 import {
@@ -20,9 +22,11 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
-import { getAgencyPageSeo } from "../../lib/agencyPageSeo";
-import { applyPageMetadata } from "../../lib/pageMetadata";
-import { getBrandAriaLabel } from "../../lib/studioBranding";
+
+const V2_TITLE = "Home";
+const V3_TITLE = "Home";
+const V3_DESCRIPTION =
+  "Tell us about your project. We will review what you share and follow up with a clear next step.";
 
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
@@ -30,27 +34,28 @@ function useHomepageMetadata(variant: HomepageVariant) {
       return;
     }
 
-    const home = getAgencyPageSeo("home");
-    const restore =
-      variant === "v3"
-        ? applyPageMetadata({
-            title: home.title,
-            description: home.description,
-            pathname: home.pathname,
-          })
-        : applyPageMetadata({
-            title: `${getBrandAriaLabel()} — Homepage V2`,
-            description: home.description,
-            pathname: home.pathname,
-            robots: "noindex, nofollow",
-          });
+    const previousTitle = document.title;
+    const descriptionTag = document.querySelector('meta[name="description"]');
+    const previousDescription = descriptionTag?.getAttribute("content") ?? null;
 
-    // Keep hash targets (e.g. /#pricing) — do not wipe the pending section scroll.
+    if (variant === "v3") {
+      document.title = V3_TITLE;
+      descriptionTag?.setAttribute("content", V3_DESCRIPTION);
+    } else {
+      document.title = V2_TITLE;
+    }
+
+    // Keep hash targets (e.g. /#process) — do not wipe the pending section scroll.
     if (!readHomepageSectionHash()) {
       window.scrollTo({ top: 0, behavior: "auto" });
     }
 
-    return restore;
+    return () => {
+      document.title = previousTitle;
+      if (variant === "v3" && descriptionTag && previousDescription !== null) {
+        descriptionTag.setAttribute("content", previousDescription);
+      }
+    };
   }, [variant]);
 }
 
@@ -77,28 +82,27 @@ function useHomepageSectionNavigation() {
       return;
     }
 
+    // F9: product pricing section removed from Homepage V3 — send hash traffic to Contact.
+    if (requestedSectionId === "pricing") {
+      window.history.replaceState({}, "", "/contact");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+      return;
+    }
+
     let cancelled = false;
     let frameId = 0;
     let attempts = 0;
     const maxAttempts = 180;
 
     const isReadyToScroll = () => {
-      // Target must exist. Wait for major sections above so DeferredMount/hero
-      // expansion does not move the target after the scroll.
       const hasTarget = !!document.querySelector(
         `[data-homepage-scroll-ref="${requestedSectionId}"]`
       );
       if (!hasTarget) {
         return false;
       }
-      // Hero is the largest above-fold expander on Homepage V3.
       if (!document.querySelector("main h1")) {
         return false;
-      }
-      if (requestedSectionId === "pricing" || requestedSectionId === "benefits") {
-        const product = document.getElementById("product");
-        // Placeholder DeferredMount host is 20rem; wait until real product layout exists.
-        return !!product && product.offsetHeight > 360;
       }
       return true;
     };
@@ -109,8 +113,6 @@ function useHomepageSectionNavigation() {
       }
 
       if (isReadyToScroll()) {
-        // One layout frame after mounts, then a single smooth scroll.
-        // Extra settle/auto passes fight smooth scroll going up and down.
         frameId = window.requestAnimationFrame(() => {
           if (cancelled) {
             return;
@@ -150,8 +152,8 @@ function sectionRootMargin(requestedSectionId: HomepageSectionId | null) {
  * Production Homepage V3 reuses this page with `variant="v3"` at `/`.
  *
  * Flow (V2): Hero → Trust → Product → Features → Workflow → Proof → Pricing → FAQ → Blog → CTA
- * Flow (V3): Hero → Company logos → Product → Trust → Benefits → Testimonials → Pricing → FAQ → CTA
- * V3: one value section, outcomes after differentiation, blog removed to protect CTA focus.
+ * Flow (V3 / F4 agency): Hero → Services → Value → Process → About preview → Final CTA
+ * Unverified trust, work, pricing, FAQ, and product surfaces are omitted on V3.
  */
 export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageVariant }) {
   useHomepageMetadata(variant);
@@ -163,41 +165,40 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
       <main className="min-w-0 flex-grow overflow-x-hidden">
         {/*
           Keep DeferredMount wrappers stable. Swapping them for eager trees on
-          hash click remounts Hero/Product and moves Pricing after scroll.
+          hash click remounts Hero and moves section targets after scroll.
         */}
         <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="24rem">
           <HomeV2Hero />
         </DeferredMount>
 
         {isV3 ? (
-          <div className="min-w-0">
-            <CompanyLogoCarousel />
-          </div>
-        ) : (
-          <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="6rem">
-            <HomeV2Trust />
-          </DeferredMount>
-        )}
-
-        <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="20rem">
-          <HomeV2ProductOverview />
-        </DeferredMount>
-
-        {isV3 ? (
-          // Keep trust mounted (not DeferredMount): the carousel smoke test jump-scrolls
-          // to document end and can skip a short deferred host, leaving #v2-trust unmounted.
-          <div className="min-w-0">
-            <HomeV2Trust />
-          </div>
-        ) : null}
-
-        {isV3 ? (
           <>
-            {/* Benefits hover interaction must stay mounted for reliable desktop hit-testing. */}
-            <HomeV2Benefits />
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="10rem">
+              <HomeAgencyServices />
+            </DeferredMount>
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+              <HomeAgencyValue />
+            </DeferredMount>
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="14rem">
+              <HomeAgencyProcess />
+            </DeferredMount>
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="12rem">
+              <HomeAgencyAbout />
+            </DeferredMount>
           </>
         ) : (
           <>
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="6rem">
+              <HomeV2Trust />
+            </DeferredMount>
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="20rem">
+              <HomeV2ProductOverview />
+            </DeferredMount>
+
             <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="18rem">
               <HomeV2Features />
             </DeferredMount>
@@ -205,29 +206,22 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
             <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="12rem">
               <HomeV2Workflow />
             </DeferredMount>
+
+            <HomeV2Testimonials />
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+              <HomeV2PricingPreview />
+            </DeferredMount>
+
+            <DeferredMount rootMargin="0px" minHeight="14rem">
+              <HomeV2Faq />
+            </DeferredMount>
+
+            <DeferredMount rootMargin="0px" minHeight="18rem">
+              <HomeV2Blog />
+            </DeferredMount>
           </>
         )}
-
-        {/* Customer-story SEO quote must stay in the document (not DeferredMount) for crawl + E2E. */}
-        <HomeV2Testimonials />
-
-        {/*
-          Pricing hash expands rootMargin so the section mounts in place.
-          Do not swap the wrapper — remounting is why click missed and refresh hit.
-        */}
-        <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
-          <HomeV2PricingPreview />
-        </DeferredMount>
-
-        <DeferredMount rootMargin="0px" minHeight="14rem">
-          <HomeV2Faq />
-        </DeferredMount>
-
-        {!isV3 ? (
-          <DeferredMount rootMargin="0px" minHeight="18rem">
-            <HomeV2Blog />
-          </DeferredMount>
-        ) : null}
 
         <DeferredMount rootMargin="0px" minHeight="12rem">
           <HomeV2FinalCta />
