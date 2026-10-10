@@ -169,10 +169,7 @@ async function handleContactSubmit(request: Request, env: Env) {
     return json({ ok: true });
   } catch (error) {
     console.error("Contact form request failed", error);
-    return json(
-      { error: "We couldn't send your message. Please try again." },
-      500
-    );
+    return json({ error: "We couldn't send your message. Please try again." }, 500);
   }
 }
 
