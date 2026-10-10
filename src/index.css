@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/*
+ * F2 brand color tokens — provisional design-system values only.
+ * Leadership has not approved a Development Studio palette yet.
+ * Do not treat these blues as the final studio brand identity.
+ * Approved values will be wired from `src/lib/studioBranding.ts` when available.
+ */
 @theme {
   --color-brand: #3d81e3;
   --color-accent: #00d2ff;
@@ -10,7 +16,7 @@
 
 /*
  * Page canvas tokens — slightly brighter than the previous near-black base
- * while preserving the premium dark theme. Brand / accent blues are unchanged.
+ * while preserving the premium dark theme. Brand / accent blues remain provisional.
  */
 :root {
   --page-bg: #0c111b;

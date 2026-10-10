@@ -1,29 +1,60 @@
-/** Shared public contact endpoints used across footer, FAB, and terms. */
-export const CONTACT_EMAIL = "contact@adealforge.com";
+import {
+  getContactEmail,
+  getMailSubject,
+  getWhatsAppDefaultMessage,
+  getWhatsAppDigitsConfigured,
+  isConfigured,
+} from "./studioBranding";
 
-export const CONTACT_MAIL_SUBJECT = "ADealForge inquiry";
-
-/** Native mailto href — works without JavaScript. */
-export function getContactMailtoHref(subject: string = CONTACT_MAIL_SUBJECT): string {
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
+/** Published contact email, or `null` while leadership approval is TBC. */
+export function resolveContactEmail(): string | null {
+  return getContactEmail();
 }
 
 /**
- * Default WhatsApp number (digits only, no +).
- * Override in production builds with VITE_WHATSAPP_NUMBER.
+ * Backward-compatible export for call sites that still read a constant.
+ * Prefer `resolveContactEmail()` / `hasContactEmail()` for new code.
+ * Empty string means unpublished — do not render as a mailto target.
  */
-export const DEFAULT_WHATSAPP_NUMBER = "1234567890";
+export const CONTACT_EMAIL = getContactEmail() ?? "";
 
-export const WHATSAPP_DEFAULT_MESSAGE =
-  "Hi — I'd like to start a conversation about outbound with ADealForge.";
-
-/** Resolves WhatsApp digits from env, falling back to the site default. */
-export function getWhatsAppDigits(): string {
-  const fromEnv = import.meta.env.VITE_WHATSAPP_NUMBER?.trim();
-  const raw = fromEnv && fromEnv.length > 0 ? fromEnv : DEFAULT_WHATSAPP_NUMBER;
-  return raw.replace(/\D/g, "");
+export function hasContactEmail(): boolean {
+  return isConfigured(getContactEmail());
 }
 
-export function getWhatsAppHref(): string {
-  return `https://wa.me/${getWhatsAppDigits()}?text=${encodeURIComponent(WHATSAPP_DEFAULT_MESSAGE)}`;
+export function resolveMailSubject(): string | null {
+  return getMailSubject();
+}
+
+/** Native mailto href — `null` when email is unpublished. */
+export function getContactMailtoHref(subject?: string): string | null {
+  const email = getContactEmail();
+  if (!isConfigured(email)) {
+    return null;
+  }
+
+  const resolvedSubject = subject ?? getMailSubject();
+  if (isConfigured(resolvedSubject)) {
+    return `mailto:${email}?subject=${encodeURIComponent(resolvedSubject)}`;
+  }
+
+  return `mailto:${email}`;
+}
+
+/** Digits-only WhatsApp number, or `null` when unpublished. */
+export function getWhatsAppDigits(): string | null {
+  return getWhatsAppDigitsConfigured();
+}
+
+export function hasWhatsAppContact(): boolean {
+  return isConfigured(getWhatsAppDigitsConfigured()) && isConfigured(getWhatsAppDefaultMessage());
+}
+
+export function getWhatsAppHref(): string | null {
+  const digits = getWhatsAppDigitsConfigured();
+  const message = getWhatsAppDefaultMessage();
+  if (!isConfigured(digits) || !isConfigured(message)) {
+    return null;
+  }
+  return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }

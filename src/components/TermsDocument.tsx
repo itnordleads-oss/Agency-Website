@@ -17,7 +17,8 @@ export type TermsDocumentContent = {
   questionsTitle?: string;
   questionsBody?: string;
   sections: TermsSection[];
-  contactEmail: string;
+  /** Published contact email, or `null`/`""` while unpublished (TBC). */
+  contactEmail: string | null;
 };
 
 interface TermsDocumentProps {
@@ -41,9 +42,9 @@ function isContactSection(title: string) {
   return /^contact$/i.test(stripSectionNumber(title));
 }
 
-/** Keep the email address visible only in the Contact section. */
-function resolveParagraphText(paragraph: string, email: string, showEmail: boolean) {
-  if (showEmail) {
+/** Keep the email address visible only in the Contact section when published. */
+function resolveParagraphText(paragraph: string, email: string | null, showEmail: boolean) {
+  if (showEmail && email) {
     return paragraph.replace(/\{\{email\}\}/g, email);
   }
 
@@ -54,8 +55,8 @@ function resolveParagraphText(paragraph: string, email: string, showEmail: boole
     .trim();
 }
 
-function renderWithEmail(text: string, email: string, showEmail: boolean) {
-  if (!showEmail) {
+function renderWithEmail(text: string, email: string | null, showEmail: boolean) {
+  if (!showEmail || !email) {
     return text;
   }
 
@@ -84,7 +85,8 @@ export default function TermsDocument({ content }: TermsDocumentProps) {
 
       <div className="terms-document__body">
         {content.sections.map((section, index) => {
-          const showEmail = isContactSection(section.title);
+          const showEmail =
+            isContactSection(section.title) && Boolean(content.contactEmail?.trim());
 
           return (
             <section

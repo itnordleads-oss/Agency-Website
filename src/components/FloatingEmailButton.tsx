@@ -3,9 +3,7 @@ import { createPortal } from "react-dom";
 import { LoaderCircle, Mail } from "lucide-react";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { onModalClose, onModalOpen } from "../lib/modalManager";
-import { CONTACT_EMAIL, getContactMailtoHref } from "../lib/siteContact";
-
-const mailtoHref = getContactMailtoHref();
+import { getContactMailtoHref, hasContactEmail, resolveContactEmail } from "../lib/siteContact";
 
 function isCookieOverlayActive(): boolean {
   const html = document.documentElement;
@@ -72,7 +70,10 @@ export default function FloatingEmailButton() {
     }, 2600);
   };
 
-  if (isHiddenForModal) {
+  const mailtoHref = getContactMailtoHref();
+  const contactEmail = resolveContactEmail();
+
+  if (isHiddenForModal || !hasContactEmail() || !mailtoHref || !contactEmail) {
     return null;
   }
 
@@ -84,10 +85,10 @@ export default function FloatingEmailButton() {
       aria-label={
         isOpening
           ? t("emailButton.openingLabel")
-          : t("emailButton.openLabel", { email: CONTACT_EMAIL })
+          : t("emailButton.openLabel", { email: contactEmail })
       }
       title={
-        isOpening ? t("emailButton.titleOpening") : t("emailButton.title", { email: CONTACT_EMAIL })
+        isOpening ? t("emailButton.titleOpening") : t("emailButton.title", { email: contactEmail })
       }
       className={`email-fab group fixed z-[60] no-underline ${
         isOpening ? "email-fab--opening" : ""

@@ -8,6 +8,10 @@ interface ContactSocialSectionProps {
 }
 
 export default function ContactSocialSection({ title, subtitle }: ContactSocialSectionProps) {
+  if (socialLinkItems.length === 0) {
+    return null;
+  }
+
   return (
     <section
       className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6 shadow-[0_12px_40px_rgba(0,0,0,0.22)]"

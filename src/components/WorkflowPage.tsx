@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import MainProductMockup from "./MainProductMockup";
 import { useSiteCopy } from "../lib/useSiteCopy";
+import { getAbsoluteUrl } from "../lib/studioBranding";
 
 /**
  * Public Workflow page — one dashboard/process component under the production
@@ -31,10 +32,15 @@ function useWorkflowPageMetadata(documentTitle: string, metaDescription: string)
 
     document.title = documentTitle;
     description?.setAttribute("content", metaDescription);
-    canonical?.setAttribute("href", "https://adealforge.com/workflow");
+    const workflowCanonical = getAbsoluteUrl("/workflow") ?? "/workflow";
+    canonical?.setAttribute("href", workflowCanonical);
     ogTitle?.setAttribute("content", documentTitle);
     ogDescription?.setAttribute("content", metaDescription);
-    ogUrl?.setAttribute("content", "https://adealforge.com/workflow");
+    if (getAbsoluteUrl("/workflow")) {
+      ogUrl?.setAttribute("content", getAbsoluteUrl("/workflow")!);
+    } else {
+      ogUrl?.removeAttribute("content");
+    }
     twitterTitle?.setAttribute("content", documentTitle);
     twitterDescription?.setAttribute("content", metaDescription);
     window.scrollTo({ top: 0, behavior: "auto" });

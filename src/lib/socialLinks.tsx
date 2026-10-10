@@ -1,15 +1,21 @@
 import React from "react";
 import { Mail, Linkedin, Instagram, Facebook } from "lucide-react";
-import { CONTACT_EMAIL, getContactMailtoHref, getWhatsAppHref } from "./siteContact";
+import {
+  getContactMailtoHref,
+  getWhatsAppHref,
+  hasContactEmail,
+  resolveContactEmail,
+} from "./siteContact";
+import { getSocialUrl, isConfigured, type StudioSocialPlatform } from "./studioBranding";
 
 export const SOCIAL_LINKS = {
-  facebook: "https://www.facebook.com/adealforge",
-  linkedin: "https://www.linkedin.com/company/adealforge",
-  twitter: "https://x.com/adealforge",
-  instagram: "https://www.instagram.com/adealforge",
+  facebook: getSocialUrl("facebook"),
+  linkedin: getSocialUrl("linkedin"),
+  twitter: getSocialUrl("twitter"),
+  instagram: getSocialUrl("instagram"),
 } as const;
 
-export type SocialPlatform = keyof typeof SOCIAL_LINKS | "whatsapp" | "email";
+export type SocialPlatform = StudioSocialPlatform | "whatsapp" | "email";
 
 export type SocialLinkItem = {
   key: SocialPlatform;
@@ -35,51 +41,97 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-/** Contact-page order: LinkedIn → Email → WhatsApp → other platforms. */
-export const socialLinkItems: SocialLinkItem[] = [
-  {
-    key: "linkedin",
-    href: SOCIAL_LINKS.linkedin,
-    label: "Follow on LinkedIn",
-    platformClass: "social-icon--linkedin",
-    icon: <Linkedin className="w-4 h-4" strokeWidth={2} />,
-  },
-  {
-    key: "email",
-    href: getContactMailtoHref(),
-    label: `Email ${CONTACT_EMAIL}`,
-    platformClass: "social-icon--email",
-    icon: <Mail className="w-4 h-4" strokeWidth={2} />,
-  },
-  {
-    key: "whatsapp",
-    href: getWhatsAppHref(),
-    label: "Chat on WhatsApp",
-    platformClass: "social-icon--whatsapp",
-    icon: <WhatsAppIcon className="w-4 h-4" />,
-  },
-  {
-    key: "facebook",
-    href: SOCIAL_LINKS.facebook,
-    label: "Follow on Facebook",
-    platformClass: "social-icon--facebook",
-    icon: <Facebook className="w-4 h-4" strokeWidth={2} />,
-  },
-  {
-    key: "twitter",
-    href: SOCIAL_LINKS.twitter,
-    label: "Follow on X",
-    platformClass: "social-icon--x",
-    icon: <XIcon className="w-4 h-4" />,
-  },
-  {
-    key: "instagram",
-    href: SOCIAL_LINKS.instagram,
-    label: "Follow on Instagram",
-    platformClass: "social-icon--instagram",
-    icon: <Instagram className="w-4 h-4" strokeWidth={2} />,
-  },
-];
+function buildSocialLinkItems(): SocialLinkItem[] {
+  const items: Array<SocialLinkItem | null> = [
+    (() => {
+      const href = SOCIAL_LINKS.linkedin;
+      if (!isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "linkedin" as const,
+        href,
+        label: "Follow on LinkedIn",
+        platformClass: "social-icon--linkedin",
+        icon: <Linkedin className="w-4 h-4" strokeWidth={2} />,
+      };
+    })(),
+    (() => {
+      if (!hasContactEmail()) {
+        return null;
+      }
+      const email = resolveContactEmail();
+      const href = getContactMailtoHref();
+      if (!isConfigured(email) || !isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "email" as const,
+        href,
+        label: `Email ${email}`,
+        platformClass: "social-icon--email",
+        icon: <Mail className="w-4 h-4" strokeWidth={2} />,
+      };
+    })(),
+    (() => {
+      const href = getWhatsAppHref();
+      if (!isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "whatsapp" as const,
+        href,
+        label: "Chat on WhatsApp",
+        platformClass: "social-icon--whatsapp",
+        icon: <WhatsAppIcon className="w-4 h-4" />,
+      };
+    })(),
+    (() => {
+      const href = SOCIAL_LINKS.facebook;
+      if (!isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "facebook" as const,
+        href,
+        label: "Follow on Facebook",
+        platformClass: "social-icon--facebook",
+        icon: <Facebook className="w-4 h-4" strokeWidth={2} />,
+      };
+    })(),
+    (() => {
+      const href = SOCIAL_LINKS.twitter;
+      if (!isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "twitter" as const,
+        href,
+        label: "Follow on X",
+        platformClass: "social-icon--x",
+        icon: <XIcon className="w-4 h-4" />,
+      };
+    })(),
+    (() => {
+      const href = SOCIAL_LINKS.instagram;
+      if (!isConfigured(href)) {
+        return null;
+      }
+      return {
+        key: "instagram" as const,
+        href,
+        label: "Follow on Instagram",
+        platformClass: "social-icon--instagram",
+        icon: <Instagram className="w-4 h-4" strokeWidth={2} />,
+      };
+    })(),
+  ];
+
+  return items.filter((item): item is SocialLinkItem => item !== null);
+}
+
+/** Contact-page / footer order with unpublished platforms omitted. */
+export const socialLinkItems: SocialLinkItem[] = buildSocialLinkItems();
 
 export const socialIconBaseClass =
   "social-icon inline-flex items-center justify-center rounded-full border transition-[transform,color,background-color,background-image,border-color,box-shadow] duration-300 ease-out shrink-0";
