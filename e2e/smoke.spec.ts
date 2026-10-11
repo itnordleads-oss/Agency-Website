@@ -1393,7 +1393,9 @@ test.describe("smoke", () => {
     await servicesLink.focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/services$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /Build digital products and web experiences/i
+    );
 
     expect(consoleErrors).toEqual([]);
     expect(pageErrors).toEqual([]);
@@ -1406,7 +1408,12 @@ test.describe("smoke", () => {
       test.setTimeout(90_000);
 
       for (const source of [
-        { path: "/", target: "Services", href: "/services", heading: "Services" },
+        {
+          path: "/",
+          target: "Services",
+          href: "/services",
+          heading: /Build digital products and web experiences/i,
+        },
         { path: "/contact", target: "About", href: "/about", heading: "About" },
         {
           path: "/services",

@@ -14,7 +14,19 @@ import { findEntry, isExpired, loadBaseline } from "./baseline";
  * HTTPS URLs are unavailable. og:image is optional until an approved asset exists.
  */
 
-const ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
+const ROUTES = [
+  "/",
+  "/services",
+  "/services/software-development",
+  "/services/website-development",
+  "/services/mobile-app-development",
+  "/services/shopify-stores",
+  "/services/wordpress-websites",
+  "/services/custom-wordpress-theme-development",
+  "/about",
+  "/contact",
+  "/terms",
+] as const;
 
 interface RouteSnapshot {
   route: string;

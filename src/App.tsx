@@ -14,6 +14,7 @@ import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
 import WorkPage from "./components/WorkPage";
 import ServicesPage from "./components/ServicesPage";
+import ServiceDetailRoute from "./components/ServiceDetailRoute";
 import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
 import { isWorkPagePublished } from "./lib/workProjects";
@@ -132,12 +133,6 @@ export function navigateToSection(targetId: string) {
       return;
     }
 
-    // Product pricing section retired from Homepage V3 — send users to Contact.
-    if (homepageSectionId === "pricing") {
-      navigateAppPath("/contact");
-      return;
-    }
-
     const href = getHomepageSectionHref(homepageSectionId);
     const isCurrentTarget =
       resolvePublicPath(window.location.pathname) === "/" &&
@@ -241,6 +236,7 @@ export default function App() {
   const isTermsPage = path === "/terms";
   const isContactPage = path === "/contact";
   const isServicesPage = path === "/services";
+  const serviceDetailSlug = path.startsWith("/services/") ? path.slice("/services/".length) : null;
   const isAboutPage = path === "/about";
   /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
   const isWorkPage = path === "/work";
@@ -279,6 +275,13 @@ export default function App() {
         ) : isServicesPage ? (
           <>
             <ServicesPage />
+            <DeferredMount rootMargin="0px" minHeight="32rem">
+              <Footer />
+            </DeferredMount>
+          </>
+        ) : serviceDetailSlug ? (
+          <>
+            <ServiceDetailRoute slug={serviceDetailSlug} />
             <DeferredMount rootMargin="0px" minHeight="32rem">
               <Footer />
             </DeferredMount>

@@ -27,6 +27,16 @@ const LANDING_ROOT = path.join(DIST_DIR, "landing");
 const AGENCY_SITEMAP_ROUTES = [
   { path: "/", priority: "1.0", changefreq: "monthly" },
   { path: "/services", priority: "0.9", changefreq: "monthly" },
+  { path: "/services/software-development", priority: "0.8", changefreq: "monthly" },
+  { path: "/services/website-development", priority: "0.8", changefreq: "monthly" },
+  { path: "/services/mobile-app-development", priority: "0.8", changefreq: "monthly" },
+  { path: "/services/shopify-stores", priority: "0.8", changefreq: "monthly" },
+  { path: "/services/wordpress-websites", priority: "0.8", changefreq: "monthly" },
+  {
+    path: "/services/custom-wordpress-theme-development",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
   { path: "/about", priority: "0.9", changefreq: "monthly" },
   { path: "/contact", priority: "0.9", changefreq: "monthly" },
   { path: "/terms", priority: "0.5", changefreq: "yearly" },
