@@ -79,7 +79,8 @@ function applyCollapseMorphVars(panel: HTMLElement) {
 }
 
 /**
- * Shared floating conversation prompt for all public routes.
+ * Shared floating conversation prompt for non-homepage public routes.
+ * App.tsx unmounts this on `/` so Hero + Final CTA remain the homepage conversion path.
  * Single source of truth: homepageV3.conversationPrompt (no route-specific copy).
  *
  * Flow: wait SHOW_DELAY_MS → show full card → after AUTO_COLLAPSE_MS collapse into the

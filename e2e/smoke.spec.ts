@@ -835,7 +835,12 @@ test.describe("smoke", () => {
     await expect(
       hero.getByText(/Custom software and digital products, delivered with clarity\./i)
     ).toBeVisible();
+    await expect(hero.getByRole("button", { name: "Start a Project" })).toBeVisible();
+    await expect(hero.getByRole("button", { name: "Explore Services" })).toBeVisible();
+    await expect(hero.getByText(/How we work/i)).toHaveCount(0);
     await expect(hero.getByText(/ADealForge finds qualified companies/i)).toHaveCount(0);
+    await expect(page.getByText(/vanity metrics/i)).toHaveCount(0);
+    await expect(page.getByText(/unverified claims/i)).toHaveCount(0);
 
     await page.evaluate(async () => {
       for (let attempt = 0; attempt < 40; attempt += 1) {
@@ -847,6 +852,16 @@ test.describe("smoke", () => {
     for (const sectionId of ["services", "value", "process", "about"] as const) {
       await expect(page.locator(`section#${sectionId}`)).toBeVisible({ timeout: 15_000 });
     }
+    await expect(page.locator("section#work-preview")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Software Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Website Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Mobile App Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Shopify Stores" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "WordPress Websites" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Custom WordPress Theme Development" })
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Have a project in mind?" })).toBeVisible();
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
@@ -861,7 +876,10 @@ test.describe("smoke", () => {
 
     await page.goto("/services");
     await acceptCookiesIfPresent(page);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
+    await expect(page.locator("main#services-page")).toBeVisible({ timeout: 15_000 });
+    await expect(
+      page.locator("main#services-page").getByRole("heading", { level: 1, name: "Services" })
+    ).toBeVisible({ timeout: 15_000 });
 
     expect(consoleErrors).toEqual([]);
   });
@@ -1724,8 +1742,17 @@ test.describe("smoke", () => {
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("section#benefits")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
+
+    // Services grid is taller than the old teaser — scroll so DeferredMount sections appear.
+    await page.evaluate(async () => {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 120));
+      }
+    });
+
+    await expect(page.locator("section#services")).toBeVisible({ timeout: 15_000 });
     await expect(page.locator("section#value")).toBeVisible({ timeout: 15_000 });
-    await expect(page.locator("section#services")).toBeVisible();
   });
 
   test("contact page hides office location while business address is TBC", async ({ page }) => {
@@ -1891,7 +1918,12 @@ test.describe("smoke", () => {
         window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
-      const routes = ["/", "/services", "/about", "/contact"] as const;
+      // Homepage keeps Hero + Final CTA only — floating prompt is unmounted on `/`.
+      await page.goto("/");
+      await acceptCookiesIfPresent(page);
+      await expect(page.locator(".schedule-meeting-float")).toHaveCount(0);
+
+      const routes = ["/services", "/about", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
@@ -1944,7 +1976,7 @@ test.describe("smoke", () => {
       }
 
       // Manual dismissal still persists and removes the widget before auto-collapse.
-      await page.goto("/");
+      await page.goto("/services");
       await acceptCookiesIfPresent(page);
       const dismissiblePrompt = page.locator(".schedule-meeting-float");
       await expect(dismissiblePrompt).toBeVisible({ timeout: 18_000 });

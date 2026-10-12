@@ -143,7 +143,7 @@ const en = {
       eyebrow: "What we focus on",
       title: "Broad capabilities we apply across projects",
       subtitle:
-        "About covers the kinds of work we take on. Detailed offerings live on Services as they are published.",
+        "About covers the kinds of work we take on. Detailed offerings live on the Services page.",
       exploreServices: "Explore Services",
       items: [
         {
@@ -1307,7 +1307,8 @@ const en = {
       subheadline:
         "We plan and build around real requirements—practical engineering, clear communication, and reviewable delivery from first conversation through launch.",
       primaryCta: "Start a Project",
-      secondaryCta: "See How We Work",
+      secondaryCta: "Explore Services",
+      secondaryCtaWork: "See Our Work",
       previewBadge: "Outbound sales view",
       previewTitle: "Campaign progress",
       previewRows: [
@@ -1317,18 +1318,63 @@ const en = {
         { label: "Status", value: "Sending" },
       ],
     },
+    heroVisual: {
+      eyebrow: "Delivery system",
+      title: "From brief to shipped product",
+      badge: "Studio",
+      caption: "Software, websites, mobile, commerce, and CMS work connected in one delivery path.",
+      ariaLabel: "Illustration of digital product delivery from idea through build to product",
+    },
     services: {
       eyebrow: "Services",
-      title: "Software and product work shaped around your goals",
+      title: "Six focused services for product and web delivery",
       subtitle:
-        "We help teams plan, build, and ship custom software and digital products with clear scope and reviewable delivery.",
-      cta: "Explore Services",
+        "Concise previews of the work we take on—explore a service for more detail, or review the full overview.",
+      cta: "Explore All Services",
+      exploreLabel: "Explore Service",
+      backToServices: "Back to services",
+      detailPrimaryCta: "Start a Project",
+      relatedTitle: "Related services",
+      items: [
+        {
+          id: "software-development",
+          title: "Software Development",
+          description:
+            "Custom software shaped around your workflows, users, and integration needs.",
+        },
+        {
+          id: "website-development",
+          title: "Website Development",
+          description:
+            "Professional, responsive websites with clean implementation and room to grow.",
+        },
+        {
+          id: "mobile-app-development",
+          title: "Mobile App Development",
+          description:
+            "Mobile applications connected to your product, data, and authentication needs.",
+        },
+        {
+          id: "shopify-stores",
+          title: "Shopify Stores",
+          description: "Shopify storefront setup, customization, and ongoing store improvements.",
+        },
+        {
+          id: "wordpress-websites",
+          title: "WordPress Websites",
+          description: "WordPress websites built for content teams and long-term maintainability.",
+        },
+        {
+          id: "custom-wordpress-theme-development",
+          title: "Custom WordPress Theme Development",
+          description: "Custom theme work for distinct design, layouts, and CMS-editable sections.",
+        },
+      ],
     },
     value: {
       eyebrow: "Why work with us",
-      title: "Delivery qualities you can plan around",
-      subtitle:
-        "Practical engineering and clear communication—without unverified claims or vanity metrics.",
+      title: "A delivery approach teams can plan around",
+      subtitle: "Clear communication and practical engineering from scope through delivery.",
       items: [
         {
           title: "Clear Communication",
@@ -1348,30 +1394,36 @@ const en = {
         },
       ],
     },
+    workPreview: {
+      eyebrow: "Selected work",
+      title: "Projects we can share publicly",
+      subtitle: "A short look at approved case studies from recent delivery work.",
+      cta: "View all work",
+    },
     process: {
       eyebrow: "How we work",
       title: "A simple path from idea to launch",
-      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      subtitle: "Five clear phases that keep scope, progress, and reviews visible.",
       steps: [
         {
           label: "Understand",
-          description: "Clarify goals, constraints, and what success looks like.",
+          description: "Clarify goals, users, constraints, and success criteria.",
         },
         {
           label: "Plan",
-          description: "Shape scope, approach, and the next delivery steps.",
+          description: "Define scope, priorities, and implementation direction.",
         },
         {
           label: "Build",
-          description: "Implement with practical engineering and steady progress.",
+          description: "Develop in clear, reviewable increments.",
         },
         {
           label: "Review",
-          description: "Check quality together and refine based on feedback.",
+          description: "Test quality, usability, and requirements together.",
         },
         {
           label: "Launch",
-          description: "Ship confidently and hand off with clear next steps.",
+          description: "Prepare delivery and define the next steps.",
         },
       ],
     },
@@ -1379,7 +1431,13 @@ const en = {
       eyebrow: "About",
       title: "A development studio focused on useful delivery",
       subtitle:
-        "Learn how we approach projects, collaboration, and maintainable outcomes—before you start a build.",
+        "We work as a practical engineering partner—requirement-led scope, direct communication, and maintainable outcomes your team can keep running.",
+      principles: [
+        "Practical engineering",
+        "Requirement-led delivery",
+        "Clear communication",
+        "Maintainable work",
+      ],
       cta: "About Us",
     },
     trust: {
@@ -1714,9 +1772,11 @@ const en = {
       ],
     },
     finalCta: {
-      title: "Tell us what you need",
-      subtitle: "Tell us what you need. We'll explain how we can help.",
-      primaryCta: "Start the Conversation",
+      eyebrow: "Start a project",
+      title: "Have a project in mind?",
+      subtitle: "Tell us what you're building and we'll discuss the right approach.",
+      primaryCta: "Start a Project",
+      secondaryCta: "Explore Services",
       footnote: ["Talk to our team", ""],
     },
     conversationPrompt: {

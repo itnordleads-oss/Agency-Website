@@ -284,6 +284,21 @@ body {
   color: #ffffff;
 }
 
+/* Agency Homepage V3 — balanced 3–4 line H1 at desktop widths */
+.hero-title--agency {
+  max-width: 36rem;
+  font-size: clamp(2.15rem, 3.6vw, 3.45rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+@media (min-width: 1280px) {
+  .hero-title--agency {
+    max-width: 38rem;
+  }
+}
+
 .section-title-lg {
   font-size: clamp(2rem, 3.5vw, 3.25rem);
   line-height: 1.1;
