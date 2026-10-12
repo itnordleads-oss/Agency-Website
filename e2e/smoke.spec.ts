@@ -1407,7 +1407,12 @@ test.describe("smoke", () => {
 
       for (const source of [
         { path: "/", target: "Services", href: "/services", heading: "Services" },
-        { path: "/contact", target: "About", href: "/about", heading: "About" },
+        {
+          path: "/contact",
+          target: "About",
+          href: "/about",
+          heading: /A development studio focused on useful delivery/i,
+        },
         {
           path: "/services",
           target: "Contact",
@@ -1452,7 +1457,12 @@ test.describe("smoke", () => {
 
       await expect(page).toHaveURL(/\/about$/);
       await expect(mobileMenu).toHaveCount(0);
-      await expect(page.getByRole("heading", { level: 1, name: "About" })).toBeVisible();
+      await expect(
+        page.getByRole("heading", {
+          level: 1,
+          name: /A development studio focused on useful delivery/i,
+        })
+      ).toBeVisible();
     }
   );
 

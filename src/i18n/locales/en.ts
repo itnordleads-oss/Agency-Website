@@ -66,6 +66,139 @@ const en = {
       "We're a remote company that works online. The address below is our registered business address for legal registration and official mail. All meetings and client work are conducted remotely.",
     mapOpenMaps: "Open in Google Maps",
   },
+  aboutPage: {
+    documentTitleSuffix: "About",
+    hero: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      titleLine1: "A development studio",
+      titleLine2: "focused on useful delivery",
+      subtitle:
+        "We build custom software and digital products around real requirements, with practical engineering, clear communication, and a delivery process designed to keep work focused.",
+      primaryCta: "Start a Project",
+      secondaryCta: "Explore Services",
+      deliveryFlow: [
+        { label: "Project input" },
+        { label: "Understand" },
+        { label: "Build" },
+        { label: "Review" },
+        { label: "Deliver" },
+      ],
+      principles: [
+        {
+          title: "Clear Communication",
+          description: "Priorities and decisions stay visible.",
+        },
+        {
+          title: "Practical Engineering",
+          description: "Build what the product needs next.",
+        },
+        {
+          title: "Structured Delivery",
+          description: "Scope, checkpoints, and reviewable progress.",
+        },
+        {
+          title: "Maintainable Solutions",
+          description: "Code and systems teams can keep running.",
+        },
+      ],
+    },
+    whoWeAre: {
+      eyebrow: "Who we are",
+      title: "Software and digital product delivery shaped around real requirements",
+      highlight: "Build what the product actually needs.",
+      paragraphs: [
+        "We are a development studio that plans and builds custom software and digital products with requirement-led development—not one-size-fits-all templates.",
+        "Practical engineering and clear communication keep work reviewable from the first conversation through launch.",
+      ],
+      exploreServices: "Explore Services",
+      workingModel: ["Requirement-led", "Reviewable delivery", "Maintainable outcome"],
+      sectionMark: "01",
+    },
+    principles: {
+      eyebrow: "Working principles",
+      title: "How we keep delivery useful",
+      subtitle:
+        "Four habits that keep collaboration clear and delivery sized to what the product needs next.",
+      items: [
+        {
+          title: "Understand the Problem",
+          description: "Clarify goals, constraints, and what success looks like before building.",
+        },
+        {
+          title: "Define the Scope",
+          description: "Shape a focused plan so work stays reviewable and aligned.",
+        },
+        {
+          title: "Build and Review",
+          description: "Implement with steady progress and shared checkpoints for feedback.",
+        },
+        {
+          title: "Iterate and Deliver",
+          description: "Refine based on review, then ship with clear next steps.",
+        },
+      ],
+    },
+    focusAreas: {
+      eyebrow: "What we focus on",
+      title: "Broad capabilities we apply across projects",
+      subtitle:
+        "About covers the kinds of work we take on. Detailed offerings live on Services as they are published.",
+      exploreServices: "Explore Services",
+      items: [
+        {
+          title: "Custom Software Delivery",
+          description: "Application work shaped around real product workflows and constraints.",
+        },
+        {
+          title: "Digital Product Experiences",
+          description:
+            "Modern web experiences that stay clear for users and maintainable for teams.",
+        },
+        {
+          title: "Frontend & Backend Development",
+          description:
+            "Contemporary application development across the stack when the project needs it.",
+        },
+        {
+          title: "Structured Project Delivery",
+          description: "A simple path from understanding needs through review and launch.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Ready to start a project?",
+      subtitle: "Tell us what you need. We will explain how we can help.",
+      primaryCta: "Get in Touch",
+    },
+  },
   platformPage: {
     documentTitle: "Agency | Platform",
     backHome: "Back to homepage",
@@ -294,8 +427,7 @@ const en = {
     ],
     brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "© 2026. All rights reserved.",
-    tagline:
-      "Development studio website — brand identity and service copy pending leadership approval.",
+    tagline: "",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring outbound for {{sector}}. Happy to share more about our goals.",

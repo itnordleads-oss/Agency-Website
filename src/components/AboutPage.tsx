@@ -1,22 +1,39 @@
 import React, { useEffect } from "react";
 import {
   ArrowRight,
+  ChevronDown,
   Code2,
   Layers,
   ListChecks,
   MessagesSquare,
+  ShieldCheck,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import SectionEyebrow from "./SectionEyebrow";
-import BackToHomepage from "./BackToHomepage";
-import GlassCard from "./GlassCard";
-import { PrimaryButton } from "./Buttons";
+import { PrimaryButton, SecondaryButton } from "./Buttons";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { getBrandAriaLabel } from "../lib/studioBranding";
-import { navigateToContact } from "../App";
+import { navigateAppPath, navigateToContact } from "../App";
+import "./about-page.css";
 
-const APPROACH_ICONS: LucideIcon[] = [MessagesSquare, ListChecks, Code2, Layers];
-const CAPABILITY_ICONS: LucideIcon[] = [Code2, Layers, MessagesSquare, ListChecks];
+const HERO_PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, Wrench, ListChecks, ShieldCheck];
+const PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, ListChecks, Code2, Layers];
+
+/** Bento: top 2/3 + 1/3, bottom 1/3 + 2/3 on a 3-column grid. */
+const BENTO_LAYOUT = [
+  "lg:col-span-2 lg:col-start-1 lg:row-start-1 about-bento-cell--lead",
+  "lg:col-span-1 lg:col-start-3 lg:row-start-1",
+  "lg:col-span-1 lg:col-start-1 lg:row-start-2",
+  "lg:col-span-2 lg:col-start-2 lg:row-start-2 about-bento-cell--lead",
+] as const;
+
+const ABOUT_SHELL =
+  "relative z-10 mx-auto w-full min-w-0 max-w-7xl px-4 min-[341px]:px-5 sm:px-6 lg:px-8";
+
+type AboutPrinciple = { title: string; description: string };
+type FlowStep = { label: string };
 
 function useAboutPageMetadata(documentTitle: string) {
   useEffect(() => {
@@ -34,206 +51,499 @@ function useAboutPageMetadata(documentTitle: string) {
   }, [documentTitle]);
 }
 
+function revealProps(reduceMotion: boolean | null, delay = 0) {
+  if (reduceMotion) {
+    return {};
+  }
+
+  return {
+    initial: { opacity: 0, y: 18 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.15 },
+    transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
+  };
+}
+
+function AboutHeroVisual({
+  principles,
+  flowSteps,
+}: {
+  principles: AboutPrinciple[];
+  flowSteps: FlowStep[];
+}) {
+  return (
+    <div
+      className="about-hero-system w-full max-w-lg lg:max-w-none"
+      role="group"
+      aria-label="Studio delivery system"
+    >
+      <div className="about-hero-system-panel relative overflow-hidden rounded-2xl p-4 sm:rounded-3xl sm:p-5">
+        <div className="about-hero-grid-bg pointer-events-none absolute inset-0 opacity-60 motion-reduce:opacity-40" />
+        <div className="pointer-events-none absolute -right-16 top-0 h-40 w-40 rounded-full bg-[#00d2ff]/15 blur-[70px] motion-reduce:hidden" />
+
+        <div className="relative z-10">
+          <p className="text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-[#A4F4FD]/85 sm:text-[0.6875rem]">
+            Delivery system
+          </p>
+
+          <ol className="about-flow-list m-0 mt-3 list-none space-y-0 p-0">
+            {flowSteps.map((step, index) => (
+              <li
+                key={step.label}
+                className={`about-flow-step flex items-center gap-3 py-1.5 ${index === 0 ? "pt-0" : ""}`}
+              >
+                <span className="about-flow-node inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#3D81E3]/45 bg-[#0C111B]">
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${index === flowSteps.length - 1 ? "bg-[#A4F4FD]" : "bg-[#3D81E3]/80"}`}
+                    aria-hidden
+                  />
+                </span>
+                <span
+                  className={`text-sm font-medium sm:text-[0.9375rem] ${
+                    index === 0 ? "text-white/55 uppercase tracking-[0.12em] text-xs" : "text-white"
+                  }`}
+                >
+                  {step.label}
+                </span>
+                {index < flowSteps.length - 1 ? (
+                  <ChevronDown
+                    className="ml-auto h-3.5 w-3.5 text-[#A4F4FD]/35 md:hidden"
+                    aria-hidden
+                  />
+                ) : null}
+              </li>
+            ))}
+          </ol>
+
+          <div className="relative mt-4 border-t border-white/[0.09] pt-3">
+            <p className="text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-white/45">
+              Operating principles
+            </p>
+            <ul className="m-0 mt-2.5 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2">
+              {principles.slice(0, 4).map((item, index) => {
+                const Icon = HERO_PRINCIPLE_ICONS[index] ?? ListChecks;
+                return (
+                  <li key={item.title} className="about-principle-chip rounded-xl px-3 py-2">
+                    <div className="flex items-start gap-2">
+                      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#A4F4FD]" aria-hidden />
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold leading-snug text-white">
+                          {item.title}
+                        </p>
+                        <p className="mt-0.5 text-[0.6875rem] leading-snug text-white/55">
+                          {item.description}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /**
- * F6 — public About page.
- * Uses approved footer positioning and defensible delivery qualities only.
- * Omits team, values, history, metrics, and Work until those are approved.
+ * F6 About page — premium studio narrative: delivery-system hero, editorial
+ * Who We Are, bento principles, capability rows, process timeline, closing CTA.
  */
 export default function AboutPage() {
   const { aboutPage } = useSiteCopy();
+  const reduceMotion = useReducedMotion();
   const brandLabel = getBrandAriaLabel();
   const documentTitle = `${brandLabel} | ${aboutPage.documentTitleSuffix}`;
 
   useAboutPageMetadata(documentTitle);
 
+  const hero = aboutPage.hero;
+  const heroPrinciples = Array.isArray(hero.principles) ? hero.principles : [];
+  const deliveryFlow = Array.isArray(hero.deliveryFlow) ? hero.deliveryFlow : [];
+  const titleLine1 =
+    typeof hero.titleLine1 === "string" && hero.titleLine1.trim() ? hero.titleLine1 : hero.title;
+  const titleLine2 = typeof hero.titleLine2 === "string" ? hero.titleLine2 : "";
+
+  const principles = Array.isArray(aboutPage.principles?.items) ? aboutPage.principles.items : [];
+  const focusAreas = Array.isArray(aboutPage.focusAreas?.items) ? aboutPage.focusAreas.items : [];
+  const processSteps = Array.isArray(aboutPage.process?.steps) ? aboutPage.process.steps : [];
+  const whoParagraphs = Array.isArray(aboutPage.whoWeAre?.paragraphs)
+    ? aboutPage.whoWeAre.paragraphs
+    : [];
+  const whoHighlight =
+    typeof aboutPage.whoWeAre?.highlight === "string" ? aboutPage.whoWeAre.highlight : "";
+  const workingModel = Array.isArray(aboutPage.whoWeAre?.workingModel)
+    ? aboutPage.whoWeAre.workingModel
+    : [];
+  const sectionMark =
+    typeof aboutPage.whoWeAre?.sectionMark === "string" ? aboutPage.whoWeAre.sectionMark : "01";
+
+  const defaultFlow: FlowStep[] = [
+    { label: "Project input" },
+    { label: "Understand" },
+    { label: "Build" },
+    { label: "Review" },
+    { label: "Deliver" },
+  ];
+  const flowSteps = deliveryFlow.length >= 5 ? deliveryFlow : defaultFlow;
+
   return (
     <main
-      className="min-w-0 flex-grow overflow-x-hidden"
+      className="about-page about-body min-w-0 flex-grow overflow-x-hidden"
       id="about-page"
       aria-labelledby="about-hero-title"
     >
-      <div className="mx-auto w-full min-w-0 max-w-7xl px-3 py-8 max-[340px]:py-7 min-[341px]:px-4 sm:px-6 sm:py-12 md:py-16">
-        <BackToHomepage label={aboutPage.backHome} />
+      {/* 1. Hero */}
+      <section
+        className="about-section about-section-hero relative overflow-hidden pb-10 pt-6 sm:pb-12 sm:pt-7 md:pb-14 md:pt-8"
+        aria-labelledby="about-hero-title"
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(920px_circle_at_8%_-5%,rgba(61,129,227,0.2),transparent_52%)] motion-reduce:hidden" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(640px_circle_at_92%_42%,rgba(0,210,255,0.14),transparent_58%)] motion-reduce:hidden" />
+        <div className={ABOUT_SHELL}>
+          <div className="grid grid-cols-1 items-center gap-7 lg:grid-cols-[1.32fr_1fr] lg:gap-10 xl:gap-12">
+            <div className="about-fade-in min-w-0">
+              <SectionEyebrow label={hero.eyebrow} className="mb-3.5" />
+              <h1
+                id="about-hero-title"
+                className="max-w-[14ch] text-balance text-[2.25rem] font-extrabold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-[3.5rem] xl:text-[3.75rem]"
+              >
+                <span className="block">{titleLine1}</span>
+                {titleLine2 ? (
+                  <span className="mt-0.5 block text-white/92">{titleLine2}</span>
+                ) : null}
+              </h1>
+              <p className="mt-4 max-w-lg text-base leading-relaxed text-body md:mt-5 md:text-lg">
+                {hero.subtitle}
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-7">
+                <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+                  {hero.primaryCta}
+                </PrimaryButton>
+                <SecondaryButton
+                  type="button"
+                  onClick={() => navigateAppPath("/services")}
+                  className="w-full px-8 py-3.5 sm:w-auto"
+                >
+                  {hero.secondaryCta}
+                </SecondaryButton>
+              </div>
+            </div>
 
-        <div className="flex flex-col gap-12 sm:gap-14 md:gap-16">
-          <section
-            className="liquid-glass relative overflow-hidden rounded-2xl border border-white/14 bg-white/[0.04] px-4 py-8 max-[340px]:px-3 max-[340px]:py-7 min-[341px]:px-5 sm:rounded-3xl sm:px-8 sm:py-10 md:px-10 md:py-12"
-            aria-labelledby="about-hero-title"
+            <div className="min-w-0 lg:max-w-[28rem] lg:justify-self-end xl:max-w-[32rem]">
+              <AboutHeroVisual principles={heroPrinciples} flowSteps={flowSteps} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Who We Are */}
+      <section
+        className="about-section about-section-who relative py-10 sm:py-14 md:py-16"
+        aria-labelledby="about-who-heading"
+      >
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+        <div className={ABOUT_SHELL}>
+          <motion.div
+            className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12"
+            {...revealProps(reduceMotion)}
+          >
+            <div className="relative lg:col-span-5">
+              <span
+                className="about-section-mark absolute -left-1 top-4 hidden lg:block"
+                aria-hidden
+              >
+                {sectionMark}
+              </span>
+              <SectionEyebrow label={aboutPage.whoWeAre.eyebrow} />
+              <h2
+                id="about-who-heading"
+                className="relative mt-3.5 max-w-md text-balance text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-[2.625rem]"
+              >
+                {aboutPage.whoWeAre.title}
+              </h2>
+            </div>
+            <div className="space-y-4 lg:col-span-7 lg:pl-2">
+              {whoHighlight ? (
+                <blockquote className="about-pull-quote relative border-l-2 border-[#A4F4FD] py-0.5 pl-4">
+                  {whoHighlight}
+                </blockquote>
+              ) : null}
+              {whoParagraphs.map((paragraph) => (
+                <p
+                  key={paragraph.slice(0, 48)}
+                  className="max-w-2xl text-base leading-relaxed text-body md:text-lg md:leading-relaxed"
+                >
+                  {paragraph}
+                </p>
+              ))}
+
+              {workingModel.length >= 3 ? (
+                <div className="about-working-model flex flex-col gap-2.5 pt-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2">
+                  {workingModel.map((label, index) => (
+                    <React.Fragment key={label}>
+                      <span className="text-sm font-medium text-white/75">{label}</span>
+                      {index < workingModel.length - 1 ? (
+                        <ArrowRight
+                          className="hidden h-3.5 w-3.5 text-[#A4F4FD]/50 sm:inline"
+                          aria-hidden
+                        />
+                      ) : null}
+                    </React.Fragment>
+                  ))}
+                </div>
+              ) : null}
+
+              <a
+                href="/services"
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigateAppPath("/services");
+                }}
+                className="group inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D81E3]"
+              >
+                {aboutPage.whoWeAre.exploreServices}
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                  aria-hidden
+                />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* 3. Working principles — bento */}
+      <section
+        className="about-section relative py-10 sm:py-14 md:py-16"
+        aria-labelledby="about-principles-heading"
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_100%,rgba(61,129,227,0.11),transparent_62%)] motion-reduce:hidden" />
+        <div className={ABOUT_SHELL}>
+          <motion.div
+            className="mb-7 max-w-xl lg:mb-8 lg:max-w-[48%]"
+            {...revealProps(reduceMotion)}
+          >
+            <SectionEyebrow label={aboutPage.principles.eyebrow} />
+            <h2
+              id="about-principles-heading"
+              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            >
+              {aboutPage.principles.title}
+            </h2>
+            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
+              {aboutPage.principles.subtitle}
+            </p>
+          </motion.div>
+
+          <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-3 lg:grid-rows-2 lg:gap-4">
+            {principles.map((item, index) => {
+              const Icon = PRINCIPLE_ICONS[index] ?? ListChecks;
+              const layout = BENTO_LAYOUT[index] ?? "";
+              return (
+                <motion.li
+                  key={item.title}
+                  className={`about-bento-cell group relative overflow-hidden rounded-2xl p-4 sm:p-5 ${layout}`}
+                  {...revealProps(reduceMotion, index * 0.05)}
+                >
+                  <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#3D81E3]/12 blur-2xl motion-reduce:hidden" />
+                  <p className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/85">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <div className="about-bento-accent mt-2" aria-hidden />
+                  <span className="mt-3 inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[#3D81E3]/30 bg-[#3D81E3]/10 text-[#A4F4FD]">
+                    <Icon className="h-4 w-4" aria-hidden />
+                  </span>
+                  <h3 className="mt-3 text-lg font-semibold leading-snug text-white">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 max-w-md text-sm leading-relaxed text-body md:text-[0.9375rem]">
+                    {item.description}
+                  </p>
+                </motion.li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      {/* 4. Capabilities */}
+      <section
+        className="about-section relative py-10 sm:py-14 md:py-16"
+        aria-labelledby="about-focus-heading"
+      >
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className={ABOUT_SHELL}>
+          <motion.div
+            className="mb-6 max-w-xl lg:mb-7 lg:max-w-[48%]"
+            {...revealProps(reduceMotion)}
+          >
+            <SectionEyebrow label={aboutPage.focusAreas.eyebrow} />
+            <h2
+              id="about-focus-heading"
+              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            >
+              {aboutPage.focusAreas.title}
+            </h2>
+            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
+              {aboutPage.focusAreas.subtitle}
+            </p>
+            <a
+              href="/services"
+              onClick={(event) => {
+                event.preventDefault();
+                navigateAppPath("/services");
+              }}
+              className="group mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
+            >
+              {aboutPage.focusAreas.exploreServices}
+              <ArrowRight
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                aria-hidden
+              />
+            </a>
+          </motion.div>
+
+          <ul className="m-0 list-none p-0">
+            {focusAreas.map((item, index) => (
+              <motion.li
+                key={item.title}
+                className="about-capability-row group"
+                {...revealProps(reduceMotion, index * 0.04)}
+              >
+                <span className="about-capability-bg-num font-mono tabular-nums" aria-hidden>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div className="relative grid grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-12 sm:gap-5 sm:py-5 sm:pl-14 md:py-6">
+                  <span className="relative z-10 pt-0.5 font-mono text-lg font-medium tabular-nums text-white/30 transition-colors duration-300 group-hover:text-[#A4F4FD] sm:text-xl">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="relative z-10 min-w-0">
+                    <h3 className="about-capability-title text-xl font-semibold leading-snug text-white sm:text-2xl">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-body sm:text-base md:text-[1.0625rem]">
+                      {item.description}
+                    </p>
+                  </div>
+                  <ArrowRight
+                    className="relative z-10 mt-1.5 h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 group-hover:translate-x-1.5 group-hover:text-[#A4F4FD]/85 motion-reduce:transform-none sm:mt-2"
+                    aria-hidden
+                  />
+                </div>
+              </motion.li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* 5. Process timeline */}
+      <section
+        className="about-section about-section-process relative py-10 sm:py-14 md:py-16"
+        aria-labelledby="about-process-heading"
+      >
+        <div className={ABOUT_SHELL}>
+          <motion.div
+            className="mb-8 max-w-xl lg:mb-9 lg:max-w-[48%]"
+            {...revealProps(reduceMotion)}
+          >
+            <SectionEyebrow label={aboutPage.process.eyebrow} />
+            <h2
+              id="about-process-heading"
+              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+            >
+              {aboutPage.process.title}
+            </h2>
+            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
+              {aboutPage.process.subtitle}
+            </p>
+          </motion.div>
+
+          <motion.ol
+            className="about-process-track relative m-0 hidden list-none p-0 md:flex md:flex-wrap md:justify-between md:gap-y-8 lg:flex-nowrap lg:gap-3"
+            {...revealProps(reduceMotion, 0.06)}
           >
             <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                backgroundImage:
-                  "radial-gradient(700px circle at 15% -10%, rgba(61,129,227,0.18), transparent 55%), radial-gradient(520px circle at 90% 100%, rgba(0,210,255,0.08), transparent 50%)",
-              }}
+              className="about-process-rail pointer-events-none absolute left-[4%] right-[4%] top-[1.4rem] hidden lg:block"
+              aria-hidden
             />
-            <div className="relative z-10 mx-auto max-w-3xl space-y-3 text-center sm:space-y-4">
-              <div className="flex justify-center">
-                <SectionEyebrow label={aboutPage.hero.eyebrow} />
-              </div>
-              <h1 id="about-hero-title" className="hero-title text-white">
-                {aboutPage.hero.title}
-              </h1>
-              <p className="text-body mx-auto max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base md:text-lg">
-                {aboutPage.hero.subtitle}
-              </p>
-            </div>
-          </section>
-
-          <section aria-labelledby="about-focus-heading">
-            <div className="mx-auto mb-6 max-w-2xl space-y-2.5 text-center md:mb-8">
-              <div className="flex justify-center">
-                <SectionEyebrow label={aboutPage.focus.eyebrow} />
-              </div>
-              <h2 id="about-focus-heading" className="section-title">
-                {aboutPage.focus.title}
-              </h2>
-              <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
-                {aboutPage.focus.subtitle}
-              </p>
-            </div>
-          </section>
-
-          <section aria-labelledby="about-approach-heading">
-            <div className="mx-auto mb-6 max-w-2xl space-y-2.5 text-center md:mb-8">
-              <div className="flex justify-center">
-                <SectionEyebrow label={aboutPage.approach.eyebrow} />
-              </div>
-              <h2 id="about-approach-heading" className="section-title">
-                {aboutPage.approach.title}
-              </h2>
-              <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
-                {aboutPage.approach.subtitle}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-              {aboutPage.approach.items.map((item, index) => {
-                const Icon = APPROACH_ICONS[index] ?? ListChecks;
-                return (
-                  <GlassCard
-                    key={item.title}
-                    className="border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5"
-                  >
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04]">
-                      <Icon className="h-4 w-4 text-[#00D2FF]" aria-hidden />
-                    </span>
-                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-snug text-white/60">{item.description}</p>
-                  </GlassCard>
-                );
-              })}
-            </div>
-          </section>
-
-          <section aria-labelledby="about-capabilities-heading">
-            <div className="mx-auto mb-6 max-w-2xl space-y-2.5 text-center md:mb-8">
-              <div className="flex justify-center">
-                <SectionEyebrow label={aboutPage.capabilities.eyebrow} />
-              </div>
-              <h2 id="about-capabilities-heading" className="section-title">
-                {aboutPage.capabilities.title}
-              </h2>
-              <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
-                {aboutPage.capabilities.subtitle}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-              {aboutPage.capabilities.items.map((item, index) => {
-                const Icon = CAPABILITY_ICONS[index] ?? Code2;
-                return (
-                  <GlassCard
-                    key={item.title}
-                    className="border border-white/[0.08] bg-white/[0.02] p-4 sm:p-5"
-                  >
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/12 bg-white/[0.04]">
-                      <Icon className="h-4 w-4 text-[#00D2FF]" aria-hidden />
-                    </span>
-                    <h3 className="mt-3 text-sm font-semibold text-white sm:text-base">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-snug text-white/60">{item.description}</p>
-                  </GlassCard>
-                );
-              })}
-            </div>
-          </section>
-
-          <section aria-labelledby="about-process-heading">
-            <div className="mx-auto mb-6 max-w-2xl space-y-2.5 text-center md:mb-8">
-              <div className="flex justify-center">
-                <SectionEyebrow label={aboutPage.process.eyebrow} />
-              </div>
-              <h2 id="about-process-heading" className="section-title">
-                {aboutPage.process.title}
-              </h2>
-              <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
-                {aboutPage.process.subtitle}
-              </p>
-            </div>
-            <ol className="mx-auto flex max-w-5xl flex-col items-stretch gap-2.5 md:flex-row md:items-stretch md:gap-2">
-              {aboutPage.process.steps.map((step, index) => (
-                <React.Fragment key={step.label}>
-                  <li className="flex min-w-0 flex-1 flex-col items-center rounded-2xl border border-white/12 bg-white/[0.03] px-3 py-3.5 text-center sm:px-4 sm:py-4">
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-accent-soft/30 bg-accent-soft/10 text-xs font-bold text-accent-soft">
-                      {index + 1}
-                    </span>
-                    <h3 className="mt-2 text-sm font-semibold text-white">{step.label}</h3>
-                    <p className="mt-1 text-xs leading-snug text-white/55">{step.description}</p>
-                  </li>
-                  {index < aboutPage.process.steps.length - 1 ? (
-                    <ArrowRight
-                      className="mx-auto hidden h-4 w-4 shrink-0 self-center text-white/30 md:block"
-                      aria-hidden
-                    />
-                  ) : null}
-                </React.Fragment>
-              ))}
-            </ol>
-          </section>
-
-          <section
-            className="relative min-w-0 overflow-hidden"
-            aria-labelledby="about-final-cta-heading"
-          >
-            <div className="liquid-glass cta-glow-panel relative overflow-hidden rounded-2xl border border-white/14 bg-white/[0.04] px-4 py-10 text-center max-[340px]:px-3 max-[340px]:py-9 sm:rounded-3xl sm:px-8 sm:py-14 md:px-12 md:py-16">
-              <div
-                className="pointer-events-none absolute inset-x-0 top-0 h-full"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(900px circle at 50% -10%, rgba(61,129,227,0.22), rgba(0,210,255,0.06) 45%, transparent 75%)",
-                }}
-              />
-              <div className="relative z-10 mx-auto max-w-xl space-y-5 md:space-y-6">
-                <h2 id="about-final-cta-heading" className="section-title">
-                  {aboutPage.finalCta.title}
-                </h2>
-                <p className="text-body text-sm leading-snug md:text-base">
-                  {aboutPage.finalCta.subtitle}
+            {processSteps.map((step, index) => (
+              <li
+                key={step.label}
+                className={`about-process-step relative min-w-0 flex-1 px-1 text-center ${
+                  index >= 3 ? "md:basis-[30%] lg:basis-auto" : "md:basis-[30%] lg:basis-auto"
+                }`}
+              >
+                <span className="about-process-node relative z-10 mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#3D81E3]/50 bg-[#0C111B] text-xs font-bold text-[#A4F4FD] lg:h-12 lg:w-12">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-3 text-base font-semibold text-white">{step.label}</h3>
+                <p className="mx-auto mt-1.5 max-w-[11rem] text-sm leading-relaxed text-body">
+                  {step.description}
                 </p>
-                <div className="flex justify-center pt-1">
-                  <PrimaryButton
-                    onClick={navigateToContact}
-                    className="w-full px-8 py-3.5 sm:w-auto"
-                  >
-                    {aboutPage.finalCta.primaryCta}
-                  </PrimaryButton>
-                </div>
-                <div className="flex flex-wrap items-center justify-center gap-2 text-xs uppercase tracking-wide text-subtle">
-                  <span>{aboutPage.finalCta.footnote[0]}</span>
-                  {aboutPage.finalCta.footnote[1] ? (
-                    <>
-                      <span className="text-white/20">//</span>
-                      <span>{aboutPage.finalCta.footnote[1]}</span>
-                    </>
-                  ) : null}
-                </div>
+              </li>
+            ))}
+          </motion.ol>
+
+          <ol className="relative m-0 list-none space-y-6 border-l border-white/10 p-0 pl-6 md:hidden">
+            {processSteps.map((step, index) => (
+              <li key={step.label} className="about-process-step relative">
+                <span className="about-process-node absolute -left-[1.84rem] top-0 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#3D81E3]/50 bg-[#0C111B] text-[0.65rem] font-bold text-[#A4F4FD]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className="text-base font-semibold text-white">{step.label}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-body">{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* 6. CTA */}
+      <section
+        className="about-section about-section-cta relative pb-10 pt-2 sm:pb-12 md:pb-14"
+        aria-labelledby="about-final-cta-heading"
+      >
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent to-[#3D81E3]/[0.04] motion-reduce:hidden" />
+        <div className={ABOUT_SHELL}>
+          <motion.div
+            className="about-cta-panel relative overflow-hidden rounded-3xl px-5 py-9 sm:px-10 sm:py-11 md:px-12 md:py-12"
+            {...revealProps(reduceMotion)}
+          >
+            <div className="about-cta-grid pointer-events-none absolute inset-0 motion-reduce:hidden" />
+            <div className="about-cta-noise pointer-events-none absolute inset-0 motion-reduce:hidden" />
+            <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#00d2ff]/18 blur-[80px] motion-reduce:hidden" />
+            <div className="relative z-10 mx-auto max-w-2xl text-center">
+              <h2
+                id="about-final-cta-heading"
+                className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.625rem]"
+              >
+                {aboutPage.finalCta.title}
+              </h2>
+              <p className="mx-auto mt-3.5 max-w-lg text-base leading-relaxed text-body md:text-lg">
+                {aboutPage.finalCta.subtitle}
+              </p>
+              <div className="mt-6 flex flex-col items-center justify-center gap-3.5 sm:mt-7 sm:flex-row sm:gap-5">
+                <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+                  {aboutPage.finalCta.primaryCta}
+                </PrimaryButton>
+                <button
+                  type="button"
+                  onClick={() => navigateAppPath("/services")}
+                  className="group inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
+                >
+                  {hero.secondaryCta}
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
+                    aria-hidden
+                  />
+                </button>
               </div>
             </div>
-          </section>
+          </motion.div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

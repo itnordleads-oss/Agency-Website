@@ -286,7 +286,7 @@ export default function App() {
         ) : isAboutPage ? (
           <>
             <AboutPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
+            <DeferredMount rootMargin="0px" minHeight="12rem">
               <Footer />
             </DeferredMount>
           </>
