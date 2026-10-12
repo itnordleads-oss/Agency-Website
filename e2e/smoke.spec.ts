@@ -480,9 +480,12 @@ test.describe("smoke", () => {
       await expect(
         page.getByRole("heading", { level: 2, name: /simple path from idea to launch/i })
       ).toBeVisible();
-      await expect(page.getByRole("button", { name: /Get in Touch/i })).toBeVisible();
+      const aboutCta = page.locator("main#about-page").getByRole("button", {
+        name: /Get in Touch/i,
+      });
+      await expect(aboutCta).toBeVisible();
 
-      await page.getByRole("button", { name: /Get in Touch/i }).click();
+      await aboutCta.click();
       await expect(page).toHaveURL(/\/contact$/);
 
       for (const viewport of [
