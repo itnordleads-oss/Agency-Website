@@ -82,13 +82,6 @@ function useHomepageSectionNavigation() {
       return;
     }
 
-    // F9: product pricing section removed from Homepage V3 — send hash traffic to Contact.
-    if (requestedSectionId === "pricing") {
-      window.history.replaceState({}, "", "/contact");
-      window.dispatchEvent(new PopStateEvent("popstate"));
-      return;
-    }
-
     let cancelled = false;
     let frameId = 0;
     let attempts = 0;
