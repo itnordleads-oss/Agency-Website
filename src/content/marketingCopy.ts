@@ -8,11 +8,9 @@ export const marketingCopy = {
     // F11: provisional agency SEO until leadership-approved identity lands (F2/F10).
     // Runtime metadata uses studioBranding getters — do not reintroduce product-era copy here.
     title: "Agency Website",
-    description:
-      "Marketing website for the agency. Brand identity details are pending leadership approval.",
-    organizationDescription:
-      "Marketing website for the agency. Organization schema fields remain unpublished until approved.",
-    websiteDescription: "Marketing website for the agency.",
+    description: "Custom software and digital product delivery for growing teams.",
+    organizationDescription: "Custom software and digital product delivery for growing teams.",
+    websiteDescription: "Custom software and digital product delivery for growing teams.",
   },
 
   hero: {

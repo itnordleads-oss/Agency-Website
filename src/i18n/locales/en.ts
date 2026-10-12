@@ -294,8 +294,7 @@ const en = {
     ],
     brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "© 2026. All rights reserved.",
-    tagline:
-      "Development studio website — brand identity and service copy pending leadership approval.",
+    tagline: "",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring outbound for {{sector}}. Happy to share more about our goals.",

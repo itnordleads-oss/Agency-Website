@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { ArrowUpRight, ChevronRight } from "lucide-react";
 import SectionEyebrow from "./SectionEyebrow";
+import ProjectGallery from "./projects/ProjectGallery";
+import ProjectVisual from "./projects/ProjectVisual";
 import ProjectsFinalCta from "./projects/ProjectsFinalCta";
 import RelatedProjects from "./projects/RelatedProjects";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import { navigateAppPath, navigateToContact } from "../App";
 import {
   getProjectCategoryLabel,
+  getProjectDeliverables,
   getPublishedProjectBySlug,
   getRelatedProjects,
 } from "../lib/agencyProjects";
@@ -18,8 +21,8 @@ type ProjectDetailPageProps = {
 };
 
 /**
- * Project case-study detail at `/projects/:slug`.
- * Optional sections render only when real data is present.
+ * Reusable project detail / case-study template.
+ * Concept entries use goal-oriented copy and an explicit Concept Project badge.
  */
 export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
   const project = getPublishedProjectBySlug(slug);
@@ -31,9 +34,12 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
     }
 
     const siteName = getSeoSiteName();
+    const description = project.isDemo
+      ? `${project.title} — portfolio concept project. ${project.shortDescription}`
+      : project.shortDescription || project.overview;
     const restore = applyPageMetadata({
       title: `${project.title} | ${siteName}`,
-      description: project.shortDescription || project.summary,
+      description,
       pathname: `/projects/${project.slug}`,
     });
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -67,6 +73,9 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
 
   const related = getRelatedProjects(project.slug, 3);
   const categoryLabel = getProjectCategoryLabel(project.category);
+  const deliverables = getProjectDeliverables(project);
+  const goalTitle = project.isDemo ? "Project Goal" : "Challenge";
+  const outcomeTitle = project.isDemo ? "Delivery Summary" : "Outcome";
   const overviewRows: Array<{ label: string; value: string }> = [
     project.projectType ? { label: "Project Type", value: project.projectType } : null,
     project.services && project.services.length > 0
@@ -74,7 +83,7 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
       : null,
     project.platform ? { label: "Platform", value: project.platform } : null,
     project.technologies && project.technologies.length > 0
-      ? { label: "Technology", value: project.technologies.join(", ") }
+      ? { label: "Technologies", value: project.technologies.join(", ") }
       : null,
     project.status ? { label: "Status", value: project.status } : null,
   ].filter((row): row is { label: string; value: string } => row !== null);
@@ -89,25 +98,31 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
         <nav aria-label="Breadcrumb" className="mb-6 sm:mb-8">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/55">
             <li>
-              <button
-                type="button"
-                onClick={() => navigateAppPath("/")}
+              <a
+                href="/"
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigateAppPath("/");
+                }}
                 className="transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
               >
                 Home
-              </button>
+              </a>
             </li>
             <li aria-hidden className="text-white/25">
               <ChevronRight className="h-3.5 w-3.5" />
             </li>
             <li>
-              <button
-                type="button"
-                onClick={() => navigateAppPath("/projects")}
+              <a
+                href="/projects"
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigateAppPath("/projects");
+                }}
                 className="transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
               >
                 Projects
-              </button>
+              </a>
             </li>
             <li aria-hidden className="text-white/25">
               <ChevronRight className="h-3.5 w-3.5" />
@@ -122,14 +137,23 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
       <section className="relative mx-auto max-w-7xl px-3 pb-10 min-[341px]:px-4 sm:px-6 md:pb-14">
         <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="min-w-0 space-y-4 sm:space-y-5">
-            <SectionEyebrow label="PROJECT / CASE STUDY" tag={categoryLabel} />
+            <SectionEyebrow
+              label={project.isDemo ? "CONCEPT PROJECT" : "PROJECT / CASE STUDY"}
+              tag={categoryLabel}
+            />
             <h1 id="project-detail-title" className="hero-title text-white">
               {project.title}
             </h1>
+            {project.label ? (
+              <p className="text-sm font-medium uppercase tracking-[0.12em] text-white/45">
+                {project.label}
+              </p>
+            ) : null}
             <p className="text-body max-w-xl text-sm leading-relaxed text-white/70 sm:text-base md:text-lg">
-              {project.summary}
+              {project.overview}
             </p>
             <div className="flex flex-wrap gap-2">
+              {project.isDemo ? <span className="status-pill">Concept Project</span> : null}
               <span className="status-pill">{categoryLabel}</span>
               {project.services?.map((service) => (
                 <span key={service} className="status-pill">
@@ -145,32 +169,28 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
                 >
-                  Visit live project
+                  View Demo
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </a>
               </div>
             ) : null}
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-white/[0.1] bg-gradient-to-br from-[#12203a] via-[#0C111B] to-[#0a1628] sm:rounded-3xl">
-            {project.thumbnail ? (
+          <div className="overflow-hidden rounded-2xl border border-white/[0.1] bg-gradient-to-br from-[#12203a] via-[#0C111B] to-[#0a1628] p-4 sm:rounded-3xl sm:p-5">
+            {project.heroImage || project.thumbnail ? (
               <img
-                src={project.thumbnail}
+                src={project.heroImage || project.thumbnail}
                 alt={project.thumbnailAlt || `${project.title} preview`}
-                className="aspect-[16/10] w-full object-cover object-top"
+                className="aspect-[16/10] w-full rounded-xl object-cover object-top"
               />
             ) : (
-              <div
-                className="flex aspect-[16/10] items-end p-6"
-                aria-hidden
-                style={{
-                  backgroundImage:
-                    "radial-gradient(480px circle at 20% 0%, rgba(0,210,255,0.16), transparent 55%), radial-gradient(420px circle at 90% 80%, rgba(61,129,227,0.14), transparent 50%)",
-                }}
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-white/35">
-                  {categoryLabel}
-                </span>
+              <div className="aspect-[16/10]">
+                <ProjectVisual
+                  motif={project.visualMotif}
+                  variant={1}
+                  density="rich"
+                  className="h-full"
+                />
               </div>
             )}
           </div>
@@ -183,7 +203,7 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
           aria-labelledby="project-overview-heading"
         >
           <h2 id="project-overview-heading" className="section-title mb-5 text-left md:mb-6">
-            Overview
+            Project Overview
           </h2>
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {overviewRows.map((row) => (
@@ -202,7 +222,7 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
       ) : null}
 
       {project.challenge ? (
-        <DetailSection id="challenge" title="Challenge">
+        <DetailSection id="goal" title={goalTitle}>
           <p className="text-body text-sm leading-relaxed text-white/70 sm:text-base">
             {project.challenge}
           </p>
@@ -217,10 +237,10 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
         </DetailSection>
       ) : null}
 
-      {project.whatWeBuilt && project.whatWeBuilt.length > 0 ? (
+      {deliverables.length > 0 ? (
         <DetailSection id="what-we-built" title="What We Built">
           <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-            {project.whatWeBuilt.map((item) => (
+            {deliverables.map((item) => (
               <li
                 key={item}
                 className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-sm text-white/75"
@@ -231,6 +251,8 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
           </ul>
         </DetailSection>
       ) : null}
+
+      <ProjectGallery project={project} />
 
       {project.technologies && project.technologies.length > 0 ? (
         <DetailSection id="technologies" title="Technologies">
@@ -244,28 +266,8 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
         </DetailSection>
       ) : null}
 
-      {project.gallery && project.gallery.length > 0 ? (
-        <DetailSection id="gallery" title="Screenshots">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {project.gallery.map((item) => (
-              <figure
-                key={item.src}
-                className="overflow-hidden rounded-xl border border-white/[0.1] bg-black/30"
-              >
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  className="aspect-[16/10] w-full object-cover object-top"
-                  loading="lazy"
-                />
-              </figure>
-            ))}
-          </div>
-        </DetailSection>
-      ) : null}
-
       {project.outcome ? (
-        <DetailSection id="outcome" title="Outcome">
+        <DetailSection id="outcome" title={outcomeTitle}>
           <p className="text-body text-sm leading-relaxed text-white/70 sm:text-base">
             {project.outcome}
           </p>

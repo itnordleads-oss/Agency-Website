@@ -77,7 +77,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /real product and business requirements/i
+      /digital products built around real requirements/i
     );
   });
 
@@ -86,11 +86,75 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /real product and business requirements/i
+      /digital products built around real requirements/i
     );
+    await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toBeVisible();
     await expect(
-      page.getByRole("heading", { level: 2, name: /projects coming soon/i })
+      page.getByRole("region", { name: /featured projects/i }).getByRole("link", {
+        name: /View project: Nova Commerce/i,
+      })
     ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: /all projects/i }).getByRole("link", {
+        name: /View project: Nova Commerce/i,
+      })
+    ).toBeVisible();
+    await expect(page.getByText("Concept Project").first()).toBeVisible();
+
+    const filterGroup = page.getByRole("group", { name: "Filter projects by category" });
+    const allFilter = filterGroup.getByRole("button", { name: "All" });
+    const softwareFilter = filterGroup.getByRole("button", { name: "Software" });
+    await expect(allFilter).toHaveAttribute("aria-pressed", "true");
+    await softwareFilter.focus();
+    await expect(softwareFilter).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(softwareFilter).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
+      2
+    );
+    await allFilter.click();
+    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
+      6
+    );
+  });
+
+  test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/projects/nova-commerce");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/projects\/nova-commerce\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1, name: /Nova Commerce/i })).toBeVisible();
+    await expect(page.getByText("Concept Project").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: /Project Goal/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Project Overview" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Project Gallery" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Delivery Summary" })).toBeVisible();
+  });
+
+  test("all project detail routes resolve from centralized data", async ({ page }) => {
+    test.setTimeout(90_000);
+    const projects = [
+      ["nova-commerce", "Nova Commerce"],
+      ["orbit-dashboard", "Orbit Dashboard"],
+      ["atlas-mobile", "Atlas Mobile"],
+      ["vertex-cms", "Vertex CMS"],
+      ["lumen-platform", "Lumen Platform"],
+      ["forge-store", "Forge Store"],
+    ] as const;
+
+    for (const [slug, title] of projects) {
+      await page.goto(`/projects/${slug}`);
+      await acceptCookiesIfPresent(page);
+      await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
+      await expect(page.getByText("Concept Project").first()).toBeVisible();
+      await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toBeVisible();
+
+      const related = page.getByRole("region", { name: "Related Projects" });
+      await expect(related.getByRole("link")).toHaveCount(3);
+      await expect(related.getByRole("link", { name: new RegExp(title, "i") })).toHaveCount(0);
+    }
+
+    await page.goto("/projects/not-a-real-project");
+    await expect(page.getByRole("heading", { level: 1, name: "Project not found" })).toBeVisible();
   });
 
   test("company carousel replaces and repositions the homepage trust block", async ({ page }) => {
@@ -541,6 +605,17 @@ test.describe("smoke", () => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
+    await expect(page).toHaveURL(/\/services$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
+      timeout: 15_000,
+    });
+  });
+
+  test("platform page loads retired product shell", { tag: "@critical" }, async ({ page }) => {
+    test.skip(true, "F9 retired /platform; deep links redirect to Services.");
+    await page.goto("/platform");
+    await acceptCookiesIfPresent(page);
+
     await expect(page).toHaveTitle(/Platform/i);
     await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
       timeout: 15_000,
@@ -574,6 +649,8 @@ test.describe("smoke", () => {
   test("platform capabilities use interactive walkthrough and preserve content", async ({
     page,
   }) => {
+    test.skip(true, "F9 retired /platform");
+
     test.setTimeout(90_000);
 
     const consoleErrors: string[] = [];
@@ -842,6 +919,8 @@ test.describe("smoke", () => {
   });
 
   test("platform page keeps fixed english seo when language changes", async ({ page }) => {
+    test.skip(true, "F9 retired /platform");
+
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
@@ -967,6 +1046,8 @@ test.describe("smoke", () => {
     "workflow page renders only the workflow dashboard",
     { tag: "@critical" },
     async ({ page }) => {
+      test.skip(true, "F9 retired /workflow");
+
       const consoleErrors: string[] = [];
       const pageErrors: string[] = [];
       page.on("console", (message) => {
@@ -1020,6 +1101,8 @@ test.describe("smoke", () => {
   );
 
   test("workflow dashboard remains responsive on mobile", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow");
+
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
@@ -1036,6 +1119,8 @@ test.describe("smoke", () => {
   });
 
   test("workflow header-to-content top spacing matches Platform and Contact", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow");
+
     test.setTimeout(90_000);
 
     let cookiesHandled = false;
@@ -1089,6 +1174,8 @@ test.describe("smoke", () => {
   });
 
   test("workflow page keeps fixed english seo when language changes", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow");
+
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
 
@@ -1730,15 +1817,21 @@ test.describe("smoke", () => {
         const nav = footer.locator("nav.site-footer__nav");
         const navLinks = nav.locator("a");
 
-        // Home, Services, About, Contact, Terms
-        await expect(navLinks).toHaveCount(5);
+        // Explore: Home, Services, Projects · Company: About, Contact · Legal: Terms
+        await expect(navLinks).toHaveCount(6);
         await expect(footer.locator("nav.site-footer__nav button")).toHaveCount(0);
         await expect(navLinks.first()).toHaveAttribute("href", "/");
         await expect(footer.getByRole("link", { name: "Services" })).toHaveAttribute(
           "href",
           "/services"
         );
+        await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute(
+          "href",
+          "/projects"
+        );
         await expect(footer.getByRole("link", { name: "Platform" })).toHaveCount(0);
+        await expect(footer.getByRole("link", { name: "Workflow" })).toHaveCount(0);
+        await expect(footer.getByText(/leadership approval/i)).toHaveCount(0);
 
         const widths = await page.evaluate(() => {
           const compose = document.querySelector(".site-footer__compose");
@@ -1838,7 +1931,7 @@ test.describe("smoke", () => {
       page,
     }) => {
       const footer = await openContactFooter(page);
-      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(5);
+      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(6);
 
       for (const width of [1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
@@ -2083,7 +2176,7 @@ test.describe("smoke", () => {
     { tag: "@critical" },
     async ({ page }) => {
       // 10s show delay + 10s expanded window + collapse, × 4 routes, plus overhead.
-      test.setTimeout(180_000);
+      test.setTimeout(240_000);
 
       const consoleErrors: string[] = [];
       page.on("console", (message) => {
@@ -2099,10 +2192,11 @@ test.describe("smoke", () => {
       });
 
       await page.addInitScript(() => {
+        window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
         window.localStorage.removeItem("adealforge:schedule-meeting-dismissed-at");
       });
 
-      const routes = ["/", "/platform", "/workflow", "/contact"] as const;
+      const routes = ["/", "/services", "/about", "/projects", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
@@ -2149,7 +2243,7 @@ test.describe("smoke", () => {
 
         // Auto-collapse must not persist, so the invitation returns on the next page load.
         const autoCollapseDismissedAt = await page.evaluate(() =>
-          window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+          window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
         );
         expect(autoCollapseDismissedAt).toBeNull();
       }
@@ -2163,7 +2257,7 @@ test.describe("smoke", () => {
       await expect(dismissiblePrompt).toHaveCount(0, { timeout: 5_000 });
       await expect(page.locator(".email-fab")).toHaveCount(0);
       const dismissedAt = await page.evaluate(() =>
-        window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+        window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
       );
       expect(Number(dismissedAt)).toBeGreaterThan(0);
 

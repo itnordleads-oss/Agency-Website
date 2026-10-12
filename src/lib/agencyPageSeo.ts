@@ -91,7 +91,8 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         id,
         pathname: "/projects",
         title: pageTitle("Projects"),
-        description: "Selected agency software, website, mobile, Shopify, and WordPress projects.",
+        description:
+          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
         indexable: true,
       };
     case "work":
@@ -100,7 +101,8 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         id,
         pathname: "/projects",
         title: pageTitle("Projects"),
-        description: "Selected agency software, website, mobile, Shopify, and WordPress projects.",
+        description:
+          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
         indexable: true,
       };
     default: {

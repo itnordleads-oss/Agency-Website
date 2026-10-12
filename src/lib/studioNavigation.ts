@@ -65,7 +65,7 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
 }
 
 /** Footer Explore column. */
-export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services"];
+export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services", "projects"];
 
 /** Footer Company column (Terms is appended separately). */
 export const FOOTER_COMPANY_NAV_IDS: StudioNavItemId[] = ["about", "contact"];

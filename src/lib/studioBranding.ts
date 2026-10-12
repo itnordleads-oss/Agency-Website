@@ -91,7 +91,7 @@ export const PROVISIONAL_DOCUMENT_TITLE = "Agency Website";
 
 /** Provisional meta description while SEO identity remains TBC. */
 export const PROVISIONAL_DOCUMENT_DESCRIPTION =
-  "Marketing website for the agency. Brand identity details are pending leadership approval.";
+  "Custom software and digital product delivery for growing teams.";
 
 export function isConfigured(value: string | null | undefined): value is string {
   return typeof value === "string" && value.trim().length > 0;

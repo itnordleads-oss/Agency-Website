@@ -21,7 +21,15 @@ import { findEntry, isExpired, loadBaseline } from "./baseline";
  * preferences, and real-device behavior.
  */
 
-const SPA_ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
+const SPA_ROUTES = [
+  "/",
+  "/services",
+  "/projects",
+  "/projects/nova-commerce",
+  "/about",
+  "/contact",
+  "/terms",
+] as const;
 const GATE_IMPACTS = new Set(["critical", "serious"]);
 
 interface ViolationRecord {

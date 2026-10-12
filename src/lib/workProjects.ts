@@ -15,7 +15,7 @@ function toWorkProject(project: AgencyProject): WorkProject {
   return {
     slug: project.slug,
     title: project.title,
-    summary: project.summary,
+    summary: project.overview,
     challenge: project.challenge,
     solution: project.solution,
     services: project.services,

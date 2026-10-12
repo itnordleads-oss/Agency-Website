@@ -5,71 +5,27 @@ import FooterSocialIcons from "./FooterSocialIcons";
 import { getContactMailtoHref, hasContactEmail, resolveContactEmail } from "../lib/siteContact";
 import { socialLinkItems } from "../lib/socialLinks";
 import { useSiteCopy } from "../lib/useSiteCopy";
-import { navigateAppPath, navigateToSection } from "../App";
-import { getHomepageSectionHref, resolveHomepageSectionId } from "../lib/homepageSections";
-import { isPricingModuleEnabled } from "../lib/trustModules";
+import { navigateAppPath } from "../App";
+import {
+  FOOTER_COMPANY_NAV_IDS,
+  FOOTER_EXPLORE_NAV_IDS,
+  getPublishedStudioNavItems,
+  getStudioNavHref,
+} from "../lib/studioNavigation";
 import "./footer.css";
 
-/** Matches production header nav: hide obsolete Product / Benefits entries. */
-const FOOTER_NAV_EXCLUDED_IDS = new Set([
-  "homepage-v1",
-  "homepage-v2",
-  "homepage-v3",
-  "v2-product",
-  "v2-benefits",
-]);
-
-const FOOTER_NAV_HREF: Record<string, string> = {
-  home: "/",
-  platform: "/platform",
-  workflow: "/workflow",
-  contact: "/contact",
-};
-
-function getFooterNavHref(id: string): string {
-  if (FOOTER_NAV_HREF[id]) {
-    return FOOTER_NAV_HREF[id];
-  }
-
-  const homepageSectionId = resolveHomepageSectionId(id);
-  if (homepageSectionId) {
-    return getHomepageSectionHref(homepageSectionId);
-  }
-
-  return "/";
-}
-
+/**
+ * Global site footer — studio Explore / Company / Legal only.
+ * Retired product routes (Platform / Workflow) are not listed.
+ */
 export default function Footer() {
-  const { footer, nav } = useSiteCopy();
-  const menuItems = (Array.isArray(nav.menu) ? nav.menu : []).filter(
-    (item) =>
-      !FOOTER_NAV_EXCLUDED_IDS.has(item.id) &&
-      !(item.id === "v2-pricing" && !isPricingModuleEnabled())
+  const { footer } = useSiteCopy();
+  const studioNavById = new Map(
+    getPublishedStudioNavItems().map((item) => [item.id, item] as const)
   );
-
-  const navTo = (id: string) => {
-    if (id === "contact") {
-      navigateAppPath("/contact");
-      return;
-    }
-    if (id === "platform") {
-      navigateAppPath("/platform");
-      return;
-    }
-    if (id === "workflow") {
-      navigateAppPath("/workflow");
-      return;
-    }
-    if (id === "home") {
-      navigateAppPath("/");
-      return;
-    }
-    navigateToSection(id);
-  };
-
+  const showContactColumn = hasContactEmail() || socialLinkItems.length > 0;
   const footerNavLinkClassName =
     "text-left text-sm text-muted font-medium hover:text-white transition-colors py-0.5";
-  const showContactColumn = hasContactEmail() || socialLinkItems.length > 0;
 
   return (
     <footer className="site-footer border-t border-white/[0.1] bg-[#0A0F19] text-white/70 relative z-10">
@@ -86,47 +42,60 @@ export default function Footer() {
             </div>
 
             <nav className="site-footer__nav" aria-label="Footer navigation">
-              {[
-                { title: "Explore", ids: ["home", "platform"] },
-                { title: "Product", ids: ["workflow", "v2-pricing"] },
-                { title: "Company", ids: ["contact", "terms"] },
-              ].map((group) => (
-                <div key={group.title} className="site-footer__nav-group">
-                  <p className="site-footer__nav-heading">{group.title}</p>
-                  {group.ids.map((id) => {
-                    if (id === "terms") {
-                      return (
-                        <a
-                          key={id}
-                          href="/terms"
-                          className={`${footerNavLinkClassName} whitespace-nowrap`}
-                        >
-                          {footer.termsLink}
-                        </a>
-                      );
-                    }
+              <div className="site-footer__nav-group">
+                <p className="site-footer__nav-heading">Explore</p>
+                {FOOTER_EXPLORE_NAV_IDS.map((id) => {
+                  const item = studioNavById.get(id);
+                  if (!item) {
+                    return null;
+                  }
+                  const href = getStudioNavHref(item.id);
+                  return (
+                    <a
+                      key={item.id}
+                      href={href}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigateAppPath(href);
+                      }}
+                      className={footerNavLinkClassName}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </div>
 
-                    const item = menuItems.find((menuItem) => menuItem.id === id);
-                    if (!item) {
-                      return null;
-                    }
+              <div className="site-footer__nav-group">
+                <p className="site-footer__nav-heading">Company</p>
+                {FOOTER_COMPANY_NAV_IDS.map((id) => {
+                  const item = studioNavById.get(id);
+                  if (!item) {
+                    return null;
+                  }
+                  const href = getStudioNavHref(item.id);
+                  return (
+                    <a
+                      key={item.id}
+                      href={href}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigateAppPath(href);
+                      }}
+                      className={footerNavLinkClassName}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </div>
 
-                    return (
-                      <a
-                        key={item.id}
-                        href={getFooterNavHref(item.id)}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          navTo(item.id);
-                        }}
-                        className={footerNavLinkClassName}
-                      >
-                        {item.label}
-                      </a>
-                    );
-                  })}
-                </div>
-              ))}
+              <div className="site-footer__nav-group">
+                <p className="site-footer__nav-heading">Legal</p>
+                <a href="/terms" className={`${footerNavLinkClassName} whitespace-nowrap`}>
+                  {footer.termsLink}
+                </a>
+              </div>
             </nav>
 
             {showContactColumn ? (
@@ -146,9 +115,6 @@ export default function Footer() {
 
             <div className="site-footer__legal">
               <p className="text-subtle text-xs shrink-0">{footer.copyright}</p>
-              <p className="site-footer__tagline text-subtle text-xs leading-relaxed max-w-md">
-                {footer.tagline}
-              </p>
             </div>
           </div>
         </div>
