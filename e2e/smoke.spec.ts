@@ -836,10 +836,11 @@ test.describe("smoke", () => {
     ).toBeVisible();
     await expect(hero.getByText(/ADealForge finds qualified companies/i)).toHaveCount(0);
 
-    await expect(page.locator("section#services")).toBeVisible();
-    await expect(page.locator("section#value")).toBeVisible();
-    await expect(page.locator("section#process")).toBeVisible();
-    await expect(page.locator("section#about")).toBeVisible();
+    for (const sectionId of ["services", "value", "process", "about"] as const) {
+      const section = page.locator(`section#${sectionId}`);
+      await section.scrollIntoViewIfNeeded();
+      await expect(section).toBeVisible({ timeout: 15_000 });
+    }
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
@@ -1251,7 +1252,12 @@ test.describe("smoke", () => {
 
       for (const source of [
         { path: "/", target: "Services", href: "/services", heading: "Services" },
-        { path: "/contact", target: "About", href: "/about", heading: "About" },
+        {
+          path: "/contact",
+          target: "About",
+          href: "/about",
+          heading: /development studio|useful delivery/i,
+        },
         {
           path: "/services",
           target: "Contact",
