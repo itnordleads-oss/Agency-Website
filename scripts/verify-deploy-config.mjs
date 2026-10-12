@@ -1,8 +1,8 @@
 /**
  * Deploy configuration gate — proves the effective Wrangler configuration is
  * complete and unambiguous BEFORE any production deployment is attempted.
- * F14: only one of wrangler.toml / wrangler.jsonc may exist; the Agency site
- * uses a single consolidated wrangler.toml.
+ * While both wrangler.toml and wrangler.jsonc exist (the known conflict), this
+ * check fails and the deploy workflow cannot proceed.
  * Run: node scripts/verify-deploy-config.mjs
  */
 

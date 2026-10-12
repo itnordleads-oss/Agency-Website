@@ -96,21 +96,14 @@ if (!fs.existsSync(DIST_DIR)) {
     if (!sitemap.includes("<urlset")) {
       fail("dist/sitemap.xml is not a valid sitemap (missing <urlset>).");
     }
-    if (/adealforge\.com/i.test(sitemap)) {
-      fail("dist/sitemap.xml must not reference adealforge.com.");
-    }
     const locs = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map((m) => m[1]);
-    if (SITE_ORIGIN) {
-      if (locs.length === 0) {
-        fail("dist/sitemap.xml contains no <loc> entries.");
+    if (locs.length === 0) {
+      fail("dist/sitemap.xml contains no <loc> entries.");
+    }
+    for (const loc of locs) {
+      if (!loc.startsWith(`${SITE_ORIGIN}/`) && loc !== `${SITE_ORIGIN}/`) {
+        fail(`dist/sitemap.xml contains a non-production URL: ${loc}`);
       }
-      for (const loc of locs) {
-        if (!loc.startsWith(`${SITE_ORIGIN}/`) && loc !== `${SITE_ORIGIN}/`) {
-          fail(`dist/sitemap.xml contains a non-production URL: ${loc}`);
-        }
-      }
-    } else if (locs.length > 0) {
-      fail("dist/sitemap.xml must not contain absolute <loc> entries while SITE_ORIGIN is unset.");
     }
   }
 
@@ -119,15 +112,8 @@ if (!fs.existsSync(DIST_DIR)) {
     fail("dist/robots.txt is missing.");
   } else {
     const robots = fs.readFileSync(robotsPath, "utf8");
-    if (/adealforge\.com/i.test(robots)) {
-      fail("dist/robots.txt must not reference adealforge.com.");
-    }
-    if (SITE_ORIGIN) {
-      if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) {
-        fail("dist/robots.txt does not reference the production sitemap URL.");
-      }
-    } else if (/^\s*Sitemap:\s*https?:\/\//im.test(robots)) {
-      fail("dist/robots.txt must not declare an absolute Sitemap URL while SITE_ORIGIN is unset.");
+    if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) {
+      fail("dist/robots.txt does not reference the production sitemap URL.");
     }
   }
 

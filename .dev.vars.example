@@ -1,6 +1,1 @@
-# Local Wrangler / workerd secrets (gitignored as `.dev.vars`).
-# Copy: cp .dev.vars.example .dev.vars
-# Production: set via `wrangler secret put TURNSTILE_SECRET_KEY` (Agency account).
-# Never commit real values. Never put this secret in VITE_* env vars.
-
-TURNSTILE_SECRET_KEY=your_agency_turnstile_secret_key
+TURNSTILE_SECRET_KEY=your_turnstile_secret_key

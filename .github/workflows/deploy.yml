@@ -1,10 +1,12 @@
 name: Deploy Production
 
-# PRODUCTION DEPLOYMENT — manual-only (workflow_dispatch).
-# Gated by scripts/verify-deploy-config.mjs (single wrangler.toml after F14).
+# PRODUCTION DEPLOYMENT — currently DISABLED by design.
+# This workflow is manual-only (workflow_dispatch) and additionally gated by
+# scripts/verify-deploy-config.mjs, which FAILS while the wrangler.toml /
+# wrangler.jsonc conflict exists. Until the Wrangler consolidation is approved
+# and applied, this workflow cannot deploy anything.
 # No push trigger exists on purpose: automatic deployment on push to main
 # requires explicit management approval first.
-# Do not run against ADealForge accounts/domains.
 on:
   workflow_dispatch:
     inputs:

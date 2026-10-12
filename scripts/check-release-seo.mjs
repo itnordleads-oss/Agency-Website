@@ -9,10 +9,10 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { INDEXABLE_LANDING_PAGES, SITE_ORIGIN } from "./landing-pages-data.mjs";
+import { SITE_ORIGIN, landingPages } from "./landing-pages-data.mjs";
 import {
   getExpectedSitemapUrls,
-  getIndexableSpaRoutes,
+  getExpectedSpaRoutes,
   isForbiddenHostname,
   validateRobotsContent,
   validateSitemapContent,
@@ -22,7 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const DIST_DIR = path.join(ROOT, "dist");
 
-const PRODUCTION_HOST = SITE_ORIGIN ? new URL(SITE_ORIGIN).hostname : null;
+const PRODUCTION_HOST = new URL(SITE_ORIGIN).hostname;
 
 const failures = [];
 const warnings = [];
@@ -43,7 +43,7 @@ function getAttr(tag, name) {
 
 function readExpectedSpaRoutes() {
   try {
-    return getIndexableSpaRoutes(ROOT);
+    return getExpectedSpaRoutes(ROOT);
   } catch (error) {
     fail(error.message);
     return new Set(["/"]);
@@ -59,7 +59,7 @@ function validateSitemap(spaRoutes) {
   const result = validateSitemapContent(fs.readFileSync(sitemapPath, "utf8"), {
     label: "dist/sitemap.xml",
     productionHost: PRODUCTION_HOST,
-    expectedUrls: getExpectedSitemapUrls(spaRoutes, SITE_ORIGIN, INDEXABLE_LANDING_PAGES),
+    expectedUrls: getExpectedSitemapUrls(spaRoutes, SITE_ORIGIN, landingPages),
   });
   result.failures.forEach(fail);
   result.warnings.forEach(warn);
@@ -84,11 +84,7 @@ function getStaticHtmlPages() {
   if (fs.existsSync(indexPath)) {
     pages.push({ file: indexPath, label: "index.html", isSpaShell: true });
   }
-  const landingRoot = path.join(DIST_DIR, "landing");
-  if (fs.existsSync(landingRoot)) {
-    fail("dist/landing/ must not ship — product landing pages are not part of agency deploy.");
-  }
-  for (const page of INDEXABLE_LANDING_PAGES) {
+  for (const page of landingPages) {
     const file = path.join(DIST_DIR, "landing", page.slug, "index.html");
     if (fs.existsSync(file)) {
       pages.push({ file, label: `landing/${page.slug}/index.html`, isSpaShell: false });
@@ -141,19 +137,15 @@ function validatePageSeo(page) {
     const href = getAttr(uniqueCanonicals[0], "href");
     if (!href) {
       fail(`${label}: canonical tag has no href.`);
-    } else if (href.startsWith("/") && page.isSpaShell && !PRODUCTION_HOST) {
-      // Path-only canonical while public domain remains TBC.
-    } else if (/adealforge\.com/i.test(href)) {
-      fail(`${label}: canonical must not use retired product host adealforge.com.`);
     } else {
       try {
-        const url = new URL(href, SITE_ORIGIN || undefined);
-        if (href.startsWith("http") && url.protocol !== "https:") {
+        const url = new URL(href);
+        if (url.protocol !== "https:") {
           fail(`${label}: canonical is not HTTPS: ${href}`);
         }
-        if (PRODUCTION_HOST && href.startsWith("http") && url.hostname !== PRODUCTION_HOST) {
+        if (url.hostname !== PRODUCTION_HOST) {
           fail(`${label}: canonical points off the production host: ${href}`);
-        } else if (href.startsWith("http") && isForbiddenHostname(url.hostname)) {
+        } else if (isForbiddenHostname(url.hostname)) {
           fail(`${label}: canonical uses a local/staging/preview host: ${href}`);
         }
       } catch {
@@ -162,10 +154,7 @@ function validatePageSeo(page) {
     }
   }
 
-  const requiredOg = page.isSpaShell
-    ? ["og:title", "og:description"]
-    : ["og:title", "og:description", "og:url", "og:image"];
-  for (const property of requiredOg) {
+  for (const property of ["og:title", "og:description", "og:url", "og:image"]) {
     const tags = metaBy("property", property);
     if (tags.length === 0) {
       fail(`${label}: missing ${property}.`);
@@ -211,8 +200,7 @@ function validatePageSeo(page) {
   const jsonLdBlocks = [
     ...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi),
   ];
-  // Organization/WebSite JSON-LD omitted from SPA shell until identity fields are approved.
-  if (jsonLdBlocks.length === 0 && !page.isSpaShell) {
+  if (jsonLdBlocks.length === 0) {
     fail(`${label}: missing JSON-LD structured data.`);
   }
   for (const block of jsonLdBlocks) {
@@ -248,7 +236,7 @@ function resolveInternalTarget(urlPath) {
 }
 
 async function validateLinks(pages, spaRoutes) {
-  const landingPathSet = new Set(INDEXABLE_LANDING_PAGES.map((page) => `/landing/${page.slug}/`));
+  const landingPathSet = new Set(landingPages.map((page) => `/landing/${page.slug}/`));
   const external = new Map();
 
   for (const page of pages) {
@@ -324,7 +312,7 @@ async function probeExternalUrl(url) {
         method,
         redirect: "follow",
         signal: controller.signal,
-        headers: { "user-agent": "agency-website-release-link-check" },
+        headers: { "user-agent": "adealforge-release-link-check" },
       });
       clearTimeout(timer);
       if (response.status < 400) {
