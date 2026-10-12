@@ -42,13 +42,10 @@ jobs:
       - name: Verify production build configuration
         run: |
           if [ -z "${VITE_GA_MEASUREMENT_ID:-}" ]; then
-            echo "::warning::VITE_GA_MEASUREMENT_ID is not configured — analytics will stay disabled (allowed until leadership approves an Agency GA4 ID)."
-            echo "::warning::Do not reuse an ADealForge measurement ID."
-          else
-            echo "VITE_GA_MEASUREMENT_ID is set for this release build."
-          fi
-          if [ -z "${SITE_ORIGIN:-}${PUBLIC_SITE_ORIGIN:-}${VITE_STUDIO_DOMAIN:-}" ]; then
-            echo "::warning::SITE_ORIGIN / PUBLIC_SITE_ORIGIN / VITE_STUDIO_DOMAIN unset — sitemap absolute URLs omitted (domain blocker)."
+            echo "::error::VITE_GA_MEASUREMENT_ID is not configured for this repository."
+            echo "::error::Add it under Settings > Secrets and variables > Actions > Variables."
+            echo "::error::This is a public client-side value that ships in the bundle; without it the release build silently disables analytics."
+            exit 1
           fi
 
       - name: Production build

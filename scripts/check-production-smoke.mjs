@@ -5,7 +5,7 @@
  * can create a production lead.
  *
  * Usage: node scripts/check-production-smoke.mjs
- * Target: PRODUCTION_BASE_URL (or SITE_ORIGIN / VITE_STUDIO_DOMAIN when configured).
+ * Target: PRODUCTION_BASE_URL (default https://adealforge.com).
  * Non-production targets are refused unless ALLOW_NON_PRODUCTION_TARGET=1
  * (used only by local mock-server negative tests).
  *
@@ -16,13 +16,12 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { INDEXABLE_LANDING_PAGES, SITE_ORIGIN } from "./landing-pages-data.mjs";
+import { SITE_ORIGIN, landingPages } from "./landing-pages-data.mjs";
 import {
   findBaselineEntry,
   getExpectedSitemapUrls,
-  getIndexableSpaRoutes,
+  getExpectedSpaRoutes,
   isBaselineEntryExpired,
-  isForbiddenHostname,
   loadBaseline,
   validateRobotsContent,
   validateSitemapContent,
@@ -31,19 +30,12 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
-const configuredOrigin = process.env.PRODUCTION_BASE_URL || SITE_ORIGIN;
-if (!configuredOrigin) {
-  console.error(
-    "PRODUCTION_BASE_URL or SITE_ORIGIN / VITE_STUDIO_DOMAIN is required — refusing to default to adealforge.com."
-  );
-  process.exit(1);
-}
-const BASE_URL = configuredOrigin.replace(/\/+$/, "");
+const BASE_URL = (process.env.PRODUCTION_BASE_URL || SITE_ORIGIN).replace(/\/+$/, "");
 const ALLOW_NON_PROD = process.env.ALLOW_NON_PRODUCTION_TARGET === "1";
-const PRODUCTION_HOST = new URL(BASE_URL).hostname;
+const PRODUCTION_HOST = new URL(SITE_ORIGIN).hostname;
 const REQUEST_TIMEOUT_MS = 10_000;
 
-const CORE_ROUTES = ["/services", "/about", "/contact", "/terms"];
+const CORE_ROUTES = ["/contact", "/platform", "/workflow", "/terms"];
 const LEGACY_REDIRECTS = ["/homepage-v1", "/homepage-v2", "/homepage-v3"];
 const SECURITY_HEADERS = [
   "strict-transport-security",
@@ -146,7 +138,7 @@ async function checkRoutes() {
     }
   }
 
-  for (const page of INDEXABLE_LANDING_PAGES) {
+  for (const page of landingPages) {
     const route = `/landing/${page.slug}/`;
     try {
       const response = await request(`${BASE_URL}${route}`);
@@ -178,11 +170,11 @@ async function checkSitemap() {
     return;
   }
   const xml = await response.text();
-  const spaRoutes = getIndexableSpaRoutes(ROOT);
+  const spaRoutes = getExpectedSpaRoutes(ROOT);
   const result = validateSitemapContent(xml, {
     label: "production /sitemap.xml",
     productionHost: PRODUCTION_HOST,
-    expectedUrls: getExpectedSitemapUrls(spaRoutes, BASE_URL, INDEXABLE_LANDING_PAGES),
+    expectedUrls: getExpectedSitemapUrls(spaRoutes, SITE_ORIGIN, landingPages),
   });
 
   const structural = result.failures.filter((f) => !result.routeSetFailures.includes(f));
@@ -213,7 +205,7 @@ async function checkRobots() {
   }
   const result = validateRobotsContent(await response.text(), {
     label: "production /robots.txt",
-    siteOrigin: BASE_URL,
+    siteOrigin: SITE_ORIGIN,
   });
   for (const message of result.failures) {
     alerts.push(`ALERT: ${message}`);
@@ -413,13 +405,7 @@ function writeStepSummary() {
 
 async function main() {
   const targetHost = new URL(BASE_URL).hostname;
-  if (/adealforge\.com$/i.test(targetHost) && !ALLOW_NON_PROD) {
-    console.error(
-      `Refusing to run Agency Website production smoke against retired product host "${targetHost}".`
-    );
-    process.exit(2);
-  }
-  if (isForbiddenHostname(targetHost) && !ALLOW_NON_PROD) {
+  if (targetHost !== PRODUCTION_HOST && !ALLOW_NON_PROD) {
     console.error(
       `Refusing to run production smoke against non-production host "${targetHost}". ` +
         "Set ALLOW_NON_PRODUCTION_TARGET=1 only for local mock-server tests."

@@ -5,27 +5,18 @@
  * Profiles: healthy, homepage-500, route-500, sitemap-404, sitemap-malformed,
  * robots-404, robots-disallow, redirect-mismatch, asset-404, probe-a-fail,
  * turnstile-not-configured, turnstile-ok-broken, soft-404
- *
- * Requires MOCK_SITE_ORIGIN (or SITE_ORIGIN) so fixtures never default to adealforge.com.
  */
 
 import http from "http";
-import { INDEXABLE_LANDING_PAGES } from "./landing-pages-data.mjs";
-import { resolveSiteOrigin } from "./site-origin.mjs";
+import { SITE_ORIGIN, landingPages } from "./landing-pages-data.mjs";
 
 const PROFILE = process.env.MOCK_PROFILE || "healthy";
 const PORT = Number(process.env.MOCK_PORT || 4577);
-const SITE_ORIGIN =
-  process.env.MOCK_SITE_ORIGIN?.replace(/\/+$/, "") || resolveSiteOrigin() || "https://mock.local";
 
-const SPA_ROUTES = ["/services", "/about", "/contact", "/terms"];
+const SPA_ROUTES = ["/contact", "/platform", "/workflow", "/terms"];
 
 function healthySitemap() {
-  const urls = [
-    "/",
-    ...SPA_ROUTES,
-    ...INDEXABLE_LANDING_PAGES.map((page) => `/landing/${page.slug}/`),
-  ];
+  const urls = ["/", ...SPA_ROUTES, ...landingPages.map((page) => `/landing/${page.slug}/`)];
   const body = urls
     .map(
       (route) =>
@@ -39,7 +30,7 @@ const HEALTHY_ROBOTS = `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitem
 
 function homepageHtml() {
   return `<!doctype html><html><head>
-<title>Agency Website mock</title>
+<title>ADealForge mock</title>
 <meta property="og:image" content="${SITE_ORIGIN}/og-image.png" />
 <link rel="icon" type="image/png" href="/favicon.png" />
 <link rel="preload" as="image" href="/brand/logo.png" />
@@ -48,106 +39,111 @@ function homepageHtml() {
 </head><body><main><h1>Mock</h1></main></body></html>`;
 }
 
-const server = http.createServer(async (req, res) => {
-  const url = new URL(req.url || "/", `http://127.0.0.1:${PORT}`);
+function send(res, status, body = "", headers = {}) {
+  const finalHeaders = { "content-type": "text/plain; charset=utf-8", ...headers };
+  if (PROFILE === "healthy") {
+    finalHeaders["strict-transport-security"] = "max-age=63072000";
+    finalHeaders["content-security-policy"] = "default-src 'self'";
+    finalHeaders["x-content-type-options"] = "nosniff";
+    finalHeaders["referrer-policy"] = "strict-origin-when-cross-origin";
+    finalHeaders["permissions-policy"] = "camera=()";
+    finalHeaders["x-frame-options"] = "DENY";
+  }
+  res.writeHead(status, finalHeaders);
+  res.end(body);
+}
+
+const server = http.createServer((req, res) => {
+  const url = new URL(req.url, `http://127.0.0.1:${PORT}`);
   const path = url.pathname;
 
+  if (path === "/api/contact" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", () => {
+      const payload = JSON.parse(body || "{}");
+      const json = (obj, status = 200) =>
+        send(res, status, JSON.stringify(obj), { "content-type": "application/json" });
+      if (PROFILE === "probe-a-fail") {
+        return json({ error: "worker exploded" }, 500);
+      }
+      if (payload.website) {
+        return json({ ok: true });
+      }
+      if (PROFILE === "turnstile-not-configured") {
+        return json({ error: "The contact form is not configured yet." }, 500);
+      }
+      if (PROFILE === "turnstile-ok-broken") {
+        return json({ ok: true });
+      }
+      return json({ error: "Captcha verification failed. Please try again." }, 400);
+    });
+    return;
+  }
+
+  if (path === "/") {
+    if (PROFILE === "homepage-500") {
+      return send(res, 500, "boom");
+    }
+    return send(res, 200, homepageHtml(), { "content-type": "text/html; charset=utf-8" });
+  }
   if (path === "/sitemap.xml") {
     if (PROFILE === "sitemap-404") {
-      res.writeHead(404).end("missing");
-      return;
+      return send(res, 404, "not found");
     }
     if (PROFILE === "sitemap-malformed") {
-      res.writeHead(200, { "content-type": "application/xml" }).end("<not-a-sitemap");
-      return;
+      return send(res, 200, "<urlset><url><loc>broken", { "content-type": "application/xml" });
     }
-    res.writeHead(200, { "content-type": "application/xml" }).end(healthySitemap());
-    return;
+    return send(res, 200, healthySitemap(), { "content-type": "application/xml" });
   }
-
   if (path === "/robots.txt") {
     if (PROFILE === "robots-404") {
-      res.writeHead(404).end("missing");
-      return;
+      return send(res, 404, "not found");
     }
     if (PROFILE === "robots-disallow") {
-      res.writeHead(200, { "content-type": "text/plain" }).end("User-agent: *\nDisallow: /\n");
-      return;
+      return send(res, 200, "User-agent: *\nDisallow: /\n");
     }
-    res.writeHead(200, { "content-type": "text/plain" }).end(HEALTHY_ROBOTS);
-    return;
+    return send(res, 200, HEALTHY_ROBOTS);
   }
-
+  if (path.startsWith("/homepage-v")) {
+    if (PROFILE === "redirect-mismatch") {
+      return send(res, 200, "no redirect here");
+    }
+    return send(res, 301, "", { location: "/" });
+  }
   if (path === "/og-image.png" && PROFILE === "asset-404") {
-    res.writeHead(404).end("missing");
-    return;
+    return send(res, 404, "missing");
   }
-
   if (
     path === "/og-image.png" ||
     path === "/favicon.png" ||
     path === "/brand/logo.png" ||
-    path.startsWith("/assets/")
+    path === "/assets/index.css" ||
+    path === "/assets/index.js"
   ) {
-    res.writeHead(200, { "content-type": "application/octet-stream" }).end("ok");
-    return;
+    return send(res, 200, "asset");
   }
-
-  if (path === "/api/contact" && req.method === "POST") {
-    if (PROFILE === "probe-a-fail") {
-      res.writeHead(500, { "content-type": "application/json" }).end('{"error":"fail"}');
-      return;
+  if (SPA_ROUTES.includes(path)) {
+    if (PROFILE === "route-500" && path === "/contact") {
+      return send(res, 500, "boom");
     }
-    if (PROFILE === "turnstile-not-configured") {
-      res
-        .writeHead(500, { "content-type": "application/json" })
-        .end('{"error":"The contact form is not configured yet."}');
-      return;
-    }
-    if (PROFILE === "turnstile-ok-broken") {
-      res.writeHead(200, { "content-type": "application/json" }).end('{"ok":true}');
-      return;
-    }
-    res.writeHead(400, { "content-type": "application/json" }).end('{"error":"Captcha failed"}');
-    return;
+    return send(res, 200, `<html><body><main>${path}</main></body></html>`, {
+      "content-type": "text/html; charset=utf-8",
+    });
   }
-
-  for (const route of ["/homepage-v1", "/homepage-v2", "/homepage-v3"]) {
-    if (path === route) {
-      if (PROFILE === "redirect-mismatch") {
-        res.writeHead(302, { location: "/contact" }).end();
-        return;
-      }
-      res.writeHead(301, { location: "/" }).end();
-      return;
-    }
+  if (path.startsWith("/landing/")) {
+    return send(res, 200, "<html><body><main>landing</main></body></html>", {
+      "content-type": "text/html; charset=utf-8",
+    });
   }
-
-  if (path === "/" && PROFILE === "homepage-500") {
-    res.writeHead(500).end("fail");
-    return;
+  if (PROFILE === "soft-404") {
+    return send(res, 200, "<html><body><main>spa shell</main></body></html>", {
+      "content-type": "text/html; charset=utf-8",
+    });
   }
-
-  if (SPA_ROUTES.includes(path) && PROFILE === "route-500") {
-    res.writeHead(500).end("fail");
-    return;
-  }
-
-  if (PROFILE === "soft-404" && !SPA_ROUTES.includes(path) && path !== "/") {
-    res.writeHead(200, { "content-type": "text/html" }).end(homepageHtml());
-    return;
-  }
-
-  if (path === "/" || SPA_ROUTES.includes(path)) {
-    res.writeHead(200, { "content-type": "text/html" }).end(homepageHtml());
-    return;
-  }
-
-  res.writeHead(404).end("not found");
+  return send(res, 404, "not found");
 });
 
 server.listen(PORT, "127.0.0.1", () => {
-  console.log(
-    `Mock production server (${PROFILE}) on http://127.0.0.1:${PORT} origin=${SITE_ORIGIN}`
-  );
+  console.log(`mock-production (${PROFILE}) listening on 127.0.0.1:${PORT}`);
 });

@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
 
-# Sitemap absolute URL is written at build time when SITE_ORIGIN,
-# PUBLIC_SITE_ORIGIN, or VITE_STUDIO_DOMAIN is configured.
-# Do not reference any retired product host or unapproved domain.
+Sitemap: https://adealforge.com/sitemap.xml
