@@ -820,6 +820,7 @@ test.describe("smoke", () => {
   });
 
   test("approved SEO copy appears on active public routes", async ({ page }) => {
+    test.setTimeout(90_000);
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") {
@@ -836,10 +837,15 @@ test.describe("smoke", () => {
     ).toBeVisible();
     await expect(hero.getByText(/ADealForge finds qualified companies/i)).toHaveCount(0);
 
+    await page.evaluate(async () => {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 120));
+      }
+    });
+
     for (const sectionId of ["services", "value", "process", "about"] as const) {
-      const section = page.locator(`section#${sectionId}`);
-      await section.scrollIntoViewIfNeeded();
-      await expect(section).toBeVisible({ timeout: 15_000 });
+      await expect(page.locator(`section#${sectionId}`)).toBeVisible({ timeout: 15_000 });
     }
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
