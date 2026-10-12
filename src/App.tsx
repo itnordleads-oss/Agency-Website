@@ -126,13 +126,13 @@ export function navigateToSection(targetId: string) {
     return;
   }
 
-    const homepageSectionId = resolveHomepageSectionId(targetId);
-    if (homepageSectionId) {
-      if (typeof window === "undefined") {
-        return;
-      }
+  const homepageSectionId = resolveHomepageSectionId(targetId);
+  if (homepageSectionId) {
+    if (typeof window === "undefined") {
+      return;
+    }
 
-      const href = getHomepageSectionHref(homepageSectionId);
+    const href = getHomepageSectionHref(homepageSectionId);
     const isCurrentTarget =
       resolvePublicPath(window.location.pathname) === "/" &&
       window.location.hash === `#${homepageSectionId}`;
