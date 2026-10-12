@@ -192,10 +192,9 @@ test.describe("smoke", () => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/services\/?$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Services",
-      { timeout: 15_000 }
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Services", {
+      timeout: 15_000,
+    });
     await expect(page.locator("main#platform-page")).toHaveCount(0);
   });
 
@@ -203,10 +202,9 @@ test.describe("smoke", () => {
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/services\/?$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Services",
-      { timeout: 15_000 }
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Services", {
+      timeout: 15_000,
+    });
     await expect(page.locator("main#workflow-page")).toHaveCount(0);
   });
 
@@ -214,10 +212,9 @@ test.describe("smoke", () => {
     await page.goto("/landing/b2b-lead-generation/");
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/services\/?$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Services",
-      { timeout: 15_000 }
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Services", {
+      timeout: 15_000,
+    });
   });
 
   test("approved SEO copy appears on active public routes", async ({ page }) => {
@@ -371,9 +368,7 @@ test.describe("smoke", () => {
     await servicesLink.focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/services$/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Services"
-    );
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Services");
 
     expect(consoleErrors).toEqual([]);
     expect(pageErrors).toEqual([]);
@@ -1124,12 +1119,7 @@ test.describe("smoke", () => {
         window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
-      const routes = [
-        "/",
-        "/services",
-        "/about",
-        "/contact",
-      ] as const;
+      const routes = ["/", "/services", "/about", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);

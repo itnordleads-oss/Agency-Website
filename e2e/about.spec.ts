@@ -47,7 +47,10 @@ test.describe("About page structural layout", () => {
     await expect(page).toHaveURL(/\/services/);
 
     await page.goto("/about");
-    await page.locator("main#about-page").getByRole("button", { name: /get in touch/i }).click();
+    await page
+      .locator("main#about-page")
+      .getByRole("button", { name: /get in touch/i })
+      .click();
     await expect(page).toHaveURL(/\/contact/);
   });
 });
