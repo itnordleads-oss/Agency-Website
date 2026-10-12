@@ -474,13 +474,19 @@ test.describe("smoke", () => {
       await expect(page.getByText(/team members/i)).toHaveCount(0);
       await expect(page.getByText(/\d+\+ (clients|projects|years)/i)).toHaveCount(0);
       await expect(
-        page.getByRole("heading", { level: 2, name: /Software and product work/i })
+        page.getByRole("heading", {
+          level: 2,
+          name: /Software and digital product delivery shaped around real requirements/i,
+        })
       ).toBeVisible();
       await expect(
-        page.getByRole("heading", { level: 2, name: /Clear collaboration/i })
+        page.getByRole("heading", { level: 2, name: /How we keep delivery useful/i })
       ).toBeVisible();
       await expect(
-        page.getByRole("heading", { level: 2, name: /Areas we focus on/i })
+        page.getByRole("heading", {
+          level: 2,
+          name: /Broad capabilities we apply across projects/i,
+        })
       ).toBeVisible();
       await expect(
         page.getByRole("heading", { level: 2, name: /simple path from idea to launch/i })
