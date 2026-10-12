@@ -132,12 +132,6 @@ export function navigateToSection(targetId: string) {
       return;
     }
 
-    // Product pricing section retired from Homepage V3 — send users to Contact.
-    if (homepageSectionId === "pricing") {
-      navigateAppPath("/contact");
-      return;
-    }
-
     const href = getHomepageSectionHref(homepageSectionId);
     const isCurrentTarget =
       resolvePublicPath(window.location.pathname) === "/" &&
