@@ -42,7 +42,11 @@ export default function ProjectsPage() {
     filter === "all" ? projects : projects.filter((project) => project.category === filter);
 
   return (
-    <main className="min-w-0 flex-grow overflow-x-hidden" id="projects-page" aria-labelledby="projects-hero-title">
+    <main
+      className="min-w-0 flex-grow overflow-x-hidden"
+      id="projects-page"
+      aria-labelledby="projects-hero-title"
+    >
       <section className="relative mx-auto max-w-7xl px-3 pt-10 min-[341px]:px-4 sm:px-6 sm:pt-14 pb-8 md:pb-12">
         <BackToHomepage label="Back to homepage" />
 
@@ -79,11 +83,7 @@ export default function ProjectsPage() {
             role="group"
             aria-label="Filter projects by category"
           >
-            <FilterChip
-              label="All"
-              active={filter === "all"}
-              onClick={() => setFilter("all")}
-            />
+            <FilterChip label="All" active={filter === "all"} onClick={() => setFilter("all")} />
             {categories.map((category) => (
               <FilterChip
                 key={category}

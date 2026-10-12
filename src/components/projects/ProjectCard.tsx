@@ -72,7 +72,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="space-y-2">
-          <h3 className="text-lg font-bold tracking-tight text-white sm:text-xl">{project.title}</h3>
+          <h3 className="text-lg font-bold tracking-tight text-white sm:text-xl">
+            {project.title}
+          </h3>
           <p className="text-sm leading-relaxed text-white/65">{project.shortDescription}</p>
         </div>
 

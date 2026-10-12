@@ -3,10 +3,7 @@
  * Kept so older F7 imports continue to type-check during the /work → /projects migration.
  */
 
-import {
-  AGENCY_PROJECTS,
-  type AgencyProject,
-} from "./agencyProjects";
+import { AGENCY_PROJECTS, type AgencyProject } from "./agencyProjects";
 
 /** @deprecated Use AgencyProject from agencyProjects.ts */
 export type WorkProject = {

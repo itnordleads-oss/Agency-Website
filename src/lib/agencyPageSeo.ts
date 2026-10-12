@@ -14,13 +14,7 @@ import {
 } from "./studioBranding";
 
 export type AgencySeoPageId =
-  | "home"
-  | "services"
-  | "about"
-  | "contact"
-  | "terms"
-  | "projects"
-  | "work";
+  "home" | "services" | "about" | "contact" | "terms" | "projects" | "work";
 
 export type AgencyPageSeo = {
   id: AgencySeoPageId;
@@ -97,8 +91,7 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         id,
         pathname: "/projects",
         title: pageTitle("Projects"),
-        description:
-          "Selected agency software, website, mobile, Shopify, and WordPress projects.",
+        description: "Selected agency software, website, mobile, Shopify, and WordPress projects.",
         indexable: true,
       };
     case "work":
@@ -107,8 +100,7 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         id,
         pathname: "/projects",
         title: pageTitle("Projects"),
-        description:
-          "Selected agency software, website, mobile, Shopify, and WordPress projects.",
+        description: "Selected agency software, website, mobile, Shopify, and WordPress projects.",
         indexable: true,
       };
     default: {
