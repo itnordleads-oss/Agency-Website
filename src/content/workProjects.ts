@@ -1,18 +1,17 @@
 /**
- * Agency Work / Case Studies content (F7).
- *
- * Publication rule:
- * - Only items with `published: true` may render on the public /work page.
- * - Do NOT invent clients, projects, metrics, or screenshots.
- * - Leadership-approved projects are added here when provided.
- *
- * Current state: no approved projects → /work stays unpublished.
+ * Compatibility shim — portfolio content lives in `agencyProjects.ts`.
+ * Kept so older F7 imports continue to type-check during the /work → /projects migration.
  */
 
+import {
+  AGENCY_PROJECTS,
+  type AgencyProject,
+} from "./agencyProjects";
+
+/** @deprecated Use AgencyProject from agencyProjects.ts */
 export type WorkProject = {
   slug: string;
   title: string;
-  /** Public client name only when leadership approved. */
   client?: string;
   industry?: string;
   summary: string;
@@ -20,17 +19,27 @@ export type WorkProject = {
   solution?: string;
   services?: string[];
   technologies?: string[];
-  /** Qualitative or quantitative outcomes only when verified/approved. */
   outcome?: string;
-  /** Path under /public or approved asset URL. */
   image?: string;
   imageAlt?: string;
   published: boolean;
 };
 
-/**
- * Source list for Work projects.
- * Keep unpublished drafts out of this array, or set published: false.
- * Empty until leadership supplies approved case studies.
- */
-export const WORK_PROJECTS: WorkProject[] = [];
+function toWorkProject(project: AgencyProject): WorkProject {
+  return {
+    slug: project.slug,
+    title: project.title,
+    summary: project.summary,
+    challenge: project.challenge,
+    solution: project.solution,
+    services: project.services,
+    technologies: project.technologies,
+    outcome: project.outcome,
+    image: project.thumbnail,
+    imageAlt: project.thumbnailAlt,
+    published: project.published,
+  };
+}
+
+/** @deprecated Prefer AGENCY_PROJECTS / getPublishedProjects() */
+export const WORK_PROJECTS: WorkProject[] = AGENCY_PROJECTS.map(toWorkProject);

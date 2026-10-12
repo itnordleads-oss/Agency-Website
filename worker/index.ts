@@ -41,6 +41,8 @@ const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
 /** Agency studio routes — rewrite to SPA shell before assets (F3/F14). */
 const SERVICES_PATHS = new Set(["/services", "/services/"]);
 const ABOUT_PATHS = new Set(["/about", "/about/"]);
+const PROJECTS_PATHS = new Set(["/projects", "/projects/"]);
+const WORK_PATHS = new Set(["/work", "/work/"]);
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
 const WORKFLOW_PATHS = new Set(["/workflow", "/workflow/"]);
 /** Retired homepage preview URLs — permanently redirect to production `/` (Homepage V3). */
@@ -53,12 +55,22 @@ const LEGACY_HOMEPAGE_PATHS = new Set([
   "/homepage-v3/",
 ]);
 
+function isProjectsDocumentPath(pathname: string) {
+  return (
+    PROJECTS_PATHS.has(pathname) ||
+    pathname.startsWith("/projects/") ||
+    WORK_PATHS.has(pathname) ||
+    pathname.startsWith("/work/")
+  );
+}
+
 function isSpaDocumentPath(pathname: string) {
   return (
     TERMS_PATHS.has(pathname) ||
     CONTACT_PATHS.has(pathname) ||
     SERVICES_PATHS.has(pathname) ||
     ABOUT_PATHS.has(pathname) ||
+    isProjectsDocumentPath(pathname) ||
     PLATFORM_PATHS.has(pathname) ||
     WORKFLOW_PATHS.has(pathname) ||
     isBlogPath(pathname)

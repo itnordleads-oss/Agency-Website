@@ -63,18 +63,30 @@ test.describe("smoke", () => {
     await expect(page).toHaveTitle(/Agency Website/i);
     await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/custom software|digital products|clarity/i);
     await expect(page.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
       "href",
       "#main-content"
     );
   });
 
-  test("unpublished /work rewrites to homepage", { tag: "@critical" }, async ({ page }) => {
+  test("legacy /work redirects to /projects", { tag: "@critical" }, async ({ page }) => {
     await page.goto("/work");
     await acceptCookiesIfPresent(page);
-    await expect(page).toHaveURL(/\/(?:$|\?)/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /real product and business requirements/i
+    );
+  });
+
+  test("/projects renders the dedicated Projects page", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/projects");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /real product and business requirements/i
+    );
+    await expect(page.getByRole("heading", { level: 2, name: /projects coming soon/i })).toBeVisible();
   });
 
   test("company carousel replaces and repositions the homepage trust block", async ({ page }) => {
@@ -1388,6 +1400,10 @@ test.describe("smoke", () => {
     await expect(primaryNavigation.getByRole("link", { name: "Product" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Benefits" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Work" })).toHaveCount(0);
+    await expect(primaryNavigation.getByRole("link", { name: "Projects" })).toHaveAttribute(
+      "href",
+      "/projects"
+    );
 
     const servicesLink = primaryNavigation.getByRole("link", { name: "Services" });
     await servicesLink.focus();
@@ -1407,14 +1423,14 @@ test.describe("smoke", () => {
 
       for (const source of [
         { path: "/", target: "Services", href: "/services", heading: "Services" },
-        { path: "/contact", target: "About", href: "/about", heading: "About" },
+        { path: "/contact", target: "About", href: "/about", heading: /development studio|useful delivery/i },
         {
           path: "/services",
           target: "Contact",
           href: "/contact",
           heading: /start the conversation/i,
         },
-        { path: "/about", target: "Home", href: "/", heading: /meetings|busywork/i },
+        { path: "/about", target: "Home", href: "/", heading: /custom software|digital products|clarity/i },
       ] as const) {
         await page.goto(source.path);
         await acceptCookiesIfPresent(page);
@@ -1446,13 +1462,17 @@ test.describe("smoke", () => {
       await expect(mobileMenu.getByText("Workflow", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Pricing", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Work", { exact: true })).toHaveCount(0);
+      await expect(mobileMenu.getByRole("link", { name: "Projects" })).toHaveAttribute(
+        "href",
+        "/projects"
+      );
       const aboutLink = mobileMenu.getByRole("link", { name: "About" });
       await expect(aboutLink).toHaveAttribute("href", "/about");
       await aboutLink.click();
 
       await expect(page).toHaveURL(/\/about$/);
       await expect(mobileMenu).toHaveCount(0);
-      await expect(page.getByRole("heading", { level: 1, name: "About" })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1, name: /development studio|useful delivery/i })).toBeVisible();
     }
   );
 
@@ -1491,7 +1511,7 @@ test.describe("smoke", () => {
 
       await expect(page).toHaveURL(/\/$/);
       await expect(page).toHaveTitle(/Agency Website/i);
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(/custom software|digital products|clarity/i);
     }
   );
 
@@ -1501,7 +1521,7 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/custom software|digital products|clarity/i);
   });
 
   test("legacy homepage v3 redirects to production home", async ({ page }) => {
@@ -1510,7 +1530,7 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/custom software|digital products|clarity/i);
   });
 
   test("contact page loads", { tag: "@critical" }, async ({ page }) => {
