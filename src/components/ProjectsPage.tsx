@@ -14,6 +14,7 @@ import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
 import type { AgencyProjectCategory } from "../content/agencyProjects";
 import "./projects/projectsPage.css";
+import "./projects/projectsApproach.css";
 
 type FilterId = "all" | AgencyProjectCategory;
 
@@ -53,22 +54,22 @@ export default function ProjectsPage() {
       {filter === "all" && featured.length > 0 ? <FeaturedProjects projects={featured} /> : null}
 
       <section
-        className="relative mx-auto max-w-7xl px-3 pb-8 min-[341px]:px-4 sm:px-6 md:pb-11"
+        className="relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
         aria-labelledby="all-projects-heading"
       >
-        <div className="mb-6 flex flex-col gap-3 md:mb-7 md:flex-row md:items-end md:justify-between md:gap-6">
-          <div className="space-y-2">
+        <div className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-6">
+          <div className="space-y-1.5">
             <h2 id="all-projects-heading" className="section-title text-left">
               All projects
             </h2>
-            <p className="text-body max-w-2xl text-sm text-white/65 sm:text-base">
+            <p className="text-body max-w-2xl text-sm leading-relaxed text-white/62 sm:text-[0.95rem]">
               Browse concept work across software, web, mobile, Shopify, and WordPress.
             </p>
           </div>
 
           {showFilters ? (
             <div
-              className="flex max-w-full flex-wrap gap-2 md:max-w-xl md:justify-end"
+              className="projects-filter-row -mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-0.5 md:mx-0 md:flex-wrap md:justify-end md:overflow-visible md:pb-0 md:max-w-xl"
               role="group"
               aria-label="Filter projects by category"
             >
@@ -90,8 +91,8 @@ export default function ProjectsPage() {
             key={filter}
             className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-5"
           >
-            {visibleProjects.map((project, index) => (
-              <ProjectCard key={`${filter}-${project.slug}`} project={project} enterIndex={index} />
+            {visibleProjects.map((project) => (
+              <ProjectCard key={`${filter}-${project.slug}`} project={project} />
             ))}
           </div>
         ) : (
@@ -100,22 +101,22 @@ export default function ProjectsPage() {
       </section>
 
       <section
-        className="relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
+        className="projects-approach relative mx-auto max-w-7xl px-3 pb-2 min-[341px]:px-4 sm:px-6 md:pb-4"
         aria-labelledby="projects-approach-heading"
       >
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-5 py-4 sm:px-6 sm:py-5">
-          <div className="mb-2">
+        <div className="projects-approach__layout">
+          <div className="min-w-0">
             <SectionEyebrow label="PROJECT APPROACH" />
+            <h2
+              id="projects-approach-heading"
+              className="projects-approach__heading section-title text-left"
+            >
+              From requirements to a useful product
+            </h2>
           </div>
-          <h2
-            id="projects-approach-heading"
-            className="section-title text-left text-[1.35rem] sm:text-[1.5rem]"
-          >
-            From idea to a product people can use
-          </h2>
-          <p className="text-body mt-2 max-w-2xl text-sm leading-relaxed text-white/65 sm:text-base">
-            We shape software, web, mobile, commerce, and content experiences around the
-            requirements of each project.
+          <p className="projects-approach__copy text-body">
+            Each concept starts with a clear product need and is shaped around practical software,
+            web, mobile, commerce, or content requirements.
           </p>
         </div>
       </section>
@@ -139,10 +140,10 @@ function FilterChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`rounded-full border px-3 py-1.5 text-xs font-semibold uppercase tracking-wide transition-[color,background-color,border-color,box-shadow] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF] ${
+      className={`projects-filter-chip rounded-full border font-semibold uppercase transition-[color,background-color,border-color,box-shadow] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF] ${
         active
-          ? "border-[#00D2FF]/45 bg-[#00D2FF]/14 text-[#A4F4FD] shadow-[0_0_0_1px_rgba(0,210,255,0.12)]"
-          : "border-white/14 bg-white/[0.03] text-white/65 hover:border-white/28 hover:bg-white/[0.05] hover:text-white"
+          ? "border-[#00D2FF]/50 bg-[#00D2FF]/14 text-[#C8F8FF]"
+          : "border-white/14 bg-white/[0.03] text-white/60 hover:border-white/28 hover:bg-white/[0.05] hover:text-white/88"
       }`}
     >
       {label}

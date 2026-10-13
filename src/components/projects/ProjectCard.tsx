@@ -16,7 +16,7 @@ type ProjectCardProps = {
 };
 
 /**
- * Image-led portfolio card with subtle 3D hover.
+ * Image-led portfolio card with subtle pointer hover.
  * Height is driven by controlled preview aspect-ratio + compact content.
  */
 export default function ProjectCard({
@@ -29,12 +29,6 @@ export default function ProjectCard({
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();
   const isCompact = variant === "compact";
   const isFeatured = variant === "featured";
-  const isStandard = variant === "standard";
-  const descriptionClampClass = isStandard
-    ? "line-clamp-3"
-    : isFeatured
-      ? "line-clamp-3"
-      : "line-clamp-2";
 
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
@@ -89,44 +83,35 @@ export default function ProjectCard({
 
       <div
         className={`project-card__body relative z-[1] ${
-          isCompact ? "gap-2 p-3.5 sm:p-4" : isFeatured ? "gap-2 p-4 sm:p-5" : "gap-2.5 p-4 sm:p-5"
+          isCompact ? "px-3.5 py-3 sm:px-4 sm:py-3.5" : isFeatured ? "px-4 sm:px-5" : ""
         }`}
       >
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className="status-pill project-card__meta-pill">{categoryLabel}</span>
-          {!isCompact &&
-            project.services?.slice(0, isFeatured ? 2 : 1).map((service) => (
-              <span key={service} className="status-pill project-card__meta-pill">
-                {service}
-              </span>
-            ))}
-        </div>
+        <h3
+          className={`project-card__title font-bold tracking-tight text-white ${
+            isFeatured
+              ? "text-xl sm:text-2xl"
+              : isCompact
+                ? "text-base sm:text-lg"
+                : "text-lg sm:text-xl"
+          }`}
+        >
+          {project.title}
+        </h3>
 
-        <div className="space-y-1">
-          <h3
-            className={`font-bold tracking-tight text-white ${
-              isFeatured
-                ? "text-xl sm:text-2xl"
-                : isCompact
-                  ? "text-base sm:text-lg"
-                  : "text-lg sm:text-xl"
-            }`}
-          >
-            {project.title}
-          </h3>
-          {project.label && !isCompact ? (
-            <p className="text-xs font-medium uppercase tracking-[0.1em] text-white/50">
-              {project.label}
-            </p>
+        {project.label && !isCompact ? <p className="project-card__type">{project.label}</p> : null}
+
+        <p className="project-card__description line-clamp-2">{project.shortDescription}</p>
+
+        <div className="project-card__meta-row">
+          <span className="project-card__category">{categoryLabel}</span>
+          {!isCompact && project.services?.[0] ? (
+            <span className="project-card__service">{project.services[0]}</span>
           ) : null}
-          <p className={`${descriptionClampClass} text-[0.9375rem] leading-relaxed text-white/70`}>
-            {project.shortDescription}
-          </p>
         </div>
 
         {project.technologies && project.technologies.length > 0 && !isCompact ? (
-          <ul className="flex min-h-[1.625rem] flex-wrap content-start gap-1.5">
-            {project.technologies.slice(0, 3).map((tech) => (
+          <ul className="project-card__tech-list" aria-label="Technologies">
+            {project.technologies.slice(0, isFeatured ? 4 : 3).map((tech) => (
               <li key={tech} className="project-card__tech-tag">
                 {tech}
               </li>
@@ -134,12 +119,9 @@ export default function ProjectCard({
           </ul>
         ) : null}
 
-        <div className="project-card__cta flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors group-hover:text-white group-focus-visible:text-white">
+        <div className="project-card__cta">
           <span>View Project</span>
-          <ArrowRight
-            className="project-card__arrow h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
-            aria-hidden
-          />
+          <ArrowRight className="project-card__arrow h-4 w-4" aria-hidden />
         </div>
       </div>
     </a>

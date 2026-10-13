@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  border-radius: 1rem;
   transform-style: preserve-3d;
   transition:
     transform 200ms ease,
@@ -11,7 +12,9 @@
   will-change: transform;
 }
 
-.project-card--standard {
+.project-card--standard,
+.project-card--featured,
+.project-card--compact {
   height: 100%;
 }
 
@@ -19,26 +22,26 @@
 .project-card:focus-visible {
   border-color: rgba(255, 255, 255, 0.24);
   background: rgba(255, 255, 255, 0.045);
+  transform: translateY(-3px) scale(1.005);
   box-shadow:
     0 16px 36px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(0, 210, 255, 0.12),
-    0 0 24px rgba(0, 210, 255, 0.07);
+    0 0 0 1px rgba(0, 210, 255, 0.1),
+    0 0 22px rgba(0, 210, 255, 0.06);
 }
 
-/* Standard grid: consistent 16:10 previews */
+/* Standard + featured share 16:10 for rhythm; featured body carries balance */
 .project-card__media-wrap {
   aspect-ratio: 16 / 10;
   flex-shrink: 0;
 }
 
-/* Featured primary: same 16:10 family as grid; height balanced via compact ratios + content */
 .project-card--featured .project-card__media-wrap {
   aspect-ratio: 16 / 10;
 }
 
-/* Stacked companions: wide, low previews so Orbit + Atlas ≈ Nova (16:10) height */
+/* Orbit + Atlas: wide previews that stack to balance Nova */
 .project-card--compact .project-card__media-wrap {
-  aspect-ratio: 7 / 2;
+  aspect-ratio: 16 / 5;
 }
 
 .project-card__body {
@@ -46,11 +49,124 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  gap: 0.4rem;
+}
+
+.project-card--standard .project-card__body {
+  padding: 1rem 1.1rem 1.05rem;
+}
+
+.project-card--featured .project-card__body {
+  gap: 0.42rem;
+  padding: 0.9rem 1.05rem 1.05rem;
+}
+
+.project-card--compact .project-card__body {
+  gap: 0.35rem;
+  padding: 0.75rem 0.95rem 0.9rem;
+}
+
+.project-card__title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.project-card--featured .project-card__title {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+}
+
+.project-card__type {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.project-card__description {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project-card--standard .project-card__description {
+  min-height: 2.7rem;
+}
+
+.project-card--featured .project-card__description {
+  min-height: 2.7rem;
+}
+
+.project-card__meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+  margin-top: 0.1rem;
+}
+
+.project-card__category {
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.project-card__service {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.project-card__tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  min-height: 1.35rem;
+}
+
+.project-card__tech-tag {
+  border-radius: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.16);
+  padding: 0.16rem 0.42rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: none;
 }
 
 .project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   margin-top: auto;
   padding-top: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #a4f4fd;
+  transition: color 180ms ease;
+}
+
+.project-card:hover .project-card__cta,
+.project-card:focus-visible .project-card__cta {
+  color: #ffffff;
+}
+
+.project-card__arrow {
+  transition: transform 200ms ease;
+}
+
+.project-card:hover .project-card__arrow,
+.project-card:focus-visible .project-card__arrow {
+  transform: translateX(2px);
 }
 
 .project-card__media {
@@ -61,29 +177,8 @@
 @media (hover: hover) and (pointer: fine) {
   .project-card:hover .project-card__media,
   .project-card:focus-visible .project-card__media {
-    transform: scale(1.01) translateY(-1px) translateZ(4px);
+    transform: scale(1.008) translateY(-1px);
   }
-}
-
-/* Quieter metadata than global status-pill defaults */
-.project-card .project-card__meta-pill {
-  padding: 0.25rem 0.55rem;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.58);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.project-card__tech-tag {
-  border-radius: 0.375rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.18);
-  padding: 0.2rem 0.45rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.48);
 }
 
 .project-card__concept-badge {
@@ -91,7 +186,11 @@
 }
 
 .project-card .project-visual__glow {
-  opacity: 0.72;
+  opacity: 0.74;
+}
+
+.project-card--featured .project-visual__glow {
+  opacity: 0.84;
 }
 
 .project-card .project-visual__frame,
@@ -121,13 +220,13 @@
 }
 
 .project-card-enter {
-  animation: project-card-enter 380ms ease backwards;
+  animation: project-card-enter 360ms ease backwards;
 }
 
 @keyframes project-card-enter {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -142,13 +241,18 @@
   .project-card__arrow {
     transition:
       border-color 160ms ease,
-      background-color 160ms ease !important;
+      background-color 160ms ease,
+      color 160ms ease !important;
     transform: none !important;
   }
 
+  .project-card:hover,
+  .project-card:focus-visible,
   .project-card:hover .project-card__media,
-  .project-card:focus-visible .project-card__media {
-    transform: none;
+  .project-card:focus-visible .project-card__media,
+  .project-card:hover .project-card__arrow,
+  .project-card:focus-visible .project-card__arrow {
+    transform: none !important;
   }
 
   .project-card-enter {
@@ -166,7 +270,9 @@
   }
 
   .project-card:hover .project-card__media,
-  .project-card:focus-visible .project-card__media {
+  .project-card:focus-visible .project-card__media,
+  .project-card:hover .project-card__arrow,
+  .project-card:focus-visible .project-card__arrow {
     transform: none;
   }
 

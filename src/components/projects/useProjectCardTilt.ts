@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-const MAX_TILT_DEG = 3;
+const MAX_TILT_DEG = 2;
 const PERSPECTIVE_PX = 1100;
 
 function prefersReducedMotion(): boolean {
@@ -81,7 +81,7 @@ export function useProjectCardTilt() {
         const rotateX = (0.5 - y) * (MAX_TILT_DEG * 2);
         node.style.setProperty("--project-pointer-x", `${(x * 100).toFixed(1)}%`);
         node.style.setProperty("--project-pointer-y", `${(y * 100).toFixed(1)}%`);
-        node.style.transform = `perspective(${PERSPECTIVE_PX}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-4px) scale(1.01)`;
+        node.style.transform = `perspective(${PERSPECTIVE_PX}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateY(-3px) scale(1.008)`;
       });
     },
     [enabled]

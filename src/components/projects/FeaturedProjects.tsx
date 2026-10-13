@@ -21,16 +21,15 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
   return (
     <section
-      className="relative mx-auto max-w-7xl px-3 pb-5 min-[341px]:px-4 sm:px-6 md:pb-7"
+      className="relative mx-auto max-w-7xl px-3 pb-5 min-[341px]:px-4 sm:px-6 md:pb-6"
       aria-labelledby="featured-projects-heading"
     >
-      <div className="mb-5 space-y-2 md:mb-6">
+      <div className="mb-4 space-y-1.5 md:mb-5">
         <h2 id="featured-projects-heading" className="section-title text-left">
           Featured projects
         </h2>
-        <p className="text-body max-w-2xl text-sm text-white/65 sm:text-base">
-          Selected concept work across software, web, mobile, commerce, and content — each labeled
-          as a Concept Project.
+        <p className="text-body max-w-2xl text-sm leading-relaxed text-white/60">
+          Nova Commerce leads with Orbit Dashboard and Atlas Mobile as supporting concept work.
         </p>
       </div>
 

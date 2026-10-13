@@ -20,10 +20,14 @@ export type AgencyProjectCategory = (typeof AGENCY_PROJECT_CATEGORIES)[number];
 export type ProjectVisualMotif =
   "commerce" | "dashboard" | "mobile" | "cms" | "platform" | "shopify";
 
+export type AgencyProjectGalleryLayout = "full" | "wide" | "portrait" | "default";
+
 export type AgencyProjectGalleryItem = {
   /** CSS concept frame variant — not a stock photo of a real product. */
   variant: 1 | 2 | 3;
   alt: string;
+  /** Editorial layout hint for detail gallery composition. */
+  layout?: AgencyProjectGalleryLayout;
 };
 
 export type AgencyProject = {
@@ -33,7 +37,7 @@ export type AgencyProject = {
   /** Short meta label, e.g. category headline under the title. */
   label?: string;
   shortDescription: string;
-  /** Longer overview used on the detail hero. */
+  /** Longer overview used for SEO/supporting context; hero uses shortDescription. */
   overview: string;
   category: AgencyProjectCategory;
   services?: string[];
@@ -81,7 +85,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Nova Commerce",
     label: "E-commerce storefront concept",
     shortDescription:
-      "A concept storefront exploring product discovery, collection browsing, and checkout-oriented flows.",
+      "Concept storefront for product discovery, collections, and checkout-oriented flows.",
     overview:
       "Nova Commerce is a demo concept for a modern commerce experience. It focuses on clear product navigation, responsive layouts, and a maintainable storefront structure — not a real client engagement.",
     category: "websites",
@@ -107,9 +111,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates a maintainable commerce UI architecture with clear visual hierarchy and reusable components for future real storefront work.",
     gallery: [
-      { variant: 1, alt: "Nova Commerce concept — storefront overview frame" },
-      { variant: 2, alt: "Nova Commerce concept — product grid frame" },
-      { variant: 3, alt: "Nova Commerce concept — detail panel frame" },
+      { variant: 1, alt: "Nova Commerce concept — storefront overview frame", layout: "full" },
+      { variant: 2, alt: "Nova Commerce concept — product grid frame", layout: "default" },
+      { variant: 3, alt: "Nova Commerce concept — detail panel frame", layout: "portrait" },
     ],
   },
   {
@@ -117,8 +121,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     slug: "orbit-dashboard",
     title: "Orbit Dashboard",
     label: "SaaS dashboard concept",
-    shortDescription:
-      "A business dashboard concept for monitoring activity, status, and operational views in one place.",
+    shortDescription: "Dashboard concept for activity, status, and operational views in one place.",
     overview:
       "Orbit Dashboard is a demo SaaS interface concept. It shows how dense operational information can stay readable through hierarchy, cards, and restrained data presentation — presented as a concept only.",
     category: "software",
@@ -144,9 +147,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Shows a component-driven dashboard structure suited to future product tooling and internal business applications.",
     gallery: [
-      { variant: 1, alt: "Orbit Dashboard concept — overview frame" },
-      { variant: 2, alt: "Orbit Dashboard concept — metrics frame" },
-      { variant: 3, alt: "Orbit Dashboard concept — activity list frame" },
+      { variant: 1, alt: "Orbit Dashboard concept — overview frame", layout: "full" },
+      { variant: 2, alt: "Orbit Dashboard concept — metrics frame", layout: "default" },
+      { variant: 3, alt: "Orbit Dashboard concept — activity list frame", layout: "wide" },
     ],
   },
   {
@@ -155,7 +158,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Atlas Mobile",
     label: "Mobile application concept",
     shortDescription:
-      "A mobile-first concept focused on clear primary actions, readable screens, and thumb-friendly navigation.",
+      "Mobile-first concept with clear primary actions and thumb-friendly navigation.",
     overview:
       "Atlas Mobile is a demo mobile application concept. It explores focused screens, progressive disclosure, and interaction patterns that stay comfortable on small devices.",
     category: "mobile",
@@ -181,9 +184,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates mobile-first composition and interaction patterns ready to adapt for a future shipped application.",
     gallery: [
-      { variant: 1, alt: "Atlas Mobile concept — home screen frame" },
-      { variant: 2, alt: "Atlas Mobile concept — detail screen frame" },
-      { variant: 3, alt: "Atlas Mobile concept — profile screen frame" },
+      { variant: 1, alt: "Atlas Mobile concept — home screen frame", layout: "portrait" },
+      { variant: 2, alt: "Atlas Mobile concept — detail screen frame", layout: "default" },
+      { variant: 3, alt: "Atlas Mobile concept — profile screen frame", layout: "portrait" },
     ],
   },
   {
@@ -192,7 +195,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Vertex CMS",
     label: "Content-driven website concept",
     shortDescription:
-      "A WordPress-oriented concept for structured pages, reusable sections, and editor-friendly content layout.",
+      "WordPress concept for structured pages, reusable sections, and editor-friendly layouts.",
     overview:
       "Vertex CMS is a demo content-site concept. It focuses on sectioned page composition and CMS-friendly structure — not a live WordPress client site.",
     category: "wordpress",
@@ -218,9 +221,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Illustrates a content-friendly WordPress theme approach that can later be adapted for a real publishing site.",
     gallery: [
-      { variant: 1, alt: "Vertex CMS concept — landing sections frame" },
-      { variant: 2, alt: "Vertex CMS concept — article layout frame" },
-      { variant: 3, alt: "Vertex CMS concept — content blocks frame" },
+      { variant: 1, alt: "Vertex CMS concept — landing sections frame", layout: "full" },
+      { variant: 2, alt: "Vertex CMS concept — article layout frame", layout: "wide" },
+      { variant: 3, alt: "Vertex CMS concept — content blocks frame", layout: "default" },
     ],
   },
   {
@@ -229,7 +232,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Lumen Platform",
     label: "Custom software platform concept",
     shortDescription:
-      "A custom software concept for multi-view workflows, settings, and connected operational screens.",
+      "Custom software concept for multi-view workflows, settings, and connected screens.",
     overview:
       "Lumen Platform is a demo custom software concept. It shows how a broader product shell can organize modules, settings, and workflow views without inventing a real product company.",
     category: "software",
@@ -255,9 +258,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates a scalable software shell and interaction model suitable for future custom platform builds.",
     gallery: [
-      { variant: 1, alt: "Lumen Platform concept — workspace frame" },
-      { variant: 2, alt: "Lumen Platform concept — modules frame" },
-      { variant: 3, alt: "Lumen Platform concept — settings frame" },
+      { variant: 1, alt: "Lumen Platform concept — workspace frame", layout: "full" },
+      { variant: 2, alt: "Lumen Platform concept — modules frame", layout: "default" },
+      { variant: 3, alt: "Lumen Platform concept — settings frame", layout: "default" },
     ],
   },
   {
@@ -266,7 +269,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Forge Store",
     label: "Shopify commerce concept",
     shortDescription:
-      "A Shopify-oriented concept for product merchandising, collection pages, and storefront presentation.",
+      "Shopify concept for merchandising, collection pages, and storefront presentation.",
     overview:
       "Forge Store is a demo Shopify commerce concept. It focuses on merchandising layout and storefront clarity for a concept shop — not a commissioned Shopify store.",
     category: "shopify",
@@ -292,9 +295,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Shows a Shopify-oriented theme structure and merchandising presentation ready to adapt for a future real store build.",
     gallery: [
-      { variant: 1, alt: "Forge Store concept — storefront frame" },
-      { variant: 2, alt: "Forge Store concept — collection frame" },
-      { variant: 3, alt: "Forge Store concept — product frame" },
+      { variant: 1, alt: "Forge Store concept — storefront frame", layout: "full" },
+      { variant: 2, alt: "Forge Store concept — collection frame", layout: "default" },
+      { variant: 3, alt: "Forge Store concept — product frame", layout: "portrait" },
     ],
   },
 ];

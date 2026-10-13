@@ -126,8 +126,10 @@ test.describe("smoke", () => {
     await expect(page.getByText("Concept Project").first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /Project Goal/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Project Overview" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Project Gallery" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Delivery Summary" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Visual Gallery" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 2, name: "What This Demonstrates" })
+    ).toBeVisible();
   });
 
   test("all project detail routes resolve from centralized data", async ({ page }) => {
