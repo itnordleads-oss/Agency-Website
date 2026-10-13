@@ -120,7 +120,7 @@ export default function Navbar() {
   return (
     <>
       {/* Mobile: fixed so sticky survives overflow-x ancestors; desktop keeps sticky. */}
-      <header className="fixed top-0 left-0 right-0 md:sticky md:top-0 z-40 w-full border-b border-white/[0.08] bg-[#0C111B]/95 md:bg-[#0C111B]/90 md:backdrop-blur-md min-w-0">
+      <header className="fixed top-0 left-0 right-0 lg:sticky lg:top-0 z-40 w-full border-b border-white/[0.08] bg-[#0C111B]/95 lg:bg-[#0C111B]/90 lg:backdrop-blur-md min-w-0">
         <div className="max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 h-16 max-[340px]:h-[4.25rem] min-[341px]:h-20 flex items-center justify-between gap-2 min-[341px]:gap-3 min-w-0">
           <a
             href="/"
@@ -136,7 +136,7 @@ export default function Navbar() {
             <HeaderLogo />
           </a>
 
-          <nav className="hidden md:flex items-center gap-8" aria-label="Primary">
+          <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Primary">
             {menuItems.map((item) => {
               const isActive = activeNavId === item.id;
 
@@ -158,12 +158,12 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-3">
             {renderLanguageSwitcher(desktopLanguageSwitcherId)}
             <PrimaryButton onClick={() => navigateToContact()}>{primaryCtaLabel}</PrimaryButton>
           </div>
 
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             {renderLanguageSwitcher(mobileLanguageSwitcherId)}
             <button
               type="button"
@@ -181,7 +181,7 @@ export default function Navbar() {
         {mobileMenuOpen ? (
           <div
             id={menuId}
-            className="md:hidden border-b border-white/10 bg-[#0C111B]/95 backdrop-blur-2xl overflow-hidden"
+            className="lg:hidden border-b border-white/10 bg-[#0C111B]/95 backdrop-blur-2xl overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Main menu"
@@ -222,7 +222,7 @@ export default function Navbar() {
       </header>
       {/* Reserve header height on mobile so content is not hidden under fixed header. */}
       <div
-        className="md:hidden h-16 max-[340px]:h-[4.25rem] min-[341px]:h-20 shrink-0"
+        className="lg:hidden h-16 max-[340px]:h-[4.25rem] min-[341px]:h-20 shrink-0"
         aria-hidden="true"
       />
     </>

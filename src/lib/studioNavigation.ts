@@ -7,7 +7,8 @@
  * (redirect to agency destinations) and are not listed in the public studio navbar.
  */
 
-export type StudioNavItemId = "home" | "services" | "projects" | "about" | "contact" | "work";
+export type StudioNavItemId =
+  "home" | "services" | "projects" | "about" | "careers" | "contact" | "work";
 
 export type StudioNavItem = {
   id: StudioNavItemId;
@@ -26,6 +27,7 @@ const STUDIO_NAV_ITEMS: StudioNavItem[] = [
   { id: "services", label: "Services", path: "/services" },
   { id: "projects", label: "Projects", path: "/projects" },
   { id: "about", label: "About", path: "/about" },
+  { id: "careers", label: "Careers", path: "/careers" },
   { id: "contact", label: "Contact", path: "/contact" },
 ];
 
@@ -57,6 +59,9 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
   if (normalized === "/about") {
     return "about";
   }
+  if (normalized === "/careers") {
+    return "careers";
+  }
   if (normalized === "/contact") {
     return "contact";
   }
@@ -68,4 +73,4 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
 export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services", "projects"];
 
 /** Footer Company column (Terms is appended separately). */
-export const FOOTER_COMPANY_NAV_IDS: StudioNavItemId[] = ["about", "contact"];
+export const FOOTER_COMPANY_NAV_IDS: StudioNavItemId[] = ["about", "careers", "contact"];

@@ -18,6 +18,7 @@ import ProjectDetailPage from "./components/ProjectDetailPage";
 import ServicesPage from "./components/ServicesPage";
 import AgencyServiceDetailPage from "./components/AgencyServiceDetailPage";
 import AboutPage from "./components/AboutPage";
+import CareersPage from "./components/CareersPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
 import { isWorkPagePublished } from "./lib/workProjects";
 import { mapWorkPathToProjects } from "./lib/agencyProjects";
@@ -271,6 +272,7 @@ export default function App() {
     ? path.slice("/services/".length).replace(/\/+$/, "")
     : null;
   const isAboutPage = path === "/about";
+  const isCareersPage = path === "/careers";
   /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
   const isWorkPage = path === "/work";
   const projectSlug = parseProjectSlug(path);
@@ -329,6 +331,13 @@ export default function App() {
           ) : isAboutPage ? (
             <>
               <AboutPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isCareersPage ? (
+            <>
+              <CareersPage />
               <DeferredMount rootMargin="0px" minHeight="32rem">
                 <Footer />
               </DeferredMount>
