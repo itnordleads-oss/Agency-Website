@@ -144,7 +144,7 @@ function sectionRootMargin(requestedSectionId: HomepageSectionId | null) {
  * Production Homepage V3 reuses this page with `variant="v3"` at `/`.
  *
  * Flow (V2): Hero → Trust → Product → Features → Workflow → Proof → Pricing → FAQ → Blog → CTA
- * Flow (V3 agency): Hero → Services → Value → Selected Work (if published) →
+ * Flow (V3 agency): Hero → Services → Featured Projects → Why Us →
  * Process → About preview → Final CTA.
  * Fake proof, pricing, FAQ, and product surfaces are omitted on V3.
  */
@@ -171,11 +171,11 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
             </DeferredMount>
 
             <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
-              <HomeAgencyValue />
+              <HomeAgencyWork />
             </DeferredMount>
 
-            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="12rem">
-              <HomeAgencyWork />
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+              <HomeAgencyValue />
             </DeferredMount>
 
             <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="14rem">

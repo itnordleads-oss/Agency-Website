@@ -1,57 +1,111 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import { HOME_AGENCY_INTRO, HOME_AGENCY_SECTION, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
+import { homepageRevealProps } from "./homeAgencyMotion";
+import "./homeAgencyProcess.css";
+
+function useHorizontalProcessLayout(): boolean {
+  const [horizontal, setHorizontal] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return;
+    }
+    const query = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setHorizontal(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  return horizontal;
+}
 
 /**
- * How we work — single canonical process timeline for the homepage.
- * Mobile: vertical. Tablet (md): 3 + 2. Desktop (lg+): 5-column horizontal.
+ * How we work — connected delivery timeline.
+ * Vertical below lg; horizontal open rail at lg+.
  */
 export default function HomeAgencyProcess() {
   const { homepageV3 } = useSiteCopy();
   const { process } = homepageV3;
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.32 });
+  const revealed = Boolean(inView || reduceMotion);
+  const horizontal = useHorizontalProcessLayout();
 
   return (
-    <section id="process" className={HOME_AGENCY_SECTION} aria-labelledby="agency-process-heading">
-      <div className={HOME_AGENCY_SHELL}>
-        <div className={`${HOME_AGENCY_INTRO} mb-6 sm:mb-7 md:mb-8`}>
+    <section
+      ref={sectionRef}
+      id="process"
+      className={`home-agency-process ${HOME_AGENCY_SECTION}${revealed ? " is-revealed" : ""}`}
+      aria-labelledby="agency-process-heading"
+    >
+      <div className="home-agency-process__bg" aria-hidden />
+      <div className={`${HOME_AGENCY_SHELL} home-agency-process__shell`}>
+        <motion.div
+          className={`${HOME_AGENCY_INTRO} mb-5 sm:mb-6 md:mb-7`}
+          {...homepageRevealProps(reduceMotion)}
+        >
           <span data-homepage-scroll-ref="process">
             <SectionEyebrow label={process.eyebrow} />
           </span>
           <h2 id="agency-process-heading" className="section-title text-left">
             {process.title}
           </h2>
-          <p className="text-body text-[0.95rem] leading-relaxed text-white/68 sm:text-base">
+          <p className="text-body text-[0.95rem] leading-relaxed text-white/70 sm:text-base">
             {process.subtitle}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="relative">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-[8%] right-[8%] top-5 hidden h-px bg-gradient-to-r from-transparent via-[#00D2FF]/45 to-transparent lg:block"
-          />
-          <ol className="relative m-0 list-none border-l border-white/15 md:grid md:grid-cols-3 md:gap-x-5 md:gap-y-8 md:border-l-0 lg:grid-cols-5 lg:gap-3">
-            {process.steps.map((step, index) => (
-              <li
-                key={step.label}
-                className="relative flex gap-4 py-3.5 pl-8 first:pt-0 last:pb-0 md:block md:px-1 md:py-0 md:pl-0 md:text-center"
-              >
-                <span className="absolute left-0 top-4 flex h-8 w-8 -translate-x-1/2 items-center justify-center rounded-full border border-accent-soft/35 bg-[#0C111B] text-xs font-bold text-accent-soft md:relative md:left-auto md:top-auto md:mx-auto md:h-9 md:w-9 md:translate-x-0 lg:h-10 lg:w-10 lg:border-accent-soft/40 lg:shadow-[0_0_0_6px_rgba(12,17,27,1)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="min-w-0 pt-0.5 md:pt-0">
-                  <h3 className="text-base font-semibold text-white md:mt-3.5 md:text-[0.95rem] lg:mt-4 lg:text-base">
-                    {step.label}
-                  </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-white/65 md:mt-1.5 md:text-[0.8125rem] lg:text-sm">
-                    {step.description}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <motion.div {...homepageRevealProps(reduceMotion, 0.08)}>
+          <p className="home-agency-process__bridge" aria-hidden>
+            <span>Idea</span>
+            <span className="home-agency-process__bridge-line" />
+            <span>Delivery</span>
+          </p>
+
+          {!horizontal ? (
+            <div className="home-agency-process__vertical-wrap">
+              <div className="home-agency-process__v-rail" aria-hidden>
+                <div className="home-agency-process__v-progress" />
+              </div>
+              <ol className="home-agency-process__vertical">
+                {process.steps.map((step, index) => (
+                  <li key={step.label} className="home-agency-process__v-item">
+                    <span className="home-agency-process__node">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="home-agency-process__title">{step.label}</h3>
+                      <p className="home-agency-process__copy">{step.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : (
+            <div className="home-agency-process__horizontal-wrap">
+              <div className="home-agency-process__h-rail" aria-hidden>
+                <div className="home-agency-process__h-progress" />
+                {!reduceMotion ? <span className="home-agency-process__indicator" /> : null}
+              </div>
+              <ol className="home-agency-process__horizontal">
+                {process.steps.map((step, index) => (
+                  <li key={step.label} className="home-agency-process__h-item">
+                    <span className="home-agency-process__node">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="home-agency-process__title">{step.label}</h3>
+                    <p className="home-agency-process__copy">{step.description}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   );

@@ -12,9 +12,9 @@ import {
   getSeoTitle,
   LAYOUT_BRAND_FALLBACK,
 } from "./studioBranding";
-import { IS_WORK_NAV_PUBLISHED } from "./studioNavigation";
 
-export type AgencySeoPageId = "home" | "services" | "about" | "contact" | "terms" | "work";
+export type AgencySeoPageId =
+  "home" | "services" | "about" | "contact" | "terms" | "projects" | "work";
 
 export type AgencyPageSeo = {
   id: AgencySeoPageId;
@@ -26,20 +26,15 @@ export type AgencyPageSeo = {
 };
 
 function pageTitle(pageLabel: string): string {
-  return `${pageLabel} — ${getSeoSiteName()}`;
+  return `${pageLabel} | ${getSeoSiteName()}`;
 }
 
 /**
  * Public agency routes that belong in the sitemap when indexable.
  * Product routes (`/platform`, `/workflow`, `/landing/*`) are intentionally absent.
- * `/work` is included only when F7 publishes it.
  */
 export function getAgencySitemapPathnames(): string[] {
-  const paths = ["/", "/services", "/about", "/contact", "/terms"];
-  if (IS_WORK_NAV_PUBLISHED) {
-    paths.splice(4, 0, "/work");
-  }
-  return paths;
+  return ["/", "/services", "/about", "/projects", "/contact", "/terms"];
 }
 
 export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
@@ -91,13 +86,24 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
           "Terms & Conditions governing use of this website, inquiries, cookies, acceptable use, and related legal information.",
         indexable: true,
       };
-    case "work":
+    case "projects":
       return {
         id,
-        pathname: "/work",
-        title: pageTitle("Work"),
-        description: "Selected agency work and case studies, when published.",
-        indexable: IS_WORK_NAV_PUBLISHED,
+        pathname: "/projects",
+        title: pageTitle("Projects"),
+        description:
+          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+        indexable: true,
+      };
+    case "work":
+      // Legacy SEO id — canonical portfolio is /projects.
+      return {
+        id,
+        pathname: "/projects",
+        title: pageTitle("Projects"),
+        description:
+          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+        indexable: true,
       };
     default: {
       const _exhaustive: never = id;

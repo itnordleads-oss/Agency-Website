@@ -13,11 +13,14 @@ import PageBackground from "./components/PageBackground";
 import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
 import WorkPage from "./components/WorkPage";
+import ProjectsPage from "./components/ProjectsPage";
+import ProjectDetailPage from "./components/ProjectDetailPage";
 import ServicesPage from "./components/ServicesPage";
 import AgencyServiceDetailPage from "./components/AgencyServiceDetailPage";
 import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
 import { isWorkPagePublished } from "./lib/workProjects";
+import { mapWorkPathToProjects } from "./lib/agencyProjects";
 import {
   getHomepageSectionHref,
   requestInstantHomepageSectionScroll,
@@ -47,16 +50,33 @@ function isUnpublishedWorkPath(pathname: string) {
   return normalizePath(pathname) === "/work" && !IS_WORK_NAV_PUBLISHED;
 }
 
+function parseProjectSlug(pathname: string): string | null {
+  const path = normalizePath(pathname);
+  if (!path.startsWith("/projects/")) {
+    return null;
+  }
+  const slug = path.slice("/projects/".length);
+  if (!slug || slug.includes("/")) {
+    return null;
+  }
+  return slug;
+}
+
 /**
  * Resolve the public path:
  * - legacy homepage previews → `/`
  * - unpublished Work → `/`
+ * - legacy `/work` → `/projects` when mapped
  * - retired product surfaces → agency destinations (F9)
  */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
   if (isLegacyHomepagePath(path) || isUnpublishedWorkPath(path)) {
     return "/";
+  }
+  const fromWork = mapWorkPathToProjects(path);
+  if (fromWork) {
+    return fromWork;
   }
   return resolveProductRouteRedirect(path) ?? path;
 }
@@ -253,6 +273,9 @@ export default function App() {
   const isAboutPage = path === "/about";
   /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
   const isWorkPage = path === "/work";
+  const projectSlug = parseProjectSlug(path);
+  const isProjectsIndex = path === "/projects";
+  const isProjectDetail = projectSlug !== null;
 
   useEffect(() => {
     const onPopState = () => {
@@ -306,6 +329,20 @@ export default function App() {
           ) : isAboutPage ? (
             <>
               <AboutPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isProjectsIndex ? (
+            <>
+              <ProjectsPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isProjectDetail && projectSlug ? (
+            <>
+              <ProjectDetailPage slug={projectSlug} />
               <DeferredMount rootMargin="0px" minHeight="32rem">
                 <Footer />
               </DeferredMount>

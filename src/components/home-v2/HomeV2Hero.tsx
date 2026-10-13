@@ -4,23 +4,16 @@ import { navigateAppPath, navigateToContact } from "../../App";
 import HomeV2ProductFrame from "./HomeV2ProductFrame";
 import HomeAgencyHeroPanel from "./HomeAgencyHeroPanel";
 import { useHomepageCopy, useHomepageVariant } from "./homepageVariantContext";
-import { IS_WORK_NAV_PUBLISHED } from "../../lib/studioNavigation";
-import { isWorkPagePublished } from "../../lib/workProjects";
 import { HOME_AGENCY_SHELL } from "./homeAgencyLayout";
 
 export default function HomeV2Hero() {
   const { hero } = useHomepageCopy();
   const variant = useHomepageVariant();
   const isV3 = variant === "v3";
-  const workPublished = IS_WORK_NAV_PUBLISHED && isWorkPagePublished();
 
   const onSecondaryCta = () => {
     if (!isV3) {
       document.getElementById("v2-workflow")?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    if (workPublished) {
-      navigateAppPath("/work");
       return;
     }
     navigateAppPath("/services");
@@ -104,9 +97,7 @@ export default function HomeV2Hero() {
                 onClick={onSecondaryCta}
                 className="w-full text-sm sm:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
               >
-                {isV3 && workPublished && "secondaryCtaWork" in hero
-                  ? hero.secondaryCtaWork
-                  : hero.secondaryCta}
+                {hero.secondaryCta}
               </SecondaryButton>
             </div>
           </div>

@@ -1,40 +1,53 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
-import WorkProjectCard from "../work/WorkProjectCard";
+import HomeAgencyProjectSpotlight from "./HomeAgencyProjectSpotlight";
 import { SecondaryButton } from "../Buttons";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import { navigateAppPath } from "../../App";
-import { getPublishedWorkProjects } from "../../lib/workProjects";
-import { IS_WORK_NAV_PUBLISHED } from "../../lib/studioNavigation";
+import { getFeaturedProjects, isProjectsPublished } from "../../lib/agencyProjects";
 import { HOME_AGENCY_INTRO, HOME_AGENCY_SECTION, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
+import { homepageRevealProps } from "./homeAgencyMotion";
 
 /**
- * Selected Work — rendered only when approved published projects exist
- * and the Work nav/route gate is enabled.
+ * Homepage Featured Projects — spotlight preview (not the /projects featured card grid).
+ * Concept projects remain explicitly labeled in the spotlight.
  */
 export default function HomeAgencyWork() {
   const { homepageV3 } = useSiteCopy();
   const { workPreview } = homepageV3;
-  const projects =
-    IS_WORK_NAV_PUBLISHED && getPublishedWorkProjects().length > 0
-      ? getPublishedWorkProjects().slice(0, 3)
-      : [];
+  const reduceMotion = useReducedMotion();
+  // Stable reference — avoid remounting spotlight state on parent re-renders.
+  const featured = useMemo(() => (isProjectsPublished() ? getFeaturedProjects(3) : []), []);
 
-  if (projects.length === 0) {
+  if (featured.length === 0) {
     return null;
   }
 
   return (
     <section
-      id="work-preview"
-      className={HOME_AGENCY_SECTION}
+      id="featured-projects"
+      className={`${HOME_AGENCY_SECTION} relative`}
       aria-labelledby="agency-work-heading"
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-0 opacity-90"
+        style={{
+          backgroundImage:
+            "radial-gradient(640px circle at 78% 18%, rgba(0,210,255,0.08), transparent 55%), radial-gradient(520px circle at 8% 80%, rgba(61,129,227,0.07), transparent 50%)",
+        }}
+      />
       <div className={HOME_AGENCY_SHELL}>
-        <div className="mb-6 flex flex-col gap-3.5 sm:mb-7 md:mb-8 md:flex-row md:items-end md:justify-between">
+        <motion.div
+          className="mb-5 flex flex-col gap-3 sm:mb-6 md:mb-7 md:flex-row md:items-end md:justify-between md:gap-5"
+          {...homepageRevealProps(reduceMotion)}
+        >
           <div className={HOME_AGENCY_INTRO}>
-            <SectionEyebrow label={workPreview.eyebrow} />
+            <span data-homepage-scroll-ref="work">
+              <SectionEyebrow label={workPreview.eyebrow} />
+            </span>
             <h2 id="agency-work-heading" className="section-title text-left">
               {workPreview.title}
             </h2>
@@ -43,7 +56,7 @@ export default function HomeAgencyWork() {
             </p>
           </div>
           <SecondaryButton
-            onClick={() => navigateAppPath("/work")}
+            onClick={() => navigateAppPath("/projects")}
             className="w-full shrink-0 text-sm sm:w-auto"
           >
             <span className="inline-flex items-center gap-2">
@@ -51,15 +64,11 @@ export default function HomeAgencyWork() {
               <ArrowRight className="h-4 w-4" aria-hidden />
             </span>
           </SecondaryButton>
-        </div>
+        </motion.div>
 
-        <ul className="m-0 grid list-none grid-cols-1 gap-4 p-0 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <li key={project.slug}>
-              <WorkProjectCard project={project} />
-            </li>
-          ))}
-        </ul>
+        <motion.div {...homepageRevealProps(reduceMotion, 0.08)}>
+          <HomeAgencyProjectSpotlight projects={featured} />
+        </motion.div>
       </div>
     </section>
   );

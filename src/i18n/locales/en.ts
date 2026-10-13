@@ -91,7 +91,7 @@ const en = {
         },
         {
           title: "Practical Engineering",
-          description: "Build what the product needs next.",
+          description: "Build what the product needs — not speculative extras.",
         },
         {
           title: "Structured Delivery",
@@ -1305,7 +1305,7 @@ const en = {
       eyebrow: "Development studio",
       headline: "Custom software and digital products, delivered with clarity.",
       subheadline:
-        "We plan and build around real requirements—practical engineering, clear communication, and reviewable delivery from first conversation through launch.",
+        "We build around clear requirements with practical engineering and visible delivery from first conversation to launch.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
       secondaryCtaWork: "See Our Work",
@@ -1322,14 +1322,14 @@ const en = {
       eyebrow: "Delivery system",
       title: "From brief to shipped product",
       badge: "Studio",
-      caption: "Software, websites, mobile, commerce, and CMS work connected in one delivery path.",
-      ariaLabel: "Illustration of digital product delivery from idea through build to product",
+      caption: "Brief to product across software, web, mobile, commerce, and CMS.",
+      ariaLabel:
+        "Illustration of digital product delivery from brief through understand, design and build, and review to product",
     },
     services: {
       eyebrow: "Services",
       title: "Six focused services for product and web delivery",
-      subtitle:
-        "Concise previews of the work we take on—explore a service for more detail, or review the full overview.",
+      subtitle: "Brief previews here, with full detail on each service page.",
       cta: "Explore All Services",
       exploreLabel: "Explore Service",
       backToServices: "Back to services",
@@ -1339,14 +1339,12 @@ const en = {
         {
           id: "software-development",
           title: "Software Development",
-          description:
-            "Custom software shaped around your workflows, users, and integration needs.",
+          description: "Custom software for workflows, users, and integration needs.",
         },
         {
           id: "website-development",
           title: "Website Development",
-          description:
-            "Professional, responsive websites with clean implementation and room to grow.",
+          description: "Responsive websites with clean implementation and room to grow.",
         },
         {
           id: "mobile-app-development",
@@ -1357,17 +1355,17 @@ const en = {
         {
           id: "shopify-stores",
           title: "Shopify Stores",
-          description: "Shopify storefront setup, customization, and ongoing store improvements.",
+          description: "Shopify storefront setup, customization, and store improvements.",
         },
         {
           id: "wordpress-websites",
           title: "WordPress Websites",
-          description: "WordPress websites built for content teams and long-term maintainability.",
+          description: "Maintainable WordPress websites for content-driven teams.",
         },
         {
           id: "custom-wordpress-theme-development",
           title: "Custom WordPress Theme Development",
-          description: "Custom theme work for distinct design, layouts, and CMS-editable sections.",
+          description: "Custom themes for distinct layouts and CMS-editable sections.",
         },
       ],
     },
@@ -1378,27 +1376,27 @@ const en = {
       items: [
         {
           title: "Clear Communication",
-          description: "Priorities and decisions stay visible throughout the project.",
+          description: "Priorities and decisions stay visible.",
         },
         {
           title: "Practical Engineering",
-          description: "Build what the product needs next—not speculative extras.",
+          description: "Build what the product needs.",
         },
         {
           title: "Structured Delivery",
-          description: "Scope, checkpoints, and progress you can review with your team.",
+          description: "Scope and progress stay reviewable.",
         },
         {
           title: "Maintainable Solutions",
-          description: "Code and systems your team can keep running after launch.",
+          description: "Code and systems stay practical after launch.",
         },
       ],
     },
     workPreview: {
-      eyebrow: "Selected work",
-      title: "Projects we can share publicly",
-      subtitle: "A short look at approved case studies from recent delivery work.",
-      cta: "View all work",
+      eyebrow: "Featured projects",
+      title: "Selected work",
+      subtitle: "Concept projects across software, web, mobile, commerce, and content.",
+      cta: "View All Projects",
     },
     process: {
       eyebrow: "How we work",
@@ -1407,11 +1405,11 @@ const en = {
       steps: [
         {
           label: "Understand",
-          description: "Clarify goals, users, constraints, and success criteria.",
+          description: "Clarify goals, users, and constraints.",
         },
         {
           label: "Plan",
-          description: "Define scope, priorities, and implementation direction.",
+          description: "Define scope, priorities, and direction.",
         },
         {
           label: "Build",
@@ -1419,25 +1417,27 @@ const en = {
         },
         {
           label: "Review",
-          description: "Test quality, usability, and requirements together.",
+          description: "Test quality, usability, and requirements.",
         },
         {
           label: "Launch",
-          description: "Prepare delivery and define the next steps.",
+          description: "Prepare delivery and next steps.",
         },
       ],
     },
     aboutPreview: {
       eyebrow: "About",
       title: "A development studio focused on useful delivery",
-      subtitle:
-        "We work as a practical engineering partner—requirement-led scope, direct communication, and maintainable outcomes your team can keep running.",
-      principles: [
-        "Practical engineering",
-        "Requirement-led delivery",
-        "Clear communication",
-        "Maintainable work",
-      ],
+      support:
+        "We turn clear requirements into practical, reviewable, maintainable digital products.",
+      identity: {
+        lead: "We build",
+        domains: ["software", "web", "mobile", "commerce", "content systems"],
+        aroundLabel: "Around",
+        aroundValue: "clear requirements",
+        forLabel: "For",
+        forValue: "useful delivery",
+      },
       cta: "About Us",
     },
     trust: {
