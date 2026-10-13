@@ -1649,8 +1649,8 @@ test.describe("smoke", () => {
         const nav = footer.locator("nav.site-footer__nav");
         const navLinks = nav.locator("a");
 
-        // Explore: Home, Services, Projects · Company: About, Contact · Legal: Terms
-        await expect(navLinks).toHaveCount(6);
+        // Explore: Home, Services, Projects · Company: About, Careers, Contact · Legal: Terms
+        await expect(navLinks).toHaveCount(7);
         await expect(footer.locator("nav.site-footer__nav button")).toHaveCount(0);
         await expect(navLinks.first()).toHaveAttribute("href", "/");
         await expect(footer.getByRole("link", { name: "Services" })).toHaveAttribute(
@@ -1660,6 +1660,10 @@ test.describe("smoke", () => {
         await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute(
           "href",
           "/projects"
+        );
+        await expect(footer.getByRole("link", { name: "Careers" })).toHaveAttribute(
+          "href",
+          "/careers"
         );
         await expect(footer.getByRole("link", { name: "Platform" })).toHaveCount(0);
 
@@ -1761,7 +1765,7 @@ test.describe("smoke", () => {
       page,
     }) => {
       const footer = await openContactFooter(page);
-      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(6);
+      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(7);
 
       for (const width of [1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
@@ -2013,7 +2017,7 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
       await expect(page.locator(".schedule-meeting-float")).toHaveCount(0);
 
-      const routes = ["/", "/services", "/about", "/projects", "/contact"] as const;
+      const routes = ["/services", "/about", "/projects", "/careers", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
