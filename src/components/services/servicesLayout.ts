@@ -6,4 +6,4 @@ export const SERVICES_SECTION_CLASS = "services-section relative overflow-hidden
 
 export const SERVICES_DETAIL_CLASS = "services-detail relative overflow-hidden scroll-mt-24";
 
-export const SERVICES_INTRO_CLASS = "max-w-3xl space-y-3 mb-8 md:mb-10";
+export const SERVICES_INTRO_CLASS = "mb-7 max-w-3xl space-y-3 md:mb-8";

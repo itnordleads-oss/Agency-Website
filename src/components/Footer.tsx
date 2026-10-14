@@ -34,7 +34,11 @@ export default function Footer() {
     <footer className="site-footer border-t border-white/[0.1] bg-[#0A0F19] text-white/70 relative z-10">
       <div className="border-t border-white/8 py-7 max-[340px]:py-6 md:py-8">
         <div className="site-footer__shell max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 min-w-0">
-          <div className="site-footer__compose">
+          <div
+            className={`site-footer__compose${
+              showContactColumn ? "" : " site-footer__compose--without-contact"
+            }`}
+          >
             <div className="site-footer__brand">
               <div className="flex items-center">
                 <FooterLogo />
@@ -102,9 +106,11 @@ export default function Footer() {
 
             <div className="site-footer__legal">
               <p className="text-subtle text-xs shrink-0">{footer.copyright}</p>
-              <p className="site-footer__tagline text-subtle text-xs leading-relaxed max-w-md">
-                {footer.tagline}
-              </p>
+              {typeof footer.tagline === "string" && footer.tagline.trim() ? (
+                <p className="site-footer__tagline text-subtle text-xs leading-relaxed max-w-md">
+                  {footer.tagline.trim()}
+                </p>
+              ) : null}
             </div>
           </div>
         </div>

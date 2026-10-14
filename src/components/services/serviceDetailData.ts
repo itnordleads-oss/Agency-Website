@@ -2,15 +2,35 @@ import type en from "../../i18n/locales/en";
 
 export type ServiceId = (typeof en)["servicesPage"]["services"][number]["id"];
 
+export type ServiceVisualType =
+  "software" | "web" | "mobile" | "shopify" | "wordpress" | "custom-theme";
+
 type DetailItem = {
   title: string;
   description: string;
 };
 
+type CapabilityDetail = {
+  description: string;
+  visualLabel: string;
+};
+
+export type HeroVisualState = {
+  id: string;
+  label: string;
+  detail: string;
+};
+
 export type ServiceDetailContent = {
   eyebrow: string;
   metaDescription: string;
+  visualConfig: {
+    type: ServiceVisualType;
+    processLabel: string;
+    heroStates: readonly HeroVisualState[];
+  };
   overviewTitle: string;
+  capabilityDetails: readonly CapabilityDetail[];
   benefitsTitle: string;
   benefitsSubtitle: string;
   benefits: readonly DetailItem[];
@@ -33,7 +53,48 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "Software Development",
     metaDescription:
       "Custom software development for business applications, internal tools, workflows, integrations, and existing software modernization.",
+    visualConfig: {
+      type: "software",
+      processLabel: "Requirements → system → delivery",
+      heroStates: [
+        { id: "input", label: "Input", detail: "Requirements" },
+        { id: "logic", label: "Logic", detail: "Workflow rules" },
+        { id: "data", label: "Data", detail: "Structured data" },
+        { id: "interface", label: "Interface", detail: "User surface" },
+        { id: "integrations", label: "Integrations", detail: "Connected systems" },
+      ],
+    },
     overviewTitle: "Software designed around how your business works",
+    capabilityDetails: [
+      {
+        description:
+          "Purpose-built interfaces support defined teams, roles, and operational tasks.",
+        visualLabel: "Tool flow",
+      },
+      {
+        description:
+          "Browser-based applications make structured workflows available across devices.",
+        visualLabel: "Application layer",
+      },
+      {
+        description: "Repeated operational steps can be connected through clear automation rules.",
+        visualLabel: "Automation path",
+      },
+      {
+        description: "Approved APIs connect data and actions across the systems already in use.",
+        visualLabel: "Integration map",
+      },
+      {
+        description:
+          "Application boundaries and data flows stay understandable as requirements evolve.",
+        visualLabel: "System structure",
+      },
+      {
+        description:
+          "Focused changes improve existing software without forcing unnecessary replacement.",
+        visualLabel: "Modernization",
+      },
+    ],
     benefitsTitle: "Built for practical business needs",
     benefitsSubtitle:
       "The solution is shaped around users, workflows, and existing systems—not a generic product checklist.",
@@ -81,7 +142,43 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "Website Development",
     metaDescription:
       "Responsive website development for business, corporate, agency, and landing-page experiences with practical integrations.",
+    visualConfig: {
+      type: "web",
+      processLabel: "Content → responsive build → launch",
+      heroStates: [
+        { id: "desktop", label: "Desktop", detail: "Full page layout" },
+        { id: "mobile", label: "Mobile", detail: "Compact viewport" },
+      ],
+    },
     overviewTitle: "A professional website that is clear to use and maintain",
+    capabilityDetails: [
+      {
+        description: "Clear business pages organize services, proof, and conversion paths.",
+        visualLabel: "Page system",
+      },
+      {
+        description: "Focused campaign pages connect concise messaging with a clear next action.",
+        visualLabel: "Landing flow",
+      },
+      {
+        description: "Layouts adapt deliberately across phone, tablet, laptop, and desktop widths.",
+        visualLabel: "Responsive grid",
+      },
+      {
+        description: "Forms and approved backend connections support practical customer journeys.",
+        visualLabel: "Connected forms",
+      },
+      {
+        description:
+          "Existing pages can be restructured without discarding useful content or workflows.",
+        visualLabel: "Modernization",
+      },
+      {
+        description:
+          "Implementation choices keep the front end understandable and performance-conscious.",
+        visualLabel: "Delivery quality",
+      },
+    ],
     benefitsTitle: "A stronger foundation for your public web presence",
     benefitsSubtitle:
       "Delivery balances responsive presentation, usable content structure, practical integrations, and maintainable implementation.",
@@ -135,7 +232,43 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "Mobile App Development",
     metaDescription:
       "Mobile app development for business and customer-facing applications with authentication, APIs, and backend-connected features.",
+    visualConfig: {
+      type: "mobile",
+      processLabel: "User flow → screens → release",
+      heroStates: [
+        { id: "primary", label: "Primary", detail: "Main product flow" },
+        { id: "secondary", label: "Secondary", detail: "Supporting screen" },
+        { id: "data", label: "Data", detail: "API connection" },
+      ],
+    },
     overviewTitle: "Mobile experiences connected to your product and operations",
+    capabilityDetails: [
+      {
+        description: "Core mobile journeys prioritize the actions customers and teams use most.",
+        visualLabel: "Primary journey",
+      },
+      {
+        description: "Approved interface direction becomes clear, touch-friendly product screens.",
+        visualLabel: "Screen system",
+      },
+      {
+        description:
+          "Sign-in, account state, and protected actions are planned as one coherent flow.",
+        visualLabel: "Account flow",
+      },
+      {
+        description: "Mobile actions connect to approved services and operational data.",
+        visualLabel: "Data connection",
+      },
+      {
+        description: "Suitable APIs provide the bridge between the app and existing systems.",
+        visualLabel: "API path",
+      },
+      {
+        description: "Reviewable releases make targeted improvement possible after launch.",
+        visualLabel: "Release cycle",
+      },
+    ],
     benefitsTitle: "Focused mobile product delivery",
     benefitsSubtitle:
       "The experience is planned around mobile users, core workflows, backend requirements, and the information needed on smaller screens.",
@@ -184,7 +317,46 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "Shopify Stores",
     metaDescription:
       "Shopify store setup, storefront development, theme customization, catalog configuration, app integrations, and store improvements.",
+    visualConfig: {
+      type: "shopify",
+      processLabel: "Catalog → storefront → launch",
+      heroStates: [
+        { id: "collections", label: "Collections", detail: "Browse structure" },
+        { id: "featured", label: "Featured", detail: "Selected product" },
+        { id: "catalog", label: "Catalog", detail: "Product grid" },
+        { id: "cart", label: "Cart", detail: "Cart state" },
+      ],
+    },
     overviewTitle: "A Shopify storefront structured for your products and customers",
+    capabilityDetails: [
+      {
+        description:
+          "Store settings and operational basics are configured around agreed requirements.",
+        visualLabel: "Store setup",
+      },
+      {
+        description: "Theme presentation is adapted to the approved storefront direction.",
+        visualLabel: "Theme layer",
+      },
+      {
+        description: "Products and collections form a catalog customers can navigate clearly.",
+        visualLabel: "Catalog journey",
+      },
+      {
+        description: "Commerce layouts remain usable from compact phones through desktop screens.",
+        visualLabel: "Responsive shop",
+      },
+      {
+        description:
+          "Required apps are connected only after their role and constraints are confirmed.",
+        visualLabel: "App connection",
+      },
+      {
+        description:
+          "Focused refinements improve an existing store without unnecessary rebuild work.",
+        visualLabel: "Store refinement",
+      },
+    ],
     benefitsTitle: "Practical commerce delivery on Shopify",
     benefitsSubtitle:
       "Store setup, presentation, catalog structure, and integrations are aligned to the way your team operates the storefront.",
@@ -237,10 +409,48 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "WordPress Websites",
     metaDescription:
       "Complete WordPress website development with responsive pages, editable content, templates, plugin integrations, and existing-site improvements.",
+    visualConfig: {
+      type: "wordpress",
+      processLabel: "Content → templates → publish",
+      heroStates: [
+        { id: "content", label: "Content", detail: "Page structure" },
+        { id: "blocks", label: "Blocks", detail: "Reusable sections" },
+        { id: "media", label: "Media", detail: "Content assets" },
+        { id: "publish", label: "Publish", detail: "Ready state" },
+      ],
+    },
     overviewTitle: "Complete WordPress website delivery for content-led teams",
+    capabilityDetails: [
+      {
+        description:
+          "Complete WordPress delivery connects site structure, content, and publishing needs.",
+        visualLabel: "Site system",
+      },
+      {
+        description: "Pages are built to work clearly across common device sizes.",
+        visualLabel: "Responsive pages",
+      },
+      {
+        description: "Content structures reflect what editors need to maintain day to day.",
+        visualLabel: "Editor flow",
+      },
+      {
+        description: "Reusable page and template patterns keep publishing consistent.",
+        visualLabel: "Template system",
+      },
+      {
+        description: "Required plugins are selected and configured from verified project needs.",
+        visualLabel: "Plugin path",
+      },
+      {
+        description:
+          "Existing sites can receive focused structural, template, and integration updates.",
+        visualLabel: "Site refinement",
+      },
+    ],
     benefitsTitle: "A website your team can work with",
     benefitsSubtitle:
-      "This service covers the broader website—structure, pages, content editing, integrations, and responsive delivery.",
+      "Complete site delivery covering structure, editable content, integrations, and responsive layouts.",
     benefits: [
       {
         title: "Editable content",
@@ -249,8 +459,7 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
       },
       {
         title: "Reusable page structure",
-        description:
-          "Templates support consistent pages without making every update a development task.",
+        description: "Reusable templates keep pages consistent and routine updates practical.",
       },
       {
         title: "Responsive website delivery",
@@ -258,23 +467,22 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
       },
       {
         title: "Existing-site improvements",
-        description:
-          "Current WordPress sites can be refined through focused template and integration work.",
+        description: "Existing sites can be refined through focused template and integration work.",
       },
     ],
     approachTitle: "Plan the complete website, then configure the CMS",
     approachDescription:
-      "We define information architecture, templates, editable sections, plugin needs, and approved design direction before implementation and content review.",
+      "We define structure, templates, editable sections, plugins, and design direction before implementation.",
     platforms: {
       title: "Verified content platform",
       description:
-        "WordPress is a confirmed agency service. Plugins and implementation choices are reviewed against the project requirements.",
+        "WordPress is a confirmed service; plugins and implementation choices follow project requirements.",
       items: ["WordPress"],
     },
     faqs: [
       {
         q: "Will the website have editable sections?",
-        a: "Yes. Editable content areas are defined during planning based on what your team needs to maintain.",
+        a: "Yes. Editable areas are planned around what your team needs to maintain.",
       },
       {
         q: "Can you improve an existing WordPress website?",
@@ -282,7 +490,7 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
       },
       {
         q: "How is this different from custom theme development?",
-        a: "WordPress Website Development covers complete site delivery. Custom Theme Development focuses specifically on the presentation and theme layer.",
+        a: "WordPress Website Development covers the complete site; Custom Theme Development focuses on its presentation layer.",
       },
     ],
     relatedServiceIds: ["custom-wordpress-theme-development", "website-development"],
@@ -291,7 +499,46 @@ export const SERVICE_DETAIL_CONTENT: Readonly<Record<ServiceId, ServiceDetailCon
     eyebrow: "Custom WordPress Theme Development",
     metaDescription:
       "Custom WordPress themes with design implementation, reusable templates, responsive layouts, editable sections, and maintainable theme structure.",
+    visualConfig: {
+      type: "custom-theme",
+      processLabel: "Components → templates → theme",
+      heroStates: [
+        { id: "header", label: "Header", detail: "Global component" },
+        { id: "hero", label: "Hero", detail: "Feature region" },
+        { id: "navigation", label: "Navigation", detail: "Wayfinding" },
+        { id: "content", label: "Content", detail: "CMS-editable region" },
+        { id: "cta", label: "CTA", detail: "Action component" },
+        { id: "footer", label: "Footer", detail: "Global component" },
+      ],
+    },
     overviewTitle: "A WordPress theme built around specific design requirements",
+    capabilityDetails: [
+      {
+        description:
+          "A bespoke presentation layer follows approved design and content requirements.",
+        visualLabel: "Theme system",
+      },
+      {
+        description: "Approved screens are translated into responsive WordPress components.",
+        visualLabel: "Design mapping",
+      },
+      {
+        description: "Shared templates and partials keep repeated page structures consistent.",
+        visualLabel: "Component set",
+      },
+      {
+        description: "Layout rules adapt deliberately across phone, tablet, and desktop widths.",
+        visualLabel: "Responsive grid",
+      },
+      {
+        description: "Editable regions expose only the content controls marketing teams require.",
+        visualLabel: "Editable regions",
+      },
+      {
+        description: "Existing theme code can be reorganized through focused, reviewable changes.",
+        visualLabel: "Theme refinement",
+      },
+    ],
     benefitsTitle: "A focused presentation layer for WordPress",
     benefitsSubtitle:
       "Theme work translates approved design and content requirements into reusable, responsive, and maintainable WordPress presentation.",

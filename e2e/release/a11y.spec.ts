@@ -21,7 +21,19 @@ import { findEntry, isExpired, loadBaseline } from "./baseline";
  * preferences, and real-device behavior.
  */
 
-const SPA_ROUTES = ["/", "/services", "/about", "/contact", "/terms"] as const;
+const SPA_ROUTES = [
+  "/",
+  "/services",
+  "/services/software-development",
+  "/services/website-development",
+  "/services/mobile-app-development",
+  "/services/shopify-stores",
+  "/services/wordpress-websites",
+  "/services/custom-wordpress-theme-development",
+  "/about",
+  "/contact",
+  "/terms",
+] as const;
 const GATE_IMPACTS = new Set(["critical", "serious"]);
 
 interface ViolationRecord {

@@ -173,25 +173,34 @@ const en = {
       eyebrow: "Services",
       title: "Build digital products and web experiences that fit your business",
       subtitle:
-        "We help teams plan and deliver software, websites, mobile applications, Shopify storefronts, and WordPress sites—including custom themes—around real requirements rather than one-size-fits-all templates.",
+        "Software, websites, mobile apps, Shopify, and WordPress—built around real requirements.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
-      visualNote: "One focused team, six connected development services.",
+      visualNote: "Six connected capabilities.",
+      activeSummaryLabel: "Active capability",
     },
     overview: {
       eyebrow: "Overview",
       title: "Six focused development services",
-      subtitle:
-        "Each service is scoped to a clear outcome—from custom software and responsive websites to commerce and WordPress delivery.",
-      learnMore: "Explore service",
+      subtitle: "Digital delivery for business needs.",
+      learnMore: "Explore Service",
+    },
+    spotlight: {
+      eyebrow: "Capabilities",
+      title: "Explore what we can build",
+      subtitle: "Select a service to see how it comes together.",
+      exploreCta: "Explore Service",
+      suitableLabel: "Good fit for",
     },
     detailSectionEyebrow: "Service details",
     services: [
       {
         id: "software-development",
         title: "Software Development",
-        shortDescription:
-          "Custom software shaped around your workflows, users, and integration needs.",
+        shortDescription: "Custom software for workflows, users, and integration needs.",
+        tabLabel: "Software",
+        suitableFor: ["Internal tools", "Workflow systems", "Product operations"],
+        hubHighlights: ["Business apps and tools", "Workflows and integrations"],
         paragraphs: [
           "We design and develop software around specific business requirements instead of forcing teams into a generic product.",
           "Projects may include internal tools, web-based applications, workflow automation, and improvements to software you already rely on.",
@@ -210,8 +219,10 @@ const en = {
       {
         id: "website-development",
         title: "Website Development",
-        shortDescription:
-          "Professional, responsive websites with clean implementation and room to grow.",
+        shortDescription: "Responsive websites for practical business needs.",
+        tabLabel: "Web",
+        suitableFor: ["Marketing sites", "Business websites", "Landing pages"],
+        hubHighlights: ["Business websites", "Extendable front-end"],
         paragraphs: [
           "We build business and marketing websites that are straightforward to use, maintain, and extend as your needs change.",
           "Delivery focuses on responsive layout, solid front-end implementation, and practical integrations such as contact flows and forms.",
@@ -230,8 +241,10 @@ const en = {
       {
         id: "mobile-app-development",
         title: "Mobile App Development",
-        shortDescription:
-          "Mobile applications connected to your product, data, and authentication needs.",
+        shortDescription: "Mobile apps for product, data, and account needs.",
+        tabLabel: "Mobile",
+        suitableFor: ["Customer apps", "Business apps", "Account flows"],
+        hubHighlights: ["Mobile product UX", "Account and data"],
         paragraphs: [
           "We develop mobile experiences for business and customer-facing use cases, aligned with how your product should work on smaller screens.",
           "When your stack is still being defined, we keep implementation choices requirement-led and technology-neutral in planning.",
@@ -250,8 +263,10 @@ const en = {
       {
         id: "shopify-stores",
         title: "Shopify Stores",
-        shortDescription:
-          "Shopify storefront setup, customization, and ongoing store improvements.",
+        shortDescription: "Shopify storefronts, theme work, and store improvements.",
+        tabLabel: "Shopify",
+        suitableFor: ["New stores", "Theme updates", "Catalog polish"],
+        hubHighlights: ["Store setup and themes", "Catalog polish"],
         paragraphs: [
           "We help teams launch and refine Shopify stores with a responsive storefront experience and practical catalog setup.",
           "Work may include theme customization, integrations with apps you already use, and structured improvements to an existing store.",
@@ -270,11 +285,13 @@ const en = {
       {
         id: "wordpress-websites",
         title: "WordPress Websites",
-        shortDescription:
-          "WordPress websites built for content teams and long-term maintainability.",
+        shortDescription: "Maintainable WordPress websites for content-driven teams.",
+        tabLabel: "WordPress",
+        suitableFor: ["Content sites", "Business sites", "Editable pages"],
+        hubHighlights: ["Content structure", "Maintainable builds"],
         paragraphs: [
-          "We deliver complete WordPress websites for businesses that need editable content, clear structure, and dependable day-to-day use.",
-          "Engagements can cover new builds, template and page development, plugin integration, and thoughtful updates to sites you already operate.",
+          "We deliver WordPress websites with editable content, clear structure, and dependable day-to-day use.",
+          "Work can include new builds, templates, plugin integration, and focused improvements to existing sites.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -290,8 +307,10 @@ const en = {
       {
         id: "custom-wordpress-theme-development",
         title: "Custom WordPress Theme Development",
-        shortDescription:
-          "Custom theme work for distinct design, layouts, and CMS-editable sections.",
+        shortDescription: "Custom themes for distinct CMS-editable layouts.",
+        tabLabel: "Custom Themes",
+        suitableFor: ["Design systems", "Theme rebuilds", "Editable sections"],
+        hubHighlights: ["Custom layouts", "Editable sections"],
         paragraphs: [
           "This service focuses on the presentation layer: translating design and content requirements into a maintainable WordPress theme.",
           "It complements full WordPress website delivery when you already have a site structure but need a bespoke theme or a design refresh implemented in WordPress.",
@@ -311,76 +330,59 @@ const en = {
     whyUs: {
       eyebrow: "Why work with us",
       title: "Clear delivery without inflated promises",
-      subtitle:
-        "We keep communication direct, scope grounded in requirements, and implementations maintainable for the teams who use them every day.",
-      items: [
+      subtitle: "Focused scope, clear updates, maintainable builds.",
+      principles: [
         {
+          shortLabel: "Communication",
           title: "Clear Communication",
-          description:
-            "You get straightforward updates on scope, decisions, and progress throughout the project.",
+          description: "Priorities and decisions stay visible.",
         },
         {
+          shortLabel: "Requirements",
           title: "Requirement-Focused Development",
-          description:
-            "We align implementation with what the product needs to do—not buzzwords or unnecessary complexity.",
+          description: "Build what the product actually needs.",
         },
         {
+          shortLabel: "Delivery",
+          title: "Structured Delivery",
+          description: "Scope and progress remain reviewable.",
+        },
+        {
+          shortLabel: "Maintainability",
           title: "Maintainable Solutions",
-          description:
-            "Structure and code choices aim to stay understandable after launch, not only on day one.",
-        },
-        {
-          title: "Responsive User Experiences",
-          description:
-            "Layouts and interactions are built to work across common screen sizes and input methods.",
-        },
-        {
-          title: "Structured Development Process",
-          description:
-            "Discovery, planning, build, review, and launch follow a repeatable sequence you can track.",
-        },
-        {
-          title: "Long-Term Technical Thinking",
-          description:
-            "We consider how the product will be extended, fixed, and handed off after the first release.",
+          description: "Code stays practical after launch.",
         },
       ],
     },
     process: {
       eyebrow: "Process",
       title: "Our development process",
-      subtitle:
-        "A practical sequence from first requirements through launch and follow-up improvements.",
+      subtitle: "From requirements to launch.",
       steps: [
         {
           number: "01",
           title: "Discovery",
-          description:
-            "Understand requirements, goals, users, and project scope before committing to an approach.",
+          description: "Clarify goals, users, constraints, and scope.",
         },
         {
           number: "02",
           title: "Planning",
-          description:
-            "Define implementation structure, milestones, priorities, and how success will be reviewed.",
+          description: "Define priorities, structure, and review points.",
         },
         {
           number: "03",
           title: "Design & Development",
-          description:
-            "Build against agreed requirements and approved design direction, with regular check-ins.",
+          description: "Build requirements in reviewable increments.",
         },
         {
           number: "04",
           title: "Review & Testing",
-          description:
-            "Review functionality, responsiveness, usability, and quality before launch.",
+          description: "Validate quality, usability, and responsiveness.",
         },
         {
           number: "05",
           title: "Launch & Iteration",
-          description:
-            "Prepare for launch and continue improvements when your product or site needs them.",
+          description: "Ship, then improve where needed.",
         },
       ],
     },
@@ -424,42 +426,41 @@ const en = {
     faq: {
       eyebrow: "FAQ",
       title: "Common questions",
-      subtitle: "Short answers about how we work and what we can help you build.",
+      subtitle: "Services and delivery, answered.",
       items: [
         {
           q: "What types of projects do you work on?",
-          a: "We work on custom software, websites, mobile applications, Shopify stores, and WordPress sites—including custom theme development—for teams with clear business or product goals.",
+          a: "We work across custom software, websites, mobile apps, Shopify, WordPress, and custom themes.",
         },
         {
           q: "Can you develop a project from scratch?",
-          a: "Yes. We can take a new idea from discovery and planning through design, development, review, and launch when scope and requirements are agreed.",
+          a: "Yes. We take projects from requirements through launch.",
         },
         {
           q: "Can you improve an existing website or application?",
-          a: "Yes. Many engagements focus on modernization, new features, integrations, or better maintainability for software and sites you already use.",
+          a: "Yes. We improve products with UI work, integrations, and structural updates.",
         },
         {
           q: "Do you build Shopify stores?",
-          a: "Yes. We help with Shopify setup, theme customization, catalog structure, integrations, and improvements to existing stores.",
+          a: "Yes. We support setup, themes, and practical store improvements.",
         },
         {
           q: "Do you work with WordPress?",
-          a: "Yes. We deliver WordPress websites and related template, plugin, and content-structure work for business use.",
+          a: "Yes. We build maintainable WordPress websites.",
         },
         {
           q: "Can you build a custom WordPress theme?",
-          a: "Yes. Custom theme development is a dedicated service for teams that need a specific design and CMS-editable layout system in WordPress.",
+          a: "Yes. We implement custom themes with editable sections.",
         },
         {
           q: "How can we discuss a project?",
-          a: "Share your goals through our contact page. We will follow up to understand requirements and outline a sensible next step.",
+          a: "Use the Contact page to share your project and support needs.",
         },
       ],
     },
     finalCta: {
       title: "Have a project in mind?",
-      subtitle:
-        "Tell us what you're building and we'll discuss the right approach for your project.",
+      subtitle: "Share your project. We will outline the next step.",
       primaryCta: "Start a Project",
     },
   },
@@ -691,8 +692,7 @@ const en = {
     ],
     brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "© 2026. All rights reserved.",
-    tagline:
-      "Development studio website — brand identity and service copy pending leadership approval.",
+    tagline: "Software, web, mobile, Shopify, and WordPress delivery.",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring outbound for {{sector}}. Happy to share more about our goals.",

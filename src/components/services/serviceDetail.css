@@ -1,0 +1,1081 @@
+.service-detail-page {
+  background:
+    radial-gradient(circle at 84% 4%, rgba(61, 129, 227, 0.1), transparent 26rem),
+    linear-gradient(180deg, rgba(8, 15, 26, 0.22), transparent 32rem);
+}
+
+.service-detail-hero__visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(164, 244, 253, 0.16);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0, 210, 255, 0.1), transparent 38%),
+    rgba(255, 255, 255, 0.025);
+  padding: 0.75rem;
+}
+
+.service-detail-capabilities {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.service-detail-capabilities > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 1rem 0.2rem;
+}
+
+.service-detail-capabilities__icon {
+  display: inline-flex;
+  width: 1.65rem;
+  height: 1.65rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(61, 129, 227, 0.32);
+  border-radius: 0.5rem;
+  background: rgba(61, 129, 227, 0.1);
+}
+
+.service-detail-benefits {
+  display: grid;
+  gap: 2rem;
+}
+
+.service-detail-benefits__list {
+  margin: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 0;
+  list-style: none;
+}
+
+.service-detail-benefits__list li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 1rem 0.15rem;
+  transition:
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+
+.service-detail-benefits__list li:hover {
+  border-color: rgba(0, 210, 255, 0.46);
+  background: linear-gradient(90deg, rgba(0, 210, 255, 0.055), transparent);
+}
+
+.service-detail-benefits__number,
+.service-detail-process__kicker {
+  color: rgba(164, 244, 253, 0.72);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.service-detail-process {
+  position: relative;
+  isolation: isolate;
+}
+
+.service-detail-process__route {
+  position: absolute;
+  top: 1.15rem;
+  bottom: 1.15rem;
+  left: 1.05rem;
+  z-index: 0;
+  width: 2px;
+  background: rgba(164, 244, 253, 0.2);
+}
+
+.service-detail-process__route::after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  background: linear-gradient(#00d2ff, rgba(61, 129, 227, 0.72));
+  content: "";
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-detail-process.is-revealed .service-detail-process__route::after {
+  transform: scaleY(1);
+}
+
+.service-detail-process ol {
+  display: grid;
+  gap: 1.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-detail-process li {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2.1rem minmax(0, 1fr);
+  gap: 1rem;
+  opacity: 0.58;
+  transform: translateY(0.55rem);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.service-detail-process li.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-detail-process__node {
+  z-index: 2;
+  display: inline-flex;
+  width: 2.1rem;
+  height: 2.1rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(164, 244, 253, 0.3);
+  border-radius: 999px;
+  background: #0d2230;
+  box-shadow: 0 0 0 0.25rem rgba(12, 17, 27, 0.96);
+  color: #e7fdff;
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.service-detail-process li.is-active .service-detail-process__node {
+  border-color: #00d2ff;
+  background: #073a4c;
+}
+
+.service-detail-process__body {
+  position: relative;
+  z-index: 3;
+}
+
+.service-detail-process__body svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  margin: 0.35rem 0;
+  color: #a4f4fd;
+}
+
+.service-detail-process__body h3,
+.service-detail-process__body p {
+  margin: 0;
+}
+
+.service-detail-process__body h3 {
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.service-detail-process__body p {
+  max-width: 18rem;
+  margin-top: 0.3rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.service-detail-platform {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+  border-top: 1px solid rgba(164, 244, 253, 0.2);
+  border-bottom: 1px solid rgba(164, 244, 253, 0.12);
+  padding: 1.5rem 0;
+}
+
+.service-detail-related-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1rem 0.15rem;
+  text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.service-detail-related-card:hover,
+.service-detail-related-card:focus-visible {
+  border-color: rgba(0, 210, 255, 0.56);
+  background: linear-gradient(90deg, rgba(0, 210, 255, 0.055), transparent);
+}
+
+.service-detail-faq {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.service-detail-faq__list {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 640px) {
+  .service-detail-capabilities {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .service-detail-benefits {
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    gap: 3.5rem;
+  }
+
+  .service-detail-platform {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (min-width: 1100px) {
+  .service-detail-process__route {
+    top: 1.05rem;
+    right: 7%;
+    bottom: auto;
+    left: 7%;
+    width: auto;
+    height: 2px;
+  }
+
+  .service-detail-process__route::after {
+    width: 100%;
+    height: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .service-detail-process.is-revealed .service-detail-process__route::after {
+    transform: scaleX(1);
+  }
+
+  .service-detail-process ol {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.1rem;
+  }
+
+  .service-detail-process li {
+    display: block;
+  }
+
+  .service-detail-process__node {
+    margin-bottom: 0.85rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-detail-faq {
+    grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+    gap: 3.25rem;
+  }
+}
+
+@keyframes service-detail-enter {
+  from {
+    opacity: 0.96;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes service-detail-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes service-detail-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.service-detail-page {
+  animation: service-detail-enter 240ms ease both;
+}
+
+.service-detail-hero__eyebrow,
+.service-detail-hero__title,
+.service-detail-hero__description,
+.service-detail-hero__actions,
+.service-detail-hero__visual-column {
+  animation: service-detail-hero-in 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.service-detail-hero__title {
+  animation-delay: 80ms;
+}
+
+.service-detail-hero__description {
+  animation-delay: 150ms;
+}
+
+.service-detail-hero__actions {
+  animation-delay: 220ms;
+}
+
+.service-detail-hero__visual-column {
+  animation-delay: 300ms;
+}
+
+.service-detail-motion-ready > .service-detail-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.service-detail-motion-ready > .service-detail-reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.service-detail-capability-system {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.service-detail-capability-selector {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding: 0 0 0.45rem;
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+
+.service-detail-capability-tab {
+  display: grid;
+  flex: 0 0 min(17rem, 82vw);
+  grid-template-columns: 1.8rem minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.025);
+  padding: 0.8rem;
+  scroll-snap-align: start;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.68);
+  cursor: pointer;
+  transition:
+    border-color 190ms ease,
+    background-color 190ms ease,
+    color 190ms ease;
+}
+
+.service-detail-capability-tab:hover,
+.service-detail-capability-tab:focus-visible,
+.service-detail-capability-tab[aria-selected="true"] {
+  border-color: rgba(0, 210, 255, 0.48);
+  background: rgba(0, 210, 255, 0.08);
+  color: #fff;
+}
+
+.service-detail-capability-tab:focus-visible {
+  outline: 2px solid rgba(0, 210, 255, 0.72);
+  outline-offset: 2px;
+}
+
+.service-detail-capability-tab__number {
+  color: rgba(164, 244, 253, 0.68);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+}
+
+.service-detail-capability-panel {
+  position: relative;
+  isolation: isolate;
+  min-height: 16rem;
+  overflow: hidden;
+  border: 1px solid rgba(164, 244, 253, 0.16);
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(0, 210, 255, 0.12), transparent 38%),
+    rgba(255, 255, 255, 0.025);
+  padding: 1.25rem;
+}
+
+.service-detail-capability-panel__in {
+  position: relative;
+  z-index: 1;
+  animation: service-detail-panel-in 140ms ease both;
+  transition:
+    opacity 110ms ease,
+    transform 110ms ease;
+}
+
+.service-detail-capability-panel.is-switching .service-detail-capability-panel__in {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.service-detail-capability-panel__icon {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 210, 255, 0.32);
+  border-radius: 0.8rem;
+  background: rgba(0, 210, 255, 0.1);
+  color: #a4f4fd;
+}
+
+.service-detail-capability-panel__kicker {
+  margin: 1rem 0 0;
+  color: rgba(164, 244, 253, 0.68);
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.service-detail-capability-panel h3 {
+  max-width: 26rem;
+  margin: 0.35rem 0 0;
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.service-detail-capability-panel p:not(.service-detail-capability-panel__kicker) {
+  max-width: 31rem;
+  margin: 0.65rem 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.service-detail-capability-map {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr repeat(3, 0.65rem);
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 1.35rem;
+  border-top: 1px solid rgba(164, 244, 253, 0.13);
+  padding-top: 1rem;
+}
+
+.service-detail-capability-map::before {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.3rem;
+  left: 48%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(0, 210, 255, 0.18), #00d2ff);
+  content: "";
+}
+
+.service-detail-capability-map span {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.service-detail-capability-map i {
+  position: relative;
+  z-index: 1;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 1px solid rgba(164, 244, 253, 0.5);
+  border-radius: 999px;
+  background: #0d2230;
+}
+
+.service-detail-capability-panel--web .service-detail-capability-map i,
+.service-detail-capability-panel--custom-theme .service-detail-capability-map i {
+  border-radius: 0.15rem;
+}
+
+.service-detail-capability-panel--mobile .service-detail-capability-map i {
+  width: 0.52rem;
+  height: 0.85rem;
+  border-radius: 0.2rem;
+}
+
+.service-detail-capability-panel--shopify .service-detail-capability-map i:nth-of-type(2),
+.service-detail-capability-panel--wordpress .service-detail-capability-map i:nth-of-type(2) {
+  background: rgba(0, 210, 255, 0.48);
+}
+
+.service-detail-benefits__list li {
+  display: block;
+  padding: 0;
+}
+
+.service-detail-benefits__list li:hover,
+.service-detail-benefits__list li.is-active {
+  border-color: rgba(0, 210, 255, 0.46);
+  background: linear-gradient(90deg, rgba(0, 210, 255, 0.065), transparent);
+}
+
+.service-detail-benefits__list button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.75rem;
+  border: 0;
+  background: transparent;
+  padding: 1rem 0.15rem;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.service-detail-benefits__list button:focus-visible {
+  border-radius: 0.25rem;
+  outline: 2px solid rgba(0, 210, 255, 0.72);
+  outline-offset: 2px;
+}
+
+.service-detail-benefits__list h3 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1rem;
+  font-weight: 650;
+  transition: color 180ms ease;
+}
+
+.service-detail-benefits__list li.is-active h3 {
+  color: #fff;
+}
+
+.service-detail-benefits__list p {
+  margin: 0.45rem 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.service-detail-process__variant {
+  display: inline-flex;
+  margin: 0 0 1rem 3.1rem;
+  border: 1px solid rgba(164, 244, 253, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 210, 255, 0.055);
+  padding: 0.28rem 0.65rem;
+  color: rgba(164, 244, 253, 0.7);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.service-detail-process__route {
+  top: 3.55rem;
+}
+
+.service-detail-process--software .service-detail-process__route {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(164, 244, 253, 0.28) 0 0.3rem,
+    transparent 0.3rem 0.55rem
+  );
+}
+
+.service-detail-process--web .service-detail-process__route,
+.service-detail-process--custom-theme .service-detail-process__route {
+  background: linear-gradient(rgba(164, 244, 253, 0.14), rgba(164, 244, 253, 0.32));
+}
+
+.service-detail-process--mobile .service-detail-process__route,
+.service-detail-process--shopify .service-detail-process__route,
+.service-detail-process--wordpress .service-detail-process__route {
+  background: linear-gradient(rgba(61, 129, 227, 0.18), rgba(164, 244, 253, 0.3));
+}
+
+@media (min-width: 768px) {
+  .service-detail-capability-system {
+    grid-template-columns: minmax(0, 0.48fr) minmax(0, 0.52fr);
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .service-detail-capability-selector {
+    display: grid;
+    gap: 0;
+    overflow: visible;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0;
+  }
+
+  .service-detail-capability-tab {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.82rem 0.2rem;
+  }
+
+  .service-detail-capability-panel {
+    min-height: 100%;
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .service-detail-process__variant {
+    margin-left: 0;
+  }
+
+  .service-detail-process__route {
+    top: 3.85rem;
+  }
+
+  .service-detail-process--software .service-detail-process__route {
+    background: repeating-linear-gradient(
+      to right,
+      rgba(164, 244, 253, 0.28) 0 0.45rem,
+      transparent 0.45rem 0.75rem
+    );
+  }
+
+  .service-detail-process--web .service-detail-process__route,
+  .service-detail-process--custom-theme .service-detail-process__route {
+    background: linear-gradient(90deg, rgba(164, 244, 253, 0.14), rgba(164, 244, 253, 0.32));
+  }
+
+  .service-detail-process--mobile .service-detail-process__route,
+  .service-detail-process--shopify .service-detail-process__route,
+  .service-detail-process--wordpress .service-detail-process__route {
+    background: linear-gradient(90deg, rgba(61, 129, 227, 0.18), rgba(164, 244, 253, 0.3));
+  }
+}
+
+@media (768px <= width < 1100px) {
+  .service-detail-page .services-detail {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .service-detail-page .section-title {
+    text-wrap: balance;
+  }
+
+  .service-detail-process ol {
+    gap: 1.2rem;
+  }
+
+  .service-detail-process__body p {
+    max-width: 36rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .service-detail-page .section-title {
+    text-wrap: balance;
+  }
+}
+
+@media (max-width: 374px) {
+  #service-detail-custom-wordpress-theme-development .service-detail-hero__title {
+    font-size: 2rem;
+    letter-spacing: -0.04em;
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-detail-page,
+  .service-detail-hero__eyebrow,
+  .service-detail-hero__title,
+  .service-detail-hero__description,
+  .service-detail-hero__actions,
+  .service-detail-hero__visual-column,
+  .service-detail-capability-panel__in {
+    animation: none !important;
+  }
+
+  .service-detail-motion-ready > .service-detail-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .service-detail-process__route::after,
+  .service-detail-process li,
+  .service-detail-benefits__list li,
+  .service-detail-benefits__list h3,
+  .service-detail-capability-tab,
+  .service-detail-related-card {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* WordPress detail micro-polish: route-scoped to preserve every other service page. */
+#service-detail-wordpress-websites .service-detail-hero__copy {
+  max-width: 37rem;
+}
+
+#service-detail-wordpress-websites .service-detail-overview > :last-child {
+  max-width: 39rem;
+}
+
+#service-detail-wordpress-websites .service-detail-capabilities {
+  column-gap: 2.5rem;
+}
+
+#service-detail-wordpress-websites .service-detail-capabilities > li,
+#service-detail-wordpress-websites .service-detail-benefits__list button {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+#service-detail-wordpress-websites .service-detail-benefits > :first-child {
+  max-width: 29rem;
+}
+
+#service-detail-wordpress-websites .service-detail-section-intro {
+  margin-bottom: 1.65rem;
+}
+
+#service-detail-wordpress-websites .service-detail-process ol {
+  gap: 1.25rem;
+}
+
+#service-detail-wordpress-websites .service-detail-process__node {
+  margin-bottom: 0.75rem;
+}
+
+#service-detail-wordpress-websites .service-detail-platform {
+  gap: 1.5rem;
+  padding-top: 1.35rem;
+  padding-bottom: 1.35rem;
+}
+
+#service-detail-wordpress-websites .service-detail-related-grid {
+  max-width: 56rem;
+}
+
+#service-detail-wordpress-websites .service-detail-related-card {
+  min-height: 100%;
+  padding: 1.05rem 0.2rem;
+}
+
+#service-detail-wordpress-websites .service-detail-faq {
+  gap: 2rem;
+}
+
+@media (min-width: 1100px) {
+  #service-detail-wordpress-websites .services-detail {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #service-detail-wordpress-websites .service-detail-benefits {
+    gap: 3.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #service-detail-wordpress-websites .service-detail-hero__copy {
+    grid-column: span 5 / span 5;
+  }
+
+  #service-detail-wordpress-websites .service-detail-hero__visual-column {
+    grid-column: span 7 / span 7;
+  }
+
+  #service-detail-wordpress-websites .service-detail-hero__layout {
+    column-gap: 3rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-hero-visual {
+    min-height: 21rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-overview {
+    grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.56fr);
+    gap: 3.5rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-overview > * {
+    grid-column: auto;
+  }
+
+  #service-detail-wordpress-websites .service-detail-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  #service-detail-wordpress-websites .service-detail-hero {
+    padding-bottom: 2.75rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-hero__layout {
+    gap: 2rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-hero-visual {
+    min-height: 17.5rem;
+  }
+
+  #service-detail-wordpress-websites .service-detail-faq {
+    gap: 1.5rem;
+  }
+}
+
+/* Shopify detail spacing pass: route-scoped to protect the shared detail system. */
+#service-detail-shopify-stores .service-detail-hero__copy {
+  max-width: 37rem;
+}
+
+#service-detail-shopify-stores .service-detail-overview > :last-child {
+  max-width: 39rem;
+}
+
+#service-detail-shopify-stores .service-detail-capabilities {
+  column-gap: 2.5rem;
+}
+
+#service-detail-shopify-stores .service-detail-capabilities > li {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+#service-detail-shopify-stores .service-detail-benefits {
+  gap: 3.25rem;
+}
+
+#service-detail-shopify-stores .service-detail-benefits > :first-child {
+  max-width: 29rem;
+}
+
+#service-detail-shopify-stores .service-detail-benefits__list button {
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+}
+
+#service-detail-shopify-stores .service-detail-section-intro {
+  margin-bottom: 1.5rem;
+}
+
+#service-detail-shopify-stores .service-detail-process ol {
+  gap: 1.2rem;
+}
+
+#service-detail-shopify-stores .service-detail-process__node {
+  margin-bottom: 0.75rem;
+}
+
+#service-detail-shopify-stores .service-detail-platform {
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+#service-detail-shopify-stores .service-detail-related-grid {
+  max-width: 56rem;
+}
+
+#service-detail-shopify-stores .service-detail-related-card {
+  min-height: 100%;
+  padding: 0.95rem 0.2rem;
+}
+
+#service-detail-shopify-stores .service-detail-faq {
+  gap: 1.8rem;
+}
+
+#service-detail-shopify-stores .service-detail-faq .services-faq-row__button {
+  padding-top: 0.82rem;
+  padding-bottom: 0.82rem;
+}
+
+#service-detail-shopify-stores .service-detail-faq .services-faq-row__answer p {
+  padding-bottom: 0.82rem;
+}
+
+#service-detail-shopify-stores .services-final-cta .cta-glow-panel {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 1100px) {
+  #service-detail-shopify-stores .services-detail {
+    padding-top: 2.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero__copy {
+    grid-column: span 5 / span 5;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero__visual-column {
+    grid-column: span 7 / span 7;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero__layout {
+    column-gap: 3rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero-visual {
+    min-height: 21rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-overview {
+    grid-template-columns: minmax(0, 0.44fr) minmax(0, 0.56fr);
+    gap: 3.5rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-overview > * {
+    grid-column: auto;
+  }
+
+  #service-detail-shopify-stores #service-capabilities {
+    padding-bottom: 2.25rem;
+  }
+
+  #service-detail-shopify-stores #service-benefits {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  #service-detail-shopify-stores #service-process {
+    padding-top: 2.5rem;
+    padding-bottom: 2.25rem;
+  }
+
+  #service-detail-shopify-stores #service-platforms {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  #service-detail-shopify-stores #related-services {
+    padding-top: 2.25rem;
+    padding-bottom: 2rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-related-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #service-detail-shopify-stores .service-detail-faq-section {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  #service-detail-shopify-stores .services-final-cta {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+}
+
+@media (768px <= width < 1100px) {
+  #service-detail-shopify-stores .services-detail {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  #service-detail-shopify-stores #service-capabilities,
+  #service-detail-shopify-stores #service-benefits,
+  #service-detail-shopify-stores #service-process {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  #service-detail-shopify-stores #service-platforms {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  #service-detail-shopify-stores #related-services,
+  #service-detail-shopify-stores .service-detail-faq-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  #service-detail-shopify-stores .services-final-cta {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  #service-detail-shopify-stores .services-detail {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero {
+    padding-bottom: 2.5rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero__layout {
+    gap: 1.75rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-hero-visual {
+    min-height: 17rem;
+  }
+
+  #service-detail-shopify-stores #service-platforms {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  #service-detail-shopify-stores #related-services,
+  #service-detail-shopify-stores .service-detail-faq-section {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-benefits {
+    gap: 1.5rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-process ol {
+    gap: 1.1rem;
+  }
+
+  #service-detail-shopify-stores .service-detail-faq {
+    gap: 1.4rem;
+  }
+
+  #service-detail-shopify-stores .services-final-cta {
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
+  }
+
+  #service-detail-shopify-stores .services-final-cta .cta-glow-panel {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}

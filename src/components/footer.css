@@ -90,11 +90,11 @@
 }
 
 /*
- * Tablet composition (768px–1023px):
+ * Tablet composition (768px–1099px):
  * [ Brand identity ] [ Navigation ]
  * [ Legal and social utilities spanning the row ]
  */
-@media (768px <= width < 1024px) {
+@media (768px <= width < 1100px) {
   .site-footer__compose {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -105,6 +105,13 @@
     column-gap: var(--footer-space);
     row-gap: var(--footer-space);
     align-items: stretch;
+  }
+
+  .site-footer__compose--without-contact {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    grid-template-areas:
+      "brand nav"
+      "legal legal";
   }
 
   .site-footer__brand {
@@ -140,11 +147,11 @@
 }
 
 /*
- * Desktop composition (1024px+):
+ * Desktop composition (1100px+):
  * [ Brand identity                         ] [ Navigation ]
  * [ Copyright, tagline, email, and socials spanning the row ]
  */
-@media (min-width: 1024px) {
+@media (min-width: 1100px) {
   .site-footer__compose {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);

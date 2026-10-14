@@ -23,6 +23,7 @@ export default function ServiceDetailRoute({ slug }: ServiceDetailRouteProps) {
 
   return (
     <ServiceDetailPage
+      key={service.id}
       service={service}
       allServices={services}
       process={servicesPage.process}
