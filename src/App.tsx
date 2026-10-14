@@ -268,7 +268,12 @@ export default function App() {
         <Navbar />
 
         {isTermsPage ? (
-          <TermsPage />
+          <>
+            <TermsPage />
+            <DeferredMount rootMargin="0px" minHeight="24rem">
+              <Footer />
+            </DeferredMount>
+          </>
         ) : isContactPage ? (
           <>
             <ContactPage />

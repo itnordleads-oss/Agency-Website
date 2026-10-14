@@ -25,6 +25,19 @@ export type SocialLinkItem = {
   icon: React.ReactNode;
 };
 
+function isSafeExternalUrl(value: string | null | undefined): value is string {
+  if (!isConfigured(value)) {
+    return false;
+  }
+
+  try {
+    const url = new URL(value);
+    return (url.protocol === "https:" || url.protocol === "http:") && url.hostname.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -45,7 +58,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
   const items: Array<SocialLinkItem | null> = [
     (() => {
       const href = SOCIAL_LINKS.linkedin;
-      if (!isConfigured(href)) {
+      if (!isSafeExternalUrl(href)) {
         return null;
       }
       return {
@@ -88,7 +101,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
     })(),
     (() => {
       const href = SOCIAL_LINKS.facebook;
-      if (!isConfigured(href)) {
+      if (!isSafeExternalUrl(href)) {
         return null;
       }
       return {
@@ -101,7 +114,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
     })(),
     (() => {
       const href = SOCIAL_LINKS.twitter;
-      if (!isConfigured(href)) {
+      if (!isSafeExternalUrl(href)) {
         return null;
       }
       return {
@@ -114,7 +127,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
     })(),
     (() => {
       const href = SOCIAL_LINKS.instagram;
-      if (!isConfigured(href)) {
+      if (!isSafeExternalUrl(href)) {
         return null;
       }
       return {
@@ -132,6 +145,17 @@ function buildSocialLinkItems(): SocialLinkItem[] {
 
 /** Contact-page / footer order with unpublished platforms omitted. */
 export const socialLinkItems: SocialLinkItem[] = buildSocialLinkItems();
+
+const FOOTER_SOCIAL_PLATFORMS: ReadonlySet<SocialPlatform> = new Set([
+  "linkedin",
+  "twitter",
+  "instagram",
+]);
+
+/** Agency Footer social destinations; contact methods and unsupported networks are omitted. */
+export const footerSocialLinkItems = socialLinkItems.filter((item) =>
+  FOOTER_SOCIAL_PLATFORMS.has(item.key)
+);
 
 export const socialIconBaseClass =
   "social-icon inline-flex items-center justify-center rounded-full border transition-[transform,color,background-color,background-image,border-color,box-shadow] duration-300 ease-out shrink-0";

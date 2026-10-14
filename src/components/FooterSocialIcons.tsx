@@ -1,36 +1,36 @@
 import React from "react";
-import { socialIconBaseClass, socialLinkItems } from "../lib/socialLinks";
+import { footerSocialLinkItems, socialIconBaseClass } from "../lib/socialLinks";
 
 const iconSizeClass =
-  "inline-flex items-center justify-center w-10 h-10 rounded-full border hover:scale-110 active:scale-105 transition-[transform,color,background-color,background-image,border-color,box-shadow] duration-300 ease-out shrink-0";
+  "site-footer__social-link inline-flex items-center justify-center rounded-full border shrink-0";
 
 /**
- * Footer social row. Unpublished platforms are omitted by `socialLinkItems`
- * so incorrect ADealForge URLs are not published while studio identity is TBC.
+ * Configured destinations only. `footerSocialLinkItems` excludes every
+ * missing or invalid URL before this component renders.
  */
 export default function FooterSocialIcons() {
-  if (socialLinkItems.length === 0) {
+  if (footerSocialLinkItems.length === 0) {
     return null;
   }
 
   return (
-    <div
-      className="flex flex-row flex-wrap items-center gap-2.5 sm:gap-3 max-w-full"
-      aria-label="Social media"
-    >
-      {socialLinkItems.map((item) => (
-        <a
-          key={item.key}
-          href={item.href}
-          target={item.key === "email" ? undefined : "_blank"}
-          rel={item.key === "email" ? undefined : "noopener noreferrer"}
-          aria-label={item.label}
-          title={item.label}
-          className={`${socialIconBaseClass} ${iconSizeClass} ${item.platformClass}`}
-        >
-          {item.icon}
-        </a>
-      ))}
-    </div>
+    <nav className="site-footer__connect" aria-label="Social links">
+      <p className="site-footer__nav-heading">Connect</p>
+      <div className="site-footer__social-links">
+        {footerSocialLinkItems.map((item) => (
+          <a
+            key={item.key}
+            href={item.href}
+            target={item.key === "email" ? undefined : "_blank"}
+            rel={item.key === "email" ? undefined : "noopener noreferrer"}
+            aria-label={item.label}
+            title={item.label}
+            className={`${socialIconBaseClass} ${iconSizeClass} ${item.platformClass}`}
+          >
+            {item.icon}
+          </a>
+        ))}
+      </div>
+    </nav>
   );
 }
