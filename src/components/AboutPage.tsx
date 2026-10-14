@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  ChevronDown,
   Code2,
   Layers,
   ListChecks,
@@ -10,7 +9,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "./SectionEyebrow";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import { useSiteCopy } from "../lib/useSiteCopy";
@@ -21,19 +20,27 @@ import "./about-page.css";
 const HERO_PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, Wrench, ListChecks, ShieldCheck];
 const PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, ListChecks, Code2, Layers];
 
-/** Bento: top 2/3 + 1/3, bottom 1/3 + 2/3 on a 3-column grid. */
+/** Bento: a restrained 7/5 split that reverses on the second row. */
 const BENTO_LAYOUT = [
-  "lg:col-span-2 lg:col-start-1 lg:row-start-1 about-bento-cell--lead",
-  "lg:col-span-1 lg:col-start-3 lg:row-start-1",
-  "lg:col-span-1 lg:col-start-1 lg:row-start-2",
-  "lg:col-span-2 lg:col-start-2 lg:row-start-2 about-bento-cell--lead",
+  "lg:col-span-7 lg:col-start-1 lg:row-start-1 about-bento-cell--lead",
+  "lg:col-span-5 lg:col-start-8 lg:row-start-1",
+  "lg:col-span-5 lg:col-start-1 lg:row-start-2",
+  "lg:col-span-7 lg:col-start-6 lg:row-start-2 about-bento-cell--lead",
 ] as const;
 
 const ABOUT_SHELL =
-  "relative z-10 mx-auto w-full min-w-0 max-w-7xl px-4 min-[341px]:px-5 sm:px-6 lg:px-8";
+  "relative z-10 mx-auto w-full min-w-0 max-w-7xl px-4 min-[390px]:px-5 sm:px-6 lg:px-8";
 
 type AboutPrinciple = { title: string; description: string };
 type FlowStep = { label: string };
+type ProcessStep = { label: string; description: string };
+
+const STAGE_SUPPORT = [
+  "Clarify goals, constraints, and success criteria.",
+  "Create clear, reviewable implementation.",
+  "Validate quality, usability, and requirements.",
+  "Ship cleanly with clear next steps.",
+] as const;
 
 function useAboutPageMetadata(documentTitle: string) {
   useEffect(() => {
@@ -57,23 +64,67 @@ function revealProps(reduceMotion: boolean | null, delay = 0) {
   }
 
   return {
-    initial: { opacity: 0, y: 18 },
-    whileInView: { opacity: 1, y: 0 },
+    initial: { y: 14 },
+    whileInView: { y: 0 },
     viewport: { once: true, amount: 0.15 },
-    transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] as const },
   };
 }
 
 function AboutHeroVisual({
   principles,
   flowSteps,
+  reduceMotion,
 }: {
   principles: AboutPrinciple[];
   flowSteps: FlowStep[];
+  reduceMotion: boolean;
 }) {
+  const stages = flowSteps.slice(1, 5);
+  const stageCount = stages.length;
+  const [activeStage, setActiveStage] = useState(reduceMotion ? stageCount - 1 : 0);
+  const timersRef = useRef<number[]>([]);
+  const interactionStartedRef = useRef(false);
+
+  const clearProgression = () => {
+    timersRef.current.forEach((timer) => window.clearTimeout(timer));
+    timersRef.current = [];
+  };
+
+  useEffect(() => {
+    clearProgression();
+
+    if (reduceMotion) {
+      setActiveStage(stageCount - 1);
+      return;
+    }
+
+    setActiveStage(0);
+    timersRef.current = Array.from({ length: Math.max(stageCount - 1, 0) }, (_, index) =>
+      window.setTimeout(
+        () => {
+          if (!interactionStartedRef.current) {
+            setActiveStage(index + 1);
+          }
+        },
+        (index + 1) * 320
+      )
+    );
+
+    return clearProgression;
+  }, [reduceMotion, stageCount]);
+
+  const selectStage = (index: number) => {
+    interactionStartedRef.current = true;
+    clearProgression();
+    setActiveStage(index);
+  };
+
+  const activeLabel = stages[activeStage]?.label ?? "";
+
   return (
     <div
-      className="about-hero-system w-full max-w-lg lg:max-w-none"
+      className="about-hero-system w-full max-w-xl xl:max-w-none"
       role="group"
       aria-label="Studio delivery system"
     >
@@ -82,55 +133,80 @@ function AboutHeroVisual({
         <div className="pointer-events-none absolute -right-16 top-0 h-40 w-40 rounded-full bg-[#00d2ff]/15 blur-[70px] motion-reduce:hidden" />
 
         <div className="relative z-10">
-          <p className="text-[0.625rem] font-semibold uppercase tracking-[0.2em] text-[#A4F4FD]/85 sm:text-[0.6875rem]">
+          <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/90 sm:text-xs">
             Delivery system
           </p>
 
-          <ol className="about-flow-list m-0 mt-3 list-none space-y-0 p-0">
-            {flowSteps.map((step, index) => (
-              <li
-                key={step.label}
-                className={`about-flow-step flex items-center gap-3 py-1.5 ${index === 0 ? "pt-0" : ""}`}
+          <div
+            className="about-delivery-path"
+            style={
+              {
+                "--delivery-progress": (activeStage + 1) / Math.max(stageCount, 1),
+              } as React.CSSProperties
+            }
+          >
+            <div className="about-delivery-rail" aria-hidden>
+              <span className="about-delivery-progress" />
+            </div>
+            <div className="about-delivery-source">
+              <span className="about-flow-node" aria-hidden>
+                <span />
+              </span>
+              <span>{flowSteps[0]?.label ?? "Project input"}</span>
+            </div>
+            {stages.map((stage, index) => (
+              <button
+                key={stage.label}
+                type="button"
+                className={`about-delivery-stage ${
+                  activeStage === index
+                    ? "is-active"
+                    : index < activeStage
+                      ? "is-completed"
+                      : "is-upcoming"
+                }`}
+                aria-pressed={activeStage === index}
+                onMouseEnter={() => selectStage(index)}
+                onFocus={() => selectStage(index)}
+                onClick={() => selectStage(index)}
               >
-                <span className="about-flow-node inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[#3D81E3]/45 bg-[#0C111B]">
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${index === flowSteps.length - 1 ? "bg-[#A4F4FD]" : "bg-[#3D81E3]/80"}`}
-                    aria-hidden
-                  />
+                <span className="about-flow-node" aria-hidden>
+                  <span />
                 </span>
-                <span
-                  className={`text-sm font-medium sm:text-[0.9375rem] ${
-                    index === 0 ? "text-white/55 uppercase tracking-[0.12em] text-xs" : "text-white"
-                  }`}
-                >
-                  {step.label}
-                </span>
-                {index < flowSteps.length - 1 ? (
-                  <ChevronDown
-                    className="ml-auto h-3.5 w-3.5 text-[#A4F4FD]/35 md:hidden"
-                    aria-hidden
-                  />
-                ) : null}
-              </li>
+                <span>{stage.label}</span>
+              </button>
             ))}
-          </ol>
+          </div>
+
+          <p className="about-stage-detail" aria-live="polite">
+            <strong>{activeLabel}</strong>
+            <span>{STAGE_SUPPORT[activeStage]}</span>
+          </p>
 
           <div className="relative mt-4 border-t border-white/[0.09] pt-3">
-            <p className="text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-white/45">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.15em] text-white/60 sm:text-xs">
               Operating principles
             </p>
             <ul className="m-0 mt-2.5 grid list-none grid-cols-1 gap-2 p-0 sm:grid-cols-2">
               {principles.slice(0, 4).map((item, index) => {
                 const Icon = HERO_PRINCIPLE_ICONS[index] ?? ListChecks;
                 return (
-                  <li key={item.title} className="about-principle-chip rounded-xl px-3 py-2">
+                  <li
+                    key={item.title}
+                    className={`about-principle-chip rounded-lg px-3 py-2 ${
+                      index === activeStage ? "is-active" : ""
+                    }`}
+                  >
                     <div className="flex items-start gap-2">
-                      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#A4F4FD]" aria-hidden />
+                      <Icon
+                        className="about-principle-chip-icon mt-0.5 h-3.5 w-3.5 shrink-0 text-[#A4F4FD]"
+                        aria-hidden
+                      />
                       <div className="min-w-0">
-                        <p className="text-xs font-semibold leading-snug text-white">
+                        <p className="about-principle-chip-title text-[0.8125rem] font-semibold leading-[1.4]">
                           {item.title}
                         </p>
-                        <p className="mt-0.5 text-[0.6875rem] leading-snug text-white/55">
+                        <p className="about-principle-chip-description mt-0.5 text-xs leading-[1.45]">
                           {item.description}
                         </p>
                       </div>
@@ -146,6 +222,61 @@ function AboutHeroVisual({
   );
 }
 
+function AboutProcess({ steps, reduceMotion }: { steps: ProcessStep[]; reduceMotion: boolean }) {
+  const processRef = useRef<HTMLOListElement>(null);
+  const isInView = useInView(processRef, { once: true, amount: 0.3 });
+  const stepCount = steps.length;
+  const [activeStep, setActiveStep] = useState(reduceMotion ? stepCount - 1 : -1);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setActiveStep(stepCount - 1);
+      return;
+    }
+
+    if (!isInView) {
+      return;
+    }
+
+    const timers = Array.from({ length: stepCount }, (_, index) =>
+      window.setTimeout(() => setActiveStep(index), index * 170)
+    );
+
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [isInView, reduceMotion, stepCount]);
+
+  return (
+    <motion.ol
+      ref={processRef}
+      className="about-process-track relative m-0 list-none p-0"
+      {...revealProps(reduceMotion, 0.06)}
+    >
+      <div className="about-process-rail" aria-hidden>
+        <span
+          className="about-process-progress"
+          style={
+            {
+              "--process-progress": activeStep < 0 ? 0 : activeStep / Math.max(stepCount - 1, 1),
+            } as React.CSSProperties
+          }
+        />
+      </div>
+      {steps.map((step, index) => {
+        const state = index < activeStep ? "is-previous" : index === activeStep ? "is-active" : "";
+        return (
+          <li key={step.label} className={`about-process-step ${state}`}>
+            <span className="about-process-node">{String(index + 1).padStart(2, "0")}</span>
+            <div className="about-process-copy">
+              <h3>{step.label}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        );
+      })}
+    </motion.ol>
+  );
+}
+
 /**
  * F6 About page — premium studio narrative: delivery-system hero, editorial
  * Who We Are, bento principles, capability rows, process timeline, closing CTA.
@@ -153,6 +284,9 @@ function AboutHeroVisual({
 export default function AboutPage() {
   const { aboutPage } = useSiteCopy();
   const reduceMotion = useReducedMotion();
+  const shouldReduceMotion = reduceMotion === true;
+  const [activePrinciple, setActivePrinciple] = useState(0);
+  const [activeFocusArea, setActiveFocusArea] = useState(0);
   const brandLabel = getBrandAriaLabel();
   const documentTitle = `${brandLabel} | ${aboutPage.documentTitleSuffix}`;
 
@@ -196,18 +330,18 @@ export default function AboutPage() {
     >
       {/* 1. Hero */}
       <section
-        className="about-section about-section-hero relative overflow-hidden pb-10 pt-6 sm:pb-12 sm:pt-7 md:pb-14 md:pt-8"
+        className="about-section about-section-hero relative overflow-hidden pb-8 pt-6 md:pb-10 md:pt-8 xl:pb-14"
         aria-labelledby="about-hero-title"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(920px_circle_at_8%_-5%,rgba(61,129,227,0.2),transparent_52%)] motion-reduce:hidden" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(640px_circle_at_92%_42%,rgba(0,210,255,0.14),transparent_58%)] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
-          <div className="grid grid-cols-1 items-center gap-7 lg:grid-cols-[1.32fr_1fr] lg:gap-10 xl:gap-12">
+          <div className="grid grid-cols-1 items-center gap-7 xl:grid-cols-[0.96fr_1.04fr] xl:gap-12">
             <div className="about-fade-in min-w-0">
               <SectionEyebrow label={hero.eyebrow} className="mb-3.5" />
               <h1
                 id="about-hero-title"
-                className="max-w-[14ch] text-balance text-[2.25rem] font-extrabold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-[3.5rem] xl:text-[3.75rem]"
+                className="max-w-[14ch] text-balance text-[clamp(2.25rem,10vw,2.875rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-white lg:max-w-[16ch] lg:text-[3.25rem]"
               >
                 <span className="block">{titleLine1}</span>
                 {titleLine2 ? (
@@ -218,21 +352,28 @@ export default function AboutPage() {
                 {hero.subtitle}
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-7">
-                <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+                <PrimaryButton
+                  onClick={navigateToContact}
+                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                >
                   {hero.primaryCta}
                 </PrimaryButton>
                 <SecondaryButton
                   type="button"
                   onClick={() => navigateAppPath("/services")}
-                  className="w-full px-8 py-3.5 sm:w-auto"
+                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
                 >
                   {hero.secondaryCta}
                 </SecondaryButton>
               </div>
             </div>
 
-            <div className="min-w-0 lg:max-w-[28rem] lg:justify-self-end xl:max-w-[32rem]">
-              <AboutHeroVisual principles={heroPrinciples} flowSteps={flowSteps} />
+            <div className="min-w-0 xl:w-full xl:max-w-[34rem] xl:justify-self-end">
+              <AboutHeroVisual
+                principles={heroPrinciples}
+                flowSteps={flowSteps}
+                reduceMotion={shouldReduceMotion}
+              />
             </div>
           </div>
         </div>
@@ -240,18 +381,18 @@ export default function AboutPage() {
 
       {/* 2. Who We Are */}
       <section
-        className="about-section about-section-who relative py-10 sm:py-14 md:py-16"
+        className="about-section about-section-who relative py-8 md:py-10 xl:py-16"
         aria-labelledby="about-who-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12"
+            className="grid grid-cols-1 gap-5 md:gap-6 xl:grid-cols-12 xl:gap-12"
             {...revealProps(reduceMotion)}
           >
-            <div className="relative lg:col-span-5">
+            <div className="relative xl:col-span-5">
               <span
-                className="about-section-mark absolute -left-1 top-4 hidden lg:block"
+                className="about-section-mark absolute -left-1 top-4 hidden xl:block"
                 aria-hidden
               >
                 {sectionMark}
@@ -259,12 +400,12 @@ export default function AboutPage() {
               <SectionEyebrow label={aboutPage.whoWeAre.eyebrow} />
               <h2
                 id="about-who-heading"
-                className="relative mt-3.5 max-w-md text-balance text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-[2.625rem]"
+                className="relative mt-3.5 max-w-md text-balance text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-[2.125rem] xl:text-[2.625rem]"
               >
                 {aboutPage.whoWeAre.title}
               </h2>
             </div>
-            <div className="space-y-4 lg:col-span-7 lg:pl-2">
+            <div className="space-y-4 xl:col-span-7 xl:pl-2">
               {whoHighlight ? (
                 <blockquote className="about-pull-quote relative border-l-2 border-[#A4F4FD] py-0.5 pl-4">
                   {whoHighlight}
@@ -316,19 +457,19 @@ export default function AboutPage() {
 
       {/* 3. Working principles — bento */}
       <section
-        className="about-section relative py-10 sm:py-14 md:py-16"
+        className="about-section relative py-8 md:py-10 xl:py-16"
         aria-labelledby="about-principles-heading"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_100%,rgba(61,129,227,0.11),transparent_62%)] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-7 max-w-xl lg:mb-8 lg:max-w-[48%]"
+            className="mb-7 max-w-xl xl:mb-8 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.principles.eyebrow} />
             <h2
               id="about-principles-heading"
-              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
             >
               {aboutPage.principles.title}
             </h2>
@@ -337,30 +478,40 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-3 lg:grid-rows-2 lg:gap-4">
+          <ul className="about-bento-grid m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-12 lg:grid-rows-2 lg:gap-4">
             {principles.map((item, index) => {
               const Icon = PRINCIPLE_ICONS[index] ?? ListChecks;
               const layout = BENTO_LAYOUT[index] ?? "";
               return (
                 <motion.li
                   key={item.title}
-                  className={`about-bento-cell group relative overflow-hidden rounded-2xl p-4 sm:p-5 ${layout}`}
+                  className={`about-bento-cell relative overflow-hidden rounded-xl ${layout} ${
+                    activePrinciple === index ? "is-active" : ""
+                  }`}
                   {...revealProps(reduceMotion, index * 0.05)}
                 >
-                  <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#3D81E3]/12 blur-2xl motion-reduce:hidden" />
-                  <p className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/85">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <div className="about-bento-accent mt-2" aria-hidden />
-                  <span className="mt-3 inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[#3D81E3]/30 bg-[#3D81E3]/10 text-[#A4F4FD]">
-                    <Icon className="h-4 w-4" aria-hidden />
-                  </span>
-                  <h3 className="mt-3 text-lg font-semibold leading-snug text-white">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1.5 max-w-md text-sm leading-relaxed text-body md:text-[0.9375rem]">
-                    {item.description}
-                  </p>
+                  <button
+                    type="button"
+                    className="about-bento-button w-full p-4 text-left sm:p-5"
+                    aria-pressed={activePrinciple === index}
+                    onMouseEnter={() => setActivePrinciple(index)}
+                    onFocus={() => setActivePrinciple(index)}
+                    onClick={() => setActivePrinciple(index)}
+                  >
+                    <p className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/85">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div className="about-bento-accent mt-2" aria-hidden />
+                    <span className="about-bento-icon mt-3 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[#3D81E3]/30 bg-[#3D81E3]/10 text-[#A4F4FD]">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h3 className="mt-3 text-lg font-semibold leading-snug text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1.5 max-w-md text-sm leading-relaxed text-body md:text-[0.9375rem]">
+                      {item.description}
+                    </p>
+                  </button>
                 </motion.li>
               );
             })}
@@ -370,19 +521,19 @@ export default function AboutPage() {
 
       {/* 4. Capabilities */}
       <section
-        className="about-section relative py-10 sm:py-14 md:py-16"
+        className="about-section relative py-8 md:py-10 xl:py-16"
         aria-labelledby="about-focus-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-6 max-w-xl lg:mb-7 lg:max-w-[48%]"
+            className="mb-6 max-w-xl xl:mb-7 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.focusAreas.eyebrow} />
             <h2
               id="about-focus-heading"
-              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
             >
               {aboutPage.focusAreas.title}
             </h2>
@@ -409,29 +560,34 @@ export default function AboutPage() {
             {focusAreas.map((item, index) => (
               <motion.li
                 key={item.title}
-                className="about-capability-row group"
+                className={`about-capability-row ${activeFocusArea === index ? "is-active" : ""}`}
+                data-focus-number={String(index + 1).padStart(2, "0")}
                 {...revealProps(reduceMotion, index * 0.04)}
               >
-                <span className="about-capability-bg-num font-mono tabular-nums" aria-hidden>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <div className="relative grid grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-12 sm:gap-5 sm:py-5 sm:pl-14 md:py-6">
-                  <span className="relative z-10 pt-0.5 font-mono text-lg font-medium tabular-nums text-white/30 transition-colors duration-300 group-hover:text-[#A4F4FD] sm:text-xl">
+                <button
+                  type="button"
+                  className="about-capability-button relative grid w-full grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-12 text-left sm:gap-5 sm:py-5 sm:pl-14 md:py-6"
+                  aria-pressed={activeFocusArea === index}
+                  onMouseEnter={() => setActiveFocusArea(index)}
+                  onFocus={() => setActiveFocusArea(index)}
+                  onClick={() => setActiveFocusArea(index)}
+                >
+                  <span className="about-capability-index relative z-10 pt-0.5 font-mono text-lg font-medium tabular-nums transition-colors duration-300 sm:text-xl">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="relative z-10 min-w-0">
                     <h3 className="about-capability-title text-xl font-semibold leading-snug text-white sm:text-2xl">
                       {item.title}
                     </h3>
-                    <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-body sm:text-base md:text-[1.0625rem]">
+                    <p className="about-capability-description mt-1.5 max-w-3xl text-sm leading-relaxed sm:text-base md:text-[1.0625rem]">
                       {item.description}
                     </p>
                   </div>
                   <ArrowRight
-                    className="relative z-10 mt-1.5 h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 group-hover:translate-x-1.5 group-hover:text-[#A4F4FD]/85 motion-reduce:transform-none sm:mt-2"
+                    className="about-capability-arrow relative z-10 mt-1.5 h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 motion-reduce:transform-none sm:mt-2"
                     aria-hidden
                   />
-                </div>
+                </button>
               </motion.li>
             ))}
           </ul>
@@ -440,18 +596,18 @@ export default function AboutPage() {
 
       {/* 5. Process timeline */}
       <section
-        className="about-section about-section-process relative py-10 sm:py-14 md:py-16"
+        className="about-section about-section-process relative py-8 md:py-10 xl:py-16"
         aria-labelledby="about-process-heading"
       >
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-8 max-w-xl lg:mb-9 lg:max-w-[48%]"
+            className="mb-8 max-w-xl xl:mb-9 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.process.eyebrow} />
             <h2
               id="about-process-heading"
-              className="mt-3.5 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
             >
               {aboutPage.process.title}
             </h2>
@@ -460,50 +616,15 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <motion.ol
-            className="about-process-track relative m-0 hidden list-none p-0 md:flex md:flex-wrap md:justify-between md:gap-y-8 lg:flex-nowrap lg:gap-3"
-            {...revealProps(reduceMotion, 0.06)}
-          >
-            <div
-              className="about-process-rail pointer-events-none absolute left-[4%] right-[4%] top-[1.4rem] hidden lg:block"
-              aria-hidden
-            />
-            {processSteps.map((step, index) => (
-              <li
-                key={step.label}
-                className={`about-process-step relative min-w-0 flex-1 px-1 text-center ${
-                  index >= 3 ? "md:basis-[30%] lg:basis-auto" : "md:basis-[30%] lg:basis-auto"
-                }`}
-              >
-                <span className="about-process-node relative z-10 mx-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#3D81E3]/50 bg-[#0C111B] text-xs font-bold text-[#A4F4FD] lg:h-12 lg:w-12">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-3 text-base font-semibold text-white">{step.label}</h3>
-                <p className="mx-auto mt-1.5 max-w-[11rem] text-sm leading-relaxed text-body">
-                  {step.description}
-                </p>
-              </li>
-            ))}
-          </motion.ol>
-
-          <ol className="relative m-0 list-none space-y-6 border-l border-white/10 p-0 pl-6 md:hidden">
-            {processSteps.map((step, index) => (
-              <li key={step.label} className="about-process-step relative">
-                <span className="about-process-node absolute -left-[1.84rem] top-0 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#3D81E3]/50 bg-[#0C111B] text-[0.65rem] font-bold text-[#A4F4FD]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="text-base font-semibold text-white">{step.label}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-body">{step.description}</p>
-              </li>
-            ))}
-          </ol>
+          <AboutProcess steps={processSteps} reduceMotion={shouldReduceMotion} />
         </div>
       </section>
 
       {/* 6. CTA */}
       <section
-        className="about-section about-section-cta relative pb-10 pt-2 sm:pb-12 md:pb-14"
+        className="about-section about-section-cta relative pb-8 pt-4 md:pb-10 md:pt-6 xl:pb-14 xl:pt-2"
         aria-labelledby="about-final-cta-heading"
+        data-floating-prompt-suppression
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent to-[#3D81E3]/[0.04] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
@@ -517,21 +638,24 @@ export default function AboutPage() {
             <div className="relative z-10 mx-auto max-w-2xl text-center">
               <h2
                 id="about-final-cta-heading"
-                className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-[2.625rem]"
+                className="text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-[2.625rem]"
               >
                 {aboutPage.finalCta.title}
               </h2>
-              <p className="mx-auto mt-3.5 max-w-lg text-base leading-relaxed text-body md:text-lg">
+              <p className="mx-auto mt-3.5 max-w-lg text-base leading-relaxed text-white/72 md:text-lg">
                 {aboutPage.finalCta.subtitle}
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3.5 sm:mt-7 sm:flex-row sm:gap-5">
-                <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+                <PrimaryButton
+                  onClick={navigateToContact}
+                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                >
                   {aboutPage.finalCta.primaryCta}
                 </PrimaryButton>
                 <button
                   type="button"
                   onClick={() => navigateAppPath("/services")}
-                  className="group inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
+                  className="group inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
                 >
                   {hero.secondaryCta}
                   <ArrowRight

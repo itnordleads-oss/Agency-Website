@@ -98,6 +98,7 @@ export default function FloatingScheduleMeeting() {
   const [isExiting, setIsExiting] = useState(false);
   const [isDismissed, setIsDismissed] = useState(() => isDismissedFresh());
   const [isHiddenForCookie, setIsHiddenForCookie] = useState(false);
+  const [isSuppressedByPageCta, setIsSuppressedByPageCta] = useState(false);
 
   const panelRef = useRef<HTMLDivElement | null>(null);
   const showTimerRef = useRef<number | null>(null);
@@ -201,10 +202,48 @@ export default function FloatingScheduleMeeting() {
   }, [syncCookieVisibility]);
 
   useEffect(() => {
-    if (isDismissed || !delayElapsed || isHiddenForCookie) {
+    let observedTarget: Element | null = null;
+    let intersectionObserver: IntersectionObserver | null = null;
+
+    const syncSuppressionTarget = () => {
+      const nextTarget = document.querySelector("[data-floating-prompt-suppression]");
+      if (nextTarget === observedTarget) {
+        return;
+      }
+
+      intersectionObserver?.disconnect();
+      observedTarget = nextTarget;
+
+      if (!nextTarget) {
+        setIsSuppressedByPageCta(false);
+        return;
+      }
+
+      intersectionObserver = new IntersectionObserver(
+        ([entry]) => setIsSuppressedByPageCta(entry.isIntersecting),
+        { threshold: 0.15 }
+      );
+      intersectionObserver.observe(nextTarget);
+    };
+
+    syncSuppressionTarget();
+    const rootObserver = new MutationObserver(syncSuppressionTarget);
+    rootObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      rootObserver.disconnect();
+      intersectionObserver?.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isDismissed || !delayElapsed || isHiddenForCookie || isSuppressedByPageCta) {
       if (isHiddenForCookie) {
         setIsVisible(false);
+      }
+      if (isHiddenForCookie || isSuppressedByPageCta) {
         clearAutoCollapseTimer();
+        autoCollapseScheduledRef.current = false;
       }
       return;
     }
@@ -232,7 +271,7 @@ export default function FloatingScheduleMeeting() {
         }, EXIT_ANIMATION_MS);
       }, AUTO_COLLAPSE_MS);
     }
-  }, [clearAutoCollapseTimer, delayElapsed, isDismissed, isHiddenForCookie]);
+  }, [clearAutoCollapseTimer, delayElapsed, isDismissed, isHiddenForCookie, isSuppressedByPageCta]);
 
   const handlePrimaryAction = () => {
     trackConversationPromptClick();
@@ -250,10 +289,13 @@ export default function FloatingScheduleMeeting() {
 
   const widget = (
     <aside
-      className={`schedule-meeting-float${isVisible && !isExiting ? " schedule-meeting-float--visible" : ""}${
-        isExiting ? " schedule-meeting-float--exiting" : ""
+      className={`schedule-meeting-float${
+        isVisible && !isExiting && !isSuppressedByPageCta ? " schedule-meeting-float--visible" : ""
+      }${isExiting ? " schedule-meeting-float--exiting" : ""}${
+        isSuppressedByPageCta ? " schedule-meeting-float--page-cta-hidden" : ""
       }`}
       aria-label={title}
+      aria-hidden={isSuppressedByPageCta || undefined}
       role="complementary"
     >
       <div

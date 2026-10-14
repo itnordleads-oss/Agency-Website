@@ -13,8 +13,8 @@
   transform: translateY(0.75rem);
   pointer-events: none;
   transition:
-    opacity 380ms ease,
-    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
     bottom 280ms ease;
 }
 
@@ -27,6 +27,12 @@
 .schedule-meeting-float--exiting {
   opacity: 0;
   transform: translateY(0.5rem);
+  pointer-events: none;
+}
+
+.schedule-meeting-float--page-cta-hidden {
+  opacity: 0;
+  transform: translateY(0.625rem);
   pointer-events: none;
 }
 
