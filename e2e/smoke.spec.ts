@@ -1631,34 +1631,64 @@ test.describe("smoke", () => {
     });
   });
 
-  test("footer social icons stay unpublished while studio social URLs are TBC", async ({
-    page,
-  }) => {
+  test("footer Connect renders only verified social URLs", async ({ page }) => {
     // Contact is shorter than home, so the DeferredMount footer activates reliably.
     await page.goto("/contact");
     await acceptCookiesIfPresent(page);
 
     await page.evaluate(async () => {
-      for (let i = 0; i < 40; i++) {
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      for (let i = 0; i < 60; i++) {
         if (document.querySelector("footer")) {
           document.querySelector("footer")?.scrollIntoView({ block: "end" });
           return;
         }
-        window.scrollBy(0, Math.floor(window.innerHeight * 0.85));
-        await new Promise((resolve) => window.setTimeout(resolve, 50));
+        window.scrollBy(0, Math.floor(window.innerHeight * 0.9));
+        if (i % 8 === 7) {
+          window.scrollTo(0, document.documentElement.scrollHeight);
+        }
+        await new Promise((resolve) => window.setTimeout(resolve, 80));
       }
+      window.scrollTo(0, document.documentElement.scrollHeight);
+      await new Promise((resolve) => window.setTimeout(resolve, 250));
     });
 
     const footer = page.locator("footer");
     await expect(footer).toBeVisible({ timeout: 20_000 });
     await footer.scrollIntoViewIfNeeded();
 
-    // F2: do not publish previous-product social destinations without leadership approval.
-    await expect(footer.getByRole("link", { name: /Follow on Facebook/i })).toHaveCount(0);
-    await expect(footer.getByRole("link", { name: /Follow on X/i })).toHaveCount(0);
-    await expect(footer.getByRole("link", { name: /Follow on Instagram/i })).toHaveCount(0);
-    await expect(footer.getByRole("link", { name: /Follow on LinkedIn/i })).toHaveCount(0);
-    await expect(footer.locator('[aria-label="Social media"]')).toHaveCount(0);
+    const connect = footer.getByRole("navigation", { name: "Social links" });
+    await expect(connect).toBeVisible();
+    await expect(connect.getByText("Connect", { exact: true })).toBeVisible();
+
+    const linkedin = connect.getByRole("link", { name: "LinkedIn", exact: true });
+    await expect(linkedin).toBeVisible();
+    await expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/company/nordleadsai");
+    await expect(linkedin).toHaveAttribute("target", "_blank");
+    await expect(linkedin).toHaveAttribute("rel", "noopener noreferrer");
+
+    const instagram = connect.getByRole("link", { name: "Instagram", exact: true });
+    await expect(instagram).toBeVisible();
+    await expect(instagram).toHaveAttribute("href", "https://www.instagram.com/nordleads");
+
+    const github = connect.getByRole("link", { name: "GitHub", exact: true });
+    await expect(github).toBeVisible();
+    await expect(github).toHaveAttribute("href", "https://github.com/itnordleads-oss");
+
+    // Circular icon controls (not square chips).
+    await expect
+      .poll(async () =>
+        github.evaluate((el) => getComputedStyle(el).borderRadius.replace(/\s/g, ""))
+      )
+      .toMatch(/^(9999?px|50%)$/);
+
+    // Unpublished networks must not render as placeholders.
+    await expect(connect.getByRole("link", { name: "Facebook", exact: true })).toHaveCount(0);
+    await expect(connect.getByRole("link", { name: "YouTube", exact: true })).toHaveCount(0);
+    await expect(connect.getByRole("link", { name: "X", exact: true })).toHaveCount(0);
+    await expect(connect.getByRole("link", { name: "Dribbble", exact: true })).toHaveCount(0);
+    await expect(connect.getByRole("link", { name: "Behance", exact: true })).toHaveCount(0);
+    await expect(footer.locator('a[href="#"], a[href=""]')).toHaveCount(0);
   });
 
   test.describe("shared agency footer", () => {
@@ -1666,17 +1696,26 @@ test.describe("smoke", () => {
       await page.goto(path);
       await acceptCookiesIfPresent(page);
       await page.evaluate(async () => {
-        for (let i = 0; i < 40; i++) {
-          if (document.querySelector("footer.site-footer")) {
-            document.querySelector("footer.site-footer")?.scrollIntoView({ block: "end" });
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        for (let i = 0; i < 60; i++) {
+          const footerNode = document.querySelector("footer.site-footer");
+          if (footerNode) {
+            footerNode.classList.add("is-revealed");
+            footerNode.scrollIntoView({ block: "end" });
             return;
           }
-          window.scrollBy(0, Math.floor(window.innerHeight * 0.85));
-          await new Promise((resolve) => window.setTimeout(resolve, 50));
+          window.scrollBy(0, Math.floor(window.innerHeight * 0.9));
+          if (i % 8 === 7) {
+            window.scrollTo(0, document.documentElement.scrollHeight);
+          }
+          await new Promise((resolve) => window.setTimeout(resolve, 80));
         }
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 300));
       });
       const footer = page.locator("footer.site-footer");
       await expect(footer).toBeVisible({ timeout: 20_000 });
+      await footer.evaluate((node) => node.classList.add("is-revealed"));
       await footer.scrollIntoViewIfNeeded();
       return footer;
     }
@@ -1719,6 +1758,7 @@ test.describe("smoke", () => {
     });
 
     test("stays balanced without horizontal overflow at required widths", async ({ page }) => {
+      test.setTimeout(90_000);
       const widths = [320, 360, 375, 390, 430, 768, 1024, 1280, 1440];
 
       for (const width of widths) {

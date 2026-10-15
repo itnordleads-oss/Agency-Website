@@ -21,6 +21,10 @@ interface ImportMetaEnv {
   readonly VITE_SOCIAL_LINKEDIN_URL?: string;
   readonly VITE_SOCIAL_TWITTER_URL?: string;
   readonly VITE_SOCIAL_INSTAGRAM_URL?: string;
+  readonly VITE_SOCIAL_YOUTUBE_URL?: string;
+  readonly VITE_SOCIAL_GITHUB_URL?: string;
+  readonly VITE_SOCIAL_DRIBBBLE_URL?: string;
+  readonly VITE_SOCIAL_BEHANCE_URL?: string;
   readonly VITE_SEO_TITLE?: string;
   readonly VITE_SEO_DESCRIPTION?: string;
   readonly VITE_SEO_SITE_NAME?: string;
