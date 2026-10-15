@@ -1265,19 +1265,19 @@ const en = {
   },
   homepageV3: {
     hero: {
-      eyebrow: "Outbound sales automation",
-      headline: "More meetings. Less sales email work.",
+      eyebrow: "Software development agency",
+      headline: "Build clear digital products with a focused delivery partner.",
       subheadline:
-        "ADealForge finds qualified companies, prepares personalized first emails, and keeps outbound sales campaigns moving—so your sales team can focus on conversations.",
-      primaryCta: "Let's Talk",
+        "We help growing teams plan, build, and launch custom software and modern web experiences—with practical engineering and clear communication.",
+      primaryCta: "Get in Touch",
       secondaryCta: "See How We Work",
-      previewBadge: "Outbound sales view",
-      previewTitle: "Campaign progress",
+      previewBadge: "Delivery overview",
+      previewTitle: "How we deliver",
       previewRows: [
-        { label: "Matching companies", value: "1,240" },
-        { label: "Checked contacts", value: "880" },
-        { label: "Ready to send", value: "70%" },
-        { label: "Status", value: "Sending" },
+        { label: "Understand", value: "Scope" },
+        { label: "Plan", value: "Approach" },
+        { label: "Build", value: "Delivery" },
+        { label: "Review", value: "Feedback" },
       ],
     },
     services: {
