@@ -779,9 +779,19 @@ test.describe("smoke", () => {
 
         expect(widths, `compact nav at ${width}px`).not.toBeNull();
         expect(widths?.nav, `nav width at ${width}px`).toBeGreaterThan(80);
-        expect(widths?.nav ?? 0, `nav width at ${width}px`).toBeGreaterThan(
-          (widths?.compose ?? 0) * 0.9
-        );
+        // Mobile stacks nav full-width; tablet (768+) places brand | nav side by side.
+        if (width < 768) {
+          expect(widths?.nav ?? 0, `nav width at ${width}px`).toBeGreaterThan(
+            (widths?.compose ?? 0) * 0.9
+          );
+        } else {
+          expect(widths?.nav ?? 0, `nav column at ${width}px`).toBeGreaterThan(
+            (widths?.compose ?? 0) * 0.35
+          );
+          expect(widths?.nav ?? 0, `nav column at ${width}px`).toBeLessThan(
+            (widths?.compose ?? 0) * 0.85
+          );
+        }
       }
     });
 
@@ -812,6 +822,7 @@ test.describe("smoke", () => {
       });
       expect(mobile?.stacked).toBe(true);
 
+      // Tablet without-contact grid: [brand | nav] then full-width legal.
       for (const width of [768, 820, 900, 1023]) {
         await page.setViewportSize({ width, height: 900 });
         await footer.scrollIntoViewIfNeeded();
@@ -841,20 +852,20 @@ test.describe("smoke", () => {
           return {
             // Contact/social column is omitted while F2 identity values remain TBC.
             contactPresent: contact instanceof HTMLElement,
-            navBelow: navBox.top >= brandBox.bottom - 2,
-            legalBelowNav: legalBox.top >= navBox.bottom - 2,
+            brandNavSideBySide:
+              Math.abs(brandBox.top - navBox.top) <= 4 && navBox.left >= brandBox.right - 2,
+            legalBelowRow:
+              legalBox.top >= Math.max(brandBox.bottom, navBox.bottom) - 2,
             legalSpans: Math.abs(legalBox.width - composeBox.width) <= 2,
-            navSpansRow: navBox.width >= composeBox.width * 0.9,
             overflowX,
           };
         });
 
         expect(tablet, `tablet metrics at ${width}px`).not.toBeNull();
         expect(tablet?.contactPresent, `contact column unpublished at ${width}px`).toBe(false);
-        expect(tablet?.navBelow, `nav spans below at ${width}px`).toBe(true);
-        expect(tablet?.legalBelowNav, `legal full-width row at ${width}px`).toBe(true);
+        expect(tablet?.brandNavSideBySide, `brand|nav row at ${width}px`).toBe(true);
+        expect(tablet?.legalBelowRow, `legal full-width row at ${width}px`).toBe(true);
         expect(tablet?.legalSpans, `legal width at ${width}px`).toBe(true);
-        expect(tablet?.navSpansRow, `full-width nav at ${width}px`).toBe(true);
         expect(tablet?.overflowX, `no overflow at ${width}px`).toBe(false);
       }
     });
