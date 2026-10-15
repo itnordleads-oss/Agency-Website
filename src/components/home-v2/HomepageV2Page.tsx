@@ -22,11 +22,11 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
+import { getAgencyPageSeo } from "../../lib/agencyPageSeo";
+import { applyPageMetadata } from "../../lib/pageMetadata";
 
+/** Preserved in-repo V2 layout is not publicly routed; keep its plain title. */
 const V2_TITLE = "Home";
-const V3_TITLE = "Home";
-const V3_DESCRIPTION =
-  "Tell us about your project. We will review what you share and follow up with a clear next step.";
 
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
@@ -34,16 +34,24 @@ function useHomepageMetadata(variant: HomepageVariant) {
       return;
     }
 
-    const previousTitle = document.title;
-    const descriptionTag = document.querySelector('meta[name="description"]');
-    const previousDescription = descriptionTag?.getAttribute("content") ?? null;
-
     if (variant === "v3") {
-      document.title = V3_TITLE;
-      descriptionTag?.setAttribute("content", V3_DESCRIPTION);
-    } else {
-      document.title = V2_TITLE;
+      const seo = getAgencyPageSeo("home");
+      const restoreMetadata = applyPageMetadata({
+        title: seo.title,
+        description: seo.description,
+        pathname: seo.pathname,
+      });
+
+      // Keep hash targets (e.g. /#process) — do not wipe the pending section scroll.
+      if (!readHomepageSectionHash()) {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+
+      return restoreMetadata;
     }
+
+    const previousTitle = document.title;
+    document.title = V2_TITLE;
 
     // Keep hash targets (e.g. /#process) — do not wipe the pending section scroll.
     if (!readHomepageSectionHash()) {
@@ -52,9 +60,6 @@ function useHomepageMetadata(variant: HomepageVariant) {
 
     return () => {
       document.title = previousTitle;
-      if (variant === "v3" && descriptionTag && previousDescription !== null) {
-        descriptionTag.setAttribute("content", previousDescription);
-      }
     };
   }, [variant]);
 }
