@@ -854,8 +854,7 @@ test.describe("smoke", () => {
             contactPresent: contact instanceof HTMLElement,
             brandNavSideBySide:
               Math.abs(brandBox.top - navBox.top) <= 4 && navBox.left >= brandBox.right - 2,
-            legalBelowRow:
-              legalBox.top >= Math.max(brandBox.bottom, navBox.bottom) - 2,
+            legalBelowRow: legalBox.top >= Math.max(brandBox.bottom, navBox.bottom) - 2,
             legalSpans: Math.abs(legalBox.width - composeBox.width) <= 2,
             overflowX,
           };
