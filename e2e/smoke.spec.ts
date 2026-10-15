@@ -2013,7 +2013,9 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
       await expect(page.locator(".schedule-meeting-float")).toHaveCount(0);
 
-      const routes = ["/", "/services", "/about", "/projects", "/contact"] as const;
+      // `/` is intentionally excluded below: App.tsx never mounts the prompt there
+      // (see assertion above), so it can never become visible on that route.
+      const routes = ["/services", "/about", "/projects", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
