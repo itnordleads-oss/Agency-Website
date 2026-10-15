@@ -1168,6 +1168,101 @@ const en = {
       footnote: ["Easy to begin", "No long setup"],
     },
   },
+  aboutPage: {
+    documentTitleSuffix: "About",
+    backHome: "Back to homepage",
+    hero: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle:
+        "We build custom software and digital products around real requirements, with practical engineering and clear communication.",
+    },
+    focus: {
+      eyebrow: "Focus",
+      title: "Software and digital product delivery",
+      subtitle: "We help growing teams plan, build, and launch useful digital products.",
+    },
+    approach: {
+      eyebrow: "Approach",
+      title: "How we keep delivery useful",
+      subtitle:
+        "Straightforward collaboration and engineering decisions grounded in product needs.",
+      items: [
+        {
+          title: "Understand the problem",
+          description: "Clarify goals, constraints, and what success looks like before building.",
+        },
+        {
+          title: "Define the scope",
+          description: "Shape a focused plan so work stays reviewable and aligned.",
+        },
+        {
+          title: "Build and review",
+          description: "Implement with steady progress and shared checkpoints for feedback.",
+        },
+        {
+          title: "Iterate and deliver",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    capabilities: {
+      eyebrow: "Capabilities",
+      title: "Practical product and engineering support",
+      subtitle: "Focused support across software, web, and digital product work.",
+      items: [
+        {
+          title: "Custom software",
+          description: "Application work shaped around real workflows and constraints.",
+        },
+        {
+          title: "Modern web experiences",
+          description: "Clear interfaces and frontends that stay maintainable.",
+        },
+        {
+          title: "Product collaboration",
+          description: "Shared priorities, plain updates, and reviewable decisions.",
+        },
+        {
+          title: "Structured delivery",
+          description: "A simple path from understanding needs through launch.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Have a project in mind?",
+      subtitle: "Tell us what you need and we will follow up with a clear next step.",
+      primaryCta: "Start a Project",
+      footnote: ["Clear next steps", "No pressure"],
+    },
+  },
   homepageV3: {
     hero: {
       eyebrow: "Outbound sales automation",
@@ -1184,6 +1279,70 @@ const en = {
         { label: "Ready to send", value: "70%" },
         { label: "Status", value: "Sending" },
       ],
+    },
+    services: {
+      eyebrow: "Services",
+      title: "Practical delivery for product and engineering needs",
+      subtitle:
+        "Explore how we can help with software development and digital product work. The full services overview lives on our Services page.",
+      cta: "View services",
+    },
+    value: {
+      eyebrow: "Why work with us",
+      title: "Delivery qualities you can count on",
+      subtitle:
+        "We keep collaboration straightforward and engineering decisions grounded in what the product needs next.",
+      items: [
+        {
+          title: "Clear communication",
+          description: "Plain status updates, shared priorities, and decisions you can follow.",
+        },
+        {
+          title: "Practical engineering",
+          description: "Solutions sized to the problem—not overbuilt stacks for their own sake.",
+        },
+        {
+          title: "Modern frontend and backend",
+          description: "Contemporary web and application development for real product workflows.",
+        },
+        {
+          title: "Structured delivery",
+          description: "A simple process from understanding needs through review and launch.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "A simple path from idea to launch",
+      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      steps: [
+        {
+          label: "Understand",
+          description: "Clarify goals, constraints, and what success looks like.",
+        },
+        {
+          label: "Plan",
+          description: "Shape scope, approach, and the next delivery steps.",
+        },
+        {
+          label: "Build",
+          description: "Implement with practical engineering and steady progress.",
+        },
+        {
+          label: "Review",
+          description: "Check quality together and refine based on feedback.",
+        },
+        {
+          label: "Launch",
+          description: "Ship confidently and hand off with clear next steps.",
+        },
+      ],
+    },
+    aboutPreview: {
+      eyebrow: "About",
+      title: "A development studio focused on useful delivery",
+      subtitle: "Learn more about how we approach software projects and client collaboration.",
+      cta: "About us",
     },
     trust: {
       title: "Built for outbound teams across industries",

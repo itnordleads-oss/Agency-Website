@@ -7,6 +7,8 @@ type StudioRoutePlaceholderProps = {
   routePath: string;
   /** Internal ownership note — not shown in the public UI (F13). */
   ownershipNote: string;
+  /** Optional SEO page id; reserved for later route shells. */
+  seoPageId?: string;
 };
 
 /**
@@ -17,6 +19,7 @@ export default function StudioRoutePlaceholder({
   title,
   routePath,
   ownershipNote: _ownershipNote,
+  seoPageId: _seoPageId,
 }: StudioRoutePlaceholderProps) {
   useEffect(() => {
     if (typeof document === "undefined") {
