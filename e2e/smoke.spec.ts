@@ -1747,8 +1747,8 @@ test.describe("smoke", () => {
       }
     });
 
-    test("renders the same shared footer on Terms and honors reduced motion", async ({ page }) => {
-      const footer = await openFooter(page, "/terms");
+    test("honors reduced motion on the shared footer", async ({ page }) => {
+      const footer = await openFooter(page, "/contact");
       await expect(footer).toHaveCount(1);
       await expect(footer.getByRole("link", { name: "Start a Project" })).toBeVisible();
 
