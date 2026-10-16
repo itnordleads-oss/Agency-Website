@@ -1,4 +1,4 @@
-﻿const en = {
+const en = {
   common: {
     // F2 English baseline: layout chrome only. Leadership-approved studio name is TBC.
     // Full marketing copy rebrand across locales is tracked for F10.
@@ -69,7 +69,7 @@
     mapOpenMaps: "Open in Google Maps",
   },
   /**
-   * F6 ΓÇö About page copy.
+   * F6 — About page copy.
    * Anchored to footer brandDescription and defensible delivery qualities.
    * No founders, history, team, metrics, or invented service catalog.
    */
@@ -80,7 +80,7 @@
       eyebrow: "About",
       title: "A development studio focused on useful delivery",
       subtitle:
-        "Custom software and digital product delivery for growing teamsΓÇöwith practical engineering and clear communication.",
+        "Custom software and digital product delivery for growing teams—with practical engineering and clear communication.",
     },
     focus: {
       eyebrow: "What we do",
@@ -92,7 +92,7 @@
       eyebrow: "Our approach",
       title: "Clear collaboration from first conversation to launch",
       subtitle:
-        "We keep priorities visible, decisions grounded, and delivery sized to what the product needs nextΓÇönot overbuilt for its own sake.",
+        "We keep priorities visible, decisions grounded, and delivery sized to what the product needs next—not overbuilt for its own sake.",
       items: [
         {
           title: "Understand the problem",
@@ -183,7 +183,7 @@
     statusNote:
       "Managed outreach is available now through a reviewed workflow. Public platform access stays closed while development continues.",
     ctaLead:
-      "Tell us your outbound goals and weΓÇÖll share how managed services can helpΓÇöno pressure.",
+      "Tell us your outbound goals and we’ll share how managed services can help—no pressure.",
     primaryCta: "Start the Conversation",
     illustrationAriaLabel: "Platform under construction illustration",
   },
@@ -191,7 +191,7 @@
     documentTitle: "Agency | Workflow",
     backHome: "Back to homepage",
     metaDescription:
-      "See how ADealForge runs outbound end to end ΓÇö from finding fit companies to prepared first emails and live campaign support.",
+      "See how ADealForge runs outbound end to end — from finding fit companies to prepared first emails and live campaign support.",
   },
   cookie: {
     consentModal: {
@@ -297,7 +297,7 @@
       {
         title: "6. Intellectual Property",
         paragraphs: [
-          "The Site and all related materialsΓÇöincluding text, graphics, logos, icons, images, audiovisual content, software, design, and arrangementΓÇöare owned by or licensed to ADealForge and are protected by copyright, trademark, and other intellectual property laws.",
+          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to ADealForge and are protected by copyright, trademark, and other intellectual property laws.",
           "Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Site for your internal business evaluation. No other rights are granted by implication or otherwise. You may not copy, modify, distribute, sell, lease, or commercially exploit Site content without our prior written consent, except for limited excerpts used in good-faith, non-commercial evaluation with attribution where customary.",
         ],
       },
@@ -387,11 +387,11 @@
       targetMarketPlaceholder: "A few sentences about your project or what you'd like help with",
       website: "Website",
     },
-    loadingProtection: "LoadingΓÇª",
+    loadingProtection: "Loading…",
     spamProtectionTitle: "Something went wrong on our side.",
     spamProtectionBody: "Please refresh the page and try again in a moment.",
     submitIdle: "Send message",
-    submitLoading: "SendingΓÇª",
+    submitLoading: "Sending…",
     requestReadyTitle: "We couldn't send that just yet.",
     noSpam: "No spam. A short, human reply from our team.",
     nextTitle: "What happens next",
@@ -403,7 +403,7 @@
     brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "┬⌐ 2026. All rights reserved.",
     tagline:
-      "Development studio website ΓÇö brand identity and service copy pending leadership approval.",
+      "Development studio website — brand identity and service copy pending leadership approval.",
     navigate: "Navigate",
     termsLink: "Terms",
     prefillMessage: "I'm exploring a project related to {{sector}}. Happy to share more details.",
@@ -482,7 +482,7 @@
     values: [
       {
         title: "Find the right companies",
-        desc: "Build a shortlist that matches your ideal customer ΓÇö not a basic list.",
+        desc: "Build a shortlist that matches your ideal customer — not a basic list.",
         stage: "discovery",
       },
       {
@@ -506,7 +506,7 @@
     },
     title: "The work behind better outbound.",
     subtitle:
-      "Each step produces something your team can review ΓÇö from a filtered account list to inbox-ready outreach.",
+      "Each step produces something your team can review — from a filtered account list to inbox-ready outreach.",
     pills: ["Human review", "Verified data", "Campaign visibility"],
     chips: ["Finding", "Research", "Review", "Messaging", "Sending", "Handoff"],
     primaryCta: "Start the Conversation",
@@ -514,7 +514,7 @@
     items: [
       {
         title: "Find matching companies",
-        desc: "Your ICP filters produce a ranked shortlist ΓÇö industry, geography, company size, and buying signals applied before anyone researches accounts.",
+        desc: "Your ICP filters produce a ranked shortlist — industry, geography, company size, and buying signals applied before anyone researches accounts.",
       },
       {
         title: "Company research",
@@ -526,7 +526,7 @@
       },
       {
         title: "Personalized sales emails",
-        desc: "First-touch drafts reference real account context ΓÇö company, role, and signal ΓÇö written in your voice and ready for approval.",
+        desc: "First-touch drafts reference real account context — company, role, and signal — written in your voice and ready for approval.",
       },
       {
         title: "Managed email sending",
@@ -583,7 +583,7 @@
           "Best matches shown first",
         ],
         stageOutcome: "You start with matching companies instead of thousands of poor matches.",
-        angle: "Ranked by industry, size, and business match ΓÇö best matches first.",
+        angle: "Ranked by industry, size, and business match — best matches first.",
       },
       {
         id: "enrichment",
@@ -628,7 +628,7 @@
           "Campaign-ready entries",
         ],
         stageOutcome: "You move forward with fewer wasted sends and no overlapping outreach.",
-        angle: "Approved accounts only ΓÇö relevant, complete, and deduplicated.",
+        angle: "Approved accounts only — relevant, complete, and deduplicated.",
       },
       {
         id: "personalization",
@@ -666,7 +666,7 @@
     recordFields: [
       {
         label: "Sector & company size",
-        detail: "Construction ┬╖ 80ΓÇô120 staff",
+        detail: "Construction ┬╖ 80–120 staff",
       },
       {
         label: "Business activity",
@@ -895,7 +895,7 @@
     },
     title: "See how ADealForge turns target markets into outreach-ready pipelines.",
     subtitle:
-      "Watch a short walkthrough of targeting, enrichment, personalization, and campaign preparation ΓÇö the workflow behind consistent qualified conversations.",
+      "Watch a short walkthrough of targeting, enrichment, personalization, and campaign preparation — the workflow behind consistent qualified conversations.",
     watchCta: "Watch Demo",
     placeholderTitle: "Product walkthrough",
     placeholderHint:
@@ -919,7 +919,7 @@
     items: [
       {
         quote:
-          "We finally stopped guessing at lists. ADealForge delivered researched accounts and outreach that sounded like us ΓÇö and meetings followed within the first pilot cycle.",
+          "We finally stopped guessing at lists. ADealForge delivered researched accounts and outreach that sounded like us — and meetings followed within the first pilot cycle.",
         name: "Elena Marquez",
         title: "Head of Growth",
         company: "Northline Logistics",
@@ -950,7 +950,7 @@
     eyebrow: "Live product demo",
     title: "Book a live demo and see your market path end to end.",
     subtitle:
-      "Walk through targeting, enrichment, AI personalization, and campaign setup with our team ΓÇö then decide if a pilot is the right next step.",
+      "Walk through targeting, enrichment, AI personalization, and campaign setup with our team — then decide if a pilot is the right next step.",
     primaryCta: "Book a Demo",
     secondaryCta: "Schedule a Meeting",
     footnote: ["Live walkthrough with our team", "No long sales pitch required"],
@@ -968,7 +968,7 @@
     items: [
       {
         q: "What is ADealForge?",
-        a: "ADealForge is a managed B2B outbound platform that turns your target market into researched accounts, personalized outreach, and CRM-ready deliverables ΓÇö so your team focuses on conversations that convert.",
+        a: "ADealForge is a managed B2B outbound platform that turns your target market into researched accounts, personalized outreach, and CRM-ready deliverables — so your team focuses on conversations that convert.",
       },
       {
         q: "What features do we get in a typical engagement?",
@@ -984,7 +984,7 @@
       },
       {
         q: "How does pricing work?",
-        a: "Packages are flexible by volume and complexity ΓÇö from Basic validation pilots to Pro recurring prospecting and custom Enterprise pipelines. Book a call for a recommendation that fits your market and goals.",
+        a: "Packages are flexible by volume and complexity — from Basic validation pilots to Pro recurring prospecting and custom Enterprise pipelines. Book a call for a recommendation that fits your market and goals.",
       },
       {
         q: "How do you handle security and data privacy?",
@@ -1012,7 +1012,7 @@
     eyebrow: "Next step",
     title: "See if we're a good fit.",
     subtitle:
-      "Tell us about your outbound goals. We'll review what you share and suggest a clear next step ΓÇö no pressure.",
+      "Tell us about your outbound goals. We'll review what you share and suggest a clear next step — no pressure.",
     primaryCta: "Start the Conversation",
     secondaryCta: "See how it works",
     footnote: ["No pressure. No obligation.", "Usually reply within one business day"],
@@ -1047,7 +1047,7 @@
       eyebrow: "Product",
       title: "One place to run outreach",
       subtitle:
-        "Find companies, prepare emails, and send results to your sales teamΓÇöwithout switching between many tools.",
+        "Find companies, prepare emails, and send results to your sales team—without switching between many tools.",
       highlights: [
         { title: "The right companies", description: "We focus on buyers that fit your business." },
         { title: "Better first emails", description: "Messages based on real company research." },
@@ -1087,7 +1087,7 @@
         },
         {
           title: "Personal emails",
-          description: "Clear first messagesΓÇönot copy-paste templates.",
+          description: "Clear first messages—not copy-paste templates.",
         },
         {
           title: "Pass leads to sales",
@@ -1119,7 +1119,7 @@
           logoInitials: "NL",
         },
         {
-          quote: "Clean lists for our sales tools. Our team talked to real buyersΓÇönot bad data.",
+          quote: "Clean lists for our sales tools. Our team talked to real buyers—not bad data.",
           name: "James Okoro",
           title: "VP of Sales",
           company: "BuildSpan Group",
@@ -1287,7 +1287,7 @@
       eyebrow: "Software development agency",
       headline: "Build clear digital products with a focused delivery partner.",
       subheadline:
-        "We help growing teams plan, build, and launch custom software and modern web experiencesΓÇöwith practical engineering and clear communication.",
+        "We help growing teams plan, build, and launch custom software and modern web experiences—with practical engineering and clear communication.",
       primaryCta: "Get in Touch",
       secondaryCta: "See How We Work",
       previewBadge: "Delivery overview",
@@ -1318,7 +1318,7 @@
         },
         {
           title: "Practical engineering",
-          description: "Solutions sized to the problemΓÇönot overbuilt stacks for their own sake.",
+          description: "Solutions sized to the problem—not overbuilt stacks for their own sake.",
         },
         {
           title: "Modern frontend and backend",
