@@ -240,7 +240,10 @@ export default {
       return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
     }
 
-    if (isAgencyDocumentPath(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
+    if (
+      isAgencyDocumentPath(url.pathname) &&
+      (request.method === "GET" || request.method === "HEAD")
+    ) {
       return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
     }
 
