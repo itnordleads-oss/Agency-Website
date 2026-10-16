@@ -22,10 +22,10 @@ import {
   scrollToHomepageSection,
   type HomepageSectionId,
 } from "../../lib/homepageSections";
-import { getSeoDescription, getSeoTitle } from "../../lib/studioBranding";
+import { getAgencyPageSeo } from "../../lib/agencyPageSeo";
+import { applyPageMetadata } from "../../lib/pageMetadata";
 
 const V2_TITLE = "Home";
-
 function useHomepageMetadata(variant: HomepageVariant) {
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -33,12 +33,16 @@ function useHomepageMetadata(variant: HomepageVariant) {
     }
 
     const previousTitle = document.title;
-    const descriptionTag = document.querySelector('meta[name="description"]');
-    const previousDescription = descriptionTag?.getAttribute("content") ?? null;
+    let restoreMetadata: (() => void) | null = null;
 
     if (variant === "v3") {
-      document.title = getSeoTitle();
-      descriptionTag?.setAttribute("content", getSeoDescription());
+      // Production home uses the shared agency SEO identity (title + description + OG tags).
+      const seo = getAgencyPageSeo("home");
+      restoreMetadata = applyPageMetadata({
+        title: seo.title,
+        description: seo.description,
+        pathname: seo.pathname,
+      });
     } else {
       document.title = V2_TITLE;
     }
@@ -49,10 +53,11 @@ function useHomepageMetadata(variant: HomepageVariant) {
     }
 
     return () => {
-      document.title = previousTitle;
-      if (variant === "v3" && descriptionTag && previousDescription !== null) {
-        descriptionTag.setAttribute("content", previousDescription);
+      if (restoreMetadata) {
+        restoreMetadata();
+        return;
       }
+      document.title = previousTitle;
     };
   }, [variant]);
 }

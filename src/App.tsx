@@ -57,6 +57,10 @@ export function resolvePublicPath(pathname: string) {
   if (isLegacyHomepagePath(path) || isUnpublishedWorkPath(path)) {
     return "/";
   }
+  // F7: unpublished /work resolves to home before first paint (no child-effect redirect race).
+  if (path === "/work" && !isWorkPagePublished()) {
+    return "/";
+  }
   return resolveProductRouteRedirect(path) ?? path;
 }
 
