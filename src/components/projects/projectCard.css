@@ -1,0 +1,287 @@
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  transform-style: preserve-3d;
+  transition:
+    transform 200ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+  will-change: transform;
+}
+
+.project-card--standard,
+.project-card--featured,
+.project-card--compact {
+  height: 100%;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.045);
+  transform: translateY(-3px) scale(1.005);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(0, 210, 255, 0.1),
+    0 0 22px rgba(0, 210, 255, 0.06);
+}
+
+/* Standard + featured share 16:10 for rhythm; featured body carries balance */
+.project-card__media-wrap {
+  aspect-ratio: 16 / 10;
+  flex-shrink: 0;
+}
+
+.project-card--featured .project-card__media-wrap {
+  aspect-ratio: 16 / 10;
+}
+
+/* Orbit + Atlas: wide previews that stack to balance Nova */
+.project-card--compact .project-card__media-wrap {
+  aspect-ratio: 16 / 5;
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 0.4rem;
+}
+
+.project-card--standard .project-card__body {
+  padding: 1rem 1.1rem 1.05rem;
+}
+
+.project-card--featured .project-card__body {
+  gap: 0.42rem;
+  padding: 0.9rem 1.05rem 1.05rem;
+}
+
+.project-card--compact .project-card__body {
+  gap: 0.35rem;
+  padding: 0.75rem 0.95rem 0.9rem;
+}
+
+.project-card__title {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.project-card--featured .project-card__title {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+}
+
+.project-card__type {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.project-card__description {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project-card--standard .project-card__description {
+  min-height: 2.7rem;
+}
+
+.project-card--featured .project-card__description {
+  min-height: 2.7rem;
+}
+
+.project-card__meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.65rem;
+  margin-top: 0.1rem;
+}
+
+.project-card__category {
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.project-card__service {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.project-card__tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+  min-height: 1.35rem;
+}
+
+.project-card__tech-tag {
+  border-radius: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.16);
+  padding: 0.16rem 0.42rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: none;
+}
+
+.project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #a4f4fd;
+  transition: color 180ms ease;
+}
+
+.project-card:hover .project-card__cta,
+.project-card:focus-visible .project-card__cta {
+  color: #ffffff;
+}
+
+.project-card__arrow {
+  transition: transform 200ms ease;
+}
+
+.project-card:hover .project-card__arrow,
+.project-card:focus-visible .project-card__arrow {
+  transform: translateX(2px);
+}
+
+.project-card__media {
+  transform: translateZ(0) translateY(0);
+  transition: transform 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .project-card__media,
+  .project-card:focus-visible .project-card__media {
+    transform: scale(1.008) translateY(-1px);
+  }
+}
+
+.project-card__concept-badge {
+  box-shadow: 0 0 0 1px rgba(0, 210, 255, 0.06);
+}
+
+.project-card .project-visual__glow {
+  opacity: 0.74;
+}
+
+.project-card--featured .project-visual__glow {
+  opacity: 0.84;
+}
+
+.project-card .project-visual__frame,
+.project-card .project-visual__phone {
+  border-radius: 0.75rem;
+}
+
+.project-card__shine {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  background: radial-gradient(
+    380px circle at var(--project-pointer-x, 50%) var(--project-pointer-y, 22%),
+    rgba(0, 210, 255, 0.05),
+    transparent 50%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .project-card__shine,
+  .project-card:focus-visible .project-card__shine {
+    opacity: 1;
+  }
+}
+
+.project-card-enter {
+  animation: project-card-enter 360ms ease backwards;
+}
+
+@keyframes project-card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card__media,
+  .project-card__shine,
+  .project-card__arrow {
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      color 160ms ease !important;
+    transform: none !important;
+  }
+
+  .project-card:hover,
+  .project-card:focus-visible,
+  .project-card:hover .project-card__media,
+  .project-card:focus-visible .project-card__media,
+  .project-card:hover .project-card__arrow,
+  .project-card:focus-visible .project-card__arrow {
+    transform: none !important;
+  }
+
+  .project-card-enter {
+    animation: none;
+  }
+
+  .project-card__shine {
+    display: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .project-card {
+    transform: none !important;
+  }
+
+  .project-card:hover .project-card__media,
+  .project-card:focus-visible .project-card__media,
+  .project-card:hover .project-card__arrow,
+  .project-card:focus-visible .project-card__arrow {
+    transform: none;
+  }
+
+  .project-card__shine {
+    display: none;
+  }
+
+  .project-card:active {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}

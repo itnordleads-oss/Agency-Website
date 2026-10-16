@@ -1,0 +1,56 @@
+.projects-hero-visual {
+  perspective: 900px;
+}
+
+.projects-hero-visual__layer {
+  transition: transform 400ms ease;
+  filter: saturate(1.05) contrast(1.03);
+}
+
+.projects-hero-visual__layer--back {
+  opacity: 0.78;
+}
+
+.projects-hero-visual__layer--mid {
+  filter: saturate(1.08) contrast(1.04);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .projects-hero-visual:hover .projects-hero-visual__layer--back {
+    transform: rotate(-4deg) translateY(-2px);
+  }
+
+  .projects-hero-visual:hover .projects-hero-visual__layer--mid {
+    transform: rotate(2deg) translateY(-3px);
+  }
+
+  .projects-hero-visual:hover .projects-hero-visual__layer--front {
+    transform: rotate(5deg) translateY(-4px);
+  }
+}
+
+@keyframes projects-hero-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.projects-hero-visual__layer--mid {
+  animation: projects-hero-float 7.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-hero-visual__layer--mid {
+    animation: none;
+  }
+
+  .projects-hero-visual:hover .projects-hero-visual__layer--back,
+  .projects-hero-visual:hover .projects-hero-visual__layer--mid,
+  .projects-hero-visual:hover .projects-hero-visual__layer--front {
+    transform: none;
+  }
+}

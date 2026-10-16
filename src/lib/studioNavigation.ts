@@ -2,12 +2,12 @@
  * F3 — Development Studio public navigation.
  *
  * English chrome labels only. Full localized nav copy remains F10.
- * `/work` stays unpublished until F7 content is approved for publication.
+ * Canonical portfolio route is `/projects`. Legacy `/work` redirects there.
  * Product routes (`/platform`, `/workflow`, product pricing) are retired in F9
  * (redirect to agency destinations) and are not listed in the public studio navbar.
  */
 
-export type StudioNavItemId = "home" | "services" | "about" | "work" | "contact";
+export type StudioNavItemId = "home" | "services" | "projects" | "about" | "contact" | "work";
 
 export type StudioNavItem = {
   id: StudioNavItemId;
@@ -15,23 +15,29 @@ export type StudioNavItem = {
   path: string;
 };
 
-/** Flip to `true` only when F7 work/case-study content is approved to publish. */
-export const IS_WORK_NAV_PUBLISHED = false;
+/**
+ * @deprecated Prefer checking published project content via agencyProjects.
+ * Kept for older call sites during the /work → /projects migration.
+ */
+export const IS_WORK_NAV_PUBLISHED = true;
 
 const STUDIO_NAV_ITEMS: StudioNavItem[] = [
   { id: "home", label: "Home", path: "/" },
   { id: "services", label: "Services", path: "/services" },
+  { id: "projects", label: "Projects", path: "/projects" },
   { id: "about", label: "About", path: "/about" },
-  { id: "work", label: "Work", path: "/work" },
   { id: "contact", label: "Contact", path: "/contact" },
 ];
 
-/** Public header / mobile / footer navigation (Work omitted while unpublished). */
+/** Public header / mobile / footer navigation. */
 export function getPublishedStudioNavItems(): StudioNavItem[] {
-  return STUDIO_NAV_ITEMS.filter((item) => item.id !== "work" || IS_WORK_NAV_PUBLISHED);
+  return STUDIO_NAV_ITEMS;
 }
 
 export function getStudioNavHref(id: StudioNavItemId): string {
+  if (id === "work") {
+    return "/projects";
+  }
   const item = STUDIO_NAV_ITEMS.find((entry) => entry.id === id);
   return item?.path ?? "/";
 }
@@ -45,11 +51,11 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
   if (normalized === "/services" || normalized.startsWith("/services/")) {
     return "services";
   }
+  if (normalized === "/projects" || normalized.startsWith("/projects/")) {
+    return "projects";
+  }
   if (normalized === "/about") {
     return "about";
-  }
-  if (normalized === "/work" && IS_WORK_NAV_PUBLISHED) {
-    return "work";
   }
   if (normalized === "/contact") {
     return "contact";
@@ -58,12 +64,8 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
   return null;
 }
 
-/**
- * Footer Explore column.
- * `work` is included only when `getPublishedStudioNavItems()` publishes it
- * (F7 content approved). There is no `/projects` or `/careers` route on this branch.
- */
-export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services", "work"];
+/** Footer Explore column. Canonical portfolio route is `/projects`. */
+export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services", "projects"];
 
 /** Footer Company column (Terms is rendered separately; no Careers route yet). */
 export const FOOTER_COMPANY_NAV_IDS: StudioNavItemId[] = ["about", "contact"];

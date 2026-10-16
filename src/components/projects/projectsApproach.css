@@ -1,0 +1,42 @@
+.projects-approach {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.projects-approach__layout {
+  display: grid;
+  gap: 0.85rem 2rem;
+  padding-top: 1.35rem;
+  padding-bottom: 0.35rem;
+}
+
+@media (min-width: 768px) {
+  .projects-approach__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.75rem 3.5rem;
+    padding-top: 1.6rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.projects-approach__heading {
+  margin: 0.45rem 0 0;
+  max-width: 16ch;
+  font-size: clamp(1.3rem, 2.3vw, 1.7rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.projects-approach__copy {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+@media (min-width: 768px) {
+  .projects-approach__copy {
+    justify-self: start;
+  }
+}

@@ -38,6 +38,11 @@ const normalize = (value: unknown) => (typeof value === "string" ? value.trim() 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TERMS_PATHS = new Set(["/terms", "/terms/"]);
 const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
+/** Agency studio routes — rewrite to SPA shell before assets. */
+const SERVICES_PATHS = new Set(["/services", "/services/"]);
+const ABOUT_PATHS = new Set(["/about", "/about/"]);
+const PROJECTS_PATHS = new Set(["/projects", "/projects/"]);
+const WORK_PATHS = new Set(["/work", "/work/"]);
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
 const WORKFLOW_PATHS = new Set(["/workflow", "/workflow/"]);
 /** Retired homepage preview URLs — permanently redirect to production `/` (Homepage V3). */
@@ -49,6 +54,18 @@ const LEGACY_HOMEPAGE_PATHS = new Set([
   "/homepage-v3",
   "/homepage-v3/",
 ]);
+
+function isAgencyDocumentPath(pathname: string) {
+  return (
+    SERVICES_PATHS.has(pathname) ||
+    pathname.startsWith("/services/") ||
+    ABOUT_PATHS.has(pathname) ||
+    PROJECTS_PATHS.has(pathname) ||
+    pathname.startsWith("/projects/") ||
+    WORK_PATHS.has(pathname) ||
+    pathname.startsWith("/work/")
+  );
+}
 
 function isBlogPath(pathname: string) {
   return pathname === "/blog" || pathname === "/blog/" || pathname.startsWith("/blog/");
@@ -218,6 +235,10 @@ export default {
     }
 
     if (isBlogPath(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
+      return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
+    }
+
+    if (isAgencyDocumentPath(url.pathname) && (request.method === "GET" || request.method === "HEAD")) {
       return env.ASSETS.fetch(rewriteRequestPath(request, "/"));
     }
 

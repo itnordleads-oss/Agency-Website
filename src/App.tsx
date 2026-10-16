@@ -12,12 +12,13 @@ import Footer from "./components/Footer";
 import PageBackground from "./components/PageBackground";
 import TermsPage from "./components/TermsPage";
 import ContactPage from "./components/ContactPage";
-import WorkPage from "./components/WorkPage";
+import ProjectsPage from "./components/ProjectsPage";
+import ProjectDetailPage from "./components/ProjectDetailPage";
 import ServicesPage from "./components/ServicesPage";
 import ServiceDetailRoute from "./components/ServiceDetailRoute";
 import AboutPage from "./components/AboutPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
-import { isWorkPagePublished } from "./lib/workProjects";
+import { mapWorkPathToProjects } from "./lib/agencyProjects";
 import {
   getHomepageSectionHref,
   requestInstantHomepageSectionScroll,
@@ -47,11 +48,24 @@ function isUnpublishedWorkPath(pathname: string) {
   return normalizePath(pathname) === "/work" && !IS_WORK_NAV_PUBLISHED;
 }
 
+function parseProjectSlug(pathname: string): string | null {
+  const path = normalizePath(pathname);
+  if (!path.startsWith("/projects/")) {
+    return null;
+  }
+  const slug = path.slice("/projects/".length);
+  if (!slug || slug.includes("/")) {
+    return null;
+  }
+  return slug;
+}
+
 /**
  * Resolve the public path:
  * - legacy homepage previews → `/`
  * - unpublished Work → `/`
  * - retired product surfaces → agency destinations (F9)
+ * - legacy `/work` → canonical `/projects`
  */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
@@ -61,6 +75,10 @@ export function resolvePublicPath(pathname: string) {
   // F7: unpublished /work resolves to home before first paint (no child-effect redirect race).
   if (path === "/work" && !isWorkPagePublished()) {
     return "/";
+  }
+  const fromWork = mapWorkPathToProjects(path);
+  if (fromWork) {
+    return fromWork;
   }
   return resolveProductRouteRedirect(path) ?? path;
 }
@@ -109,8 +127,8 @@ export function navigateToSection(targetId: string) {
     return;
   }
 
-  if (targetId === "work") {
-    navigateAppPath(getStudioNavHref("work"));
+  if (targetId === "projects" || targetId === "work") {
+    navigateAppPath(getStudioNavHref(targetId === "work" ? "work" : "projects"));
     return;
   }
 
@@ -185,16 +203,14 @@ export function navigateToContact() {
   navigateAppPath("/contact");
 }
 
-/**
- * Navigate to /work only when published case studies exist (F7).
- * Otherwise keep callers on a safe public route.
- */
+/** Navigate to the canonical Projects portfolio route. */
+export function navigateToProjects() {
+  navigateAppPath("/projects");
+}
+
+/** @deprecated Prefer navigateToProjects — /work redirects to /projects. */
 export function navigateToWork() {
-  if (!isWorkPagePublished()) {
-    navigateAppPath("/");
-    return;
-  }
-  navigateAppPath("/work");
+  navigateToProjects();
 }
 
 export function navigateToServices() {
@@ -253,8 +269,10 @@ export default function App() {
   const isServicesPage = path === "/services";
   const serviceDetailSlug = path.startsWith("/services/") ? path.slice("/services/".length) : null;
   const isAboutPage = path === "/about";
-  /** F7 Work route — public only when published projects exist; otherwise WorkPage redirects home. */
-  const isWorkPage = path === "/work";
+  const projectSlug = parseProjectSlug(path);
+  const isProjectsIndex = path === "/projects";
+  const isProjectDetail = projectSlug !== null;
+  const showProjectsFooter = isProjectsIndex || isProjectDetail;
 
   useEffect(() => {
     const onPopState = () => {
@@ -290,6 +308,24 @@ export default function App() {
               <DeferredMount rootMargin="0px" minHeight="32rem">
                 <Footer />
               </DeferredMount>
+            </>
+          ) : isProjectsIndex ? (
+            <>
+              <ProjectsPage />
+              {showProjectsFooter ? (
+                <DeferredMount rootMargin="0px" minHeight="32rem">
+                  <Footer />
+                </DeferredMount>
+              ) : null}
+            </>
+          ) : isProjectDetail && projectSlug ? (
+            <>
+              <ProjectDetailPage slug={projectSlug} />
+              {showProjectsFooter ? (
+                <DeferredMount rootMargin="0px" minHeight="32rem">
+                  <Footer />
+                </DeferredMount>
+              ) : null}
             </>
           ) : serviceDetailSlug ? (
             <>

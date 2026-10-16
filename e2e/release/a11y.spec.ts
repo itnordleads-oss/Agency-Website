@@ -30,6 +30,8 @@ const SPA_ROUTES = [
   "/services/shopify-stores",
   "/services/wordpress-websites",
   "/services/custom-wordpress-theme-development",
+  "/projects",
+  "/projects/nova-commerce",
   "/about",
   "/contact",
   "/terms",
