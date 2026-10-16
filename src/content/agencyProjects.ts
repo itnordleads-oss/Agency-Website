@@ -37,6 +37,8 @@ export type AgencyProject = {
   /** Short meta label, e.g. category headline under the title. */
   label?: string;
   shortDescription: string;
+  /** One-line summary for the homepage project spotlight. */
+  homepageDescription: string;
   /** Longer overview used for SEO/supporting context; hero uses shortDescription. */
   overview: string;
   category: AgencyProjectCategory;
@@ -86,6 +88,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     label: "E-commerce storefront concept",
     shortDescription:
       "Concept storefront for product discovery, collections, and checkout-oriented flows.",
+    homepageDescription: "A concept storefront for discovery, collections, and checkout.",
     overview:
       "Nova Commerce is a demo concept for a modern commerce experience. It focuses on clear product navigation, responsive layouts, and a maintainable storefront structure — not a real client engagement.",
     category: "websites",
@@ -122,6 +125,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Orbit Dashboard",
     label: "SaaS dashboard concept",
     shortDescription: "Dashboard concept for activity, status, and operational views in one place.",
+    homepageDescription: "A concept dashboard for activity, status, and operations.",
     overview:
       "Orbit Dashboard is a demo SaaS interface concept. It shows how dense operational information can stay readable through hierarchy, cards, and restrained data presentation — presented as a concept only.",
     category: "software",
@@ -159,6 +163,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     label: "Mobile application concept",
     shortDescription:
       "Mobile-first concept with clear primary actions and thumb-friendly navigation.",
+    homepageDescription: "A mobile concept for clear actions and thumb-friendly navigation.",
     overview:
       "Atlas Mobile is a demo mobile application concept. It explores focused screens, progressive disclosure, and interaction patterns that stay comfortable on small devices.",
     category: "mobile",
@@ -196,6 +201,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     label: "Content-driven website concept",
     shortDescription:
       "WordPress concept for structured pages, reusable sections, and editor-friendly layouts.",
+    homepageDescription: "A content concept for structured pages and reusable sections.",
     overview:
       "Vertex CMS is a demo content-site concept. It focuses on sectioned page composition and CMS-friendly structure — not a live WordPress client site.",
     category: "wordpress",
@@ -233,6 +239,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     label: "Custom software platform concept",
     shortDescription:
       "Custom software concept for multi-view workflows, settings, and connected screens.",
+    homepageDescription: "A platform concept for workflows, settings, and connected views.",
     overview:
       "Lumen Platform is a demo custom software concept. It shows how a broader product shell can organize modules, settings, and workflow views without inventing a real product company.",
     category: "software",
@@ -270,6 +277,8 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     label: "Shopify commerce concept",
     shortDescription:
       "Shopify concept for merchandising, collection pages, and storefront presentation.",
+    homepageDescription:
+      "A Shopify concept for merchandising, collections, and storefront presentation.",
     overview:
       "Forge Store is a demo Shopify commerce concept. It focuses on merchandising layout and storefront clarity for a concept shop — not a commissioned Shopify store.",
     category: "shopify",
