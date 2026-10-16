@@ -11,6 +11,7 @@ type HomepageSectionId = "services" | "value" | "process" | "about";
 
 const HOMEPAGE_H1_PATTERN =
   /custom software|software and digital|meetings|busywork|delivery|clarity/i;
+const SERVICES_H1 = /Build digital products and web experiences that fit your business/i;
 
 async function expectHomepageSectionBelowNavbar(page: Page, sectionId: HomepageSectionId) {
   const section = page.locator(`section#${sectionId}`);
@@ -127,8 +128,10 @@ test.describe("smoke", () => {
     await expect(page.getByText("Concept Project").first()).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /Project Goal/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Project Overview" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Project Gallery" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: "Delivery Summary" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Visual Gallery" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 2, name: "What This Demonstrates" })
+    ).toBeVisible();
   });
 
   test("all project detail routes resolve from centralized data", async ({ page }) => {
@@ -609,7 +612,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/services$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
+    await expect(page.getByRole("heading", { level: 1, name: SERVICES_H1 })).toBeVisible({
       timeout: 15_000,
     });
   });
@@ -890,11 +893,11 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/services$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
+    await expect(page.getByRole("heading", { level: 1, name: SERVICES_H1 })).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page).toHaveTitle(/Services — Agency/i);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
+    await expect(page).toHaveTitle(/Services \|/i);
+    await expect(page.locator('meta[name="robots"]')).not.toHaveAttribute("content", /noindex/i);
   });
 
   test("approved SEO copy appears on active public routes", async ({ page }) => {
@@ -956,7 +959,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page.locator("main#services-page")).toBeVisible({ timeout: 15_000 });
     await expect(
-      page.locator("main#services-page").getByRole("heading", { level: 1, name: "Services" })
+      page.locator("main#services-page").getByRole("heading", { level: 1, name: SERVICES_H1 })
     ).toBeVisible({ timeout: 15_000 });
 
     expect(consoleErrors).toEqual([]);
@@ -1344,7 +1347,7 @@ test.describe("smoke", () => {
     await servicesLink.focus();
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/services$/);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: SERVICES_H1 })).toBeVisible();
 
     expect(consoleErrors).toEqual([]);
     expect(pageErrors).toEqual([]);
@@ -1357,7 +1360,7 @@ test.describe("smoke", () => {
       test.setTimeout(90_000);
 
       for (const source of [
-        { path: "/", target: "Services", href: "/services", heading: "Services" },
+        { path: "/", target: "Services", href: "/services", heading: SERVICES_H1 },
         {
           path: "/contact",
           target: "About",
@@ -1622,201 +1625,152 @@ test.describe("smoke", () => {
     await expect(footer.locator('[aria-label="Social media"]')).toHaveCount(0);
   });
 
-  test.describe("footer proportional spacing", () => {
-    async function openContactFooter(page: Page) {
-      await page.goto("/contact");
+  test.describe("shared agency footer", () => {
+    async function openFooter(page: Page, path = "/contact") {
+      await page.goto(path);
       await acceptCookiesIfPresent(page);
       await page.evaluate(async () => {
-        for (let i = 0; i < 40; i++) {
-          if (document.querySelector("footer.site-footer")) {
-            document.querySelector("footer.site-footer")?.scrollIntoView({ block: "end" });
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        for (let i = 0; i < 60; i++) {
+          const footerNode = document.querySelector("footer.site-footer");
+          if (footerNode) {
+            footerNode.classList.add("is-revealed");
+            footerNode.scrollIntoView({ block: "end" });
             return;
           }
-          window.scrollBy(0, Math.floor(window.innerHeight * 0.85));
-          await new Promise((resolve) => window.setTimeout(resolve, 50));
+          window.scrollBy(0, Math.floor(window.innerHeight * 0.9));
+          if (i % 8 === 7) {
+            window.scrollTo(0, document.documentElement.scrollHeight);
+          }
+          await new Promise((resolve) => window.setTimeout(resolve, 80));
         }
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 300));
       });
       const footer = page.locator("footer.site-footer");
       await expect(footer).toBeVisible({ timeout: 20_000 });
+      await footer.evaluate((node) => node.classList.add("is-revealed"));
       await footer.scrollIntoViewIfNeeded();
       return footer;
     }
 
-    test("navigation items stay links and span the footer on small screens", async ({ page }) => {
-      for (const width of [320, 375, 768]) {
-        await page.setViewportSize({ width, height: 812 });
-        const footer = await openContactFooter(page);
-        const nav = footer.locator("nav.site-footer__nav");
-        const navLinks = nav.locator("a");
+    test("uses verified route groups, one CTA, and one bottom row", async ({ page }) => {
+      const footer = await openFooter(page);
 
-        // Explore: Home, Services, Projects · Company: About, Careers, Contact · Legal: Terms
-        await expect(navLinks).toHaveCount(7);
-        await expect(footer.locator("nav.site-footer__nav button")).toHaveCount(0);
-        await expect(navLinks.first()).toHaveAttribute("href", "/");
-        await expect(footer.getByRole("link", { name: "Services" })).toHaveAttribute(
-          "href",
-          "/services"
-        );
-        await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute(
-          "href",
-          "/projects"
-        );
-        await expect(footer.getByRole("link", { name: "Careers" })).toHaveAttribute(
-          "href",
-          "/careers"
-        );
-        await expect(footer.getByRole("link", { name: "Platform" })).toHaveCount(0);
+      await expect(footer.getByRole("navigation", { name: "Footer Explore" })).toBeVisible();
+      await expect(footer.getByRole("navigation", { name: "Footer Company" })).toBeVisible();
+      await expect(footer.getByRole("navigation", { name: "Footer Legal" })).toBeVisible();
 
-        const widths = await page.evaluate(() => {
-          const compose = document.querySelector(".site-footer__compose");
-          const navigation = document.querySelector(".site-footer__nav");
-          if (!(compose instanceof HTMLElement) || !(navigation instanceof HTMLElement)) {
-            return null;
-          }
-          return {
-            compose: compose.getBoundingClientRect().width,
-            nav: navigation.getBoundingClientRect().width,
-          };
-        });
-
-        expect(widths, `compact nav at ${width}px`).not.toBeNull();
-        expect(widths?.nav, `nav width at ${width}px`).toBeGreaterThan(80);
-        expect(widths?.nav ?? 0, `nav width at ${width}px`).toBeGreaterThan(
-          (widths?.compose ?? 0) * 0.9
+      const expectedLinks = [
+        ["Home", "/"],
+        ["Services", "/services"],
+        ["Projects", "/projects"],
+        ["About", "/about"],
+        ["Careers", "/careers"],
+        ["Contact", "/contact"],
+        ["Terms", "/terms"],
+      ] as const;
+      for (const [label, href] of expectedLinks) {
+        await expect(footer.getByRole("link", { name: label, exact: true })).toHaveAttribute(
+          "href",
+          href
         );
       }
+
+      await expect(footer.getByRole("link", { name: "Start a Project" })).toHaveAttribute(
+        "href",
+        "/contact"
+      );
+      await expect(footer.getByRole("link", { name: "Platform", exact: true })).toHaveCount(0);
+      await expect(footer.locator('a[href="#"], a[href=""]')).toHaveCount(0);
+      await expect(footer.getByText("© 2026. All rights reserved.", { exact: true })).toHaveCount(
+        1
+      );
+      await expect(
+        footer.getByText("Software, web, mobile, Shopify, and WordPress delivery.", {
+          exact: true,
+        })
+      ).toHaveCount(1);
     });
 
-    test("mobile footer stays stacked and tablet keeps brand/nav/legal structure", async ({
-      page,
-    }) => {
-      const footer = await openContactFooter(page);
+    test("stays balanced without horizontal overflow at required widths", async ({ page }) => {
+      test.setTimeout(90_000);
+      const widths = [320, 360, 375, 390, 430, 768, 1024, 1280, 1440];
 
-      await page.setViewportSize({ width: 375, height: 812 });
-      await footer.scrollIntoViewIfNeeded();
-      const mobile = await page.evaluate(() => {
-        const brand = document.querySelector(".site-footer__brand");
-        const nav = document.querySelector(".site-footer__nav");
-        const legal = document.querySelector(".site-footer__legal");
-        if (
-          !(brand instanceof HTMLElement) ||
-          !(nav instanceof HTMLElement) ||
-          !(legal instanceof HTMLElement)
-        ) {
-          return null;
-        }
-        const brandBox = brand.getBoundingClientRect();
-        const navBox = nav.getBoundingClientRect();
-        const legalBox = legal.getBoundingClientRect();
-        return {
-          stacked: brandBox.bottom <= navBox.top + 2 && navBox.bottom <= legalBox.top + 2,
-        };
-      });
-      expect(mobile?.stacked).toBe(true);
+      for (const width of widths) {
+        await page.setViewportSize({ width, height: width < 768 ? 812 : 900 });
+        const footer = await openFooter(page);
 
-      for (const width of [768, 820, 900, 1023]) {
-        await page.setViewportSize({ width, height: 900 });
-        await footer.scrollIntoViewIfNeeded();
-
-        const tablet = await page.evaluate(() => {
-          const brand = document.querySelector(".site-footer__brand");
-          const contact = document.querySelector(".site-footer__contact");
-          const nav = document.querySelector(".site-footer__nav");
-          const legal = document.querySelector(".site-footer__legal");
-          const compose = document.querySelector(".site-footer__compose");
+        const metrics = await footer.evaluate((element) => {
+          const top = element.querySelector(".site-footer__top");
+          const brand = element.querySelector(".site-footer__brand");
+          const navigation = element.querySelector(".site-footer__nav");
+          const bottom = element.querySelector(".site-footer__bottom");
           if (
+            !(top instanceof HTMLElement) ||
             !(brand instanceof HTMLElement) ||
-            !(nav instanceof HTMLElement) ||
-            !(legal instanceof HTMLElement) ||
-            !(compose instanceof HTMLElement)
+            !(navigation instanceof HTMLElement) ||
+            !(bottom instanceof HTMLElement)
           ) {
             return null;
           }
 
+          const topStyle = getComputedStyle(top);
+          const navStyle = getComputedStyle(navigation);
+          const bottomStyle = getComputedStyle(bottom);
+          const footerBox = element.getBoundingClientRect();
           const brandBox = brand.getBoundingClientRect();
-          const navBox = nav.getBoundingClientRect();
-          const legalBox = legal.getBoundingClientRect();
-          const composeBox = compose.getBoundingClientRect();
-          const overflowX =
-            document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
+          const navBox = navigation.getBoundingClientRect();
 
           return {
-            // Contact/social column is omitted while F2 identity values remain TBC.
-            contactPresent: contact instanceof HTMLElement,
-            navBelow: navBox.top >= brandBox.bottom - 2,
-            legalBelowNav: legalBox.top >= navBox.bottom - 2,
-            legalSpans: Math.abs(legalBox.width - composeBox.width) <= 2,
-            navSpansRow: navBox.width >= composeBox.width * 0.9,
-            overflowX,
-          };
-        });
-
-        expect(tablet, `tablet metrics at ${width}px`).not.toBeNull();
-        expect(tablet?.contactPresent, `contact column unpublished at ${width}px`).toBe(false);
-        expect(tablet?.navBelow, `nav spans below at ${width}px`).toBe(true);
-        expect(tablet?.legalBelowNav, `legal full-width row at ${width}px`).toBe(true);
-        expect(tablet?.legalSpans, `legal width at ${width}px`).toBe(true);
-        expect(tablet?.navSpansRow, `full-width nav at ${width}px`).toBe(true);
-        expect(tablet?.overflowX, `no overflow at ${width}px`).toBe(false);
-      }
-    });
-
-    test("logo gap matches footer spacing and desktop groups share a baseline", async ({
-      page,
-    }) => {
-      const footer = await openContactFooter(page);
-      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(7);
-
-      for (const width of [1024, 1440, 1920]) {
-        await page.setViewportSize({ width, height: 900 });
-        await footer.scrollIntoViewIfNeeded();
-
-        const metrics = await page.evaluate(() => {
-          const brand = document.querySelector(".site-footer__brand");
-          const nav = document.querySelector(".site-footer__nav");
-          const compose = document.querySelector(".site-footer__compose");
-          if (
-            !(brand instanceof HTMLElement) ||
-            !(nav instanceof HTMLElement) ||
-            !(compose instanceof HTMLElement)
-          ) {
-            return null;
-          }
-
-          const logo = brand.firstElementChild;
-          const description = brand.lastElementChild;
-          if (!(logo instanceof HTMLElement) || !(description instanceof HTMLElement)) {
-            return null;
-          }
-
-          return {
-            logoGap: Math.round(description.offsetTop - (logo.offsetTop + logo.offsetHeight)),
-            brandGap: Number.parseFloat(getComputedStyle(brand).gap),
-            composeGap: Number.parseFloat(getComputedStyle(compose).rowGap),
-            brandBottom: Math.round(brand.getBoundingClientRect().bottom),
-            navBottom: Math.round(nav.getBoundingClientRect().bottom),
+            overflowX:
+              document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+            insideViewport: footerBox.left >= -1 && footerBox.right <= window.innerWidth + 1,
+            topColumns: topStyle.gridTemplateColumns.split(" ").length,
+            navColumns: navStyle.gridTemplateColumns.split(" ").length,
+            brandBeforeNav: brandBox.bottom <= navBox.top + 2,
+            bottomDirection: bottomStyle.flexDirection,
           };
         });
 
         expect(metrics, `footer metrics at ${width}px`).not.toBeNull();
-        expect(metrics?.brandGap, `token match at ${width}px`).toBe(metrics?.composeGap);
-        // Desktop brand uses space-between so the description shares the nav baseline.
-        // Visual logo→copy gap may exceed the CSS gap token when the nav column is taller
-        // (studio Explore/Company groups vs the former three-column product footer).
-        expect(metrics?.logoGap, `logo gap size at ${width}px`).toBeGreaterThanOrEqual(20);
-        expect(
-          metrics?.logoGap ?? 0,
-          `logo gap at least spacing token at ${width}px`
-        ).toBeGreaterThanOrEqual((metrics?.brandGap ?? 0) - 8);
-        expect(
-          Math.abs((metrics?.brandBottom ?? 0) - (metrics?.navBottom ?? 0)),
-          `nav baseline at ${width}px`
-        ).toBeLessThanOrEqual(2);
+        expect(metrics?.overflowX, `page overflow at ${width}px`).toBe(false);
+        expect(metrics?.insideViewport, `footer bounds at ${width}px`).toBe(true);
+        expect(metrics?.topColumns, `top grid at ${width}px`).toBe(width < 768 ? 1 : 2);
+        expect(metrics?.navColumns, `navigation grid at ${width}px`).toBe(
+          width < 360 ? 1 : width < 640 ? 2 : 3
+        );
+        expect(metrics?.brandBeforeNav, `mobile stack at ${width}px`).toBe(width < 768);
+        expect(metrics?.bottomDirection, `bottom row at ${width}px`).toBe(
+          width < 768 ? "column" : "row"
+        );
       }
+    });
+
+    test("renders the same shared footer on Terms and honors reduced motion", async ({ page }) => {
+      const footer = await openFooter(page, "/terms");
+      await expect(footer).toHaveCount(1);
+      await expect(footer.getByRole("link", { name: "Start a Project" })).toBeVisible();
+
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await footer.getByRole("link", { name: "Start a Project" }).hover();
+
+      const motion = await footer
+        .getByRole("link", { name: "Start a Project" })
+        .evaluate((link) => {
+          const style = getComputedStyle(link);
+          return {
+            transform: style.transform,
+            transitionDuration: style.transitionDuration,
+          };
+        });
+
+      expect(motion.transform).toBe("none");
+      expect(motion.transitionDuration).toBe("0s");
     });
   });
 
-  test("contact social section stays unpublished while studio social URLs are TBC", async ({
+  test("contact social section renders verified cards while office location stays hidden", async ({
     page,
   }) => {
     await page.goto("/contact");
@@ -1825,8 +1779,30 @@ test.describe("smoke", () => {
     const contact = page.locator("main#contact-page");
     await expect(contact).toBeVisible({ timeout: 15_000 });
 
-    await expect(contact.locator("a.contact-social-card")).toHaveCount(0);
-    await expect(contact.getByRole("heading", { name: /Contact us another way/i })).toHaveCount(0);
+    const heading = contact.getByRole("heading", { name: "Contact us another way" });
+    await expect(heading).toBeVisible();
+
+    const cards = contact.locator("a.contact-social-card");
+    await expect(cards).toHaveCount(3);
+
+    const linkedin = contact.getByRole("link", { name: /LinkedIn/i });
+    await expect(linkedin).toBeVisible();
+    await expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/company/nordleadsai");
+    await expect(linkedin).toHaveAttribute("target", "_blank");
+    await expect(linkedin).toHaveAttribute("rel", "noopener noreferrer");
+
+    const instagram = contact.getByRole("link", { name: /Instagram/i });
+    await expect(instagram).toBeVisible();
+    await expect(instagram).toHaveAttribute("href", "https://www.instagram.com/nordleads");
+
+    const github = contact.getByRole("link", { name: "GitHub", exact: true });
+    await expect(github).toBeVisible();
+    await expect(github).toHaveAttribute("href", "https://github.com/itnordleads-oss");
+
+    await expect(contact.getByRole("link", { name: /Facebook/i })).toHaveCount(0);
+    await expect(contact.getByRole("link", { name: /YouTube/i })).toHaveCount(0);
+    await expect(contact.getByRole("link", { name: /Follow on X/i })).toHaveCount(0);
+    await expect(page.locator("#contact-location")).toHaveCount(0);
   });
 
   test("homepage no longer renders the repeated outcomes section", async ({ page }) => {
@@ -1880,8 +1856,6 @@ test.describe("smoke", () => {
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth
       );
       expect(overflow).toBe(false);
-
-      await expect(contact.locator(".contact-social-card")).toHaveCount(0);
     }
 
     expect(consoleErrors).toEqual([]);
