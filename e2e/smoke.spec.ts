@@ -7,7 +7,9 @@ declare global {
   }
 }
 
-type HomepageSectionId = "product" | "benefits" | "pricing";
+type HomepageSectionId = "services" | "value" | "process" | "about";
+
+const HOMEPAGE_H1_PATTERN = /build clear digital products|focused delivery partner/i;
 
 async function expectHomepageSectionBelowNavbar(page: Page, sectionId: HomepageSectionId) {
   const section = page.locator(`section#${sectionId}`);
@@ -15,7 +17,7 @@ async function expectHomepageSectionBelowNavbar(page: Page, sectionId: HomepageS
   // All homepage sections land on the content-start marker (eyebrow), not the padded box.
   const scrollTarget = page.locator(`[data-homepage-scroll-ref="${sectionId}"]`);
   const minGapPx = 8;
-  const maxGapPx = sectionId === "pricing" ? 128 : 48;
+  const maxGapPx = 48;
 
   await expect(section).toBeVisible({ timeout: 15_000 });
   await expect(heading).toBeVisible();
@@ -63,7 +65,7 @@ test.describe("smoke", () => {
     await expect(page).toHaveTitle(/Agency Website/i);
     await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     await expect(page.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
       "href",
       "#main-content"
@@ -74,10 +76,11 @@ test.describe("smoke", () => {
     await page.goto("/work");
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/(?:$|\?)/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
   test("company carousel replaces and repositions the homepage trust block", async ({ page }) => {
+    test.skip(true, "F4 agency Homepage V3 omits the product trust logo carousel.");
     // Multi-viewport navigations + mount scroll + reduced-motion reload exceed the 30s default.
     test.setTimeout(90_000);
     const consoleErrors: string[] = [];
@@ -347,6 +350,7 @@ test.describe("smoke", () => {
   test("customer stories carousel keeps autoplay during hover and page wheel scroll", async ({
     page,
   }) => {
+    test.skip(true, "F4 agency Homepage V3 omits the product testimonials carousel.");
     test.setTimeout(90_000);
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -525,39 +529,16 @@ test.describe("smoke", () => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Platform/i);
-    await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
+    await expect(page).toHaveURL(/\/services$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
       timeout: 15_000,
     });
-
-    await page.evaluate(async () => {
-      for (let attempt = 0; attempt < 24; attempt += 1) {
-        window.scrollTo(0, document.documentElement.scrollHeight);
-        await new Promise((resolve) => window.setTimeout(resolve, 80));
-      }
-    });
-
-    const overviewStrip = page.locator("#platform-overview-strip");
-    await expect(overviewStrip).toBeVisible({ timeout: 15_000 });
-    await overviewStrip.scrollIntoViewIfNeeded();
-    await expect(overviewStrip.getByRole("button", { name: /Let's Talk/i })).toHaveCount(0);
-    await expect(
-      overviewStrip.getByText("No pressure. No obligation.", { exact: true })
-    ).toHaveCount(0);
-    for (const title of [
-      "Find the right companies",
-      "Research before you write",
-      "Launch with support",
-    ]) {
-      await expect(overviewStrip.getByText(title, { exact: true })).toBeVisible();
-    }
-    await expect(overviewStrip.getByRole("button")).toHaveCount(0);
-    await expect(overviewStrip.getByRole("link")).toHaveCount(0);
   });
 
   test("platform capabilities use interactive walkthrough and preserve content", async ({
     page,
   }) => {
+    test.skip(true, "F9 retired /platform; Services placeholder has no product walkthrough.");
     test.setTimeout(90_000);
 
     const consoleErrors: string[] = [];
@@ -829,29 +810,16 @@ test.describe("smoke", () => {
     await page.goto("/platform");
     await acceptCookiesIfPresent(page);
 
-    await expect(page.getByRole("heading", { level: 1, name: "Platform" })).toBeVisible({
+    await expect(page).toHaveURL(/\/services$/);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible({
       timeout: 15_000,
     });
-    await expect(page).toHaveTitle(/Platform — Agency/i);
+    await expect(page).toHaveTitle(/Services — Agency/i);
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
-
-    await page
-      .locator("header")
-      .getByRole("button", { name: /Language/i })
-      .first()
-      .click();
-    await page.getByRole("option", { name: /^DE$/i }).first().click();
-
-    // Document title stays English/noindex; visible UI copy may still localize.
-    await expect(page).toHaveTitle(/Platform — Agency/i);
-    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
-    await expect(page.getByRole("heading", { level: 1, name: "Plattform" })).toBeVisible({
-      timeout: 15_000,
-    });
-    await expect(page.getByRole("button", { name: /Gespräch starten/i }).first()).toBeVisible();
   });
 
   test("approved SEO copy appears on active public routes", async ({ page }) => {
+    test.setTimeout(90_000);
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") {
@@ -864,53 +832,24 @@ test.describe("smoke", () => {
 
     const hero = page.locator("section#v2-hero");
     await expect(
-      hero.getByText(
-        "ADealForge finds qualified companies, prepares personalized first emails, and keeps outbound sales campaigns moving—so your sales team can focus on conversations.",
-        { exact: true }
-      )
+      hero.getByText(/Build clear digital products with a focused delivery partner\./i)
     ).toBeVisible();
-    await expect(hero.getByText(/ADealForge finds fit companies/i)).toHaveCount(0);
+    await expect(hero.getByText(/ADealForge finds qualified companies/i)).toHaveCount(0);
 
     await page.evaluate(async () => {
-      for (let attempt = 0; attempt < 35; attempt += 1) {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
         window.scrollTo(0, document.documentElement.scrollHeight);
-        await new Promise((resolve) => window.setTimeout(resolve, 80));
+        await new Promise((resolve) => window.setTimeout(resolve, 120));
       }
     });
 
+    for (const sectionId of ["services", "value", "process", "about"] as const) {
+      await expect(page.locator(`section#${sectionId}`)).toBeVisible({ timeout: 15_000 });
+    }
+    await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
-    const targetCustomerNode = page
-      .locator("section#benefits .homepage-v3-benefits__node")
-      .filter({ hasText: "Companies that match your target customer" })
-      .first();
-    await targetCustomerNode.focus();
-    await expect(
-      targetCustomerNode.getByText("Companies that match your target customer", { exact: true })
-    ).toBeVisible();
-    await expect(
-      page
-        .locator("#v2-testimonials .testimonials-carousel__set")
-        .first()
-        .getByText(
-          "“Sales automation saved our team hours each week and streamlined our outbound sales workflow.”",
-          { exact: true }
-        )
-    ).toHaveCount(1);
-    await expect(
-      page
-        .locator("section#pricing")
-        .getByText(
-          "Choose a plan that fits B2B sales teams and growing companies ready to scale outbound sales.",
-          { exact: true }
-        )
-    ).toBeVisible();
-    await expect(
-      page
-        .locator("section#v2-faq")
-        .getByText("We learn about your outbound sales goals and explain how we can help.", {
-          exact: true,
-        })
-    ).toBeVisible();
+    await expect(page.locator("#v2-testimonials")).toHaveCount(0);
+
     await expect(
       page
         .locator("footer")
@@ -919,30 +858,9 @@ test.describe("smoke", () => {
         })
     ).toBeVisible();
 
-    await page.goto("/platform");
+    await page.goto("/services");
     await acceptCookiesIfPresent(page);
-
-    const platform = page.locator("main#platform-page");
-    await expect(
-      platform.getByText(
-        "Find the right companies, conduct prospect research, and prepare personalized first sales emails with human review and live campaign support.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(
-      platform.getByText(
-        "Managed outreach is available now through a reviewed workflow. Public platform access stays closed while development continues.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(
-      platform.getByText(
-        "Tell us your outbound goals and we’ll share how managed services can help—no pressure.",
-        { exact: true }
-      )
-    ).toBeVisible();
-    await expect(platform.getByText(/The platform is still being built/i)).toHaveCount(0);
-    await expect(platform.getByText(/Curious about what we're building\?/i)).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
 
     expect(consoleErrors).toEqual([]);
   });
@@ -951,6 +869,7 @@ test.describe("smoke", () => {
     "workflow page renders only the workflow dashboard",
     { tag: "@critical" },
     async ({ page }) => {
+      test.skip(true, "F9 retired /workflow; deep links redirect to Services.");
       const consoleErrors: string[] = [];
       const pageErrors: string[] = [];
       page.on("console", (message) => {
@@ -1004,6 +923,7 @@ test.describe("smoke", () => {
   );
 
   test("workflow dashboard remains responsive on mobile", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow; deep links redirect to Services.");
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
@@ -1020,6 +940,7 @@ test.describe("smoke", () => {
   });
 
   test("workflow header-to-content top spacing matches Platform and Contact", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow; deep links redirect to Services.");
     test.setTimeout(90_000);
 
     let cookiesHandled = false;
@@ -1073,6 +994,7 @@ test.describe("smoke", () => {
   });
 
   test("workflow page keeps fixed english seo when language changes", async ({ page }) => {
+    test.skip(true, "F9 retired /workflow; deep links redirect to Services.");
     await page.goto("/workflow");
     await acceptCookiesIfPresent(page);
 
@@ -1125,93 +1047,21 @@ test.describe("smoke", () => {
         }
       });
 
-      // Fresh homepage load — Yearly must be active before any tab click.
-      // F3 removed Pricing from the public studio navbar; open the section by hash.
+      // F9: product pricing hash retired — homepage sends users to Contact.
       await page.goto("/#pricing");
       await acceptCookiesIfPresent(page);
-      await expect(page).toHaveURL(/\/#pricing$/);
-      await expectHomepageSectionBelowNavbar(page, "pricing");
+      await expect(page).toHaveURL(/\/contact$/);
 
-      const pricing = page.locator("section#pricing");
-      await expect(pricing).toBeVisible({ timeout: 15_000 });
-      await expect(pricing.getByText(/most popular/i)).toHaveCount(0);
-      await expect(pricing.getByText(/25,?000 contacts/i)).toHaveCount(0);
-
-      const monthly = pricing.getByRole("button", { name: /^Monthly$/i });
-      const yearly = pricing.getByRole("button", { name: /Yearly/i });
-      const oneTime = pricing.getByRole("button", { name: /^One-Time$/i });
-
-      await expect(yearly).toHaveAttribute("aria-pressed", "true");
-      await expect(monthly).toHaveAttribute("aria-pressed", "false");
-      await expect(oneTime).toHaveAttribute("aria-pressed", "false");
-      await expect(yearly.getByText(/Save 20%/i)).toBeVisible();
-      await expect(pricing.getByText(/Billed once a year/i).first()).toBeVisible();
-      await expect(pricing.getByRole("article", { name: /FREE plan/i })).toBeVisible();
-      await expect(pricing.getByText("$0").first()).toBeVisible();
-      await expect(pricing.getByText(/50,?000 contacts/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Custom pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText("$559")).toHaveCount(0);
-      await expect(pricing.getByText("$699")).toHaveCount(0);
-
-      const featureList = pricing.locator(".homepage-v2-pricing__features").first();
-      await expect(featureList).toHaveCSS("gap", "4px");
-
-      await monthly.click();
-      await expect(monthly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText("/month").first()).toBeVisible();
-      await expect(pricing.getByText(/50,?000 contacts/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Custom pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText(/25,?000 contacts/i)).toHaveCount(0);
-      await expect(pricing.getByText(/Billed once a year/i)).toHaveCount(0);
-
-      await yearly.click();
-      await expect(yearly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText(/Billed once a year/i).first()).toBeVisible();
-
-      await oneTime.click();
-      await expect(oneTime).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText(/one-time/i).first()).toBeVisible();
-      await expect(pricing.getByText(/No subscription/i).first()).toBeVisible();
-      await expect(pricing.getByText(/Fixed number of verified leads/i).first()).toBeVisible();
-      await expect(pricing.getByText(/^Starter$/i)).toBeVisible();
-      await expect(pricing.getByText(/^Growth$/i)).toBeVisible();
-      await expect(pricing.getByText(/^Flexible$/i)).toBeVisible();
-      await expect(pricing.getByText(/50,?000 verified leads/i)).toBeVisible();
-      await expect(pricing.getByText(/Contact us for pricing/i).first()).toBeVisible();
-      await expect(pricing.getByText(/\/month/i)).toHaveCount(0);
-      await expect(pricing.getByText(/\/year/i)).toHaveCount(0);
-      await expect(pricing.getByText(/Billed once a year/i)).toHaveCount(0);
-      await expect(pricing.getByText(/billed monthly/i)).toHaveCount(0);
-      await expect(pricing.getByText(/most popular/i)).toHaveCount(0);
-
-      await monthly.click();
-      await expect(monthly).toHaveAttribute("aria-pressed", "true");
-      await expect(pricing.getByText("/month").first()).toBeVisible();
-
-      for (const viewport of [
-        { width: 1440, height: 900 },
-        { width: 768, height: 1024 },
-        { width: 390, height: 844 },
-      ]) {
-        await page.setViewportSize(viewport);
-        await expect(pricing.getByRole("group", { name: /Select pricing mode/i })).toBeVisible();
-        const cards = pricing.locator("article.homepage-v2-pricing__card");
-        await expect(cards).toHaveCount(3);
-        const gaps = await pricing
-          .locator(".homepage-v2-pricing__features")
-          .evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).gap));
-        expect(gaps.every((gap) => gap === "4px")).toBe(true);
-        const overflow = await page.evaluate(
-          () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-        );
-        expect(overflow).toBe(false);
-      }
+      await page.goto("/");
+      await acceptCookiesIfPresent(page);
+      await expect(page.locator("section#pricing")).toHaveCount(0);
 
       expect(consoleErrors).toEqual([]);
     }
   );
 
   test("homepage benefits section presents radial business outcomes", async ({ page }) => {
+    test.skip(true, "F4 agency Homepage V3 uses #value cards instead of radial benefits.");
     test.setTimeout(90_000);
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
@@ -1407,14 +1257,19 @@ test.describe("smoke", () => {
 
       for (const source of [
         { path: "/", target: "Services", href: "/services", heading: "Services" },
-        { path: "/contact", target: "About", href: "/about", heading: "About" },
+        {
+          path: "/contact",
+          target: "About",
+          href: "/about",
+          heading: /development studio|useful delivery/i,
+        },
         {
           path: "/services",
           target: "Contact",
           href: "/contact",
           heading: /start the conversation/i,
         },
-        { path: "/about", target: "Home", href: "/", heading: /meetings|busywork/i },
+        { path: "/about", target: "Home", href: "/", heading: HOMEPAGE_H1_PATTERN },
       ] as const) {
         await page.goto(source.path);
         await acceptCookiesIfPresent(page);
@@ -1452,34 +1307,35 @@ test.describe("smoke", () => {
 
       await expect(page).toHaveURL(/\/about$/);
       await expect(mobileMenu).toHaveCount(0);
-      await expect(page.getByRole("heading", { level: 1, name: "About" })).toBeVisible();
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(/development studio/i);
     }
   );
 
   test("homepage section hashes survive refresh and browser history navigation", async ({
     page,
   }) => {
-    await page.goto("/#pricing");
+    await page.goto("/#process");
     await acceptCookiesIfPresent(page);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expect(page).toHaveURL(/\/#process$/);
+    await expectHomepageSectionBelowNavbar(page, "process");
 
     await page.reload();
-    await expect(page).toHaveURL(/\/#pricing$/);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expect(page).toHaveURL(/\/#process$/);
+    await expectHomepageSectionBelowNavbar(page, "process");
 
     await page.evaluate(() => {
       window.location.hash = "product";
     });
     await expect(page).toHaveURL(/\/#product$/);
-    await expectHomepageSectionBelowNavbar(page, "product");
+    await expectHomepageSectionBelowNavbar(page, "services");
 
     await page.goBack();
-    await expect(page).toHaveURL(/\/#pricing$/);
-    await expectHomepageSectionBelowNavbar(page, "pricing");
+    await expect(page).toHaveURL(/\/#process$/);
+    await expectHomepageSectionBelowNavbar(page, "process");
 
     await page.goForward();
     await expect(page).toHaveURL(/\/#product$/);
-    await expectHomepageSectionBelowNavbar(page, "product");
+    await expectHomepageSectionBelowNavbar(page, "services");
   });
 
   test(
@@ -1491,7 +1347,7 @@ test.describe("smoke", () => {
 
       await expect(page).toHaveURL(/\/$/);
       await expect(page).toHaveTitle(/Agency Website/i);
-      await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+      await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     }
   );
 
@@ -1501,7 +1357,7 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
   test("legacy homepage v3 redirects to production home", async ({ page }) => {
@@ -1510,7 +1366,7 @@ test.describe("smoke", () => {
 
     await expect(page).toHaveURL(/\/$/);
     await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/meetings|busywork/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
   test("contact page loads", { tag: "@critical" }, async ({ page }) => {
@@ -1864,37 +1720,11 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookiesIfPresent(page);
 
-    await page.evaluate(async () => {
-      for (let attempt = 0; attempt < 35; attempt += 1) {
-        window.scrollTo(0, document.documentElement.scrollHeight);
-        await new Promise((resolve) => window.setTimeout(resolve, 80));
-      }
-    });
-
     await expect(page.locator("section#v2-results")).toHaveCount(0);
-    await expect(
-      page.getByRole("heading", { level: 2, name: "What this means for your business" })
-    ).toHaveCount(0);
-
-    const benefits = page.locator("section#benefits");
-    const testimonials = page.locator("#v2-testimonials");
-    await expect(benefits).toBeVisible({ timeout: 15_000 });
-    await expect(testimonials).toBeVisible();
-
-    for (const viewport of [
-      { width: 1440, height: 900 },
-      { width: 768, height: 1024 },
-      { width: 390, height: 844 },
-    ]) {
-      await page.setViewportSize(viewport);
-      await expect(benefits).toBeVisible();
-      await expect(testimonials).toBeVisible();
-
-      const overflow = await page.evaluate(
-        () => document.documentElement.scrollWidth > document.documentElement.clientWidth
-      );
-      expect(overflow).toBe(false);
-    }
+    await expect(page.locator("section#benefits")).toHaveCount(0);
+    await expect(page.locator("#v2-testimonials")).toHaveCount(0);
+    await expect(page.locator("section#value")).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator("section#services")).toBeVisible();
   });
 
   test("contact page hides office location while business address is TBC", async ({ page }) => {
@@ -2057,17 +1887,17 @@ test.describe("smoke", () => {
       });
 
       await page.addInitScript(() => {
-        window.localStorage.removeItem("adealforge:schedule-meeting-dismissed-at");
+        window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
-      const routes = ["/", "/platform", "/workflow", "/contact"] as const;
+      const routes = ["/", "/services", "/about", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
 
         const prompt = page.locator(".schedule-meeting-float");
         const launcher = page.locator(".schedule-meeting-float__launcher");
-        const launcherByName = page.getByRole("button", { name: /Let's Start a Conversation/i });
+        const launcherByName = page.getByRole("button", { name: /Have a project in mind\?/i });
         const emailFab = page.locator(".email-fab");
         await expect(prompt).toHaveCount(0);
 
@@ -2075,13 +1905,13 @@ test.describe("smoke", () => {
         await expect(prompt).toBeVisible({ timeout: 18_000 });
 
         // The expanded window is only AUTO_COLLAPSE_MS (10s) wide, so assert the card first.
-        const startHere = prompt.getByRole("button", { name: /Start Here/i });
+        const startHere = prompt.getByRole("button", { name: /Get in Touch/i });
 
         await expect(
-          prompt.getByRole("heading", { level: 2, name: /Let's Start a Conversation/i })
+          prompt.getByRole("heading", { level: 2, name: /Have a project in mind\?/i })
         ).toBeVisible();
         await expect(prompt.locator(".schedule-meeting-float__subtitle")).toHaveText(
-          "No pressure. No obligation. Just a friendly conversation."
+          "Share a short note about what you need. We will follow up."
         );
         await expect(prompt.getByText(/learn a little about your business/i)).toHaveCount(0);
         await expect(startHere).toBeVisible();
@@ -2107,7 +1937,7 @@ test.describe("smoke", () => {
 
         // Auto-collapse must not persist, so the invitation returns on the next page load.
         const autoCollapseDismissedAt = await page.evaluate(() =>
-          window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+          window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
         );
         expect(autoCollapseDismissedAt).toBeNull();
       }
@@ -2121,7 +1951,7 @@ test.describe("smoke", () => {
       await expect(dismissiblePrompt).toHaveCount(0, { timeout: 5_000 });
       await expect(page.locator(".email-fab")).toHaveCount(0);
       const dismissedAt = await page.evaluate(() =>
-        window.localStorage.getItem("adealforge:schedule-meeting-dismissed-at")
+        window.localStorage.getItem("agency:schedule-meeting-dismissed-at")
       );
       expect(Number(dismissedAt)).toBeGreaterThan(0);
 

@@ -51,6 +51,10 @@ export function resolvePublicPath(pathname: string) {
   if (isLegacyHomepagePath(path)) {
     return "/";
   }
+  // F7: unpublished /work resolves to home before first paint (no child-effect redirect race).
+  if (path === "/work" && !isWorkPagePublished()) {
+    return "/";
+  }
   return resolveProductRouteRedirect(path) ?? path;
 }
 
@@ -256,52 +260,57 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#0C111B] text-white selection:bg-brand/35 selection:text-white font-sans w-full max-w-[100vw] min-w-0 touch-fast app-root">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <PageBackground />
 
       <div className="relative z-10 flex flex-col min-h-screen min-w-0 overflow-x-hidden">
         <Navbar />
 
-        {isTermsPage ? (
-          <TermsPage />
-        ) : isContactPage ? (
-          <>
-            <ContactPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isServicesPage ? (
-          <>
-            <ServicesPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isAboutPage ? (
-          <>
-            <AboutPage />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        ) : isWorkPage ? (
-          <>
-            <WorkPage />
-            {isWorkPagePublished() ? (
+        <div id="main-content" tabIndex={-1} className="flex flex-col flex-1 min-w-0 outline-none">
+          {isTermsPage ? (
+            <TermsPage />
+          ) : isContactPage ? (
+            <>
+              <ContactPage />
               <DeferredMount rootMargin="0px" minHeight="32rem">
                 <Footer />
               </DeferredMount>
-            ) : null}
-          </>
-        ) : (
-          <>
-            {/* Production homepage — Homepage V3 only. V1/V2 remain preserved in-repo. */}
-            <HomepageV3Page />
-            <DeferredMount rootMargin="0px" minHeight="32rem">
-              <Footer />
-            </DeferredMount>
-          </>
-        )}
+            </>
+          ) : isServicesPage ? (
+            <>
+              <ServicesPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isAboutPage ? (
+            <>
+              <AboutPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          ) : isWorkPage ? (
+            <>
+              <WorkPage />
+              {isWorkPagePublished() ? (
+                <DeferredMount rootMargin="0px" minHeight="32rem">
+                  <Footer />
+                </DeferredMount>
+              ) : null}
+            </>
+          ) : (
+            <>
+              {/* Production homepage — Homepage V3 only. V1/V2 remain preserved in-repo. */}
+              <HomepageV3Page />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
+            </>
+          )}
+        </div>
 
         {!isTermsPage ? <FloatingEmailButton /> : null}
         <FloatingScheduleMeeting />
