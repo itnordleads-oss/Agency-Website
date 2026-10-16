@@ -447,6 +447,9 @@ test.describe("smoke", () => {
     "about page renders agency content without invented claims",
     { tag: "@critical" },
     async ({ page }) => {
+      // Desktop assertions, a contact navigation, then three fresh /about loads.
+      test.setTimeout(90_000);
+
       const consoleErrors: string[] = [];
       page.on("console", (message) => {
         if (message.type() === "error") {
@@ -458,7 +461,8 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       await expect(page).toHaveTitle(/About/i);
-      await expect(page.locator("main#about-page")).toBeVisible();
+      const aboutMain = page.locator("main#about-page");
+      await expect(aboutMain).toBeVisible();
       await expect(
         page.getByRole("heading", { level: 1, name: /development studio|useful delivery/i })
       ).toBeVisible();
@@ -480,9 +484,12 @@ test.describe("smoke", () => {
       await expect(
         page.getByRole("heading", { level: 2, name: /simple path from idea to launch/i })
       ).toBeVisible();
-      await expect(page.getByRole("button", { name: /Get in Touch/i })).toBeVisible();
+      // Scope to the page's own final CTA — the header also exposes a
+      // "Get in Touch" button, so an unscoped query matches both (strict mode).
+      const aboutFinalCta = aboutMain.getByRole("button", { name: /Get in Touch/i });
+      await expect(aboutFinalCta).toBeVisible();
 
-      await page.getByRole("button", { name: /Get in Touch/i }).click();
+      await aboutFinalCta.click();
       await expect(page).toHaveURL(/\/contact$/);
 
       for (const viewport of [

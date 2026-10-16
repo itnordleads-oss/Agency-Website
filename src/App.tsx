@@ -23,7 +23,7 @@ import {
   resolveHomepageSectionId,
   scrollToHomepageSection,
 } from "./lib/homepageSections";
-import { getStudioNavHref } from "./lib/studioNavigation";
+import { getStudioNavHref, IS_WORK_NAV_PUBLISHED } from "./lib/studioNavigation";
 import { normalizeAppPath, resolveProductRouteRedirect } from "./lib/productRouteRetirement";
 
 /**
@@ -41,14 +41,20 @@ function isLegacyHomepagePath(pathname: string) {
   return LEGACY_HOMEPAGE_PATHS.has(normalizePath(pathname));
 }
 
+/** Unpublished Work must not silently render the homepage under `/work`. */
+function isUnpublishedWorkPath(pathname: string) {
+  return normalizePath(pathname) === "/work" && !IS_WORK_NAV_PUBLISHED;
+}
+
 /**
  * Resolve the public path:
  * - legacy homepage previews → `/`
+ * - unpublished Work → `/`
  * - retired product surfaces → agency destinations (F9)
  */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
-  if (isLegacyHomepagePath(path)) {
+  if (isLegacyHomepagePath(path) || isUnpublishedWorkPath(path)) {
     return "/";
   }
   return resolveProductRouteRedirect(path) ?? path;
@@ -129,12 +135,6 @@ export function navigateToSection(targetId: string) {
   const homepageSectionId = resolveHomepageSectionId(targetId);
   if (homepageSectionId) {
     if (typeof window === "undefined") {
-      return;
-    }
-
-    // Product pricing section retired from Homepage V3 — send users to Contact.
-    if (homepageSectionId === "pricing") {
-      navigateAppPath("/contact");
       return;
     }
 
