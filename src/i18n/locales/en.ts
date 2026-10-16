@@ -91,7 +91,7 @@ const en = {
         },
         {
           title: "Practical Engineering",
-          description: "Build what the product needs next.",
+          description: "Build what the product needs — not speculative extras.",
         },
         {
           title: "Structured Delivery",
@@ -143,7 +143,7 @@ const en = {
       eyebrow: "What we focus on",
       title: "Broad capabilities we apply across projects",
       subtitle:
-        "About covers the kinds of work we take on. Detailed offerings live on Services as they are published.",
+        "About covers the kinds of work we take on. Detailed offerings live on the Services page.",
       exploreServices: "Explore Services",
       items: [
         {
@@ -1305,9 +1305,10 @@ const en = {
       eyebrow: "Development studio",
       headline: "Custom software and digital products, delivered with clarity.",
       subheadline:
-        "We plan and build around real requirements—practical engineering, clear communication, and reviewable delivery from first conversation through launch.",
+        "We build around clear requirements with practical engineering and visible delivery from first conversation to launch.",
       primaryCta: "Start a Project",
-      secondaryCta: "See How We Work",
+      secondaryCta: "Explore Services",
+      secondaryCtaWork: "See Our Work",
       previewBadge: "Outbound sales view",
       previewTitle: "Campaign progress",
       previewRows: [
@@ -1317,69 +1318,126 @@ const en = {
         { label: "Status", value: "Sending" },
       ],
     },
+    heroVisual: {
+      eyebrow: "Delivery system",
+      title: "From brief to shipped product",
+      badge: "Studio",
+      caption: "Brief to product across software, web, mobile, commerce, and CMS.",
+      ariaLabel:
+        "Illustration of digital product delivery from brief through understand, design and build, and review to product",
+    },
     services: {
       eyebrow: "Services",
-      title: "Software and product work shaped around your goals",
-      subtitle:
-        "We help teams plan, build, and ship custom software and digital products with clear scope and reviewable delivery.",
-      cta: "Explore Services",
+      title: "Six focused services for product and web delivery",
+      subtitle: "Brief previews here, with full detail on each service page.",
+      cta: "Explore All Services",
+      exploreLabel: "Explore Service",
+      backToServices: "Back to services",
+      detailPrimaryCta: "Start a Project",
+      relatedTitle: "Related services",
+      items: [
+        {
+          id: "software-development",
+          title: "Software Development",
+          description: "Custom software for workflows, users, and integration needs.",
+        },
+        {
+          id: "website-development",
+          title: "Website Development",
+          description: "Responsive websites with clean implementation and room to grow.",
+        },
+        {
+          id: "mobile-app-development",
+          title: "Mobile App Development",
+          description:
+            "Mobile applications connected to your product, data, and authentication needs.",
+        },
+        {
+          id: "shopify-stores",
+          title: "Shopify Stores",
+          description: "Shopify storefront setup, customization, and store improvements.",
+        },
+        {
+          id: "wordpress-websites",
+          title: "WordPress Websites",
+          description: "Maintainable WordPress websites for content-driven teams.",
+        },
+        {
+          id: "custom-wordpress-theme-development",
+          title: "Custom WordPress Theme Development",
+          description: "Custom themes for distinct layouts and CMS-editable sections.",
+        },
+      ],
     },
     value: {
       eyebrow: "Why work with us",
-      title: "Delivery qualities you can plan around",
-      subtitle:
-        "Practical engineering and clear communication—without unverified claims or vanity metrics.",
+      title: "A delivery approach teams can plan around",
+      subtitle: "Clear communication and practical engineering from scope through delivery.",
       items: [
         {
           title: "Clear Communication",
-          description: "Priorities and decisions stay visible throughout the project.",
+          description: "Priorities and decisions stay visible.",
         },
         {
           title: "Practical Engineering",
-          description: "Build what the product needs next—not speculative extras.",
+          description: "Build what the product needs.",
         },
         {
           title: "Structured Delivery",
-          description: "Scope, checkpoints, and progress you can review with your team.",
+          description: "Scope and progress stay reviewable.",
         },
         {
           title: "Maintainable Solutions",
-          description: "Code and systems your team can keep running after launch.",
+          description: "Code and systems stay practical after launch.",
         },
       ],
+    },
+    workPreview: {
+      eyebrow: "Featured projects",
+      title: "Selected work",
+      subtitle: "Concept projects across software, web, mobile, commerce, and content.",
+      cta: "View All Projects",
     },
     process: {
       eyebrow: "How we work",
       title: "A simple path from idea to launch",
-      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      subtitle: "Five clear phases that keep scope, progress, and reviews visible.",
       steps: [
         {
           label: "Understand",
-          description: "Clarify goals, constraints, and what success looks like.",
+          description: "Clarify goals, users, and constraints.",
         },
         {
           label: "Plan",
-          description: "Shape scope, approach, and the next delivery steps.",
+          description: "Define scope, priorities, and direction.",
         },
         {
           label: "Build",
-          description: "Implement with practical engineering and steady progress.",
+          description: "Develop in clear, reviewable increments.",
         },
         {
           label: "Review",
-          description: "Check quality together and refine based on feedback.",
+          description: "Test quality, usability, and requirements.",
         },
         {
           label: "Launch",
-          description: "Ship confidently and hand off with clear next steps.",
+          description: "Prepare delivery and next steps.",
         },
       ],
     },
     aboutPreview: {
       eyebrow: "About",
       title: "A development studio focused on useful delivery",
-      subtitle:
-        "Learn how we approach projects, collaboration, and maintainable outcomes—before you start a build.",
+      support:
+        "We turn clear requirements into practical, reviewable, maintainable digital products.",
+      identity: {
+        lead: "We build",
+        domains: ["software", "web", "mobile", "commerce", "content systems"],
+        aroundLabel: "Around",
+        aroundValue: "clear requirements",
+        forLabel: "For",
+        forValue: "useful delivery",
+      },
       cta: "About Us",
     },
     trust: {
@@ -1714,9 +1772,11 @@ const en = {
       ],
     },
     finalCta: {
-      title: "Tell us what you need",
-      subtitle: "Tell us what you need. We'll explain how we can help.",
-      primaryCta: "Start the Conversation",
+      eyebrow: "Start a project",
+      title: "Have a project in mind?",
+      subtitle: "Tell us what you're building and we'll discuss the right approach.",
+      primaryCta: "Start a Project",
+      secondaryCta: "Explore Services",
       footnote: ["Talk to our team", ""],
     },
     conversationPrompt: {

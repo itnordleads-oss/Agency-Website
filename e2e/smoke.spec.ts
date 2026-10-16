@@ -73,11 +73,89 @@ test.describe("smoke", () => {
     );
   });
 
-  test("unpublished /work rewrites to homepage", { tag: "@critical" }, async ({ page }) => {
+  test("legacy /work redirects to /projects", { tag: "@critical" }, async ({ page }) => {
     await page.goto("/work");
     await acceptCookiesIfPresent(page);
-    await expect(page).toHaveURL(/\/(?:$|\?)/);
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
+    await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /digital products built around real requirements/i
+    );
+  });
+
+  test("/projects renders the dedicated Projects page", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/projects");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(
+      /digital products built around real requirements/i
+    );
+    await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: /featured projects/i }).getByRole("link", {
+        name: /View project: Nova Commerce/i,
+      })
+    ).toBeVisible();
+    await expect(
+      page.getByRole("region", { name: /all projects/i }).getByRole("link", {
+        name: /View project: Nova Commerce/i,
+      })
+    ).toBeVisible();
+    await expect(page.getByText("Concept Project").first()).toBeVisible();
+
+    const filterGroup = page.getByRole("group", { name: "Filter projects by category" });
+    const allFilter = filterGroup.getByRole("button", { name: "All" });
+    const softwareFilter = filterGroup.getByRole("button", { name: "Software" });
+    await expect(allFilter).toHaveAttribute("aria-pressed", "true");
+    await softwareFilter.focus();
+    await expect(softwareFilter).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(softwareFilter).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
+      2
+    );
+    await allFilter.click();
+    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
+      6
+    );
+  });
+
+  test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {
+    await page.goto("/projects/nova-commerce");
+    await acceptCookiesIfPresent(page);
+    await expect(page).toHaveURL(/\/projects\/nova-commerce\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1, name: /Nova Commerce/i })).toBeVisible();
+    await expect(page.getByText("Concept Project").first()).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: /Project Goal/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Project Overview" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Project Gallery" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: "Delivery Summary" })).toBeVisible();
+  });
+
+  test("all project detail routes resolve from centralized data", async ({ page }) => {
+    test.setTimeout(90_000);
+    const projects = [
+      ["nova-commerce", "Nova Commerce"],
+      ["orbit-dashboard", "Orbit Dashboard"],
+      ["atlas-mobile", "Atlas Mobile"],
+      ["vertex-cms", "Vertex CMS"],
+      ["lumen-platform", "Lumen Platform"],
+      ["forge-store", "Forge Store"],
+    ] as const;
+
+    for (const [slug, title] of projects) {
+      await page.goto(`/projects/${slug}`);
+      await acceptCookiesIfPresent(page);
+      await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
+      await expect(page.getByText("Concept Project").first()).toBeVisible();
+      await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toBeVisible();
+
+      const related = page.getByRole("region", { name: "Related Projects" });
+      await expect(related.getByRole("link")).toHaveCount(3);
+      await expect(related.getByRole("link", { name: new RegExp(title, "i") })).toHaveCount(0);
+    }
+
+    await page.goto("/projects/not-a-real-project");
+    await expect(page.getByRole("heading", { level: 1, name: "Project not found" })).toBeVisible();
   });
 
   test("company carousel replaces and repositions the homepage trust block", async ({ page }) => {
@@ -835,7 +913,12 @@ test.describe("smoke", () => {
     await expect(
       hero.getByText(/Custom software and digital products, delivered with clarity\./i)
     ).toBeVisible();
+    await expect(hero.getByRole("button", { name: "Start a Project" })).toBeVisible();
+    await expect(hero.getByRole("button", { name: "Explore Services" })).toBeVisible();
+    await expect(hero.getByText(/How we work/i)).toHaveCount(0);
     await expect(hero.getByText(/ADealForge finds qualified companies/i)).toHaveCount(0);
+    await expect(page.getByText(/vanity metrics/i)).toHaveCount(0);
+    await expect(page.getByText(/unverified claims/i)).toHaveCount(0);
 
     await page.evaluate(async () => {
       for (let attempt = 0; attempt < 40; attempt += 1) {
@@ -847,6 +930,16 @@ test.describe("smoke", () => {
     for (const sectionId of ["services", "value", "process", "about"] as const) {
       await expect(page.locator(`section#${sectionId}`)).toBeVisible({ timeout: 15_000 });
     }
+    await expect(page.locator("section#work-preview")).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Software Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Website Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Mobile App Development" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Shopify Stores" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "WordPress Websites" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Custom WordPress Theme Development" })
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Have a project in mind?" })).toBeVisible();
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
@@ -861,7 +954,10 @@ test.describe("smoke", () => {
 
     await page.goto("/services");
     await acceptCookiesIfPresent(page);
-    await expect(page.getByRole("heading", { level: 1, name: "Services" })).toBeVisible();
+    await expect(page.locator("main#services-page")).toBeVisible({ timeout: 15_000 });
+    await expect(
+      page.locator("main#services-page").getByRole("heading", { level: 1, name: "Services" })
+    ).toBeVisible({ timeout: 15_000 });
 
     expect(consoleErrors).toEqual([]);
   });
@@ -1239,6 +1335,10 @@ test.describe("smoke", () => {
     await expect(primaryNavigation.getByRole("link", { name: "Product" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Benefits" })).toHaveCount(0);
     await expect(primaryNavigation.getByRole("link", { name: "Work" })).toHaveCount(0);
+    await expect(primaryNavigation.getByRole("link", { name: "Projects" })).toHaveAttribute(
+      "href",
+      "/projects"
+    );
 
     const servicesLink = primaryNavigation.getByRole("link", { name: "Services" });
     await servicesLink.focus();
@@ -1302,6 +1402,10 @@ test.describe("smoke", () => {
       await expect(mobileMenu.getByText("Workflow", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Pricing", { exact: true })).toHaveCount(0);
       await expect(mobileMenu.getByText("Work", { exact: true })).toHaveCount(0);
+      await expect(mobileMenu.getByRole("link", { name: "Projects" })).toHaveAttribute(
+        "href",
+        "/projects"
+      );
       const aboutLink = mobileMenu.getByRole("link", { name: "About" });
       await expect(aboutLink).toHaveAttribute("href", "/about");
       await aboutLink.click();
@@ -1545,13 +1649,21 @@ test.describe("smoke", () => {
         const nav = footer.locator("nav.site-footer__nav");
         const navLinks = nav.locator("a");
 
-        // Home, Services, About, Contact, Terms
-        await expect(navLinks).toHaveCount(5);
+        // Explore: Home, Services, Projects · Company: About, Careers, Contact · Legal: Terms
+        await expect(navLinks).toHaveCount(7);
         await expect(footer.locator("nav.site-footer__nav button")).toHaveCount(0);
         await expect(navLinks.first()).toHaveAttribute("href", "/");
         await expect(footer.getByRole("link", { name: "Services" })).toHaveAttribute(
           "href",
           "/services"
+        );
+        await expect(footer.getByRole("link", { name: "Projects" })).toHaveAttribute(
+          "href",
+          "/projects"
+        );
+        await expect(footer.getByRole("link", { name: "Careers" })).toHaveAttribute(
+          "href",
+          "/careers"
         );
         await expect(footer.getByRole("link", { name: "Platform" })).toHaveCount(0);
 
@@ -1653,7 +1765,7 @@ test.describe("smoke", () => {
       page,
     }) => {
       const footer = await openContactFooter(page);
-      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(5);
+      await expect(footer.locator("nav.site-footer__nav a")).toHaveCount(7);
 
       for (const width of [1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
@@ -1724,8 +1836,17 @@ test.describe("smoke", () => {
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("section#benefits")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
+
+    // Services grid is taller than the old teaser — scroll so DeferredMount sections appear.
+    await page.evaluate(async () => {
+      for (let attempt = 0; attempt < 40; attempt += 1) {
+        window.scrollTo(0, document.documentElement.scrollHeight);
+        await new Promise((resolve) => window.setTimeout(resolve, 120));
+      }
+    });
+
+    await expect(page.locator("section#services")).toBeVisible({ timeout: 15_000 });
     await expect(page.locator("section#value")).toBeVisible({ timeout: 15_000 });
-    await expect(page.locator("section#services")).toBeVisible();
   });
 
   test("contact page hides office location while business address is TBC", async ({ page }) => {
@@ -1891,7 +2012,12 @@ test.describe("smoke", () => {
         window.localStorage.removeItem("agency:schedule-meeting-dismissed-at");
       });
 
-      const routes = ["/", "/services", "/about", "/contact"] as const;
+      // Homepage keeps Hero + Final CTA only — floating prompt is unmounted on `/`.
+      await page.goto("/");
+      await acceptCookiesIfPresent(page);
+      await expect(page.locator(".schedule-meeting-float")).toHaveCount(0);
+
+      const routes = ["/services", "/about", "/projects", "/careers", "/contact"] as const;
 
       for (const route of routes) {
         await page.goto(route);
@@ -1944,7 +2070,7 @@ test.describe("smoke", () => {
       }
 
       // Manual dismissal still persists and removes the widget before auto-collapse.
-      await page.goto("/");
+      await page.goto("/services");
       await acceptCookiesIfPresent(page);
       const dismissiblePrompt = page.locator(".schedule-meeting-float");
       await expect(dismissiblePrompt).toBeVisible({ timeout: 18_000 });

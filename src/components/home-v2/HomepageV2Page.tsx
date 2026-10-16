@@ -12,6 +12,7 @@ import HomeV2Blog from "./HomeV2Blog";
 import HomeV2FinalCta from "./HomeV2FinalCta";
 import HomeAgencyServices from "./HomeAgencyServices";
 import HomeAgencyValue from "./HomeAgencyValue";
+import HomeAgencyWork from "./HomeAgencyWork";
 import HomeAgencyProcess from "./HomeAgencyProcess";
 import HomeAgencyAbout from "./HomeAgencyAbout";
 import ScrollToTopButton from "../ScrollToTopButton";
@@ -148,8 +149,9 @@ function sectionRootMargin(requestedSectionId: HomepageSectionId | null) {
  * Production Homepage V3 reuses this page with `variant="v3"` at `/`.
  *
  * Flow (V2): Hero → Trust → Product → Features → Workflow → Proof → Pricing → FAQ → Blog → CTA
- * Flow (V3 / F4 agency): Hero → Services → Value → Process → About preview → Final CTA
- * Unverified trust, work, pricing, FAQ, and product surfaces are omitted on V3.
+ * Flow (V3 agency): Hero → Services → Featured Projects → Why Us →
+ * Process → About preview → Final CTA.
+ * Fake proof, pricing, FAQ, and product surfaces are omitted on V3.
  */
 export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageVariant }) {
   useHomepageMetadata(variant);
@@ -169,8 +171,12 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
 
         {isV3 ? (
           <>
-            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="10rem">
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="18rem">
               <HomeAgencyServices />
+            </DeferredMount>
+
+            <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">
+              <HomeAgencyWork />
             </DeferredMount>
 
             <DeferredMount rootMargin={sectionRootMargin(requestedSectionId)} minHeight="16rem">

@@ -1,53 +1,152 @@
-import React from "react";
+import React, { useRef } from "react";
+import { ArrowRight } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
-import { SecondaryButton } from "../Buttons";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import { navigateAppPath } from "../../App";
+import { HOME_AGENCY_SHELL } from "./homeAgencyLayout";
+import "./homeAgencyAbout.css";
 
 /**
- * F4 — About preview linking to `/about`.
- * No invented founders, team size, history, or locations.
+ * Homepage About preview — editorial typographic studio identity.
+ * Distinct from Why Us (principles), How We Work (timeline), and the full /about page.
  */
 export default function HomeAgencyAbout() {
   const { homepageV3 } = useSiteCopy();
   const { aboutPreview } = homepageV3;
+  const { identity } = aboutPreview;
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.28 });
+  const revealed = Boolean(inView || reduceMotion);
+  const ease = [0.22, 1, 0.36, 1] as const;
 
   return (
     <section
+      ref={sectionRef}
       id="about"
-      className="relative min-w-0 overflow-hidden py-12 sm:py-14 md:py-16"
+      className={`home-agency-about${revealed ? " is-revealed" : ""}`}
       aria-labelledby="agency-about-heading"
     >
-      <div className="relative z-10 mx-auto w-full min-w-0 max-w-7xl px-3 min-[341px]:px-4 sm:px-6">
-        <div className="liquid-glass relative overflow-hidden rounded-2xl border border-white/14 bg-white/[0.04] px-4 py-10 text-center max-[340px]:px-3 max-[340px]:py-9 sm:rounded-3xl sm:px-8 sm:py-12 md:px-12">
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-full"
-            style={{
-              backgroundImage:
-                "radial-gradient(800px circle at 50% -20%, rgba(61,129,227,0.18), rgba(0,210,255,0.05) 45%, transparent 75%)",
-            }}
-          />
-          <div className="relative z-10 mx-auto max-w-2xl space-y-3 md:space-y-4">
-            <div className="flex justify-center">
-              <span data-homepage-scroll-ref="about">
-                <SectionEyebrow label={aboutPreview.eyebrow} />
+      <div className="home-agency-about__bg" aria-hidden />
+      <div className={`${HOME_AGENCY_SHELL} home-agency-about__shell`}>
+        <div className="home-agency-about__layout">
+          <div className="home-agency-about__intro">
+            <motion.span
+              data-homepage-scroll-ref="about"
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0 },
+                    whileInView: { opacity: 1 },
+                    viewport: { once: true, amount: 0.35 },
+                    transition: { duration: 0.4, ease },
+                  })}
+            >
+              <SectionEyebrow label={aboutPreview.eyebrow} />
+            </motion.span>
+
+            <motion.h2
+              id="agency-about-heading"
+              className="section-title home-agency-about__heading text-left"
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 14 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, amount: 0.35 },
+                    transition: { duration: 0.5, ease },
+                  })}
+            >
+              {aboutPreview.title}
+            </motion.h2>
+
+            <motion.p
+              className="home-agency-about__support"
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 10 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, amount: 0.35 },
+                    transition: { duration: 0.45, delay: 0.04, ease },
+                  })}
+            >
+              {aboutPreview.support}
+            </motion.p>
+
+            <motion.a
+              href="/about"
+              className="home-agency-about__cta"
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0 },
+                    whileInView: { opacity: 1 },
+                    viewport: { once: true, amount: 0.35 },
+                    transition: { duration: 0.4, delay: 0.08, ease },
+                  })}
+              onClick={(event) => {
+                if (
+                  event.defaultPrevented ||
+                  event.button !== 0 ||
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  event.altKey
+                ) {
+                  return;
+                }
+                event.preventDefault();
+                navigateAppPath("/about");
+              }}
+            >
+              {aboutPreview.cta}
+              <ArrowRight className="home-agency-about__cta-arrow h-4 w-4" aria-hidden />
+            </motion.a>
+          </div>
+
+          <motion.aside
+            className="home-agency-about__identity"
+            aria-label="Studio focus"
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 18 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, amount: 0.28 },
+                  transition: { duration: 0.5, delay: 0.06, ease },
+                })}
+          >
+            <p className="home-agency-about__watermark" aria-hidden>
+              Studio
+            </p>
+
+            <div className="home-agency-about__identity-block">
+              <p className="home-agency-about__identity-lead">{identity.lead}</p>
+              <ul className="home-agency-about__domains">
+                {identity.domains.map((domain) => (
+                  <li key={domain}>{domain}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="home-agency-about__identity-rule" aria-hidden />
+
+            <div className="home-agency-about__identity-row">
+              <span className="home-agency-about__identity-label">{identity.aroundLabel}</span>
+              <span className="home-agency-about__identity-value">{identity.aroundValue}</span>
+            </div>
+
+            <div className="home-agency-about__identity-rule" aria-hidden />
+
+            <div className="home-agency-about__identity-row">
+              <span className="home-agency-about__identity-label">{identity.forLabel}</span>
+              <span className="home-agency-about__identity-value home-agency-about__identity-value--accent">
+                {identity.forValue}
               </span>
             </div>
-            <h2 id="agency-about-heading" className="section-title">
-              {aboutPreview.title}
-            </h2>
-            <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
-              {aboutPreview.subtitle}
-            </p>
-            <div className="flex justify-center pt-2">
-              <SecondaryButton
-                onClick={() => navigateAppPath("/about")}
-                className="w-full text-sm sm:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
-              >
-                {aboutPreview.cta}
-              </SecondaryButton>
-            </div>
-          </div>
+          </motion.aside>
         </div>
       </div>
     </section>

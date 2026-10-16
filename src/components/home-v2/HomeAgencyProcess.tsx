@@ -1,56 +1,111 @@
-import React from "react";
-import { ArrowRight } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
 import { useSiteCopy } from "../../lib/useSiteCopy";
+import { HOME_AGENCY_INTRO, HOME_AGENCY_SECTION, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
+import { homepageRevealProps } from "./homeAgencyMotion";
+import "./homeAgencyProcess.css";
+
+function useHorizontalProcessLayout(): boolean {
+  const [horizontal, setHorizontal] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return;
+    }
+    const query = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setHorizontal(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  return horizontal;
+}
 
 /**
- * F4 — How we work.
- * Neutral delivery phases only; no timeline or SLA promises.
+ * How we work — connected delivery timeline.
+ * Vertical below lg; horizontal open rail at lg+.
  */
 export default function HomeAgencyProcess() {
   const { homepageV3 } = useSiteCopy();
   const { process } = homepageV3;
+  const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.32 });
+  const revealed = Boolean(inView || reduceMotion);
+  const horizontal = useHorizontalProcessLayout();
 
   return (
     <section
+      ref={sectionRef}
       id="process"
-      className="relative min-w-0 overflow-hidden py-12 sm:py-14 md:py-16"
+      className={`home-agency-process ${HOME_AGENCY_SECTION}${revealed ? " is-revealed" : ""}`}
       aria-labelledby="agency-process-heading"
     >
-      <div className="relative z-10 mx-auto w-full min-w-0 max-w-7xl px-3 min-[341px]:px-4 sm:px-6">
-        <div className="mx-auto mb-8 max-w-2xl space-y-2.5 text-center md:mb-10">
-          <div className="flex justify-center">
-            <span data-homepage-scroll-ref="process">
-              <SectionEyebrow label={process.eyebrow} />
-            </span>
-          </div>
-          <h2 id="agency-process-heading" className="section-title">
+      <div className="home-agency-process__bg" aria-hidden />
+      <div className={`${HOME_AGENCY_SHELL} home-agency-process__shell`}>
+        <motion.div
+          className={`${HOME_AGENCY_INTRO} mb-5 sm:mb-6 md:mb-7`}
+          {...homepageRevealProps(reduceMotion)}
+        >
+          <span data-homepage-scroll-ref="process">
+            <SectionEyebrow label={process.eyebrow} />
+          </span>
+          <h2 id="agency-process-heading" className="section-title text-left">
             {process.title}
           </h2>
-          <p className="text-body text-sm leading-relaxed text-white/65 sm:text-base">
+          <p className="text-body text-[0.95rem] leading-relaxed text-white/70 sm:text-base">
             {process.subtitle}
           </p>
-        </div>
+        </motion.div>
 
-        <ol className="mx-auto flex max-w-5xl flex-col items-stretch gap-2.5 md:flex-row md:items-stretch md:gap-2">
-          {process.steps.map((step, index) => (
-            <React.Fragment key={step.label}>
-              <li className="flex min-w-0 flex-1 flex-col items-center rounded-2xl border border-white/12 bg-white/[0.03] px-3 py-3.5 text-center sm:px-4 sm:py-4">
-                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-accent-soft/30 bg-accent-soft/10 text-xs font-bold text-accent-soft">
-                  {index + 1}
-                </span>
-                <h3 className="mt-2 text-sm font-semibold text-white">{step.label}</h3>
-                <p className="mt-1 text-xs leading-snug text-white/55">{step.description}</p>
-              </li>
-              {index < process.steps.length - 1 ? (
-                <ArrowRight
-                  className="mx-auto hidden h-4 w-4 shrink-0 self-center text-white/30 md:block"
-                  aria-hidden
-                />
-              ) : null}
-            </React.Fragment>
-          ))}
-        </ol>
+        <motion.div {...homepageRevealProps(reduceMotion, 0.08)}>
+          <p className="home-agency-process__bridge" aria-hidden>
+            <span>Idea</span>
+            <span className="home-agency-process__bridge-line" />
+            <span>Delivery</span>
+          </p>
+
+          {!horizontal ? (
+            <div className="home-agency-process__vertical-wrap">
+              <div className="home-agency-process__v-rail" aria-hidden>
+                <div className="home-agency-process__v-progress" />
+              </div>
+              <ol className="home-agency-process__vertical">
+                {process.steps.map((step, index) => (
+                  <li key={step.label} className="home-agency-process__v-item">
+                    <span className="home-agency-process__node">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="home-agency-process__title">{step.label}</h3>
+                      <p className="home-agency-process__copy">{step.description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : (
+            <div className="home-agency-process__horizontal-wrap">
+              <div className="home-agency-process__h-rail" aria-hidden>
+                <div className="home-agency-process__h-progress" />
+                {!reduceMotion ? <span className="home-agency-process__indicator" /> : null}
+              </div>
+              <ol className="home-agency-process__horizontal">
+                {process.steps.map((step, index) => (
+                  <li key={step.label} className="home-agency-process__h-item">
+                    <span className="home-agency-process__node">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="home-agency-process__title">{step.label}</h3>
+                    <p className="home-agency-process__copy">{step.description}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   );

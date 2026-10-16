@@ -41,6 +41,7 @@ const CONTACT_PATHS = new Set(["/contact", "/contact/"]);
 /** Agency studio routes — rewrite to SPA shell before assets. */
 const SERVICES_PATHS = new Set(["/services", "/services/"]);
 const ABOUT_PATHS = new Set(["/about", "/about/"]);
+const CAREERS_PATHS = new Set(["/careers", "/careers/"]);
 const PROJECTS_PATHS = new Set(["/projects", "/projects/"]);
 const WORK_PATHS = new Set(["/work", "/work/"]);
 const PLATFORM_PATHS = new Set(["/platform", "/platform/"]);
@@ -60,6 +61,7 @@ function isAgencyDocumentPath(pathname: string) {
     SERVICES_PATHS.has(pathname) ||
     pathname.startsWith("/services/") ||
     ABOUT_PATHS.has(pathname) ||
+    CAREERS_PATHS.has(pathname) ||
     PROJECTS_PATHS.has(pathname) ||
     pathname.startsWith("/projects/") ||
     WORK_PATHS.has(pathname) ||

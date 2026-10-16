@@ -14,7 +14,7 @@ import {
 } from "./studioBranding";
 
 export type AgencySeoPageId =
-  "home" | "services" | "about" | "contact" | "terms" | "projects" | "work";
+  "home" | "services" | "about" | "careers" | "contact" | "terms" | "projects" | "work";
 
 export type AgencyPageSeo = {
   id: AgencySeoPageId;
@@ -34,7 +34,7 @@ function pageTitle(pageLabel: string): string {
  * Product routes (`/platform`, `/workflow`, `/landing/*`) are intentionally absent.
  */
 export function getAgencySitemapPathnames(): string[] {
-  return ["/", "/services", "/about", "/projects", "/contact", "/terms"];
+  return ["/", "/services", "/about", "/careers", "/projects", "/contact", "/terms"];
 }
 
 export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
@@ -64,6 +64,15 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         pathname: "/about",
         title: pageTitle("About"),
         description: "About the agency — background, approach, and how we work with clients.",
+        indexable: true,
+      };
+    case "careers":
+      return {
+        id,
+        pathname: "/careers",
+        title: pageTitle("Careers"),
+        description:
+          "Careers at the agency: future opportunities, studio working style, and how to get in touch.",
         indexable: true,
       };
     case "contact": {

@@ -17,7 +17,9 @@ import ProjectDetailPage from "./components/ProjectDetailPage";
 import ServicesPage from "./components/ServicesPage";
 import ServiceDetailRoute from "./components/ServiceDetailRoute";
 import AboutPage from "./components/AboutPage";
+import CareersPage from "./components/CareersPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
+import { isWorkPagePublished } from "./lib/workProjects";
 import { mapWorkPathToProjects } from "./lib/agencyProjects";
 import {
   getHomepageSectionHref,
@@ -64,6 +66,7 @@ function parseProjectSlug(pathname: string): string | null {
  * Resolve the public path:
  * - legacy homepage previews → `/`
  * - unpublished Work → `/`
+ * - legacy `/work` → `/projects` when mapped
  * - retired product surfaces → agency destinations (F9)
  * - legacy `/work` → canonical `/projects`
  */
@@ -267,8 +270,11 @@ export default function App() {
   const isTermsPage = path === "/terms";
   const isContactPage = path === "/contact";
   const isServicesPage = path === "/services";
-  const serviceDetailSlug = path.startsWith("/services/") ? path.slice("/services/".length) : null;
+  const serviceDetailSlug = path.startsWith("/services/")
+    ? path.slice("/services/".length).replace(/\/+$/, "")
+    : null;
   const isAboutPage = path === "/about";
+  const isCareersPage = path === "/careers";
   const projectSlug = parseProjectSlug(path);
   const isProjectsIndex = path === "/projects";
   const isProjectDetail = projectSlug !== null;
@@ -348,14 +354,12 @@ export default function App() {
                 <Footer />
               </DeferredMount>
             </>
-          ) : isWorkPage ? (
+          ) : isCareersPage ? (
             <>
-              <WorkPage />
-              {isWorkPagePublished() ? (
-                <DeferredMount rootMargin="0px" minHeight="32rem">
-                  <Footer />
-                </DeferredMount>
-              ) : null}
+              <CareersPage />
+              <DeferredMount rootMargin="0px" minHeight="32rem">
+                <Footer />
+              </DeferredMount>
             </>
           ) : (
             <>
@@ -369,7 +373,8 @@ export default function App() {
         </div>
 
         {!isTermsPage ? <FloatingEmailButton /> : null}
-        <FloatingScheduleMeeting />
+        {/* Homepage already has Hero + Final CTA — keep the floating card off `/`. */}
+        {!isTermsPage && path !== "/" ? <FloatingScheduleMeeting /> : null}
       </div>
     </div>
   );
