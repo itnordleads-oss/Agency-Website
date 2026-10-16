@@ -33,8 +33,8 @@ export default function Footer() {
 
   return (
     <footer className="site-footer border-t border-white/[0.1] bg-[#0A0F19] text-white/70 relative z-10">
-      <div className="border-t border-white/8 py-7 max-[340px]:py-6 md:py-8">
-        <div className="site-footer__shell max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 min-w-0">
+      <div className="border-t border-white/8 py-6 max-[340px]:py-5 md:py-7">
+        <div className="site-footer__shell max-w-7xl mx-auto px-4 min-[341px]:px-5 sm:px-6 lg:px-8 min-w-0">
           <div className="site-footer__compose">
             <div className="site-footer__brand">
               <div className="flex items-center">
