@@ -44,11 +44,18 @@ function isLegacyHomepagePath(pathname: string) {
 /**
  * Resolve the public path:
  * - legacy homepage previews → `/`
+ * - unpublished `/work` → `/` (F7; no public case studies yet)
  * - retired product surfaces → agency destinations (F9)
  */
 export function resolvePublicPath(pathname: string) {
   const path = normalizePath(pathname);
   if (isLegacyHomepagePath(path)) {
+    return "/";
+  }
+  // Rewrite before paint. WorkPage's effect runs before App's popstate listener
+  // is attached, so a post-mount navigateAppPath("/") leaves the URL at `/`
+  // while React stays on the "Redirecting…" shell.
+  if (path === "/work" && !isWorkPagePublished()) {
     return "/";
   }
   return resolveProductRouteRedirect(path) ?? path;
