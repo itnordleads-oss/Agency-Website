@@ -108,6 +108,10 @@ export function useSiteCopy() {
       t("aboutPage", { returnObjects: true, lng: language }),
       {} as Translations["aboutPage"]
     ),
+    servicesPage: asObject(
+      t("servicesPage", { returnObjects: true, lng: language }),
+      {} as Translations["servicesPage"]
+    ),
     platformPage: asObject(
       t("platformPage", { returnObjects: true, lng: language }),
       {} as Translations["platformPage"]

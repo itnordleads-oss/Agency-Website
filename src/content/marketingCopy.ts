@@ -9,10 +9,10 @@ export const marketingCopy = {
     // Runtime metadata uses studioBranding getters — do not reintroduce product-era copy here.
     title: "Agency Website",
     description:
-      "Marketing website for the agency. Brand identity details are pending leadership approval.",
+      "Custom software, websites, mobile applications, Shopify stores, and WordPress delivery for growing teams.",
     organizationDescription:
-      "Marketing website for the agency. Organization schema fields remain unpublished until approved.",
-    websiteDescription: "Marketing website for the agency.",
+      "Development studio focused on software, web, mobile, commerce, and WordPress delivery.",
+    websiteDescription: "Software development studio website for digital product delivery.",
   },
 
   hero: {

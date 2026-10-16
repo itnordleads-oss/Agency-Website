@@ -42,7 +42,7 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
   if (normalized === "/") {
     return "home";
   }
-  if (normalized === "/services") {
+  if (normalized === "/services" || normalized.startsWith("/services/")) {
     return "services";
   }
   if (normalized === "/about") {
