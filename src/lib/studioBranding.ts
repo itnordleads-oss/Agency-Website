@@ -10,7 +10,8 @@
  * (see docs/f10-branding-i18n-debt.md).
  */
 
-export type StudioSocialPlatform = "facebook" | "linkedin" | "twitter" | "instagram";
+export type StudioSocialPlatform =
+  "facebook" | "linkedin" | "twitter" | "instagram" | "youtube" | "github" | "dribbble" | "behance";
 
 export type StudioBusinessLocation = {
   name: string;
@@ -57,10 +58,22 @@ const APPROVED = {
   mailSubject: null as string | null,
   whatsappDefaultMessage: null as string | null,
   social: {
+    /** No verified public Facebook page found — leave unset / use env when approved. */
     facebook: null as string | null,
-    linkedin: null as string | null,
+    /** Public NordLeads company page. */
+    linkedin: "https://www.linkedin.com/company/nordleadsai" as string | null,
     twitter: null as string | null,
-    instagram: null as string | null,
+    /** Public NordLeads Instagram profile. */
+    instagram: "https://www.instagram.com/nordleads" as string | null,
+    /** No verified public YouTube channel found — leave unset / use env when approved. */
+    youtube: null as string | null,
+    /**
+     * Public GitHub organization that owns this repository
+     * (`itnordleads-oss/Agency-Website`). Not a fabricated profile URL.
+     */
+    github: "https://github.com/itnordleads-oss" as string | null,
+    dribbble: null as string | null,
+    behance: null as string | null,
   },
   location: null as StudioBusinessLocation | null,
   seo: {
@@ -203,6 +216,10 @@ export function getSocialUrl(platform: StudioSocialPlatform): string | null {
       linkedin: "VITE_SOCIAL_LINKEDIN_URL",
       twitter: "VITE_SOCIAL_TWITTER_URL",
       instagram: "VITE_SOCIAL_INSTAGRAM_URL",
+      youtube: "VITE_SOCIAL_YOUTUBE_URL",
+      github: "VITE_SOCIAL_GITHUB_URL",
+      dribbble: "VITE_SOCIAL_DRIBBBLE_URL",
+      behance: "VITE_SOCIAL_BEHANCE_URL",
     } as const
   )[platform];
 

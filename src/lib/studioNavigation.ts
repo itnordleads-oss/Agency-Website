@@ -58,8 +58,12 @@ export function resolveActiveStudioNavId(path: string): StudioNavItemId | null {
   return null;
 }
 
-/** Footer Explore column. */
-export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services"];
+/**
+ * Footer Explore column.
+ * `work` is included only when `getPublishedStudioNavItems()` publishes it
+ * (F7 content approved). There is no `/projects` or `/careers` route on this branch.
+ */
+export const FOOTER_EXPLORE_NAV_IDS: StudioNavItemId[] = ["home", "services", "work"];
 
-/** Footer Company column (Terms is appended separately). */
+/** Footer Company column (Terms is rendered separately; no Careers route yet). */
 export const FOOTER_COMPANY_NAV_IDS: StudioNavItemId[] = ["about", "contact"];
