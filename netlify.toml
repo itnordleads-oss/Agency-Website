@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Client routes (/about, /services, /contact, …) have no file of their own.
+# Existing assets are still served; only missing paths rewrite to the SPA shell.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
