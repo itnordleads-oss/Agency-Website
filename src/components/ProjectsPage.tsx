@@ -63,7 +63,8 @@ export default function ProjectsPage() {
               All projects
             </h2>
             <p className="text-body max-w-2xl text-sm leading-relaxed text-white/62 sm:text-[0.95rem]">
-              Browse concept work across software, web, mobile, Shopify, and WordPress.
+              Live websites and concept studies across software, web, mobile, Shopify, and
+              WordPress.
             </p>
           </div>
 

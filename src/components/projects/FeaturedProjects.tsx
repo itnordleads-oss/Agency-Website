@@ -29,7 +29,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           Featured projects
         </h2>
         <p className="text-body max-w-2xl text-sm leading-relaxed text-white/60">
-          Nova Commerce leads with Orbit Dashboard and Atlas Mobile as supporting concept work.
+          Relay, Brewnns, and Ridgeline Roofing open the live sites. The rest of the portfolio is
+          below.
         </p>
       </div>
 

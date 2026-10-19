@@ -157,7 +157,7 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 self-center text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
                 >
-                  View Demo
+                  {project.isDemo ? "View Demo" : "Visit website"}
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </a>
               ) : null}

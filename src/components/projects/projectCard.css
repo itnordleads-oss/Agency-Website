@@ -35,6 +35,27 @@
   flex-shrink: 0;
 }
 
+.project-card--live {
+  perspective: 1100px;
+}
+
+.project-card__shot {
+  transform: scale(1.03);
+  transition: transform 700ms ease;
+}
+
+.project-card--live:hover .project-card__shot,
+.project-card--live:focus-visible .project-card__shot {
+  transform: scale(1.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__shot {
+    transform: none;
+    transition: none;
+  }
+}
+
 .project-card--featured .project-card__media-wrap {
   aspect-ratio: 16 / 10;
 }

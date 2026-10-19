@@ -63,7 +63,9 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
   }
 
   // Derive ALL presentation fields from the same object — never from parallel state.
-  const href = getProjectPath(activeProject.slug);
+  const liveUrl =
+    !activeProject.isDemo && activeProject.projectUrl ? activeProject.projectUrl : null;
+  const href = liveUrl ?? getProjectPath(activeProject.slug);
   const categoryLabel = getProjectCategoryLabel(activeProject.category);
   const serviceLabel = activeProject.services?.[0];
   const technologies = (activeProject.technologies ?? []).slice(0, 3).join(" · ");
@@ -136,12 +138,14 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
           <div className="home-agency-spotlight__visual">
             {activeProject.isDemo ? (
               <span className="home-agency-spotlight__badge">Concept Project</span>
+            ) : liveUrl ? (
+              <span className="home-agency-spotlight__badge">Live</span>
             ) : null}
             <div className="home-agency-spotlight__visual-inner">
               {activeProject.thumbnail ? (
                 <img
                   src={activeProject.thumbnail}
-                  alt=""
+                  alt={activeProject.thumbnailAlt || ""}
                   className="home-agency-spotlight__image"
                 />
               ) : (
@@ -161,6 +165,8 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
               <div className="home-agency-spotlight__pills">
                 {activeProject.isDemo ? (
                   <span className="home-agency-spotlight__pill">Concept Project</span>
+                ) : liveUrl ? (
+                  <span className="home-agency-spotlight__pill">Live</span>
                 ) : null}
                 <span className="home-agency-spotlight__pill">{categoryLabel}</span>
               </div>
@@ -176,9 +182,11 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
               <a
                 href={href}
                 className="home-agency-spotlight__cta"
-                onClick={(event) => navigateProject(event, href)}
+                target={liveUrl ? "_blank" : undefined}
+                rel={liveUrl ? "noopener noreferrer" : undefined}
+                onClick={liveUrl ? undefined : (event) => navigateProject(event, href)}
               >
-                View Project
+                {liveUrl ? "Visit website" : "View Project"}
                 <ArrowRight className="home-agency-spotlight__cta-arrow h-4 w-4" aria-hidden />
               </a>
             </div>

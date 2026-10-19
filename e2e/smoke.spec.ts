@@ -93,7 +93,7 @@ test.describe("smoke", () => {
     await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toBeVisible();
     await expect(
       page.getByRole("region", { name: /featured projects/i }).getByRole("link", {
-        name: /View project: Nova Commerce/i,
+        name: /Visit website: Relay/i,
       })
     ).toBeVisible();
     await expect(
@@ -112,11 +112,11 @@ test.describe("smoke", () => {
     await page.keyboard.press("Enter");
     await expect(softwareFilter).toHaveAttribute("aria-pressed", "true");
     await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
-      2
+      4
     );
     await allFilter.click();
     await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
-      6
+      11
     );
   });
 
