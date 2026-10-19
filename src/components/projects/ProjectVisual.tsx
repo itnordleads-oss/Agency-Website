@@ -27,6 +27,11 @@ type ProjectVisualProps = {
   className?: string;
   /** Larger composition for heroes / featured previews. */
   density?: "default" | "rich";
+  /**
+   * Optional storytelling state (e.g. structure | content | preview).
+   * Applied as `project-visual--state-{id}` for motif-specific CSS emphasis.
+   */
+  interactionState?: string;
 };
 
 /**
@@ -39,15 +44,17 @@ export default function ProjectVisual({
   label,
   className = "",
   density = "default",
+  interactionState,
 }: ProjectVisualProps) {
   const accent = MOTIF_ACCENT[motif];
   const isMobile = motif === "mobile";
+  const stateClass = interactionState ? ` project-visual--state-${interactionState}` : "";
 
   return (
     <div
       className={`project-visual project-visual--${motif} project-visual--v${variant}${
         isMobile ? " project-visual--mobile" : ""
-      }${density === "rich" ? " project-visual--rich" : ""} ${className}`.trim()}
+      }${density === "rich" ? " project-visual--rich" : ""}${stateClass} ${className}`.trim()}
       style={{ ["--project-accent" as string]: accent }}
       aria-hidden
     >
@@ -267,34 +274,47 @@ function CmsScene({ variant }: { variant: 1 | 2 | 3 }) {
         <span className="pv-cms__rail-item pv-cms__rail-item--active" />
         <span className="pv-cms__rail-item" />
         <span className="pv-cms__rail-item" />
+        <span className="pv-cms__rail-item" />
       </aside>
-      <div className="pv-cms__canvas">
-        <span className="pv-line pv-line--lg" />
-        <span className="pv-line" />
-        {variant === 1 ? (
-          <div className="pv-cms__sections">
-            <div className="pv-cms__block pv-cms__block--hero" />
-            <div className="pv-cms__block" />
-            <div className="pv-cms__block pv-cms__block--accent" />
+      <div className="pv-cms__workspace">
+        <div className="pv-cms__canvas">
+          <div className="pv-cms__toolbar">
+            <span className="pv-line pv-line--sm" />
+            <span className="pv-pill pv-pill--accent" />
           </div>
-        ) : null}
-        {variant === 2 ? (
-          <div className="pv-cms__article">
-            <div className="pv-cms__block pv-cms__block--wide" />
-            <span className="pv-line" />
-            <span className="pv-line" />
+          {variant === 1 ? (
+            <div className="pv-cms__sections">
+              <div className="pv-cms__block pv-cms__block--hero" />
+              <div className="pv-cms__block" />
+              <div className="pv-cms__block pv-cms__block--accent" />
+            </div>
+          ) : null}
+          {variant === 2 ? (
+            <div className="pv-cms__article">
+              <div className="pv-cms__block pv-cms__block--wide" />
+              <span className="pv-line" />
+              <span className="pv-line" />
+              <span className="pv-line pv-line--sm" />
+              <span className="pv-line" />
+            </div>
+          ) : null}
+          {variant === 3 ? (
+            <div className="pv-cms__blocks">
+              <div className="pv-cms__tile" />
+              <div className="pv-cms__tile pv-cms__tile--accent" />
+              <div className="pv-cms__tile" />
+              <div className="pv-cms__tile" />
+            </div>
+          ) : null}
+        </div>
+        <div className="pv-cms__preview">
+          <span className="pv-cms__preview-label" />
+          <div className="pv-cms__preview-panel">
             <span className="pv-line pv-line--sm" />
             <span className="pv-line" />
+            <span className="pv-line pv-line--sm" />
           </div>
-        ) : null}
-        {variant === 3 ? (
-          <div className="pv-cms__blocks">
-            <div className="pv-cms__tile" />
-            <div className="pv-cms__tile pv-cms__tile--accent" />
-            <div className="pv-cms__tile" />
-            <div className="pv-cms__tile" />
-          </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );

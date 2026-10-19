@@ -26,6 +26,8 @@ export type AgencyProjectGalleryItem = {
   /** CSS concept frame variant — not a stock photo of a real product. */
   variant: 1 | 2 | 3;
   alt: string;
+  /** Short editorial caption shown under the frame. */
+  caption?: string;
   /** Editorial layout hint for detail gallery composition. */
   layout?: AgencyProjectGalleryLayout;
 };
@@ -56,6 +58,13 @@ export type AgencyProject = {
   whatWeBuilt?: string[];
   /** Delivery / concept summary — never fake metrics. */
   outcome?: string;
+  /**
+   * Optional capability signals for the demonstrates section.
+   * Must stay concept/capability-focused — never fake results.
+   */
+  demonstrateSignals?: string[];
+  /** Compact concept-direction flow labels (editorial, not metrics). */
+  directionSteps?: string[];
   projectUrl?: string;
   projectType?: string;
   platform?: string;

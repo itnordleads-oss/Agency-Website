@@ -10,6 +10,7 @@ export default function ProjectsFinalCta() {
     <section
       className="relative mx-auto min-w-0 max-w-7xl overflow-hidden px-3 pb-8 max-[340px]:pb-7 min-[341px]:px-4 sm:px-6 md:pb-10"
       aria-labelledby="projects-final-cta-heading"
+      data-floating-prompt-suppression
     >
       <div className="liquid-glass cta-glow-panel relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.04] px-4 py-6 text-center max-[340px]:px-3 max-[340px]:py-5 sm:rounded-3xl sm:px-8 sm:py-7 md:px-10 md:py-8">
         <div
@@ -23,7 +24,7 @@ export default function ProjectsFinalCta() {
           <h2 id="projects-final-cta-heading" className="section-title">
             Have a project in mind?
           </h2>
-          <p className="text-body text-sm leading-relaxed text-white/68 md:text-base">
+          <p className="text-body text-sm leading-relaxed text-white/72 md:text-base">
             Tell us what you are building and we will discuss the right approach.
           </p>
           <div className="flex justify-center pt-1.5">
