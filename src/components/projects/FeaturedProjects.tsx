@@ -33,7 +33,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           Featured projects
         </h2>
         <p className="text-body max-w-2xl text-sm leading-relaxed text-white/66">
-          Relay, Brewnns, and Ridgeline Roofing open the live sites. The rest of the portfolio is below.
+          Relay, Brewnns, and Ridgeline Roofing open the live sites. The rest of the portfolio is
+          below.
         </p>
       </div>
 
