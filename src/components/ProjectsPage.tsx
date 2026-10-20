@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import SectionEyebrow from "./SectionEyebrow";
-import FeaturedProjects from "./projects/FeaturedProjects";
 import ProjectCard from "./projects/ProjectCard";
 import ProjectsFinalCta from "./projects/ProjectsFinalCta";
 import ProjectsHero from "./projects/ProjectsHero";
 import {
-  getFeaturedProjects,
   getProjectCategoryLabel,
   getPublishedProjectCategories,
   getPublishedProjects,
@@ -28,10 +26,10 @@ const APPROACH_STEPS = [
 
 /**
  * Public Projects / Portfolio index at `/projects`.
+ * One grid derived from AGENCY_PROJECTS — no featured duplicate strip.
  */
 export default function ProjectsPage() {
   const projects = useMemo(() => getPublishedProjects(), []);
-  const featured = useMemo(() => getFeaturedProjects(3), []);
   const categories = useMemo(() => getPublishedProjectCategories(), []);
   const showFilters = categories.length > 1;
   const [filter, setFilter] = useState<FilterId>("all");
@@ -131,8 +129,6 @@ export default function ProjectsPage() {
     >
       <ProjectsHero />
 
-      {filter === "all" && featured.length > 0 ? <FeaturedProjects projects={featured} /> : null}
-
       <section
         className="projects-section-reveal relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
         aria-labelledby="all-projects-heading"
@@ -144,7 +140,7 @@ export default function ProjectsPage() {
               className="section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              All projects
+              Projects
             </h2>
             <p className="text-body max-w-2xl text-sm leading-relaxed text-white/62 sm:text-[0.95rem]">
               Live websites and concept studies across software, web, mobile, Shopify, and
@@ -180,7 +176,7 @@ export default function ProjectsPage() {
         {visibleProjects.length > 0 ? (
           <div
             key={filter}
-            className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3 xl:gap-5"
+            className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5"
           >
             {visibleProjects.map((project, index) => (
               <ProjectCard key={`${filter}-${project.slug}`} project={project} enterIndex={index} />
