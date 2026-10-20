@@ -1304,7 +1304,7 @@ const en = {
       eyebrow: "Development studio",
       headline: "Custom software and digital products, delivered with clarity.",
       subheadline:
-        "We build around clear requirements with practical engineering and visible delivery from first conversation to launch.",
+        "Scoped to the requirements you bring, from the first conversation through launch.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
       secondaryCtaWork: "See Our Work",
@@ -1823,8 +1823,7 @@ const en = {
         suitableFor: ["Internal tools", "Workflow systems", "Product operations"],
         hubHighlights: ["Business apps and tools", "Workflows and integrations"],
         paragraphs: [
-          "We design and develop software around specific business requirements instead of forcing teams into a generic product.",
-          "Projects may include internal tools, web-based applications, workflow automation, and improvements to software you already rely on.",
+          "Custom software for the workflow you have — tools, admin screens, and integrations.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1845,8 +1844,7 @@ const en = {
         suitableFor: ["Marketing sites", "Business websites", "Landing pages"],
         hubHighlights: ["Business websites", "Extendable front-end"],
         paragraphs: [
-          "We build business and marketing websites that are straightforward to use, maintain, and extend as your needs change.",
-          "Delivery focuses on responsive layout, solid front-end implementation, and practical integrations such as contact flows and forms.",
+          "Business and marketing sites that stay responsive and straightforward to extend.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1867,8 +1865,7 @@ const en = {
         suitableFor: ["Customer apps", "Business apps", "Account flows"],
         hubHighlights: ["Mobile product UX", "Account and data"],
         paragraphs: [
-          "We develop mobile experiences for business and customer-facing use cases, aligned with how your product should work on smaller screens.",
-          "When your stack is still being defined, we keep implementation choices requirement-led and technology-neutral in planning.",
+          "Mobile apps for customer and business flows, planned around the product requirements.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1889,8 +1886,7 @@ const en = {
         suitableFor: ["New stores", "Theme updates", "Catalog polish"],
         hubHighlights: ["Store setup and themes", "Catalog polish"],
         paragraphs: [
-          "We help teams launch and refine Shopify stores with a responsive storefront experience and practical catalog setup.",
-          "Work may include theme customization, integrations with apps you already use, and structured improvements to an existing store.",
+          "Shopify storefronts, theme work, and catalog improvements for an existing or new store.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1911,8 +1907,7 @@ const en = {
         suitableFor: ["Content sites", "Business sites", "Editable pages"],
         hubHighlights: ["Content structure", "Maintainable builds"],
         paragraphs: [
-          "We deliver WordPress websites with editable content, clear structure, and dependable day-to-day use.",
-          "Work can include new builds, templates, plugin integration, and focused improvements to existing sites.",
+          "WordPress sites with editable content, clear structure, and room to improve later.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1933,8 +1928,7 @@ const en = {
         suitableFor: ["Design systems", "Theme rebuilds", "Editable sections"],
         hubHighlights: ["Custom layouts", "Editable sections"],
         paragraphs: [
-          "This service focuses on the presentation layer: translating design and content requirements into a maintainable WordPress theme.",
-          "It complements full WordPress website delivery when you already have a site structure but need a bespoke theme or a design refresh implemented in WordPress.",
+          "A maintainable WordPress theme when the site structure exists and the layout needs to be custom.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
