@@ -205,8 +205,7 @@ export default function ProjectsPage() {
             </h2>
           </div>
           <p className="projects-approach__copy text-body">
-            Each concept starts with a clear product need and is shaped around practical software,
-            web, mobile, commerce, or content requirements.
+            Requirements, scope, build, review, then delivery.
           </p>
         </div>
 

@@ -24,7 +24,7 @@ export default function RelatedProjects({ projects }: RelatedProjectsProps) {
         <h2 id="related-projects-heading" className="project-detail__h2 text-left">
           Related Projects
         </h2>
-        <p className="text-body max-w-2xl text-sm text-white/62">More concept work.</p>
+        <p className="text-body max-w-2xl text-sm text-white/62">More live gallery sites.</p>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {projects.map((project) => (

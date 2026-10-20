@@ -1223,6 +1223,39 @@
   }
 }
 
+@media (max-width: 767px) {
+  .careers-flow {
+    min-height: 0;
+  }
+
+  .careers-flow__path-layer {
+    display: none;
+  }
+
+  .careers-flow__nodes {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .careers-flow__node,
+  .careers-flow__node--2,
+  .careers-flow__node--4 {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    gap: 0.7rem;
+    transform: none;
+  }
+
+  .careers-flow__node strong {
+    white-space: normal;
+    font-size: 0.75rem;
+    text-align: left;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .careers-flow__path,
   .careers-flow__path-active,

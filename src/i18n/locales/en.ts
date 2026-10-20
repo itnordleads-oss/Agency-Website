@@ -74,7 +74,7 @@ const en = {
       titleLine1: "A development studio",
       titleLine2: "focused on useful delivery",
       subtitle:
-        "We build custom software and digital products around real requirements, with practical engineering, clear communication, and a delivery process designed to keep work focused.",
+        "Custom software and digital products, shaped around the requirements you actually have.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
       deliveryFlow: [
@@ -108,8 +108,7 @@ const en = {
       title: "Software and digital product delivery shaped around real requirements",
       highlight: "Build what the product actually needs.",
       paragraphs: [
-        "We are a development studio that plans and builds custom software and digital products with requirement-led development—not one-size-fits-all templates.",
-        "Practical engineering and clear communication keep work reviewable from the first conversation through launch.",
+        "We plan and build custom software and digital products around the brief — not a one-size template.",
       ],
       exploreServices: "Explore Services",
       workingModel: ["Requirement-led", "Reviewable delivery", "Maintainable outcome"],
@@ -261,7 +260,7 @@ const en = {
     eyebrowTag: "Terms & Conditions",
     title: "Terms & Conditions",
     intro:
-      'These Terms & Conditions ("Terms") govern your access to and use of the ADealForge website located at adealforge.com (the "Site"), operated by ADealForge ("ADealForge", "we", "us", or "our"). By accessing or using the Site, you agree to be bound by these Terms. If you do not agree, you must not use the Site.',
+      'These Terms & Conditions ("Terms") govern your access to and use of this website (the "Site"), operated by Agency ("Agency", "we", "us", or "our"). By accessing or using the Site, you agree to be bound by these Terms. If you do not agree, you must not use the Site.',
     effective: "Effective {{date}}",
     lastUpdated: "Last updated {{date}}",
     tableOfContents: "Table of contents",
@@ -277,7 +276,7 @@ const en = {
       },
       {
         title: "Client engagements",
-        body: "Any paid pilot, managed outbound program, or custom commercial scope is governed by its own proposal, order form, or master service agreement.",
+        body: "Any paid project or custom commercial scope is governed by its own proposal or agreement.",
       },
       {
         title: "Questions",
@@ -302,8 +301,8 @@ const en = {
       {
         title: "3. Description of the Site and Services",
         paragraphs: [
-          "The Site describes ADealForge's managed B2B outbound, prospecting, research, personalization, and related revenue-support offerings, and provides channels for prospective clients to contact us.",
-          "Content on the Site is for general informational purposes only. It does not constitute a binding offer, legal advice, financial advice, or other regulated professional advice. Service scope, pricing, timelines, and deliverables are defined only in written commercial agreements executed between you and ADealForge.",
+          "The Site describes Agency's custom software, websites, and digital product work, and provides channels for prospective clients to contact us.",
+          "Content on the Site is for general informational purposes only. It does not constitute a binding offer, legal advice, financial advice, or other regulated professional advice. Service scope, pricing, timelines, and deliverables are defined only in written commercial agreements executed between you and Agency.",
         ],
       },
       {
@@ -324,7 +323,7 @@ const en = {
       {
         title: "6. Intellectual Property",
         paragraphs: [
-          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to ADealForge and are protected by copyright, trademark, and other intellectual property laws.",
+          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to Agency and are protected by copyright, trademark, and other intellectual property laws.",
           "Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Site for your internal business evaluation. No other rights are granted by implication or otherwise. You may not copy, modify, distribute, sell, lease, or commercially exploit Site content without our prior written consent, except for limited excerpts used in good-faith, non-commercial evaluation with attribution where customary.",
         ],
       },
@@ -332,7 +331,7 @@ const en = {
         title: "7. Third-Party Services and Links",
         paragraphs: [
           "The Site may integrate or link to third-party services such as analytics providers, spam-prevention tools (including CAPTCHA), payment or scheduling tools, and social media platforms. Those services are governed by their own terms and privacy policies.",
-          "ADealForge does not control and is not responsible for third-party content, availability, security, or practices. Linking to a third-party site does not imply endorsement.",
+          "Agency does not control and is not responsible for third-party content, availability, security, or practices. Linking to a third-party site does not imply endorsement.",
         ],
       },
       {
@@ -352,14 +351,14 @@ const en = {
       {
         title: "10. Limitation of Liability",
         paragraphs: [
-          "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ADEALFORGE AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF (OR INABILITY TO USE) THE SITE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
+          "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, AGENCY AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF (OR INABILITY TO USE) THE SITE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
           "TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY ARISING OUT OF OR RELATED TO THE SITE WILL NOT EXCEED ONE HUNDRED U.S. DOLLARS (USD $100) OR THE MINIMUM AMOUNT REQUIRED BY APPLICABLE LAW, WHICHEVER IS GREATER. Some jurisdictions do not allow certain limitations; in those cases, our liability is limited to the fullest extent permitted.",
         ],
       },
       {
         title: "11. Indemnification",
         paragraphs: [
-          "You agree to defend, indemnify, and hold harmless ADealForge and its affiliates, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Site; (b) your violation of these Terms; or (c) your violation of any law or third-party right in connection with the Site.",
+          "You agree to defend, indemnify, and hold harmless Agency and its affiliates, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Site; (b) your violation of these Terms; or (c) your violation of any law or third-party right in connection with the Site.",
         ],
       },
       {
@@ -372,7 +371,7 @@ const en = {
       {
         title: "13. Governing Law and Dispute Resolution",
         paragraphs: [
-          "These Terms are governed by the laws applicable in the jurisdiction where ADealForge principally conducts business, without regard to conflict-of-law principles, except where mandatory consumer or local laws provide otherwise.",
+          "These Terms are governed by the laws applicable in the jurisdiction where Agency principally conducts business, without regard to conflict-of-law principles, except where mandatory consumer or local laws provide otherwise.",
           "Before filing a formal claim, you agree to contact us at {{email}} and attempt to resolve the dispute informally within thirty (30) days. If unresolved, disputes will be resolved in the courts of competent jurisdiction in that principal place of business, unless applicable law requires another forum.",
         ],
       },
@@ -380,14 +379,14 @@ const en = {
         title: "14. Severability and Entire Agreement",
         paragraphs: [
           "If any provision of these Terms is held unenforceable, that provision will be enforced to the maximum extent permissible, and the remaining provisions will remain in full force and effect.",
-          "These Terms, together with any notices or policies expressly referenced on the Site (including cookie preferences), constitute the entire agreement between you and ADealForge regarding Site use and supersede prior understandings on that subject. They do not supersede executed commercial agreements for paid services.",
+          "These Terms, together with any notices or policies expressly referenced on the Site (including cookie preferences), constitute the entire agreement between you and Agency regarding Site use and supersede prior understandings on that subject. They do not supersede executed commercial agreements for paid services.",
         ],
       },
       {
         title: "15. Contact",
         paragraphs: [
-          "For questions about these Terms & Conditions, contact ADealForge at {{email}}.",
-          "Active clients seeking information about commercial terms, confidentiality, data processing, or deliverables should refer to their signed agreement or contact their ADealForge representative.",
+          "For questions about these Terms & Conditions, contact Agency at {{email}}.",
+          "Active clients seeking information about commercial terms, confidentiality, data processing, or deliverables should refer to their signed agreement or contact their Agency representative.",
         ],
       },
     ],
@@ -395,7 +394,7 @@ const en = {
   footer: {
     title: "Let's start the conversation.",
     subtitle:
-      "Tell us what you want from sales outreach. We'll review your goals and suggest the next step — no pressure, no obligation.",
+      "Tell us what you need built. We'll review it and suggest the next step — no pressure, no obligation.",
     confidential: "No pressure. No commitment. Friendly conversation.",
     scaleProof: "We usually reply within one business day. Your information stays private.",
     successTitle: "Thanks — we got your message.",
@@ -409,7 +408,7 @@ const en = {
       businessEmailPlaceholder: "you@company.com",
       targetMarket: "What are you working on?",
       targetMarketPlaceholder:
-        "A few sentences about your outbound goals, market, or what you'd like help with",
+        "A few sentences about the product, site, or workflow you want help with",
       website: "Website",
     },
     loadingProtection: "Loading…",
@@ -430,7 +429,7 @@ const en = {
     tagline: "",
     navigate: "Navigate",
     termsLink: "Terms",
-    prefillMessage: "I'm exploring outbound for {{sector}}. Happy to share more about our goals.",
+    prefillMessage: "I'm looking at a {{sector}} project. Happy to share more about what we need.",
     validation: {
       nameRequired: "Add your name or company.",
       emailRequired: "Add the email where we should reply.",
@@ -1305,7 +1304,7 @@ const en = {
       eyebrow: "Development studio",
       headline: "Custom software and digital products, delivered with clarity.",
       subheadline:
-        "We build around clear requirements with practical engineering and visible delivery from first conversation to launch.",
+        "Scoped to the requirements you bring, from the first conversation through launch.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
       secondaryCtaWork: "See Our Work",
@@ -1395,7 +1394,7 @@ const en = {
     workPreview: {
       eyebrow: "Featured projects",
       title: "Selected work",
-      subtitle: "Concept projects across software, web, mobile, commerce, and content.",
+      subtitle: "Five live gallery websites. Open a card to visit the site.",
       cta: "View All Projects",
     },
     process: {
@@ -1824,8 +1823,7 @@ const en = {
         suitableFor: ["Internal tools", "Workflow systems", "Product operations"],
         hubHighlights: ["Business apps and tools", "Workflows and integrations"],
         paragraphs: [
-          "We design and develop software around specific business requirements instead of forcing teams into a generic product.",
-          "Projects may include internal tools, web-based applications, workflow automation, and improvements to software you already rely on.",
+          "Custom software for the workflow you have — tools, admin screens, and integrations.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1846,8 +1844,7 @@ const en = {
         suitableFor: ["Marketing sites", "Business websites", "Landing pages"],
         hubHighlights: ["Business websites", "Extendable front-end"],
         paragraphs: [
-          "We build business and marketing websites that are straightforward to use, maintain, and extend as your needs change.",
-          "Delivery focuses on responsive layout, solid front-end implementation, and practical integrations such as contact flows and forms.",
+          "Business and marketing sites that stay responsive and straightforward to extend.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1868,8 +1865,7 @@ const en = {
         suitableFor: ["Customer apps", "Business apps", "Account flows"],
         hubHighlights: ["Mobile product UX", "Account and data"],
         paragraphs: [
-          "We develop mobile experiences for business and customer-facing use cases, aligned with how your product should work on smaller screens.",
-          "When your stack is still being defined, we keep implementation choices requirement-led and technology-neutral in planning.",
+          "Mobile apps for customer and business flows, planned around the product requirements.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1890,8 +1886,7 @@ const en = {
         suitableFor: ["New stores", "Theme updates", "Catalog polish"],
         hubHighlights: ["Store setup and themes", "Catalog polish"],
         paragraphs: [
-          "We help teams launch and refine Shopify stores with a responsive storefront experience and practical catalog setup.",
-          "Work may include theme customization, integrations with apps you already use, and structured improvements to an existing store.",
+          "Shopify storefronts, theme work, and catalog improvements for an existing or new store.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1912,8 +1907,7 @@ const en = {
         suitableFor: ["Content sites", "Business sites", "Editable pages"],
         hubHighlights: ["Content structure", "Maintainable builds"],
         paragraphs: [
-          "We deliver WordPress websites with editable content, clear structure, and dependable day-to-day use.",
-          "Work can include new builds, templates, plugin integration, and focused improvements to existing sites.",
+          "WordPress sites with editable content, clear structure, and room to improve later.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1934,8 +1928,7 @@ const en = {
         suitableFor: ["Design systems", "Theme rebuilds", "Editable sections"],
         hubHighlights: ["Custom layouts", "Editable sections"],
         paragraphs: [
-          "This service focuses on the presentation layer: translating design and content requirements into a maintainable WordPress theme.",
-          "It complements full WordPress website delivery when you already have a site structure but need a bespoke theme or a design refresh implemented in WordPress.",
+          "A maintainable WordPress theme when the site structure exists and the layout needs to be custom.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [

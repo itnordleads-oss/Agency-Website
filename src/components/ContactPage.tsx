@@ -132,7 +132,7 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
   };
 
   const inputClass =
-    "w-full bg-[#0a0e16]/80 border border-white/12 rounded-xl py-3 px-4 text-sm text-white placeholder:text-white/35 focus:outline-none focus:border-brand/70 focus:ring-2 focus:ring-brand/20 transition-[border-color,box-shadow,background-color] duration-200 font-sans";
+    "w-full min-h-11 bg-[#0a0e16]/80 border border-white/12 rounded-xl py-3 px-4 text-base text-white placeholder:text-white/35 focus:outline-none focus:border-brand/70 focus:ring-2 focus:ring-brand/20 transition-[border-color,box-shadow,background-color] duration-200 font-sans";
 
   /**
    * Compact in-flow validation slot (fixed height). Height is absorbed from former

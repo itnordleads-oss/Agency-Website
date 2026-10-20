@@ -94,8 +94,7 @@ export default function CareersPage() {
                 Grow with the work.
               </h1>
               <p className="text-body careers-hero__support">
-                Contribute to software and digital product work through practical engineering,
-                collaboration, and shared review.
+                Software and product work, with shared review.
               </p>
               <div className="careers-hero__actions">
                 <PrimaryButton onClick={() => scrollToCareersSection("open-positions")}>

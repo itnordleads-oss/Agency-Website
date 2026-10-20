@@ -95,8 +95,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     slug: "relay",
     title: "Relay",
     label: "Workflow product website",
-    shortDescription:
-      "A dark product site for a workflow tool, with a live canvas, run history, and a path that opens the deployed site.",
+    shortDescription: "Workflow product site with a live canvas and a link to the deployed site.",
     homepageDescription: "Workflow product website with a live 3D canvas.",
     overview:
       "Relay is a published product website. The homepage shows the handoff story, a branching canvas, and a direct link to the live deployment.",
@@ -127,8 +126,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     slug: "brewnns",
     title: "Brewnns",
     label: "Specialty coffee website",
-    shortDescription:
-      "A coffee house site with a floating cup and bag, a short menu path, and a link to the live page.",
+    shortDescription: "Coffee house site with a floating cup and a link to the live page.",
     homepageDescription: "Coffee house site with a floating 3D cup.",
     overview:
       "Brewnns is a published coffee website. The first screen pairs the house line with a cup and bag, then continues into the menu.",
@@ -159,7 +157,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Ridgeline Roofing",
     label: "Trade services website",
     shortDescription:
-      "A roofing company site with a job-site photograph, inspection path, and a link to the live page.",
+      "Roofing site built around a job-site photograph, with a link to the live page.",
     homepageDescription: "Roofing website built around a job-site photograph.",
     overview:
       "Ridgeline Roofing is a published services website. The homepage leads with the crew photograph and the inspection offer.",
@@ -191,8 +189,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     slug: "halden",
     title: "Halden",
     label: "Furniture catalogue website",
-    shortDescription:
-      "A furniture catalogue with editorial type, floating product frames, and a link to the live shop.",
+    shortDescription: "Furniture catalogue with framed product photos and a link to the live shop.",
     homepageDescription: "Furniture catalogue with floating product frames.",
     overview:
       "Halden is a published furniture website. The homepage sets the collection in large type and shows pieces as framed photographs.",
@@ -228,8 +225,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     slug: "stemline",
     title: "Stemline",
     label: "Network product website",
-    shortDescription:
-      "A network product site with a node field, a connect action, and a link to the live page.",
+    shortDescription: "Network product site with a node field and a link to the live page.",
     homepageDescription: "Network product site with a 3D node field.",
     overview:
       "Stemline is a published product website. The homepage states the relay path and shows the node field before the connect action.",
