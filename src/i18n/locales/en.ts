@@ -74,7 +74,7 @@ const en = {
       titleLine1: "A development studio",
       titleLine2: "focused on useful delivery",
       subtitle:
-        "We build custom software and digital products around real requirements, with practical engineering, clear communication, and a delivery process designed to keep work focused.",
+        "Custom software and digital products, shaped around the requirements you actually have.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
       deliveryFlow: [
@@ -108,8 +108,7 @@ const en = {
       title: "Software and digital product delivery shaped around real requirements",
       highlight: "Build what the product actually needs.",
       paragraphs: [
-        "We are a development studio that plans and builds custom software and digital products with requirement-led development—not one-size-fits-all templates.",
-        "Practical engineering and clear communication keep work reviewable from the first conversation through launch.",
+        "We plan and build custom software and digital products around the brief — not a one-size template.",
       ],
       exploreServices: "Explore Services",
       workingModel: ["Requirement-led", "Reviewable delivery", "Maintainable outcome"],
@@ -1395,7 +1394,7 @@ const en = {
     workPreview: {
       eyebrow: "Featured projects",
       title: "Selected work",
-      subtitle: "Concept projects across software, web, mobile, commerce, and content.",
+      subtitle: "Five live gallery websites. Open a card to visit the site.",
       cta: "View All Projects",
     },
     process: {
