@@ -90,8 +90,8 @@ export default function ProjectsHero() {
               Digital products built around real requirements
             </h1>
             <p className="projects-hero__enter projects-hero__enter--copy text-body mx-auto max-w-[21rem] text-sm leading-relaxed text-white/70 sm:text-base lg:mx-0 lg:max-w-[26rem]">
-              Software, web, mobile, Shopify, and WordPress portfolio concepts — each labeled
-              Concept Project when shown here.
+              Live gallery websites built as product, brand, and services demos — open any card to
+              visit the deployed site.
             </p>
           </div>
 

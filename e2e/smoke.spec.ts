@@ -96,7 +96,7 @@ test.describe("smoke", () => {
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
     await expect(projectsRegion.getByRole("link")).toHaveCount(5);
-    await expect(page.getByText("Concept Project")).toHaveCount(0);
+    await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
         projectsRegion.getByRole("link", { name: new RegExp(`Visit website: ${title}`, "i") })
