@@ -197,7 +197,7 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
       <div
         className="home-agency-spotlight__index"
         role="tablist"
-        aria-label="Featured concept projects"
+        aria-label="Selected projects"
         aria-orientation="horizontal"
       >
         {projects.map((entry, index) => {
