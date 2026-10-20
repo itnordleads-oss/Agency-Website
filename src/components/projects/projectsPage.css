@@ -1,27 +1,20 @@
-.projects-grid-enter > .project-card {
-  animation: projects-grid-enter 220ms ease backwards;
+/*
+ * Section reveals stay readable by default for screenshot/scroll safety.
+ * Optional once-enter class adds a short motion without leaving opacity stuck at 0.
+ */
+.projects-section-reveal {
+  opacity: 1;
+  transform: none;
 }
 
-.projects-grid-enter > .project-card:nth-child(2) {
-  animation-delay: 30ms;
-}
-.projects-grid-enter > .project-card:nth-child(3) {
-  animation-delay: 60ms;
-}
-.projects-grid-enter > .project-card:nth-child(4) {
-  animation-delay: 90ms;
-}
-.projects-grid-enter > .project-card:nth-child(5) {
-  animation-delay: 120ms;
-}
-.projects-grid-enter > .project-card:nth-child(6) {
-  animation-delay: 150ms;
+.projects-section-reveal.is-entering {
+  animation: projects-section-reveal 480ms ease both;
 }
 
-@keyframes projects-grid-enter {
+@keyframes projects-section-reveal {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -29,26 +22,118 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .projects-grid-enter > .project-card {
-    animation: none;
+.projects-grid-enter > .project-card {
+  /* Settled defaults so cards never remain faded after the enter animation. */
+  opacity: 1;
+  transform: none;
+  animation: projects-grid-enter 260ms ease backwards;
+}
+
+.projects-grid-enter > .project-card:nth-child(2) {
+  animation-delay: 40ms;
+}
+.projects-grid-enter > .project-card:nth-child(3) {
+  animation-delay: 80ms;
+}
+.projects-grid-enter > .project-card:nth-child(4) {
+  animation-delay: 120ms;
+}
+.projects-grid-enter > .project-card:nth-child(5) {
+  animation-delay: 160ms;
+}
+.projects-grid-enter > .project-card:nth-child(6) {
+  animation-delay: 200ms;
+}
+
+@keyframes projects-grid-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.projects-filter-shell {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .projects-filter-shell::before,
+  .projects-filter-shell::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 1.25rem;
+  }
+
+  .projects-filter-shell::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(12, 17, 27, 0.96), transparent);
+  }
+
+  .projects-filter-shell::after {
+    right: 0;
+    background: linear-gradient(270deg, rgba(12, 17, 27, 0.96), transparent);
   }
 }
 
 .projects-filter-chip {
   flex: 0 0 auto;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.07em;
-}
-
-.projects-filter-chip[aria-pressed="true"] {
-  border-color: rgba(0, 210, 255, 0.48);
-  background: rgba(0, 210, 255, 0.14);
-  color: rgba(200, 248, 255, 0.95);
-  box-shadow: 0 0 0 1px rgba(0, 210, 255, 0.12);
+  min-height: 2.5rem;
+  padding: 0.5rem 0.95rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
 }
 
 .projects-filter-row {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
   scrollbar-width: thin;
+}
+
+@media (max-width: 767px) {
+  .projects-filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}
+
+.projects-filter-chip[aria-pressed="true"] {
+  border-color: rgba(0, 210, 255, 0.5);
+  background: rgba(0, 210, 255, 0.15);
+  color: rgba(210, 248, 255, 0.98);
+  box-shadow: 0 0 0 1px rgba(0, 210, 255, 0.14);
+}
+
+.projects-filter-chip[aria-pressed="false"] {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.projects-filter-chip[aria-pressed="false"]:hover,
+.projects-filter-chip[aria-pressed="false"]:focus-visible {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-section-reveal.is-entering,
+  .projects-grid-enter > .project-card {
+    animation: none;
+  }
+
+  .projects-filter-chip {
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
 }

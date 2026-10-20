@@ -84,18 +84,26 @@ test.describe("smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       /digital products built around real requirements/i
     );
-    await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toBeVisible();
+    const projectsRegion = page.getByRole("region", { name: /^Projects$/i });
+    await expect(page.getByRole("heading", { level: 2, name: /^Projects$/i })).toBeVisible();
     await expect(
-      page.getByRole("region", { name: /featured projects/i }).getByRole("link", {
-        name: /View project: Nova Commerce/i,
-      })
+      projectsRegion.getByRole("link", { name: /View project: Nova Commerce/i })
     ).toBeVisible();
-    await expect(
-      page.getByRole("region", { name: /all projects/i }).getByRole("link", {
-        name: /View project: Nova Commerce/i,
-      })
-    ).toBeVisible();
+    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
     await expect(page.getByText("Concept Project").first()).toBeVisible();
+    // One clean grid: each approved concept appears once — no featured duplicate strip.
+    for (const title of [
+      "Nova Commerce",
+      "Orbit Dashboard",
+      "Atlas Mobile",
+      "Vertex CMS",
+      "Lumen Platform",
+      "Forge Store",
+    ]) {
+      await expect(
+        projectsRegion.getByRole("link", { name: new RegExp(`View project: ${title}`, "i") })
+      ).toHaveCount(1);
+    }
 
     const filterGroup = page.getByRole("group", { name: "Filter projects by category" });
     const allFilter = filterGroup.getByRole("button", { name: "All" });
@@ -105,13 +113,9 @@ test.describe("smoke", () => {
     await expect(softwareFilter).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(softwareFilter).toHaveAttribute("aria-pressed", "true");
-    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
-      2
-    );
+    await expect(projectsRegion.getByRole("link")).toHaveCount(2);
     await allFilter.click();
-    await expect(page.getByRole("region", { name: /all projects/i }).getByRole("link")).toHaveCount(
-      6
-    );
+    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
   });
 
   test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {

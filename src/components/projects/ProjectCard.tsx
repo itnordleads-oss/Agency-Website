@@ -75,7 +75,7 @@ export default function ProjectCard({
           )}
         </div>
         {project.isDemo ? (
-          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-white/12 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-white/75 backdrop-blur-sm">
+          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2.5 py-0.5 font-semibold uppercase backdrop-blur-sm">
             Concept Project
           </span>
         ) : null}

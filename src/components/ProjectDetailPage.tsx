@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { ArrowUpRight, ChevronRight } from "lucide-react";
-import SectionEyebrow from "./SectionEyebrow";
+import React, { useEffect, useRef, useState } from "react";
+import { ChevronRight } from "lucide-react";
+import ProjectBuildFeatures from "./projects/ProjectBuildFeatures";
+import ProjectDetailHero from "./projects/ProjectDetailHero";
 import ProjectGallery from "./projects/ProjectGallery";
-import ProjectVisual from "./projects/ProjectVisual";
 import ProjectsFinalCta from "./projects/ProjectsFinalCta";
 import RelatedProjects from "./projects/RelatedProjects";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
@@ -10,7 +10,6 @@ import { navigateAppPath, navigateToContact } from "../App";
 import "./projects/projectCard.css";
 import "./projects/projectDetail.css";
 import {
-  getProjectCategoryLabel,
   getProjectDeliverables,
   getPublishedProjectBySlug,
   getRelatedProjects,
@@ -22,12 +21,23 @@ type ProjectDetailPageProps = {
   slug: string;
 };
 
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 /**
  * Shared premium project detail / concept case-study template.
  * All six routes render through this single architecture.
  */
 export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
   const project = getPublishedProjectBySlug(slug);
+  const pageRef = useRef<HTMLElement | null>(null);
+  const [activeDirectionStep, setActiveDirectionStep] = useState(0);
+  const [activeSignal, setActiveSignal] = useState(0);
 
   useEffect(() => {
     if (!project) {
@@ -50,6 +60,46 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
     window.scrollTo({ top: 0, behavior: "auto" });
     return restore;
   }, [project]);
+
+  useEffect(() => {
+    setActiveDirectionStep(0);
+    setActiveSignal(0);
+  }, [slug]);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root || prefersReducedMotion()) {
+      return;
+    }
+
+    const bands = Array.from(root.querySelectorAll<HTMLElement>(".project-detail__reveal-band"));
+    if (bands.length === 0) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue;
+          }
+          const target = entry.target as HTMLElement;
+          target.classList.add("is-entering");
+          observer.unobserve(target);
+          window.setTimeout(() => {
+            target.classList.remove("is-entering");
+          }, 560);
+        }
+      },
+      { threshold: 0.16 }
+    );
+
+    for (const band of bands) {
+      observer.observe(band);
+    }
+
+    return () => observer.disconnect();
+  }, [slug]);
 
   if (!project) {
     return (
@@ -77,16 +127,15 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
   }
 
   const related = getRelatedProjects(project.slug, 3);
-  const categoryLabel = getProjectCategoryLabel(project.category);
   const deliverables = getProjectDeliverables(project);
   const goalTitle = project.isDemo ? "Project Goal" : "Challenge";
   const directionTitle = project.isDemo ? "Concept Direction" : "Solution";
   const outcomeTitle = project.isDemo ? "What This Demonstrates" : "Outcome";
-  const serviceLine = [categoryLabel, project.services?.[0]].filter(Boolean).join(" / ");
+
   const overviewRows: Array<{ label: string; value: string }> = [
     project.projectType ? { label: "Project Type", value: project.projectType } : null,
     project.services && project.services.length > 0
-      ? { label: "Primary Service", value: project.services.join(", ") }
+      ? { label: "Primary Service", value: project.services.join(" / ") }
       : null,
     project.platform ? { label: "Platform", value: project.platform } : null,
     project.technologies && project.technologies.length > 0
@@ -99,15 +148,23 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
         : null,
   ].filter((row): row is { label: string; value: string } => row !== null);
 
+  const techPlatform = project.platform ?? null;
+  const techList = project.technologies ?? [];
+
   return (
     <main
+      key={project.slug}
+      ref={pageRef}
       className="project-detail min-w-0 flex-grow overflow-x-hidden"
       id="project-detail-page"
       aria-labelledby="project-detail-title"
     >
-      <div className="project-detail__shell mx-auto max-w-7xl px-3 pt-9 min-[341px]:px-4 sm:px-6 sm:pt-12">
-        <nav aria-label="Breadcrumb" className="project-detail__reveal mb-5 sm:mb-6">
-          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/50">
+      <div className="project-detail__shell mx-auto max-w-7xl px-3 pt-8 min-[341px]:px-4 sm:px-6 sm:pt-10">
+        <nav
+          aria-label="Breadcrumb"
+          className="project-detail__enter project-detail__enter--crumb mb-5 sm:mb-6"
+        >
+          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/55">
             <li>
               <a
                 href="/projects"
@@ -123,79 +180,33 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
             <li aria-hidden className="text-white/25">
               <ChevronRight className="h-3.5 w-3.5" />
             </li>
-            <li className="font-medium text-white/75" aria-current="page">
+            <li className="font-medium text-white/78" aria-current="page">
               {project.title}
             </li>
           </ol>
         </nav>
       </div>
 
-      <section
-        className="project-detail__hero relative mx-auto max-w-7xl px-3 pb-10 min-[341px]:px-4 sm:px-6 md:pb-12 lg:max-w-[84rem]"
-        aria-labelledby="project-detail-title"
-      >
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
-          <div className="project-detail__reveal project-detail__reveal--1 min-w-0 space-y-3.5 sm:space-y-4">
-            <SectionEyebrow label={project.isDemo ? "CONCEPT PROJECT" : "PROJECT / CASE STUDY"} />
-            <h1 id="project-detail-title" className="hero-title text-white">
-              {project.title}
-            </h1>
-            <p className="project-detail__prose text-body text-base leading-relaxed text-white/72 sm:text-lg">
-              {project.shortDescription}
-            </p>
-            {serviceLine ? (
-              <p className="text-sm font-medium text-white/48">{serviceLine}</p>
-            ) : null}
-            <div className="flex flex-wrap gap-3 pt-1">
-              <SecondaryButton onClick={() => navigateAppPath("/projects")}>
-                Back to Projects
-              </SecondaryButton>
-              {project.projectUrl ? (
-                <a
-                  href={project.projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 self-center text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
-                >
-                  View Demo
-                  <ArrowUpRight className="h-4 w-4" aria-hidden />
-                </a>
-              ) : null}
-            </div>
-          </div>
-
-          <div className="project-detail__reveal project-detail__reveal--2 project-detail__hero-visual">
-            <div className="project-detail__hero-frame">
-              {project.heroImage || project.thumbnail ? (
-                <img
-                  src={project.heroImage || project.thumbnail}
-                  alt={project.thumbnailAlt || `${project.title} preview`}
-                  className="project-detail__hero-media"
-                />
-              ) : (
-                <ProjectVisual
-                  motif={project.visualMotif}
-                  variant={1}
-                  density="rich"
-                  className="h-full min-h-[16rem] lg:min-h-[22rem]"
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProjectDetailHero project={project} />
 
       {overviewRows.length > 0 ? (
         <section
-          className="project-detail__section project-detail__band relative mx-auto max-w-7xl px-3 pb-10 min-[341px]:px-4 sm:px-6 md:pb-12"
+          className="project-detail__section project-detail__reveal-band relative mx-auto max-w-7xl px-3 min-[341px]:px-4 sm:px-6 lg:max-w-[84rem]"
           aria-labelledby="project-overview-heading"
         >
-          <h2 id="project-overview-heading" className="section-title mb-5 text-left md:mb-6">
+          <h2
+            id="project-overview-heading"
+            className="project-detail__h2 project-detail__overview-heading mb-5 text-left md:mb-6"
+          >
             Project Overview
           </h2>
           <dl className="project-detail__overview">
-            {overviewRows.map((row) => (
-              <div key={row.label} className="project-detail__overview-item">
+            {overviewRows.map((row, index) => (
+              <div
+                key={row.label}
+                className="project-detail__overview-item"
+                style={{ ["--overview-index" as string]: String(index) }}
+              >
                 <dt>{row.label}</dt>
                 <dd>{row.value}</dd>
               </div>
@@ -204,84 +215,181 @@ export default function ProjectDetailPage({ slug }: ProjectDetailPageProps) {
         </section>
       ) : null}
 
-      {project.challenge ? (
-        <DetailSection id="goal" title={goalTitle}>
-          <p className="project-detail__prose text-body text-sm leading-relaxed text-white/70 sm:text-base">
-            {project.challenge}
-          </p>
-        </DetailSection>
-      ) : null}
+      {project.challenge || project.solution ? (
+        <section
+          className="project-detail__section project-detail__reveal-band relative mx-auto max-w-7xl px-3 min-[341px]:px-4 sm:px-6 lg:max-w-[84rem]"
+          aria-labelledby="project-goal-heading"
+        >
+          <div className="project-detail__narrative">
+            {project.challenge ? (
+              <div className="project-detail__narrative-col project-detail__narrative-col--goal">
+                <h2 id="project-goal-heading" className="project-detail__h2">
+                  {goalTitle}
+                </h2>
+                <p className="project-detail__prose text-body text-[0.9375rem] leading-relaxed text-white/74 sm:text-base">
+                  {project.challenge}
+                </p>
+              </div>
+            ) : null}
 
-      {project.solution ? (
-        <DetailSection id="solution" title={directionTitle}>
-          <p className="project-detail__prose text-body text-sm leading-relaxed text-white/70 sm:text-base">
-            {project.solution}
-          </p>
-        </DetailSection>
+            {project.solution ? (
+              <div className="project-detail__narrative-col project-detail__narrative-col--direction">
+                <h2 id="project-solution-heading" className="project-detail__h2">
+                  {directionTitle}
+                </h2>
+                <p className="project-detail__prose text-body text-[0.9375rem] leading-relaxed text-white/74 sm:text-base">
+                  {project.solution}
+                </p>
+                {project.directionSteps && project.directionSteps.length > 0 ? (
+                  <ol
+                    className="project-detail__direction-flow"
+                    aria-label="Concept direction flow"
+                  >
+                    {project.directionSteps.map((step, index) => (
+                      <li key={step}>
+                        <button
+                          type="button"
+                          className={`project-detail__direction-chip${
+                            activeDirectionStep === index
+                              ? " project-detail__direction-chip--active"
+                              : ""
+                          }`}
+                          aria-pressed={activeDirectionStep === index}
+                          onClick={() => setActiveDirectionStep(index)}
+                          onFocus={() => setActiveDirectionStep(index)}
+                          onMouseEnter={() => {
+                            if (
+                              typeof window !== "undefined" &&
+                              typeof window.matchMedia === "function" &&
+                              window.matchMedia("(hover: hover) and (pointer: fine)").matches
+                            ) {
+                              setActiveDirectionStep(index);
+                            }
+                          }}
+                        >
+                          {step}
+                        </button>
+                        {index < project.directionSteps!.length - 1 ? (
+                          <span className="project-detail__direction-arrow" aria-hidden>
+                            →
+                          </span>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ol>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </section>
       ) : null}
 
       {deliverables.length > 0 ? (
-        <DetailSection id="what-we-built" title="What We Built">
-          <ol className="project-detail__built-list">
-            {deliverables.map((item, index) => (
-              <li key={item}>
-                <span className="project-detail__built-index" aria-hidden>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ol>
-        </DetailSection>
+        <section
+          className="project-detail__section project-detail__reveal-band relative mx-auto max-w-7xl px-3 min-[341px]:px-4 sm:px-6 lg:max-w-[84rem]"
+          aria-labelledby="project-what-we-built-heading"
+        >
+          <h2
+            id="project-what-we-built-heading"
+            className="project-detail__h2 mb-5 text-left md:mb-6"
+          >
+            What We Built
+          </h2>
+          <ProjectBuildFeatures key={project.slug} project={project} items={deliverables} />
+        </section>
       ) : null}
 
-      <ProjectGallery project={project} />
+      <ProjectGallery key={`${project.slug}-gallery`} project={project} />
 
-      {project.technologies && project.technologies.length > 0 ? (
-        <DetailSection id="technologies" title="Technologies / Platform">
-          <ul className="flex flex-wrap gap-2">
-            {project.technologies.map((tech) => (
-              <li key={tech} className="project-card__tech-tag">
-                {tech}
-              </li>
-            ))}
-          </ul>
-        </DetailSection>
+      {techList.length > 0 || techPlatform ? (
+        <section
+          className="project-detail__section project-detail__reveal-band relative mx-auto max-w-7xl px-3 min-[341px]:px-4 sm:px-6 lg:max-w-[84rem]"
+          aria-labelledby="project-technologies-heading"
+        >
+          <h2
+            id="project-technologies-heading"
+            className="project-detail__h2 mb-5 text-left md:mb-6"
+          >
+            Technologies / Platform
+          </h2>
+          <div className="project-detail__tech">
+            {techPlatform ? (
+              <div className="project-detail__tech-block">
+                <h3 className="project-detail__h3">Platform</h3>
+                <p className="project-detail__tech-platform">{techPlatform}</p>
+              </div>
+            ) : null}
+            {techList.length > 0 ? (
+              <div className="project-detail__tech-block">
+                <h3 className="project-detail__h3">Technologies</h3>
+                <ul className="project-detail__tech-list">
+                  {techList.map((tech, index) => (
+                    <li
+                      key={tech}
+                      className="project-detail__tech-badge"
+                      style={{ ["--tech-index" as string]: String(index) }}
+                      tabIndex={0}
+                    >
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </section>
       ) : null}
 
       {project.outcome ? (
-        <DetailSection id="outcome" title={outcomeTitle}>
-          <p className="project-detail__prose text-body text-sm leading-relaxed text-white/70 sm:text-base">
+        <section
+          className="project-detail__section project-detail__reveal-band relative mx-auto max-w-7xl px-3 min-[341px]:px-4 sm:px-6 lg:max-w-[84rem]"
+          aria-labelledby="project-outcome-heading"
+        >
+          <h2 id="project-outcome-heading" className="project-detail__h2 mb-4 text-left md:mb-5">
+            {outcomeTitle}
+          </h2>
+          <p className="project-detail__prose text-body text-[0.9375rem] leading-relaxed text-white/74 sm:text-base">
             {project.outcome}
           </p>
-        </DetailSection>
+          {project.demonstrateSignals && project.demonstrateSignals.length > 0 ? (
+            <ul className="project-detail__signals" aria-label="Capability signals">
+              {project.demonstrateSignals.map((signal, index) => (
+                <li key={signal}>
+                  <button
+                    type="button"
+                    className={`project-detail__signal${
+                      activeSignal === index ? " project-detail__signal--active" : ""
+                    }`}
+                    style={{ ["--signal-index" as string]: String(index) }}
+                    aria-pressed={activeSignal === index}
+                    onClick={() => setActiveSignal(index)}
+                    onFocus={() => setActiveSignal(index)}
+                    onMouseEnter={() => {
+                      if (
+                        typeof window !== "undefined" &&
+                        typeof window.matchMedia === "function" &&
+                        window.matchMedia("(hover: hover) and (pointer: fine)").matches
+                      ) {
+                        setActiveSignal(index);
+                      }
+                    }}
+                  >
+                    <span className="project-detail__signal-marker" aria-hidden />
+                    <span className="project-detail__signal-label">{signal}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
       ) : null}
 
-      <RelatedProjects projects={related} />
-      <ProjectsFinalCta />
+      <div className="project-detail__reveal-band">
+        <RelatedProjects projects={related} />
+      </div>
+      <div className="project-detail__reveal-band">
+        <ProjectsFinalCta />
+      </div>
     </main>
-  );
-}
-
-function DetailSection({
-  id,
-  title,
-  children,
-}: {
-  id: string;
-  title: string;
-  children: React.ReactNode;
-}) {
-  const headingId = `project-${id}-heading`;
-  return (
-    <section
-      className="project-detail__section project-detail__band relative mx-auto max-w-7xl px-3 pb-10 min-[341px]:px-4 sm:px-6 md:pb-12 lg:max-w-[84rem]"
-      aria-labelledby={headingId}
-    >
-      <h2 id={headingId} className="section-title mb-4 text-left md:mb-5">
-        {title}
-      </h2>
-      {children}
-    </section>
   );
 }

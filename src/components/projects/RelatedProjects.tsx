@@ -21,12 +21,10 @@ export default function RelatedProjects({ projects }: RelatedProjectsProps) {
       aria-labelledby="related-projects-heading"
     >
       <div className="mb-5 space-y-1.5 md:mb-6">
-        <h2 id="related-projects-heading" className="section-title text-left">
+        <h2 id="related-projects-heading" className="project-detail__h2 text-left">
           Related Projects
         </h2>
-        <p className="text-body max-w-2xl text-sm text-white/58">
-          More concept work from the same portfolio.
-        </p>
+        <p className="text-body max-w-2xl text-sm text-white/62">More concept work.</p>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {projects.map((project) => (

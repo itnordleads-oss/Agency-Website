@@ -26,6 +26,8 @@ export type AgencyProjectGalleryItem = {
   /** CSS concept frame variant — not a stock photo of a real product. */
   variant: 1 | 2 | 3;
   alt: string;
+  /** Short editorial caption shown under the frame. */
+  caption?: string;
   /** Editorial layout hint for detail gallery composition. */
   layout?: AgencyProjectGalleryLayout;
 };
@@ -54,6 +56,13 @@ export type AgencyProject = {
   whatWeBuilt?: string[];
   /** Delivery / concept summary — never fake metrics. */
   outcome?: string;
+  /**
+   * Optional capability signals for the demonstrates section.
+   * Must stay concept/capability-focused — never fake results.
+   */
+  demonstrateSignals?: string[];
+  /** Compact concept-direction flow labels (editorial, not metrics). */
+  directionSteps?: string[];
   projectUrl?: string;
   projectType?: string;
   platform?: string;
@@ -83,135 +92,191 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     id: "demo-nova-commerce",
     slug: "nova-commerce",
     title: "Nova Commerce",
-    label: "E-commerce storefront concept",
-    shortDescription:
-      "Concept storefront for product discovery, collections, and checkout-oriented flows.",
+    label: "Storefront concept",
+    shortDescription: "Storefront concept for discovery, collections, and checkout flow.",
     overview:
-      "Nova Commerce is a demo concept for a modern commerce experience. It focuses on clear product navigation, responsive layouts, and a maintainable storefront structure — not a real client engagement.",
+      "Nova Commerce is a demo commerce UI concept focused on product navigation and storefront structure — not a real client engagement.",
     category: "websites",
     services: ["Website Development"],
     technologies: ["React", "TypeScript", "CSS"],
     projectType: "Website concept",
     platform: "Web",
-    status: "Concept / Demo",
+    status: "Concept Project",
     featured: true,
     visualMotif: "commerce",
     isDemo: true,
     published: true,
     challenge:
-      "The concept explores how a modern commerce experience could organize product discovery, navigation, and checkout-oriented flows without overloading the shopper.",
+      "Organize discovery, collections, and checkout flow without overloading the shopper.",
     solution:
-      "A responsive storefront structure with reusable product surfaces, clear collection hierarchy, and component patterns that stay adaptable as catalog complexity grows.",
+      "Clear collection hierarchy with reusable product surfaces and adaptable catalog patterns.",
     deliverables: [
-      "Responsive storefront layout",
-      "Product and collection UI patterns",
-      "Navigation and filter scaffolding",
-      "Checkout-oriented flow structure",
+      "Storefront layout",
+      "Product and collection UI",
+      "Navigation scaffolding",
+      "Checkout flow structure",
     ],
-    outcome:
-      "Demonstrates a maintainable commerce UI architecture with clear visual hierarchy and reusable components for future real storefront work.",
+    outcome: "A maintainable commerce UI architecture with clear hierarchy and reusable surfaces.",
+    demonstrateSignals: [
+      "Product discovery hierarchy",
+      "Reusable storefront surfaces",
+      "Commerce structure",
+    ],
+    directionSteps: [
+      "Product discovery",
+      "Collection structure",
+      "Reusable surfaces",
+      "Checkout flow",
+    ],
     gallery: [
-      { variant: 1, alt: "Nova Commerce concept — storefront overview frame", layout: "full" },
-      { variant: 2, alt: "Nova Commerce concept — product grid frame", layout: "default" },
-      { variant: 3, alt: "Nova Commerce concept — detail panel frame", layout: "portrait" },
+      {
+        variant: 1,
+        alt: "Nova Commerce concept — storefront overview frame",
+        caption: "Storefront",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Nova Commerce concept — product grid frame",
+        caption: "Collections",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Nova Commerce concept — detail panel frame",
+        caption: "Product detail",
+        layout: "default",
+      },
     ],
   },
   {
     id: "demo-orbit-dashboard",
     slug: "orbit-dashboard",
     title: "Orbit Dashboard",
-    label: "SaaS dashboard concept",
-    shortDescription: "Dashboard concept for activity, status, and operational views in one place.",
+    label: "Dashboard concept",
+    shortDescription: "Dashboard concept for status, activity, and operational views.",
     overview:
-      "Orbit Dashboard is a demo SaaS interface concept. It shows how dense operational information can stay readable through hierarchy, cards, and restrained data presentation — presented as a concept only.",
+      "Orbit Dashboard is a demo SaaS interface concept for readable operational views — presented as a concept only.",
     category: "software",
     services: ["Software Development"],
     technologies: ["React", "TypeScript"],
     projectType: "Software concept",
     platform: "Web application",
-    status: "Concept / Demo",
+    status: "Concept Project",
     featured: true,
     visualMotif: "dashboard",
     isDemo: true,
     published: true,
-    challenge:
-      "The concept explores how a business dashboard can surface status, activity, and key views without becoming visually noisy.",
-    solution:
-      "A modular dashboard shell with clear section grouping, compact metric panels, and a layout that scales from overview to detail screens.",
+    challenge: "Surface status and activity clearly without visual noise.",
+    solution: "Modular shell with compact panels that scale from overview to detail.",
     deliverables: [
-      "Dashboard shell and navigation",
-      "Metric and status panel patterns",
+      "Dashboard shell",
+      "Status panel patterns",
       "Table and list views",
-      "Responsive operational layout",
+      "Operational layout",
     ],
-    outcome:
-      "Shows a component-driven dashboard structure suited to future product tooling and internal business applications.",
+    outcome: "A component-driven dashboard structure for future product tooling.",
+    demonstrateSignals: [
+      "Operational hierarchy",
+      "Modular workspace panels",
+      "Scalable dashboard shell",
+    ],
+    directionSteps: ["Overview shell", "Status grouping", "Module panels", "Detail views"],
     gallery: [
-      { variant: 1, alt: "Orbit Dashboard concept — overview frame", layout: "full" },
-      { variant: 2, alt: "Orbit Dashboard concept — metrics frame", layout: "default" },
-      { variant: 3, alt: "Orbit Dashboard concept — activity list frame", layout: "wide" },
+      {
+        variant: 1,
+        alt: "Orbit Dashboard concept — overview frame",
+        caption: "Overview",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Orbit Dashboard concept — metrics frame",
+        caption: "Status modules",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Orbit Dashboard concept — activity list frame",
+        caption: "Activity",
+        layout: "default",
+      },
     ],
   },
   {
     id: "demo-atlas-mobile",
     slug: "atlas-mobile",
     title: "Atlas Mobile",
-    label: "Mobile application concept",
-    shortDescription:
-      "Mobile-first concept with clear primary actions and thumb-friendly navigation.",
+    label: "Mobile concept",
+    shortDescription: "Mobile concept with clear primary actions and thumb-friendly navigation.",
     overview:
-      "Atlas Mobile is a demo mobile application concept. It explores focused screens, progressive disclosure, and interaction patterns that stay comfortable on small devices.",
+      "Atlas Mobile is a demo mobile application concept focused on clear screens and one-handed use.",
     category: "mobile",
     services: ["Mobile App Development"],
     technologies: ["React", "TypeScript"],
     projectType: "Mobile concept",
-    platform: "iOS / Android concept",
-    status: "Concept / Demo",
+    platform: "iOS / Android",
+    status: "Concept Project",
     featured: true,
     visualMotif: "mobile",
     isDemo: true,
     published: true,
-    challenge:
-      "The concept explores how a mobile product can keep core tasks obvious while leaving room for secondary screens and account flows.",
-    solution:
-      "A mobile-first screen set with strong primary actions, compact information blocks, and navigation that remains usable one-handed.",
+    challenge: "Keep core tasks obvious while leaving room for secondary flows.",
+    solution: "Strong primary actions, compact blocks, and navigation built for one hand.",
     deliverables: [
       "Mobile screen flows",
       "Primary action hierarchy",
-      "Account and settings patterns",
-      "Touch-friendly component spacing",
+      "Account patterns",
+      "Touch-friendly spacing",
     ],
-    outcome:
-      "Demonstrates mobile-first composition and interaction patterns ready to adapt for a future shipped application.",
+    outcome: "Mobile-first composition and interaction patterns ready to adapt later.",
+    demonstrateSignals: [
+      "Thumb-friendly navigation",
+      "Clear primary actions",
+      "Focused mobile screens",
+    ],
+    directionSteps: ["Primary action", "Screen hierarchy", "Secondary flows", "Touch spacing"],
     gallery: [
-      { variant: 1, alt: "Atlas Mobile concept — home screen frame", layout: "portrait" },
-      { variant: 2, alt: "Atlas Mobile concept — detail screen frame", layout: "default" },
-      { variant: 3, alt: "Atlas Mobile concept — profile screen frame", layout: "portrait" },
+      {
+        variant: 1,
+        alt: "Atlas Mobile concept — home screen frame",
+        caption: "Home",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Atlas Mobile concept — detail screen frame",
+        caption: "Detail",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Atlas Mobile concept — profile screen frame",
+        caption: "Account",
+        layout: "default",
+      },
     ],
   },
   {
     id: "demo-vertex-cms",
     slug: "vertex-cms",
     title: "Vertex CMS",
-    label: "Content-driven website concept",
-    shortDescription:
-      "WordPress concept for structured pages, reusable sections, and editor-friendly layouts.",
+    label: "WordPress concept",
+    shortDescription: "WordPress concept for structured pages and editor-friendly layouts.",
     overview:
-      "Vertex CMS is a demo content-site concept. It focuses on sectioned page composition and CMS-friendly structure — not a live WordPress client site.",
+      "Vertex CMS is a demo content-site concept for sectioned pages and theme structure — not a live client site.",
     category: "wordpress",
     services: ["WordPress", "Custom WordPress Theme"],
     technologies: ["WordPress", "PHP", "CSS"],
     projectType: "WordPress concept",
     platform: "WordPress",
-    status: "Concept / Demo",
+    status: "Concept Project",
     featured: false,
     visualMotif: "cms",
     isDemo: true,
     published: true,
-    challenge:
-      "The concept explores how a content-driven website can stay flexible for editors while presenting a consistent public design system.",
-    solution:
-      "A section-based page architecture with reusable content blocks, clear typography hierarchy, and a theme structure oriented toward WordPress editing workflows.",
+    challenge: "Stay flexible for editors while keeping a consistent public design system.",
+    solution: "Section-based pages with reusable blocks and a theme shaped for editing workflows.",
     deliverables: [
       "Content section templates",
       "Theme layout structure",
@@ -219,85 +284,146 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       "Responsive content presentation",
     ],
     outcome:
-      "Illustrates a content-friendly WordPress theme approach that can later be adapted for a real publishing site.",
+      "A content-friendly WordPress theme approach ready to adapt for a real publishing site.",
+    demonstrateSignals: [
+      "Reusable content structure",
+      "Editor-friendly architecture",
+      "Consistent responsive presentation",
+    ],
+    directionSteps: [
+      "Content structure",
+      "Reusable blocks",
+      "Editorial control",
+      "Consistent frontend",
+    ],
     gallery: [
-      { variant: 1, alt: "Vertex CMS concept — landing sections frame", layout: "full" },
-      { variant: 2, alt: "Vertex CMS concept — article layout frame", layout: "wide" },
-      { variant: 3, alt: "Vertex CMS concept — content blocks frame", layout: "default" },
+      {
+        variant: 1,
+        alt: "Vertex CMS concept — landing sections frame",
+        caption: "Landing structure",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Vertex CMS concept — article layout frame",
+        caption: "Article layout",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Vertex CMS concept — content blocks frame",
+        caption: "Reusable content blocks",
+        layout: "default",
+      },
     ],
   },
   {
     id: "demo-lumen-platform",
     slug: "lumen-platform",
     title: "Lumen Platform",
-    label: "Custom software platform concept",
-    shortDescription:
-      "Custom software concept for multi-view workflows, settings, and connected screens.",
+    label: "Platform concept",
+    shortDescription: "Software concept for multi-view workflows and connected screens.",
     overview:
-      "Lumen Platform is a demo custom software concept. It shows how a broader product shell can organize modules, settings, and workflow views without inventing a real product company.",
+      "Lumen Platform is a demo custom software concept for modular shells and workspace views.",
     category: "software",
     services: ["Software Development"],
     technologies: ["React", "TypeScript", "Node"],
-    projectType: "Custom software concept",
+    projectType: "Software concept",
     platform: "Web platform",
-    status: "Concept / Demo",
+    status: "Concept Project",
     featured: false,
     visualMotif: "platform",
     isDemo: true,
     published: true,
-    challenge:
-      "The concept explores how a custom platform can keep multiple modules coherent while giving each area a clear entry point.",
-    solution:
-      "A modular application shell with shared navigation, settings patterns, and workspace views that stay consistent across feature areas.",
+    challenge: "Keep multiple modules coherent with a clear entry point for each area.",
+    solution: "Shared navigation and workspace views that stay consistent across modules.",
     deliverables: [
       "Application shell",
       "Module navigation",
-      "Settings and preference patterns",
-      "Workspace and detail views",
+      "Settings patterns",
+      "Workspace views",
     ],
-    outcome:
-      "Demonstrates a scalable software shell and interaction model suitable for future custom platform builds.",
+    outcome: "A scalable software shell and interaction model for future platform builds.",
+    demonstrateSignals: ["Multi-module shell", "Shared navigation", "Connected workspace views"],
+    directionSteps: [
+      "Application shell",
+      "Module entry points",
+      "Shared patterns",
+      "Workspace views",
+    ],
     gallery: [
-      { variant: 1, alt: "Lumen Platform concept — workspace frame", layout: "full" },
-      { variant: 2, alt: "Lumen Platform concept — modules frame", layout: "default" },
-      { variant: 3, alt: "Lumen Platform concept — settings frame", layout: "default" },
+      {
+        variant: 1,
+        alt: "Lumen Platform concept — workspace frame",
+        caption: "Workspace",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Lumen Platform concept — modules frame",
+        caption: "Modules",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Lumen Platform concept — settings frame",
+        caption: "Settings",
+        layout: "default",
+      },
     ],
   },
   {
     id: "demo-forge-store",
     slug: "forge-store",
     title: "Forge Store",
-    label: "Shopify commerce concept",
-    shortDescription:
-      "Shopify concept for merchandising, collection pages, and storefront presentation.",
+    label: "Shopify concept",
+    shortDescription: "Shopify concept for collections, merchandising, and storefront clarity.",
     overview:
-      "Forge Store is a demo Shopify commerce concept. It focuses on merchandising layout and storefront clarity for a concept shop — not a commissioned Shopify store.",
+      "Forge Store is a demo Shopify commerce concept focused on merchandising layout — not a commissioned store.",
     category: "shopify",
     services: ["Shopify"],
     technologies: ["Shopify", "Liquid", "CSS"],
     projectType: "Shopify concept",
     platform: "Shopify",
-    status: "Concept / Demo",
+    status: "Concept Project",
     featured: false,
     visualMotif: "shopify",
     isDemo: true,
     published: true,
-    challenge:
-      "The concept explores how a Shopify storefront can highlight collections and product stories while staying easy to scan on mobile.",
-    solution:
-      "A merchandising-led storefront layout with featured collections, product cards, and a responsive theme structure oriented toward Shopify storefront patterns.",
+    challenge: "Highlight collections and product stories while staying easy to scan on mobile.",
+    solution: "Merchandising-led layout with featured collections and clear product cards.",
     deliverables: [
-      "Shopify theme layout patterns",
+      "Theme layout patterns",
       "Collection and product cards",
-      "Featured merchandising sections",
-      "Mobile-first storefront presentation",
+      "Merchandising sections",
+      "Mobile storefront presentation",
     ],
-    outcome:
-      "Shows a Shopify-oriented theme structure and merchandising presentation ready to adapt for a future real store build.",
+    outcome: "A Shopify-oriented theme structure ready to adapt for a future store build.",
+    demonstrateSignals: [
+      "Merchandising-led storefront",
+      "Collection clarity",
+      "Mobile commerce layout",
+    ],
+    directionSteps: ["Storefront layout", "Collections", "Product stories", "Mobile presentation"],
     gallery: [
-      { variant: 1, alt: "Forge Store concept — storefront frame", layout: "full" },
-      { variant: 2, alt: "Forge Store concept — collection frame", layout: "default" },
-      { variant: 3, alt: "Forge Store concept — product frame", layout: "portrait" },
+      {
+        variant: 1,
+        alt: "Forge Store concept — storefront frame",
+        caption: "Storefront",
+        layout: "full",
+      },
+      {
+        variant: 2,
+        alt: "Forge Store concept — collection frame",
+        caption: "Collection",
+        layout: "default",
+      },
+      {
+        variant: 3,
+        alt: "Forge Store concept — product frame",
+        caption: "Product",
+        layout: "default",
+      },
     ],
   },
 ];
