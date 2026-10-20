@@ -8,9 +8,35 @@ import {
 
 export { AGENCY_PROJECT_CATEGORIES };
 
-/** Projects approved for public display. */
+/** Canonical public portfolio order (live gallery sites only). */
+export const PUBLIC_PORTFOLIO_PROJECT_SLUGS = [
+  "relay",
+  "brewnns",
+  "ridgeline",
+  "halden",
+  "stemline",
+] as const;
+
+const PUBLIC_PORTFOLIO_SLUG_ORDER = new Map<string, number>(
+  PUBLIC_PORTFOLIO_PROJECT_SLUGS.map((slug, index) => [slug, index])
+);
+
+/** Projects approved for public display — live portfolio only, never concept demos. */
 export function getPublishedProjects(): AgencyProject[] {
-  return AGENCY_PROJECTS.filter((project) => project.published === true);
+  const published = AGENCY_PROJECTS.filter(
+    (project) => project.published === true && project.isDemo === false
+  );
+  published.sort(
+    (a, b) =>
+      (PUBLIC_PORTFOLIO_SLUG_ORDER.get(a.slug) ?? 999) -
+      (PUBLIC_PORTFOLIO_SLUG_ORDER.get(b.slug) ?? 999)
+  );
+  if (import.meta.env.DEV && published.length !== PUBLIC_PORTFOLIO_PROJECT_SLUGS.length) {
+    console.error(
+      `[agencyProjects] Expected ${PUBLIC_PORTFOLIO_PROJECT_SLUGS.length} public portfolio projects, got ${published.length}.`
+    );
+  }
+  return published;
 }
 
 /** True when at least one published project exists. */

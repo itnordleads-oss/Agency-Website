@@ -272,7 +272,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: true,
     visualMotif: "commerce",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a modern commerce experience could organize product discovery, navigation, and checkout-oriented flows without overloading the shopper.",
     solution:
@@ -309,7 +309,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: true,
     visualMotif: "dashboard",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a business dashboard can surface status, activity, and key views without becoming visually noisy.",
     solution:
@@ -347,7 +347,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: true,
     visualMotif: "mobile",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a mobile product can keep core tasks obvious while leaving room for secondary screens and account flows.",
     solution:
@@ -385,7 +385,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: false,
     visualMotif: "cms",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a content-driven website can stay flexible for editors while presenting a consistent public design system.",
     solution:
@@ -423,7 +423,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: false,
     visualMotif: "platform",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a custom platform can keep multiple modules coherent while giving each area a clear entry point.",
     solution:
@@ -462,7 +462,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     featured: false,
     visualMotif: "shopify",
     isDemo: true,
-    published: true,
+    published: false,
     challenge:
       "The concept explores how a Shopify storefront can highlight collections and product stories while staying easy to scan on mobile.",
     solution:

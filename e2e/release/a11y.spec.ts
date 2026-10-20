@@ -31,7 +31,7 @@ const SPA_ROUTES = [
   "/services/wordpress-websites",
   "/services/custom-wordpress-theme-development",
   "/projects",
-  "/projects/nova-commerce",
+  "/projects/relay",
   "/about",
   "/contact",
   "/terms",
