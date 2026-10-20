@@ -31,7 +31,7 @@ const APPROACH_STEPS = [
 export default function ProjectsPage() {
   const projects = useMemo(() => getPublishedProjects(), []);
   const categories = useMemo(() => getPublishedProjectCategories(), []);
-  const showFilters = categories.length > 1;
+  const showFilters = categories.length > 1 && projects.length > 5;
   const [filter, setFilter] = useState<FilterId>("all");
   const approachRef = useRef<HTMLElement | null>(null);
   const [approachVisible, setApproachVisible] = useState(false);
@@ -140,10 +140,10 @@ export default function ProjectsPage() {
               className="section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              Projects
+              Selected projects
             </h2>
             <p className="text-body max-w-2xl text-sm leading-relaxed text-white/62 sm:text-[0.95rem]">
-              Browse concept work across software, web, mobile, Shopify, and WordPress.
+              Five live gallery websites — open any card to visit the deployed site.
             </p>
           </div>
 

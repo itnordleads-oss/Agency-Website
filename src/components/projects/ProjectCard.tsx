@@ -24,13 +24,17 @@ export default function ProjectCard({
   variant = "standard",
   enterIndex,
 }: ProjectCardProps) {
-  const href = getProjectPath(project.slug);
+  const liveUrl = !project.isDemo && project.projectUrl ? project.projectUrl : null;
+  const href = liveUrl ?? getProjectPath(project.slug);
   const categoryLabel = getProjectCategoryLabel(project.category);
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();
   const isCompact = variant === "compact";
   const isFeatured = variant === "featured";
 
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (liveUrl) {
+      return;
+    }
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
       return;
     }
@@ -42,18 +46,24 @@ export default function ProjectCard({
     <a
       ref={ref}
       href={href}
+      target={liveUrl ? "_blank" : undefined}
+      rel={liveUrl ? "noopener noreferrer" : undefined}
       onClick={onClick}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       className={`project-card group overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.02] text-left no-underline outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF] project-card--${variant}${
-        typeof enterIndex === "number" ? " project-card-enter" : ""
-      }`}
+        liveUrl ? " project-card--live" : ""
+      }${typeof enterIndex === "number" ? " project-card-enter" : ""}`}
       style={
         typeof enterIndex === "number"
           ? { animationDelay: `${Math.min(enterIndex, 5) * 40}ms` }
           : undefined
       }
-      aria-label={`View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`}
+      aria-label={
+        liveUrl
+          ? `Visit website: ${project.title}`
+          : `View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`
+      }
     >
       <span className="project-card__shine" aria-hidden />
       <div className="project-card__media-wrap relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#12203a] via-[#0C111B] to-[#0a1628]">
@@ -62,7 +72,7 @@ export default function ProjectCard({
             <img
               src={project.thumbnail}
               alt={project.thumbnailAlt || `${project.title} preview`}
-              className="h-full w-full rounded-xl object-cover object-top"
+              className="project-card__shot h-full w-full rounded-xl object-cover object-top"
               loading="lazy"
             />
           ) : (
@@ -77,6 +87,10 @@ export default function ProjectCard({
         {project.isDemo ? (
           <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2.5 py-0.5 font-semibold uppercase backdrop-blur-sm">
             Concept Project
+          </span>
+        ) : liveUrl ? (
+          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-[#00D2FF]/30 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD] backdrop-blur-sm">
+            Live
           </span>
         ) : null}
       </div>
@@ -120,7 +134,7 @@ export default function ProjectCard({
         ) : null}
 
         <div className="project-card__cta">
-          <span>View Project</span>
+          <span>{liveUrl ? "Visit website" : "View Project"}</span>
           <ArrowRight className="project-card__arrow h-4 w-4" aria-hidden />
         </div>
       </div>

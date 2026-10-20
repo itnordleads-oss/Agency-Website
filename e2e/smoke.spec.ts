@@ -84,76 +84,56 @@ test.describe("smoke", () => {
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       /digital products built around real requirements/i
     );
-    const projectsRegion = page.getByRole("region", { name: /^Projects$/i });
-    await expect(page.getByRole("heading", { level: 2, name: /^Projects$/i })).toBeVisible();
-    await expect(
-      projectsRegion.getByRole("link", { name: /View project: Nova Commerce/i })
-    ).toBeVisible();
-    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
-    await expect(page.getByText("Concept Project").first()).toBeVisible();
-    // One clean grid: each approved concept appears once — no featured duplicate strip.
-    for (const title of [
-      "Nova Commerce",
-      "Orbit Dashboard",
-      "Atlas Mobile",
-      "Vertex CMS",
-      "Lumen Platform",
-      "Forge Store",
-    ]) {
+    await expect(page.getByRole("heading", { level: 2, name: /selected projects/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toHaveCount(
+      0
+    );
+    const projectsRegion = page.getByRole("region", { name: /selected projects/i });
+    await expect(projectsRegion.getByRole("link")).toHaveCount(5);
+    await expect(page.getByText("Concept Project")).toHaveCount(0);
+    for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
-        projectsRegion.getByRole("link", { name: new RegExp(`View project: ${title}`, "i") })
+        projectsRegion.getByRole("link", { name: new RegExp(`Visit website: ${title}`, "i") })
       ).toHaveCount(1);
     }
-
-    const filterGroup = page.getByRole("group", { name: "Filter projects by category" });
-    const allFilter = filterGroup.getByRole("button", { name: "All" });
-    const softwareFilter = filterGroup.getByRole("button", { name: "Software" });
-    await expect(allFilter).toHaveAttribute("aria-pressed", "true");
-    await softwareFilter.focus();
-    await expect(softwareFilter).toBeFocused();
-    await page.keyboard.press("Enter");
-    await expect(softwareFilter).toHaveAttribute("aria-pressed", "true");
-    await expect(projectsRegion.getByRole("link")).toHaveCount(2);
-    await allFilter.click();
-    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
+    await expect(page.getByRole("group", { name: "Filter projects by category" })).toHaveCount(0);
   });
 
   test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {
-    await page.goto("/projects/nova-commerce");
+    await page.goto("/projects/relay");
     await acceptCookiesIfPresent(page);
-    await expect(page).toHaveURL(/\/projects\/nova-commerce\/?(?:\?|$)/);
-    await expect(page.getByRole("heading", { level: 1, name: /Nova Commerce/i })).toBeVisible();
-    await expect(page.getByText("Concept Project").first()).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: /Project Goal/i })).toBeVisible();
+    await expect(page).toHaveURL(/\/projects\/relay\/?(?:\?|$)/);
+    await expect(page.getByRole("heading", { level: 1, name: /Relay/i })).toBeVisible();
+    await expect(page.getByText("Concept Project")).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 2, name: /Challenge/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Project Overview" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: "Visual Gallery" })).toBeVisible();
-    await expect(
-      page.getByRole("heading", { level: 2, name: "What This Demonstrates" })
-    ).toBeVisible();
   });
 
   test("all project detail routes resolve from centralized data", async ({ page }) => {
     test.setTimeout(90_000);
     const projects = [
-      ["nova-commerce", "Nova Commerce"],
-      ["orbit-dashboard", "Orbit Dashboard"],
-      ["atlas-mobile", "Atlas Mobile"],
-      ["vertex-cms", "Vertex CMS"],
-      ["lumen-platform", "Lumen Platform"],
-      ["forge-store", "Forge Store"],
+      ["relay", "Relay"],
+      ["brewnns", "Brewnns"],
+      ["ridgeline", "Ridgeline Roofing"],
+      ["halden", "Halden"],
+      ["stemline", "Stemline"],
     ] as const;
 
     for (const [slug, title] of projects) {
       await page.goto(`/projects/${slug}`);
       await acceptCookiesIfPresent(page);
       await expect(page.getByRole("heading", { level: 1, name: title })).toBeVisible();
-      await expect(page.getByText("Concept Project").first()).toBeVisible();
+      await expect(page.getByText("Concept Project")).toHaveCount(0);
       await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toBeVisible();
 
       const related = page.getByRole("region", { name: "Related Projects" });
       await expect(related.getByRole("link")).toHaveCount(3);
       await expect(related.getByRole("link", { name: new RegExp(title, "i") })).toHaveCount(0);
     }
+
+    await page.goto("/projects/nova-commerce");
+    await expect(page.getByRole("heading", { level: 1, name: "Project not found" })).toBeVisible();
 
     await page.goto("/projects/not-a-real-project");
     await expect(page.getByRole("heading", { level: 1, name: "Project not found" })).toBeVisible();

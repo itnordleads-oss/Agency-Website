@@ -25,7 +25,7 @@ const SPA_ROUTES = [
   "/",
   "/services",
   "/projects",
-  "/projects/nova-commerce",
+  "/projects/relay",
   "/about",
   "/contact",
   "/terms",
