@@ -184,6 +184,11 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
                 className="home-agency-spotlight__cta"
                 target={liveUrl ? "_blank" : undefined}
                 rel={liveUrl ? "noopener noreferrer" : undefined}
+                aria-label={
+                  liveUrl
+                    ? `Visit website: ${activeProject.title}`
+                    : `View project: ${activeProject.title}`
+                }
                 onClick={liveUrl ? undefined : (event) => navigateProject(event, href)}
               >
                 {liveUrl ? "Visit website" : "View Project"}

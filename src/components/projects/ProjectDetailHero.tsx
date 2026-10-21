@@ -153,6 +153,7 @@ export default function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
                 href={project.projectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Visit website: ${project.title}`}
                 className="inline-flex items-center gap-2 self-center text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
               >
                 {project.isDemo ? "View Demo" : "Visit website"}
