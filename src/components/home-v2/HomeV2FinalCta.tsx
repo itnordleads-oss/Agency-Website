@@ -51,18 +51,29 @@ export default function HomeV2FinalCta() {
               </div>
             ) : null}
             <h2 className="section-title">{finalCta.title}</h2>
-            <p className="text-body text-[0.95rem] leading-relaxed text-white/70 md:text-base">
+            <p
+              className={
+                isV3
+                  ? "home-agency-lede mx-auto"
+                  : "text-body text-[0.95rem] leading-relaxed text-white/70 md:text-base"
+              }
+            >
               {finalCta.subtitle}
             </p>
 
-            <div className="flex flex-col items-stretch justify-center gap-2.5 pt-0.5 sm:flex-row sm:items-center sm:gap-3">
-              <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+            <div className="flex flex-col items-stretch justify-center gap-2.5 pt-0.5 min-[390px]:flex-row min-[390px]:items-center min-[390px]:gap-3">
+              <PrimaryButton
+                onClick={navigateToContact}
+                className={`w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto${
+                  isV3 ? " home-hero-cta" : ""
+                }`}
+              >
                 {finalCta.primaryCta}
               </PrimaryButton>
               {isV3 && secondaryCta ? (
                 <SecondaryButton
                   onClick={() => navigateAppPath("/services")}
-                  className="w-full px-8 py-3.5 sm:w-auto"
+                  className="home-hero-cta w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
                 >
                   {secondaryCta}
                 </SecondaryButton>

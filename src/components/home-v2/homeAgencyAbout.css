@@ -52,9 +52,17 @@
 .home-agency-about__support {
   margin: 0;
   max-width: 30rem;
-  font-size: 1.02rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (min-width: 768px) {
+  .home-agency-about__support {
+    font-size: 0.9375rem;
+  }
 }
 
 .home-agency-about__cta {
