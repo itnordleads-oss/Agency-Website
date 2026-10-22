@@ -24,11 +24,14 @@ export default function ProjectsFinalCta() {
           <h2 id="projects-final-cta-heading" className="section-title">
             Have a project in mind?
           </h2>
-          <p className="text-body text-sm leading-relaxed text-white/72 md:text-base">
+          <p className="projects-final-cta__copy">
             Tell us what you are building and we will discuss the right approach.
           </p>
           <div className="flex justify-center pt-1.5">
-            <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+            <PrimaryButton
+              onClick={navigateToContact}
+              className="projects-final-cta__button w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+            >
               Start a Project
             </PrimaryButton>
           </div>
