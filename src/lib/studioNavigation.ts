@@ -24,9 +24,9 @@ export const IS_WORK_NAV_PUBLISHED = true;
 
 const STUDIO_NAV_ITEMS: StudioNavItem[] = [
   { id: "home", label: "Home", path: "/" },
+  { id: "about", label: "About", path: "/about" },
   { id: "services", label: "Services", path: "/services" },
   { id: "projects", label: "Projects", path: "/projects" },
-  { id: "about", label: "About", path: "/about" },
   { id: "careers", label: "Careers", path: "/careers" },
   { id: "contact", label: "Contact", path: "/contact" },
 ];
