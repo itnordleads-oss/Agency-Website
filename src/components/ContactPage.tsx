@@ -3,11 +3,11 @@ import type { TFunction } from "i18next";
 import { Send, CheckCircle2, ShieldCheck, Info } from "lucide-react";
 import ContactSocialSection from "./ContactSocialSection";
 import ContactLocationMap from "./ContactLocationMap";
-import BackToHomepage from "./BackToHomepage";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import { resolveContactEmail } from "../lib/siteContact";
 import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
+import "./contactType.css";
 
 const TURNSTILE_SCRIPT_ID = "cf-turnstile-script";
 const TURNSTILE_SCRIPT_SRC =
@@ -131,34 +131,26 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
     return fieldErrors[field] || null;
   };
 
-  const inputClass =
-    "w-full min-h-11 bg-[#0a0e16]/80 border border-white/12 rounded-xl py-3 px-4 text-base text-white placeholder:text-white/35 focus:outline-none focus:border-brand/70 focus:ring-2 focus:ring-brand/20 transition-[border-color,box-shadow,background-color] duration-200 font-sans";
+  const inputClass = "contact-form-input";
 
   /**
    * Compact in-flow validation slot (fixed height). Height is absorbed from former
    * form `space-y-5` gaps so the card stays at the no-validation baseline.
    */
-  const fieldErrorSlotClass = "flex h-5 items-center gap-1.5 text-xs leading-none text-white/62";
+  const fieldErrorSlotClass = "contact-field-error flex h-5 items-center gap-1.5 leading-none";
   const noticePanelClass =
     "flex h-full min-h-0 items-center gap-2 overflow-hidden rounded-lg border border-white/[0.1] bg-white/[0.03] px-2.5 py-1 text-xs leading-tight text-white/88";
-  /** Matches the loading-spinner band; spinner / turnstile / form-level share this slot. */
+  /** Shared slot for turnstile load / turnstile error / form-level notice — only when needed. */
   const statusSlotClass = "grid h-8 w-full items-center";
 
-  const getInputClassName = (field: Exclude<FormField, "turnstile">) => {
-    const hasError = Boolean(getFieldError(field));
+  const getInputClassName = (_field: Exclude<FormField, "turnstile">) => inputClass;
 
-    return `${inputClass} ${
-      hasError
-        ? "border-white/18 bg-white/[0.045] shadow-[0_0_0_1px_rgba(164,244,253,0.08)] focus:border-brand/50 focus:ring-brand/12"
-        : ""
-    }`;
-  };
-
-  const renderFieldErrorSlot = (field: Exclude<FormField, "turnstile">) => {
+  const renderFieldErrorSlot = (field: Exclude<FormField, "turnstile">, errorId: string) => {
     const error = getFieldError(field);
 
     return (
       <p
+        id={errorId}
         className={`${fieldErrorSlotClass} ${error ? "visible" : "invisible"}`}
         role={error ? "alert" : undefined}
         aria-hidden={error ? undefined : true}
@@ -171,8 +163,10 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
 
   const turnstileFieldError = getFieldError("turnstile");
   const showFormLevelNotice = captchaLoadError || Boolean(serverError && !captchaLoadError);
-  const showStatusSpinner = !turnstileReady && !serverError;
+  /** Idle forms must not show a spinner — only while Turnstile is actually loading after interaction. */
+  const showStatusSpinner = shouldLoadTurnstile && !turnstileReady && !serverError && !submitting;
   const showTurnstileStatusError = Boolean(turnstileFieldError) && !showFormLevelNotice;
+  const showStatusBand = showStatusSpinner || showTurnstileStatusError || showFormLevelNotice;
 
   const updateFieldValue = (field: keyof typeof defaultFormData, value: string) => {
     const nextFormData = { ...formData, [field]: value };
@@ -394,33 +388,30 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
 
   return (
     <main
-      className={`overflow-x-hidden min-w-0 ${embedded ? "flex-grow" : "flex-1"}`}
+      className={`min-w-0 ${embedded ? "flex-grow" : "flex-1"}`}
       id={embedded ? undefined : "contact-page"}
+      aria-labelledby={embedded ? undefined : "contact-hero-title"}
     >
       <section
         ref={contactRef}
         className="border-t border-white/[0.1] text-white/70 relative z-10"
         id="contact"
       >
-        <div className="mx-auto w-full min-w-0 max-w-7xl px-3 min-[341px]:px-4 sm:px-6 py-8 max-[340px]:py-7 sm:py-12 md:py-16">
-          {!embedded ? (
-            <BackToHomepage label={contactPageCopy.backHome ?? "Back to homepage"} />
-          ) : null}
-
+        <div className="mx-auto w-full min-w-0 max-w-7xl px-3 min-[341px]:px-4 sm:px-6 py-10 max-[340px]:py-8 sm:py-12 md:py-16">
           <div className="grid grid-cols-1 items-stretch gap-8 max-[340px]:gap-6 sm:gap-10 lg:grid-cols-12 lg:gap-12 min-w-0">
             <div className="flex min-w-0 flex-col gap-4 lg:col-span-5">
-              <h1 className="section-title leading-tight text-white">{footer.title}</h1>
-              <p className="max-w-md text-sm leading-relaxed text-body sm:text-base">
-                {footer.subtitle}
-              </p>
+              <h1 id="contact-hero-title" className="contact-hero-title">
+                {footer.title}
+              </h1>
+              <p className="contact-hero-copy">{footer.subtitle}</p>
 
-              <div className="space-y-3 pt-1 text-sm">
-                <div className="flex items-start gap-3 text-muted">
-                  <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <div className="contact-reassure space-y-3 pt-1">
+                <div className="flex items-start gap-3">
+                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
                   <span>{footer.confidential}</span>
                 </div>
-                <div className="flex items-start gap-3 text-muted">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden />
                   <span>{footer.scaleProof}</span>
                 </div>
               </div>
@@ -469,58 +460,59 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
                   className="relative z-10 flex flex-col"
                 >
                   {/* Inter-section spacing comes from fixed error/status slots (replaces space-y-5). */}
-                  <div className="grid grid-cols-1 gap-x-4 gap-y-3 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-x-4 gap-y-3 min-[769px]:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
-                      <label
-                        htmlFor="business-name"
-                        className="block text-xs font-semibold uppercase tracking-wide text-white/55"
-                      >
+                      <label htmlFor="business-name" className="contact-form-label">
                         {footer.fields.businessName}
                       </label>
                       <input
                         id="business-name"
                         type="text"
+                        name="name"
+                        autoComplete="name"
                         placeholder={footer.fields.businessNamePlaceholder}
                         value={formData.name}
                         onChange={(e) => updateFieldValue("name", e.target.value)}
                         onKeyDown={onNameOrEmailKeyDown}
                         onBlur={() => markFieldTouched("name")}
                         aria-invalid={Boolean(getFieldError("name"))}
+                        aria-describedby={getFieldError("name") ? "business-name-error" : undefined}
                         className={getInputClassName("name")}
                       />
-                      {renderFieldErrorSlot("name")}
+                      {renderFieldErrorSlot("name", "business-name-error")}
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label
-                        htmlFor="business-email"
-                        className="block text-xs font-semibold uppercase tracking-wide text-white/55"
-                      >
+                      <label htmlFor="business-email" className="contact-form-label">
                         {footer.fields.businessEmail}
                       </label>
                       <input
                         id="business-email"
                         type="email"
+                        name="email"
+                        autoComplete="email"
+                        inputMode="email"
                         placeholder={footer.fields.businessEmailPlaceholder}
                         value={formData.email}
                         onChange={(e) => updateFieldValue("email", e.target.value)}
                         onKeyDown={onNameOrEmailKeyDown}
                         onBlur={() => markFieldTouched("email")}
                         aria-invalid={Boolean(getFieldError("email"))}
+                        aria-describedby={
+                          getFieldError("email") ? "business-email-error" : undefined
+                        }
                         className={getInputClassName("email")}
                       />
-                      {renderFieldErrorSlot("email")}
+                      {renderFieldErrorSlot("email", "business-email-error")}
                     </div>
                   </div>
 
                   <div className="mt-3 flex flex-col gap-1.5">
-                    <label
-                      htmlFor="target-market"
-                      className="block text-xs font-semibold uppercase tracking-wide text-white/55"
-                    >
+                    <label htmlFor="target-market" className="contact-form-label">
                       {footer.fields.targetMarket}
                     </label>
                     <textarea
                       id="target-market"
+                      name="message"
                       rows={4}
                       placeholder={footer.fields.targetMarketPlaceholder}
                       value={formData.msg}
@@ -528,9 +520,10 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
                       onKeyDown={onMessageKeyDown}
                       onBlur={() => markFieldTouched("msg")}
                       aria-invalid={Boolean(getFieldError("msg"))}
-                      className={`${getInputClassName("msg")} resize-none`}
+                      aria-describedby={getFieldError("msg") ? "target-market-error" : undefined}
+                      className={getInputClassName("msg")}
                     />
-                    {renderFieldErrorSlot("msg")}
+                    {renderFieldErrorSlot("msg", "target-market-error")}
                   </div>
 
                   <div className="hidden" aria-hidden="true">
@@ -547,91 +540,96 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
 
                   <div className="mt-3">
                     <div ref={turnstileContainerRef} />
-                    {/* Status/loading band: spinner, turnstile error, and form-level notice share one fixed slot. */}
-                    <div className={statusSlotClass}>
-                      <div
-                        className={`col-start-1 row-start-1 flex items-center justify-center gap-2 ${
-                          showStatusSpinner ? "visible" : "invisible"
-                        }`}
-                        aria-busy={showStatusSpinner ? true : undefined}
-                        aria-label={showStatusSpinner ? footer.loadingProtection : undefined}
-                        aria-hidden={showStatusSpinner ? undefined : true}
-                      >
-                        <span
-                          className="h-4 w-4 rounded-full border-2 border-white/20 border-t-[#A4F4FD]/80 animate-spin motion-reduce:animate-none"
-                          aria-hidden="true"
-                        />
-                        <span className="sr-only">{footer.loadingProtection}</span>
-                      </div>
+                    {/* Status band only mounts when Turnstile is loading after interaction, or an error/notice exists. */}
+                    {showStatusBand ? (
+                      <div className={`${statusSlotClass} mt-2`} aria-live="polite">
+                        {showStatusSpinner ? (
+                          <div
+                            className="col-start-1 row-start-1 flex items-center justify-center gap-2"
+                            aria-busy="true"
+                            aria-label={footer.loadingProtection}
+                          >
+                            <span
+                              className="h-4 w-4 rounded-full border-2 border-white/20 border-t-[#A4F4FD]/80 animate-spin motion-reduce:animate-none"
+                              aria-hidden="true"
+                            />
+                            <span className="sr-only">{footer.loadingProtection}</span>
+                          </div>
+                        ) : null}
 
-                      <p
-                        className={`col-start-1 row-start-1 flex items-center justify-center gap-1.5 text-xs leading-none text-white/62 ${
-                          showTurnstileStatusError ? "visible" : "invisible"
-                        }`}
-                        role={showTurnstileStatusError ? "alert" : undefined}
-                        aria-hidden={showTurnstileStatusError ? undefined : true}
-                      >
-                        <Info
-                          className="h-3.5 w-3.5 shrink-0 text-[#A4F4FD]/85"
-                          aria-hidden="true"
-                        />
-                        <span className="min-w-0">{turnstileFieldError || "\u00a0"}</span>
-                      </p>
+                        {showTurnstileStatusError ? (
+                          <p
+                            className="col-start-1 row-start-1 flex items-center justify-center gap-1.5 text-xs leading-none text-white/62"
+                            role="alert"
+                          >
+                            <Info
+                              className="h-3.5 w-3.5 shrink-0 text-[#A4F4FD]/85"
+                              aria-hidden="true"
+                            />
+                            <span className="min-w-0">{turnstileFieldError}</span>
+                          </p>
+                        ) : null}
 
-                      <div
-                        className={`col-start-1 row-start-1 ${noticePanelClass} ${
-                          showFormLevelNotice ? "visible" : "invisible"
-                        }`}
-                        role={showFormLevelNotice ? "alert" : undefined}
-                        aria-hidden={showFormLevelNotice ? undefined : true}
-                      >
-                        <Info
-                          className="h-3.5 w-3.5 shrink-0 text-[#A4F4FD]/90"
-                          aria-hidden="true"
-                        />
-                        <div className="min-w-0">
-                          {captchaLoadError ? (
-                            <p>
-                              <span className="font-medium text-white/92">
-                                {footer.spamProtectionTitle}
-                              </span>{" "}
-                              <span className="text-white/62">{footer.spamProtectionBody}</span>
-                            </p>
-                          ) : (
-                            <p>
-                              <span className="font-medium text-white/92">
-                                {footer.requestReadyTitle}
-                              </span>{" "}
-                              <span className="text-white/62">
-                                {serverError && !captchaLoadError ? serverError : "\u00a0"}
-                              </span>
-                            </p>
-                          )}
-                        </div>
+                        {showFormLevelNotice ? (
+                          <div
+                            className={`col-start-1 row-start-1 ${noticePanelClass}`}
+                            role="alert"
+                          >
+                            <Info
+                              className="h-3.5 w-3.5 shrink-0 text-[#A4F4FD]/90"
+                              aria-hidden="true"
+                            />
+                            <div className="min-w-0">
+                              {captchaLoadError ? (
+                                <p>
+                                  <span className="font-medium text-white/92">
+                                    {footer.spamProtectionTitle}
+                                  </span>{" "}
+                                  <span className="text-white/62">{footer.spamProtectionBody}</span>
+                                </p>
+                              ) : (
+                                <p>
+                                  <span className="font-medium text-white/92">
+                                    {footer.requestReadyTitle}
+                                  </span>{" "}
+                                  <span className="text-white/62">
+                                    {serverError && !captchaLoadError ? serverError : "\u00a0"}
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
-                    </div>
+                    ) : null}
                   </div>
 
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-3 w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-white/95 text-black font-semibold text-sm py-3.5 px-5 transition-[background-color,box-shadow,transform] duration-200 hover:shadow-[0_12px_40px_rgba(255,255,255,0.15)] active:scale-[0.99] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                    aria-busy={submitting || undefined}
+                    className="contact-submit mt-3 w-full group inline-flex items-center justify-center gap-2 rounded-xl bg-white hover:bg-white/95 text-black py-3.5 px-5 transition-[background-color,box-shadow,transform] duration-200 hover:shadow-[0_12px_40px_rgba(255,255,255,0.15)] active:scale-[0.99] cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                   >
+                    {submitting ? (
+                      <span
+                        className="h-4 w-4 rounded-full border-2 border-black/20 border-t-black/80 animate-spin motion-reduce:animate-none"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <Send className="w-4 h-4 text-black group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none" />
+                    )}
                     <span>{submitting ? footer.submitLoading : footer.submitIdle}</span>
-                    <Send className="w-4 h-4 text-black group-hover:translate-x-0.5 transition-transform" />
                   </button>
 
                   <div className="mt-5 rounded-xl border border-white/[0.1] bg-black/25 p-4 sm:p-[1.125rem] space-y-3.5">
-                    <div className="text-xs font-semibold tracking-wide text-white/55 uppercase">
-                      {footer.nextTitle}
-                    </div>
-                    <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3 sm:gap-4">
+                    <div className="contact-next-label">{footer.nextTitle}</div>
+                    <div className="grid grid-cols-1 gap-3.5 min-[769px]:grid-cols-3 min-[769px]:gap-4">
                       {nextSteps.map((step, i) => (
                         <div key={step} className="flex min-w-0 items-start gap-3">
-                          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-brand/30 bg-brand/15 text-xs font-bold text-[#A4F4FD]">
+                          <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-brand/30 bg-brand/15 text-xs font-bold text-[#A4F4FD]">
                             {i + 1}
                           </span>
-                          <span className="min-w-0 text-sm leading-snug text-white/85">{step}</span>
+                          <span className="contact-next-step min-w-0">{step}</span>
                         </div>
                       ))}
                     </div>

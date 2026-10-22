@@ -5,10 +5,25 @@
   height: 100%;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  #contact-page .contact-social-card:hover,
+  #contact-page .contact-social-card:focus-visible {
+    transform: translateY(-2px);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  #contact-page .contact-social-card:hover,
+  #contact-page .contact-social-card:active {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #contact-page .contact-social-card,
   #contact-page .contact-social-card:hover,
-  #contact-page .contact-social-card:active {
+  #contact-page .contact-social-card:active,
+  #contact-page .contact-social-card:focus-visible {
     transform: none;
   }
 }
