@@ -127,7 +127,30 @@
   }
 
   .projects-hero-visual__caption {
-    display: none;
+    display: inline-flex;
+    left: 0.5rem;
+    right: auto;
+    bottom: 0.45rem;
+    max-width: calc(100% - 1rem);
+    padding: 0.28rem 0.55rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .projects-hero-visual__layer--front .projects-hero-visual__caption {
+    left: auto;
+    right: 0.45rem;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .projects-hero-visual__layer--back,
+  .projects-hero-visual__layer--mid,
+  .projects-hero-visual__layer--front {
+    transform: none !important;
   }
 }
 

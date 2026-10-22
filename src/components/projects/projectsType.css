@@ -1,0 +1,200 @@
+/**
+ * Projects page (#projects-page) — scoped mobile/tablet type + rhythm.
+ * Desktop keeps approved hero-title / section-title scales.
+ */
+
+#projects-page {
+  --projects-body: 0.9375rem;
+  --projects-support: 0.875rem;
+  --projects-meta: 0.6875rem;
+  --projects-h3: 1.125rem;
+}
+
+#projects-page .projects-hero-title {
+  max-width: 16ch;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+#projects-page .projects-hero-copy {
+  margin: 0;
+  max-width: 26rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: var(--projects-body);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#projects-page .section-title {
+  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+#projects-page .projects-section-lede {
+  margin: 0;
+  max-width: 42rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--projects-support);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#projects-page .project-card--standard .project-card__title {
+  font-size: var(--projects-h3);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+#projects-page .project-card--standard .project-card__description {
+  font-size: var(--projects-support);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#projects-page .project-card__type,
+#projects-page .project-card__category,
+#projects-page .project-card__tech-tag,
+#projects-page .project-card__concept-badge {
+  font-size: var(--projects-meta);
+  letter-spacing: 0.08em;
+}
+
+#projects-page .project-card__tech-tag {
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+#projects-page .project-card__cta {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+#projects-page .projects-filter-chip {
+  min-height: 2.75rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+#projects-page .projects-approach__heading {
+  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  max-width: 18ch;
+}
+
+#projects-page .projects-approach__copy {
+  font-size: var(--projects-support);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#projects-page .projects-approach__step-label {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+#projects-page .projects-final-cta__copy {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--projects-support);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+#projects-page .projects-final-cta__button {
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  #projects-page .projects-hero-title {
+    max-width: 18ch;
+    font-size: clamp(2.125rem, 1.7rem + 2.1vw, 2.5rem);
+  }
+
+  #projects-page .project-card--standard .project-card__body {
+    padding: 1.05rem 1rem 1.1rem;
+  }
+
+  #projects-page .projects-approach__rail {
+    padding-top: 0.35rem;
+    padding-bottom: 1.1rem;
+  }
+
+  #projects-page .projects-approach__step {
+    gap: 0.85rem;
+    padding: 0.7rem 0;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  #projects-page .projects-hero-title {
+    font-size: clamp(2.375rem, 1.85rem + 2.2vw, 2.75rem);
+  }
+}
+
+@media (min-width: 768px) {
+  #projects-page {
+    --projects-body: 1rem;
+    --projects-support: 0.9375rem;
+    --projects-h3: 1.1875rem;
+  }
+
+  #projects-page .projects-hero-title {
+    max-width: 18ch;
+    font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
+  }
+
+  #projects-page .section-title,
+  #projects-page .projects-approach__heading {
+    font-size: clamp(1.875rem, 1.55rem + 0.9vw, 2.25rem);
+  }
+
+  #projects-page .projects-approach__step-label {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #projects-page .projects-hero-title {
+    max-width: 14ch;
+    font-size: clamp(3rem, 2.4rem + 0.9vw, 3.5rem);
+    letter-spacing: -0.032em;
+  }
+
+  #projects-page .section-title,
+  #projects-page .projects-approach__heading {
+    font-size: clamp(2.125rem, 1.7rem + 0.7vw, 2.5rem);
+  }
+
+  #projects-page .projects-hero-copy {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #projects-page .projects-hero-title {
+    font-size: 3.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  #projects-page .section-title,
+  #projects-page .projects-approach__heading {
+    font-size: 2.5rem;
+  }
+}
