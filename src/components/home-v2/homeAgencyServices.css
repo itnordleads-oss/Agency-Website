@@ -124,7 +124,7 @@
   width: 2.5rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .home-agency-services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

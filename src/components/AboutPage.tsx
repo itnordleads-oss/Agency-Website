@@ -16,6 +16,7 @@ import { useSiteCopy } from "../lib/useSiteCopy";
 import { getBrandAriaLabel } from "../lib/studioBranding";
 import { navigateAppPath, navigateToContact } from "../App";
 import "./about-page.css";
+import "./aboutType.css";
 
 const HERO_PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, Wrench, ListChecks, ShieldCheck];
 const PRINCIPLE_ICONS: LucideIcon[] = [MessagesSquare, ListChecks, Code2, Layers];
@@ -245,10 +246,12 @@ function AboutProcess({ steps, reduceMotion }: { steps: ProcessStep[]; reduceMot
     return () => timers.forEach((timer) => window.clearTimeout(timer));
   }, [isInView, reduceMotion, stepCount]);
 
+  const isSettled = activeStep >= stepCount - 1;
+
   return (
     <motion.ol
       ref={processRef}
-      className="about-process-track relative m-0 list-none p-0"
+      className={`about-process-track relative m-0 list-none p-0${isSettled ? " is-settled" : ""}`}
       {...revealProps(reduceMotion, 0.06)}
     >
       <div className="about-process-rail" aria-hidden>
@@ -262,7 +265,8 @@ function AboutProcess({ steps, reduceMotion }: { steps: ProcessStep[]; reduceMot
         />
       </div>
       {steps.map((step, index) => {
-        const state = index < activeStep ? "is-previous" : index === activeStep ? "is-active" : "";
+        const state =
+          index < activeStep ? "is-previous" : index === activeStep ? "is-active" : "is-upcoming";
         return (
           <li key={step.label} className={`about-process-step ${state}`}>
             <span className="about-process-node">{String(index + 1).padStart(2, "0")}</span>
@@ -324,13 +328,13 @@ export default function AboutPage() {
 
   return (
     <main
-      className="about-page about-body min-w-0 flex-grow overflow-x-hidden"
+      className="about-page about-body min-w-0 flex-grow"
       id="about-page"
       aria-labelledby="about-hero-title"
     >
       {/* 1. Hero */}
       <section
-        className="about-section about-section-hero relative overflow-hidden pb-8 pt-6 md:pb-10 md:pt-8 xl:pb-14"
+        className="about-section about-section-hero relative overflow-hidden pb-10 pt-6 md:pb-12 md:pt-8 xl:pb-14"
         aria-labelledby="about-hero-title"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(920px_circle_at_8%_-5%,rgba(61,129,227,0.2),transparent_52%)] motion-reduce:hidden" />
@@ -339,29 +343,22 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 items-center gap-7 xl:grid-cols-[0.96fr_1.04fr] xl:gap-12">
             <div className="about-fade-in min-w-0">
               <SectionEyebrow label={hero.eyebrow} className="mb-3.5" />
-              <h1
-                id="about-hero-title"
-                className="max-w-[14ch] text-balance text-[clamp(2.25rem,10vw,2.875rem)] font-extrabold leading-[1.02] tracking-[-0.035em] text-white lg:max-w-[16ch] lg:text-[3.25rem]"
-              >
-                <span className="block">{titleLine1}</span>
-                {titleLine2 ? (
-                  <span className="mt-0.5 block text-white/92">{titleLine2}</span>
-                ) : null}
+              <h1 id="about-hero-title" className="about-hero-title">
+                <span className="about-hero-title__line">{titleLine1}</span>
+                {titleLine2 ? <span className="about-hero-title__line">{titleLine2}</span> : null}
               </h1>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-body md:mt-5 md:text-lg">
-                {hero.subtitle}
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-7">
+              <p className="about-hero-copy">{hero.subtitle}</p>
+              <div className="about-hero-actions mt-6 flex flex-col gap-3 min-[390px]:flex-row min-[390px]:flex-wrap md:mt-7">
                 <PrimaryButton
                   onClick={navigateToContact}
-                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                  className="about-cta-primary w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
                 >
                   {hero.primaryCta}
                 </PrimaryButton>
                 <SecondaryButton
                   type="button"
                   onClick={() => navigateAppPath("/services")}
-                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                  className="about-cta-secondary w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
                 >
                   {hero.secondaryCta}
                 </SecondaryButton>
@@ -381,7 +378,7 @@ export default function AboutPage() {
 
       {/* 2. Who We Are */}
       <section
-        className="about-section about-section-who relative py-8 md:py-10 xl:py-16"
+        className="about-section about-section-who relative py-12 md:py-16 xl:py-20"
         aria-labelledby="about-who-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
@@ -398,10 +395,7 @@ export default function AboutPage() {
                 {sectionMark}
               </span>
               <SectionEyebrow label={aboutPage.whoWeAre.eyebrow} />
-              <h2
-                id="about-who-heading"
-                className="relative mt-3.5 max-w-md text-balance text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-[2.125rem] xl:text-[2.625rem]"
-              >
+              <h2 id="about-who-heading" className="about-section-title relative mt-3.5 max-w-md">
                 {aboutPage.whoWeAre.title}
               </h2>
             </div>
@@ -412,10 +406,7 @@ export default function AboutPage() {
                 </blockquote>
               ) : null}
               {whoParagraphs.map((paragraph) => (
-                <p
-                  key={paragraph.slice(0, 48)}
-                  className="max-w-2xl text-base leading-relaxed text-body md:text-lg md:leading-relaxed"
-                >
+                <p key={paragraph.slice(0, 48)} className="about-body-copy">
                   {paragraph}
                 </p>
               ))}
@@ -457,7 +448,7 @@ export default function AboutPage() {
 
       {/* 3. Working principles — bento */}
       <section
-        className="about-section relative py-8 md:py-10 xl:py-16"
+        className="about-section relative py-12 md:py-16 xl:py-20"
         aria-labelledby="about-principles-heading"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_100%,rgba(61,129,227,0.11),transparent_62%)] motion-reduce:hidden" />
@@ -467,18 +458,13 @@ export default function AboutPage() {
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.principles.eyebrow} />
-            <h2
-              id="about-principles-heading"
-              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
-            >
+            <h2 id="about-principles-heading" className="about-section-title mt-3.5">
               {aboutPage.principles.title}
             </h2>
-            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
-              {aboutPage.principles.subtitle}
-            </p>
+            <p className="about-section-lede">{aboutPage.principles.subtitle}</p>
           </motion.div>
 
-          <ul className="about-bento-grid m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2 sm:gap-3.5 lg:grid-cols-12 lg:grid-rows-2 lg:gap-4">
+          <ul className="about-bento-grid m-0 grid list-none grid-cols-1 gap-3 p-0 min-[769px]:grid-cols-2 min-[769px]:gap-3.5 lg:grid-cols-12 lg:grid-rows-2 lg:gap-4">
             {principles.map((item, index) => {
               const Icon = PRINCIPLE_ICONS[index] ?? ListChecks;
               const layout = BENTO_LAYOUT[index] ?? "";
@@ -498,19 +484,13 @@ export default function AboutPage() {
                     onFocus={() => setActivePrinciple(index)}
                     onClick={() => setActivePrinciple(index)}
                   >
-                    <p className="text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/85">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
+                    <p className="about-bento-meta">{String(index + 1).padStart(2, "0")}</p>
                     <div className="about-bento-accent mt-2" aria-hidden />
                     <span className="about-bento-icon mt-3 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[#3D81E3]/30 bg-[#3D81E3]/10 text-[#A4F4FD]">
                       <Icon className="h-4 w-4" aria-hidden />
                     </span>
-                    <h3 className="mt-3 text-lg font-semibold leading-snug text-white">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1.5 max-w-md text-sm leading-relaxed text-body md:text-[0.9375rem]">
-                      {item.description}
-                    </p>
+                    <h3>{item.title}</h3>
+                    <p className="about-bento-description">{item.description}</p>
                   </button>
                 </motion.li>
               );
@@ -521,7 +501,7 @@ export default function AboutPage() {
 
       {/* 4. Capabilities */}
       <section
-        className="about-section relative py-8 md:py-10 xl:py-16"
+        className="about-section relative py-12 md:py-16 xl:py-20"
         aria-labelledby="about-focus-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
@@ -531,15 +511,10 @@ export default function AboutPage() {
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.focusAreas.eyebrow} />
-            <h2
-              id="about-focus-heading"
-              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
-            >
+            <h2 id="about-focus-heading" className="about-section-title mt-3.5">
               {aboutPage.focusAreas.title}
             </h2>
-            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
-              {aboutPage.focusAreas.subtitle}
-            </p>
+            <p className="about-section-lede">{aboutPage.focusAreas.subtitle}</p>
             <a
               href="/services"
               onClick={(event) => {
@@ -566,22 +541,18 @@ export default function AboutPage() {
               >
                 <button
                   type="button"
-                  className="about-capability-button relative grid w-full grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-12 text-left sm:gap-5 sm:py-5 sm:pl-14 md:py-6"
+                  className="about-capability-button relative grid w-full grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-11 text-left sm:gap-5 sm:py-5 sm:pl-14 md:py-6"
                   aria-pressed={activeFocusArea === index}
                   onMouseEnter={() => setActiveFocusArea(index)}
                   onFocus={() => setActiveFocusArea(index)}
                   onClick={() => setActiveFocusArea(index)}
                 >
-                  <span className="about-capability-index relative z-10 pt-0.5 font-mono text-lg font-medium tabular-nums transition-colors duration-300 sm:text-xl">
+                  <span className="about-capability-index relative z-10 pt-0.5 font-mono tabular-nums transition-colors duration-300">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div className="relative z-10 min-w-0">
-                    <h3 className="about-capability-title text-xl font-semibold leading-snug text-white sm:text-2xl">
-                      {item.title}
-                    </h3>
-                    <p className="about-capability-description mt-1.5 max-w-3xl text-sm leading-relaxed sm:text-base md:text-[1.0625rem]">
-                      {item.description}
-                    </p>
+                    <h3 className="about-capability-title">{item.title}</h3>
+                    <p className="about-capability-description max-w-3xl">{item.description}</p>
                   </div>
                   <ArrowRight
                     className="about-capability-arrow relative z-10 mt-1.5 h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 motion-reduce:transform-none sm:mt-2"
@@ -596,7 +567,7 @@ export default function AboutPage() {
 
       {/* 5. Process timeline */}
       <section
-        className="about-section about-section-process relative py-8 md:py-10 xl:py-16"
+        className="about-section about-section-process relative py-12 md:py-16 xl:py-20"
         aria-labelledby="about-process-heading"
       >
         <div className={ABOUT_SHELL}>
@@ -605,15 +576,10 @@ export default function AboutPage() {
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.process.eyebrow} />
-            <h2
-              id="about-process-heading"
-              className="mt-3.5 text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-4xl"
-            >
+            <h2 id="about-process-heading" className="about-section-title mt-3.5">
               {aboutPage.process.title}
             </h2>
-            <p className="mt-2.5 text-base leading-relaxed text-body md:text-lg">
-              {aboutPage.process.subtitle}
-            </p>
+            <p className="about-section-lede">{aboutPage.process.subtitle}</p>
           </motion.div>
 
           <AboutProcess steps={processSteps} reduceMotion={shouldReduceMotion} />
@@ -622,7 +588,7 @@ export default function AboutPage() {
 
       {/* 6. CTA */}
       <section
-        className="about-section about-section-cta relative pb-8 pt-4 md:pb-10 md:pt-6 xl:pb-14 xl:pt-2"
+        className="about-section about-section-cta relative pb-12 pt-4 md:pb-16 md:pt-6 xl:pb-20 xl:pt-2"
         aria-labelledby="about-final-cta-heading"
         data-floating-prompt-suppression
       >
@@ -636,19 +602,14 @@ export default function AboutPage() {
             <div className="about-cta-noise pointer-events-none absolute inset-0 motion-reduce:hidden" />
             <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#00d2ff]/18 blur-[80px] motion-reduce:hidden" />
             <div className="relative z-10 mx-auto max-w-2xl text-center">
-              <h2
-                id="about-final-cta-heading"
-                className="text-balance text-3xl font-bold tracking-tight text-white sm:text-[2.125rem] xl:text-[2.625rem]"
-              >
+              <h2 id="about-final-cta-heading" className="about-section-title">
                 {aboutPage.finalCta.title}
               </h2>
-              <p className="mx-auto mt-3.5 max-w-lg text-base leading-relaxed text-white/72 md:text-lg">
-                {aboutPage.finalCta.subtitle}
-              </p>
-              <div className="mt-6 flex flex-col items-center justify-center gap-3.5 sm:mt-7 sm:flex-row sm:gap-5">
+              <p className="about-cta-copy">{aboutPage.finalCta.subtitle}</p>
+              <div className="about-cta-actions mt-6 flex flex-col items-center justify-center gap-3.5 sm:mt-7 sm:flex-row sm:gap-5">
                 <PrimaryButton
                   onClick={navigateToContact}
-                  className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                  className="about-cta-primary w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
                 >
                   {aboutPage.finalCta.primaryCta}
                 </PrimaryButton>

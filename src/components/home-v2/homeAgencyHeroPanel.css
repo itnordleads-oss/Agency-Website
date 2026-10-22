@@ -135,4 +135,18 @@
   .home-hero-panel {
     transform: none !important;
   }
+
+  .home-hero-panel__glow {
+    animation: none !important;
+  }
+
+  .home-hero-panel__pulse {
+    display: none !important;
+  }
+}
+
+@media (max-width: 429px) {
+  .home-hero-panel__chip {
+    letter-spacing: 0.02em;
+  }
 }

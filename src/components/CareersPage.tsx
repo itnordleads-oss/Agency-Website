@@ -9,6 +9,7 @@ import { PrimaryButton, SecondaryButton } from "./Buttons";
 import SectionEyebrow from "./SectionEyebrow";
 import { HOME_AGENCY_SHELL } from "./home-v2/homeAgencyLayout";
 import "./careers.css";
+import "./careersType.css";
 
 const WORKING_PRINCIPLES = [
   {
@@ -82,18 +83,18 @@ export default function CareersPage() {
   }, []);
 
   return (
-    <main id="careers-page" className="careers-page min-w-0 flex-grow overflow-x-hidden">
+    <main id="careers-page" className="careers-page min-w-0 flex-grow">
       <section className="careers-hero" aria-labelledby="careers-hero-title">
         <div className={`${HOME_AGENCY_SHELL} careers-hero__shell`}>
           <div className="careers-hero__layout">
             <motion.div className="careers-hero__copy" {...reveal(reduceMotion)}>
               <SectionEyebrow label="Careers" />
-              <h1 id="careers-hero-title" className="hero-title careers-hero__title">
+              <h1 id="careers-hero-title" className="careers-hero__title">
                 Build useful products.
                 <br />
                 Grow with the work.
               </h1>
-              <p className="text-body careers-hero__support">
+              <p className="careers-hero__support">
                 Software and product work, with shared review.
               </p>
               <div className="careers-hero__actions">
@@ -177,6 +178,7 @@ export default function CareersPage() {
                   role="listitem"
                   key={principle.title}
                   className={index === activePrinciple ? "is-active" : ""}
+                  aria-pressed={index === activePrinciple}
                   onClick={() => setActivePrinciple(index)}
                   onFocus={() => setActivePrinciple(index)}
                 >

@@ -185,7 +185,7 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
 
   return (
     <section
-      className="relative overflow-hidden pb-9 pt-1 sm:pb-11 md:pb-12"
+      className="relative overflow-hidden pb-9 pt-6 sm:pb-11 sm:pt-7 md:pb-12 md:pt-8"
       aria-labelledby="services-hero-title"
     >
       <div
@@ -194,28 +194,23 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
       />
       <div className={SERVICES_SHELL_CLASS}>
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12">
-          <div className="services-hub-reveal lg:col-span-5 xl:col-span-5">
+          <div className="services-hub-reveal services-hero-copy min-w-0 w-full lg:col-span-5 xl:col-span-5">
             <SectionEyebrow label={copy.eyebrow} className="mb-4" />
-            <h1
-              id="services-hero-title"
-              className="max-w-[16ch] text-balance text-[clamp(2.25rem,9vw,3.25rem)] font-extrabold leading-[1.08] tracking-tight text-white sm:max-w-[18ch] lg:text-5xl"
-            >
+            <h1 id="services-hero-title" className="services-hero-title">
               {copy.title}
             </h1>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-white/72 md:text-lg">
-              {copy.subtitle}
-            </p>
-            <div className="mt-7 flex flex-col flex-wrap gap-3 sm:flex-row sm:gap-3.5">
+            <p className="services-hero-subtitle mt-4 max-w-md">{copy.subtitle}</p>
+            <div className="services-hero-actions mt-7 flex flex-col flex-wrap gap-2.5 min-[390px]:flex-row min-[390px]:gap-3 sm:gap-3.5">
               <PrimaryButton
                 onClick={navigateToContact}
-                className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                className="services-hero-cta min-h-11 w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
               >
                 {copy.primaryCta}
               </PrimaryButton>
               <SecondaryButton
                 type="button"
                 onClick={scrollToOverview}
-                className="w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                className="services-hero-cta min-h-11 w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
               >
                 {copy.secondaryCta}
               </SecondaryButton>
@@ -307,7 +302,14 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
                       }}
                       aria-pressed={isSelected}
                       onClick={() => selectService(service.id)}
-                      onMouseEnter={() => previewService(service.id)}
+                      onMouseEnter={() => {
+                        if (
+                          typeof window !== "undefined" &&
+                          window.matchMedia("(hover: hover) and (pointer: fine)").matches
+                        ) {
+                          previewService(service.id);
+                        }
+                      }}
                       onMouseLeave={clearPreview}
                       onFocus={() => selectService(service.id)}
                       onKeyDown={(event) => {

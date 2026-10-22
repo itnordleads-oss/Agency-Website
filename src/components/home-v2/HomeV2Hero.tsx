@@ -62,7 +62,7 @@ export default function HomeV2Hero() {
           >
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/14 bg-white/[0.05] px-3 py-1.5 min-[341px]:px-4 min-[341px]:py-2 md:backdrop-blur-md">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#00D2FF] min-[341px]:h-2 min-[341px]:w-2" />
-              <span className="text-[0.625rem] font-semibold uppercase tracking-[0.14em] leading-snug text-[#A4F4FD] min-[341px]:text-xs">
+              <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] leading-snug text-[#A4F4FD] min-[341px]:text-xs">
                 {hero.eyebrow}
               </span>
             </div>
@@ -79,23 +79,27 @@ export default function HomeV2Hero() {
             <p
               className={
                 isV3
-                  ? "hero-subtitle text-body max-w-md text-[0.95rem] leading-relaxed text-white/72 sm:max-w-lg sm:text-base md:text-[1.05rem]"
+                  ? "hero-subtitle text-body max-w-md sm:max-w-lg"
                   : "hero-subtitle text-body max-w-lg text-sm sm:text-base md:text-[1.05rem]"
               }
             >
               {hero.subheadline}
             </p>
 
-            <div className="flex w-full flex-col items-stretch gap-2.5 pt-0.5 sm:w-auto sm:flex-row sm:items-center sm:gap-3.5">
+            <div className="flex w-full flex-col items-stretch gap-2.5 pt-0.5 min-[390px]:w-auto min-[390px]:flex-row min-[390px]:items-center min-[390px]:gap-3 sm:gap-3.5">
               <PrimaryButton
                 onClick={navigateToContact}
-                className="w-full text-sm shadow-[0_8px_32px_rgba(255,255,255,0.12)] sm:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
+                className={`w-full whitespace-nowrap shadow-[0_8px_32px_rgba(255,255,255,0.12)] min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5${
+                  isV3 ? " home-hero-cta" : " text-sm"
+                }`}
               >
                 {hero.primaryCta}
               </PrimaryButton>
               <SecondaryButton
                 onClick={onSecondaryCta}
-                className="w-full text-sm sm:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
+                className={`w-full whitespace-nowrap min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5${
+                  isV3 ? " home-hero-cta" : " text-sm"
+                }`}
               >
                 {hero.secondaryCta}
               </SecondaryButton>

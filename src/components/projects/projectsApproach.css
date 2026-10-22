@@ -53,13 +53,14 @@
 
   .projects-approach__step {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
     min-width: 0;
-    flex-direction: row;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.55rem 0;
-    opacity: 0.68;
+    column-gap: 0.85rem;
+    row-gap: 0;
+    padding: 0.75rem 0;
+    opacity: 0.7;
     transform: none;
   }
 
@@ -67,20 +68,20 @@
   .projects-approach__step:not(:last-child)::before {
     content: "";
     position: absolute;
-    top: 1.2rem;
-    left: 0.3rem;
-    width: 1px;
-    height: calc(100% - 0.35rem);
+    top: 1.55rem;
+    left: 1.05rem;
+    width: 2px;
+    height: calc(100% - 0.5rem);
     background: rgba(255, 255, 255, 0.14);
   }
 
   .projects-approach__step:not(:last-child)::after {
     content: "";
     position: absolute;
-    top: 1.2rem;
-    left: 0.3rem;
-    width: 1px;
-    height: calc(100% - 0.35rem);
+    top: 1.55rem;
+    left: 1.05rem;
+    width: 2px;
+    height: calc(100% - 0.5rem);
     background: linear-gradient(180deg, rgba(0, 210, 255, 0.55), rgba(255, 255, 255, 0.16));
     transform: scaleY(0);
     transform-origin: top center;
@@ -166,12 +167,27 @@
   box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.08);
 }
 
+@media (max-width: 768px) {
+  .projects-approach__node {
+    width: 0.75rem;
+    height: 0.75rem;
+    justify-self: center;
+    box-shadow: 0 0 0 0.5rem rgba(12, 17, 27, 1);
+  }
+}
+
 .projects-approach__step-label {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.875rem;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.8125rem;
+  font-weight: 650;
   letter-spacing: 0.01em;
   line-height: 1.3;
+}
+
+@media (min-width: 769px) {
+  .projects-approach__step-label {
+    font-size: 0.875rem;
+  }
 }
 
 /* Completed stages after reveal */

@@ -179,16 +179,30 @@
 
 .home-agency-process__title {
   margin: 0.15rem 0 0;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
   color: rgba(255, 255, 255, 0.92);
 }
 
 .home-agency-process__copy {
   margin: 0.4rem 0 0;
-  font-size: 0.98rem;
-  line-height: 1.64;
-  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (min-width: 768px) {
+  .home-agency-process__title {
+    font-size: 1.05rem;
+  }
+
+  .home-agency-process__copy {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
 }
 
 /* —— Desktop horizontal —— */

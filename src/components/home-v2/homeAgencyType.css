@@ -1,0 +1,228 @@
+/**
+ * Homepage V3 (#home-page) — scoped mobile/tablet type + rhythm.
+ * Desktop scales stay aligned with approved hero-title / section-title tokens.
+ */
+
+#home-page {
+  --home-body: 0.9375rem;
+  --home-support: 0.875rem;
+  --home-meta: 0.6875rem;
+  --home-h3: 1.125rem;
+}
+
+#home-page .hero-title--agency {
+  max-width: 18ch;
+  font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+#home-page .hero-subtitle {
+  max-width: 28rem;
+  font-size: var(--home-body);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+#home-page .section-title {
+  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+#home-page .home-agency-lede {
+  margin: 0;
+  max-width: 42rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: var(--home-body);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#home-page .home-agency-card-title {
+  margin: 0;
+  color: #fff;
+  font-size: var(--home-h3);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+#home-page .home-agency-card-copy {
+  margin: 0.55rem 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--home-support);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#home-page .home-agency-card-cta {
+  margin-top: auto;
+  padding-top: 0.95rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+#home-page [id^="eyebrow-"] > span {
+  font-size: var(--home-meta);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+#home-page .home-hero-cta {
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+#home-page .home-agency-process__title {
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+#home-page .home-agency-process__copy {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#home-page .home-agency-process__node {
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+}
+
+#home-page .home-agency-process__bridge {
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+}
+
+#home-page .home-agency-value__index-label {
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+#home-page .home-agency-value__index-num {
+  font-size: 0.6875rem;
+  color: rgba(164, 244, 253, 0.7);
+}
+
+#home-page .home-agency-spotlight__title {
+  font-size: clamp(1.375rem, 1.1rem + 1.4vw, 1.625rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+#home-page .home-agency-spotlight__desc {
+  font-size: var(--home-support);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#home-page .home-agency-spotlight__pill,
+#home-page .home-agency-spotlight__badge {
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 767px) {
+  #home-page .home-agency-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  #home-page .home-agency-services-tile {
+    padding: 1.05rem 1rem 1.15rem;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  #home-page .hero-title--agency {
+    font-size: clamp(2.375rem, 1.85rem + 2.2vw, 2.75rem);
+  }
+}
+
+@media (min-width: 768px) {
+  #home-page {
+    --home-body: 1rem;
+    --home-support: 0.9375rem;
+    --home-h3: 1.1875rem;
+  }
+
+  #home-page .hero-title--agency {
+    max-width: 20ch;
+    font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
+    line-height: 1.05;
+  }
+
+  #home-page .section-title {
+    font-size: clamp(1.875rem, 1.55rem + 0.9vw, 2.25rem);
+    line-height: 1.12;
+  }
+
+  #home-page .home-agency-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  #home-page .home-agency-process__title {
+    font-size: 1.05rem;
+  }
+
+  #home-page .home-agency-process__copy {
+    font-size: 0.875rem;
+  }
+
+  #home-page .home-agency-spotlight__title {
+    font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.85rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  #home-page .hero-title--agency {
+    max-width: 36rem;
+    font-size: clamp(3rem, 2.4rem + 0.9vw, 3.5rem);
+    letter-spacing: -0.032em;
+  }
+
+  #home-page .section-title {
+    font-size: clamp(2.125rem, 1.7rem + 0.7vw, 2.5rem);
+  }
+
+  #home-page .hero-subtitle {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  #home-page .home-agency-section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #home-page .hero-title--agency {
+    max-width: 38rem;
+    font-size: 3.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  #home-page .section-title {
+    font-size: 2.5rem;
+  }
+}

@@ -1,0 +1,182 @@
+/**
+ * Contact page (#contact-page) — scoped mobile/tablet type + rhythm.
+ * Desktop keeps approved split layout.
+ */
+
+#contact-page {
+  --contact-body: 0.9375rem;
+  --contact-support: 0.875rem;
+  --contact-meta: 0.6875rem;
+  --contact-label: 0.75rem;
+}
+
+#contact-page .contact-hero-title {
+  margin: 0;
+  max-width: 16ch;
+  color: #fff;
+  font-size: clamp(2rem, 1.55rem + 2.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+#contact-page .contact-hero-copy {
+  margin: 0;
+  max-width: 28rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: var(--contact-body);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#contact-page .contact-reassure {
+  font-size: var(--contact-support);
+  font-weight: 450;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+#contact-page .contact-form-label {
+  display: block;
+  font-size: var(--contact-label);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.3;
+}
+
+#contact-page .contact-form-input {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  background: rgba(10, 14, 22, 0.8);
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+  font-family: inherit;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+}
+
+#contact-page .contact-form-input::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+#contact-page .contact-form-input:focus {
+  outline: none;
+  border-color: rgba(61, 129, 227, 0.7);
+  box-shadow: 0 0 0 2px rgba(61, 129, 227, 0.2);
+}
+
+#contact-page .contact-form-input[aria-invalid="true"] {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: 0 0 0 1px rgba(164, 244, 253, 0.08);
+}
+
+#contact-page textarea.contact-form-input {
+  min-height: 9rem;
+  resize: none;
+}
+
+#contact-page .contact-field-error {
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#contact-page .contact-submit {
+  min-height: 3rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#contact-page .contact-next-label {
+  font-size: var(--contact-meta);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+#contact-page .contact-next-step {
+  font-size: var(--contact-support);
+  font-weight: 550;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+#contact-page .contact-social-heading {
+  font-size: 0.875rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+#contact-page .contact-social-subtitle {
+  font-size: var(--contact-support);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+#contact-page .contact-social-card-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 767px) {
+  #contact-page .contact-hero-title {
+    font-size: clamp(2rem, 1.65rem + 1.8vw, 2.375rem);
+  }
+
+  #contact-page .contact-form-surface {
+    padding: 1.05rem 1rem;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  #contact-page .contact-hero-title {
+    font-size: clamp(2.25rem, 1.85rem + 1.8vw, 2.5rem);
+  }
+}
+
+@media (min-width: 768px) {
+  #contact-page {
+    --contact-body: 1rem;
+    --contact-support: 0.9375rem;
+  }
+
+  #contact-page .contact-hero-title {
+    font-size: clamp(2.5rem, 2rem + 1.1vw, 2.875rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  #contact-page .contact-hero-title {
+    font-size: clamp(2.75rem, 2.2rem + 0.8vw, 3.125rem);
+    letter-spacing: -0.028em;
+  }
+
+  #contact-page .contact-hero-copy {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #contact-page .contact-hero-title {
+    font-size: 3.125rem;
+  }
+}

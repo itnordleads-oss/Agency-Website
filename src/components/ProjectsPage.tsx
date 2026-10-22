@@ -13,6 +13,7 @@ import { applyPageMetadata } from "../lib/pageMetadata";
 import type { AgencyProjectCategory } from "../content/agencyProjects";
 import "./projects/projectsPage.css";
 import "./projects/projectsApproach.css";
+import "./projects/projectsType.css";
 
 type FilterId = "all" | AgencyProjectCategory;
 
@@ -122,11 +123,7 @@ export default function ProjectsPage() {
     filter === "all" ? projects : projects.filter((project) => project.category === filter);
 
   return (
-    <main
-      className="min-w-0 flex-grow overflow-x-hidden"
-      id="projects-page"
-      aria-labelledby="projects-hero-title"
-    >
+    <main className="min-w-0 flex-grow" id="projects-page" aria-labelledby="projects-hero-title">
       <ProjectsHero />
 
       <section
@@ -142,7 +139,7 @@ export default function ProjectsPage() {
             >
               Selected projects
             </h2>
-            <p className="text-body max-w-2xl text-sm leading-relaxed text-white/62 sm:text-[0.95rem]">
+            <p className="projects-section-lede max-w-2xl">
               Five live gallery websites — open any card to visit the deployed site.
             </p>
           </div>
@@ -175,7 +172,7 @@ export default function ProjectsPage() {
         {visibleProjects.length > 0 ? (
           <div
             key={filter}
-            className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-5"
+            className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5"
           >
             {visibleProjects.map((project, index) => (
               <ProjectCard key={`${filter}-${project.slug}`} project={project} enterIndex={index} />

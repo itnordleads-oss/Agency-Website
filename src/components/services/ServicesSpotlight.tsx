@@ -121,7 +121,7 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
           <h2 id="services-spotlight-title" className="section-title">
             {copy.title}
           </h2>
-          <p className="max-w-2xl text-base leading-relaxed text-white/68">{copy.subtitle}</p>
+          <p className="services-section-lede max-w-2xl">{copy.subtitle}</p>
         </div>
 
         <div
@@ -147,7 +147,14 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
                   tabRefs.current[service.id] = node;
                 }}
                 onClick={() => setActiveId(service.id)}
-                onMouseEnter={() => setActiveId(service.id)}
+                onMouseEnter={() => {
+                  if (
+                    typeof window !== "undefined" &&
+                    window.matchMedia("(hover: hover) and (pointer: fine)").matches
+                  ) {
+                    setActiveId(service.id);
+                  }
+                }}
                 onKeyDown={(event) => onTabKeyDown(event, index)}
               >
                 {service.tabLabel}
@@ -172,15 +179,15 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
             <div className="services-blueprint-mark" aria-hidden>
               <ServiceIcon serviceId={activeService.id} className="h-5 w-5" />
             </div>
-            <h3 className="text-2xl font-bold tracking-tight text-white">{activeService.title}</h3>
-            <p className="max-w-sm text-sm leading-relaxed text-white/68 sm:text-[0.95rem]">
+            <h3 className="services-blueprint-panel__title">{activeService.title}</h3>
+            <p className="services-blueprint-panel__copy max-w-sm">
               {activeService.shortDescription}
             </p>
             <div className="space-y-2.5">
               <p className="services-blueprint-kicker">Capabilities</p>
               <ul className="space-y-2">
                 {capabilities.map((capability) => (
-                  <li key={capability} className="flex gap-2.5 text-sm text-white/60">
+                  <li key={capability} className="flex gap-2.5">
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#A4F4FD]" aria-hidden />
                     <span>{capability}</span>
                   </li>

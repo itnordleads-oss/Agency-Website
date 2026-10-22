@@ -1,0 +1,279 @@
+/**
+ * Careers page (#careers-page) — scoped mobile/tablet type + rhythm.
+ * Desktop keeps approved hero / section scales.
+ */
+
+#careers-page {
+  --careers-body: 0.9375rem;
+  --careers-support: 0.875rem;
+  --careers-meta: 0.6875rem;
+  --careers-h3: 1.125rem;
+}
+
+#careers-page .careers-hero__title {
+  margin: 0.85rem 0 0;
+  max-width: 13ch;
+  color: #fff;
+  font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.625rem);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+#careers-page .careers-hero__support {
+  margin: 1rem 0 0;
+  max-width: 34rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: var(--careers-body);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+#careers-page .section-title {
+  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+#careers-page .careers-section-lede,
+#careers-page .careers-section__intro > p.text-body,
+#careers-page .careers-section__intro p {
+  margin: 0.75rem 0 0;
+  max-width: 34rem;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: var(--careers-support);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+#careers-page .careers-principles__lead h3 {
+  font-size: clamp(1.125rem, 1rem + 0.8vw, 1.35rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+#careers-page .careers-principles__lead p {
+  font-size: var(--careers-support);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+#careers-page .careers-principles__list button {
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+#careers-page .careers-principles__list button span,
+#careers-page .careers-principles__number,
+#careers-page .careers-expertise__panel-label,
+#careers-page .careers-expertise__service-label {
+  font-size: var(--careers-meta);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+#careers-page .careers-expertise__tabs button {
+  min-height: 2.75rem;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+#careers-page .careers-expertise__tabs button.is-active {
+  color: #fff;
+}
+
+#careers-page .careers-expertise__panel h3 {
+  font-size: clamp(1.125rem, 1rem + 0.7vw, 1.35rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+#careers-page .careers-expertise__panel p {
+  font-size: var(--careers-body);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+#careers-page .careers-style__flow h3,
+#careers-page .careers-hiring__timeline h3 {
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+#careers-page .careers-style__flow p,
+#careers-page .careers-hiring__timeline p {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+#careers-page .careers-style__step,
+#careers-page .careers-hiring__timeline li > span {
+  font-size: var(--careers-meta);
+  font-weight: 700;
+}
+
+#careers-page .careers-flow__node span {
+  font-size: var(--careers-meta);
+}
+
+#careers-page .careers-flow__node strong {
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+#careers-page .careers-flow__roles span {
+  font-size: var(--careers-meta);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+#careers-page .careers-flow__topline {
+  font-size: var(--careers-meta);
+  letter-spacing: 0.1em;
+}
+
+#careers-page .careers-empty h3 {
+  font-size: var(--careers-body);
+  font-weight: 650;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+#careers-page .careers-empty p {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+#careers-page .careers-text-link {
+  min-height: 2.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+#careers-page .careers-faq__item > button {
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+#careers-page .careers-faq__item > div > p {
+  font-size: var(--careers-support);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+#careers-page .careers-final p {
+  font-size: var(--careers-support);
+  font-weight: 400;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+#careers-page .careers-hero__actions > *,
+#careers-page .careers-final__actions > * {
+  min-height: 2.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  #careers-page .careers-hero__title {
+    max-width: 14ch;
+    font-size: clamp(2.125rem, 1.7rem + 2.1vw, 2.5rem);
+  }
+
+  #careers-page .careers-empty {
+    padding: 1.05rem 1rem;
+  }
+
+  #careers-page .careers-final__panel {
+    padding: 1.35rem 1rem;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  #careers-page .careers-hero__title {
+    font-size: clamp(2.375rem, 1.85rem + 2.2vw, 2.75rem);
+  }
+}
+
+@media (min-width: 768px) {
+  #careers-page {
+    --careers-body: 1rem;
+    --careers-support: 0.9375rem;
+    --careers-h3: 1.1875rem;
+  }
+
+  #careers-page .careers-hero__title {
+    font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
+  }
+
+  #careers-page .section-title {
+    font-size: clamp(1.875rem, 1.55rem + 0.9vw, 2.25rem);
+  }
+
+  #careers-page .careers-style__flow h3,
+  #careers-page .careers-hiring__timeline h3 {
+    font-size: 1rem;
+  }
+
+  #careers-page .careers-style__flow p,
+  #careers-page .careers-hiring__timeline p {
+    font-size: 0.875rem;
+  }
+
+  #careers-page .careers-flow__node strong {
+    font-size: 0.72rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #careers-page .careers-hero__title {
+    font-size: clamp(3rem, 2.4rem + 0.9vw, 3.5rem);
+    letter-spacing: -0.032em;
+  }
+
+  #careers-page .section-title {
+    font-size: clamp(2.125rem, 1.7rem + 0.7vw, 2.5rem);
+  }
+
+  #careers-page .careers-hero__support {
+    font-size: 1.0625rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  #careers-page .careers-hero__title {
+    font-size: 3.5rem;
+    letter-spacing: -0.03em;
+  }
+
+  #careers-page .section-title {
+    font-size: 2.5rem;
+  }
+}

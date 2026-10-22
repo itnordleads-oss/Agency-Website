@@ -47,7 +47,7 @@ export default function ServicesOverviewGrid({ overview, services }: ServicesOve
           <h2 id="services-overview-title" className="section-title">
             {overview.title}
           </h2>
-          <p className="max-w-2xl text-base leading-relaxed text-white/68">{overview.subtitle}</p>
+          <p className="services-section-lede max-w-2xl">{overview.subtitle}</p>
         </div>
 
         <ul className="services-overview-board m-0 list-none p-0">
@@ -65,23 +65,14 @@ export default function ServicesOverviewGrid({ overview, services }: ServicesOve
                   <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#3D81E3]/25 bg-[#3D81E3]/10 text-[#A4F4FD] transition-colors group-hover:border-[#A4F4FD]/40 group-hover:text-[#C8F8FF]">
                     <ServiceIcon serviceId={service.id} className="h-4 w-4" />
                   </span>
-                  <h3 className="text-base font-semibold leading-snug text-white md:text-lg">
-                    {service.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-white/62">
-                    {service.shortDescription}
-                  </p>
-                  <ul className="mt-2.5 space-y-1">
+                  <h3 className="services-overview-tile__title">{service.title}</h3>
+                  <p className="services-overview-tile__copy">{service.shortDescription}</p>
+                  <ul className="services-overview-tile__bullets">
                     {highlights.map((line) => (
-                      <li
-                        key={line}
-                        className="relative pl-3 text-[0.8125rem] leading-relaxed text-white/48 before:absolute before:left-0 before:top-[0.45em] before:h-1 before:w-1 before:rounded-full before:bg-[#A4F4FD]/70"
-                      >
-                        {line}
-                      </li>
+                      <li key={line}>{line}</li>
                     ))}
                   </ul>
-                  <span className="mt-auto inline-flex whitespace-nowrap items-center gap-1.5 pt-4 text-sm font-semibold text-[#A4F4FD] transition-colors group-hover:text-white">
+                  <span className="services-overview-tile__cta mt-auto inline-flex items-center gap-1.5 whitespace-nowrap text-[#A4F4FD] transition-colors group-hover:text-white">
                     {overview.learnMore}
                     <ArrowRight
                       className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[2px] motion-reduce:transform-none"

@@ -84,12 +84,11 @@ export default function ProjectsHero() {
             </div>
             <h1
               id="projects-hero-title"
-              className="projects-hero__enter projects-hero__enter--title hero-title text-white max-w-[15ch] sm:max-w-[18ch] lg:max-w-[14ch]"
-              style={{ textWrap: "balance" }}
+              className="projects-hero__enter projects-hero__enter--title projects-hero-title mx-auto lg:mx-0"
             >
               Digital products built around real requirements
             </h1>
-            <p className="projects-hero__enter projects-hero__enter--copy text-body mx-auto max-w-[21rem] text-sm leading-relaxed text-white/70 sm:text-base lg:mx-0 lg:max-w-[26rem]">
+            <p className="projects-hero__enter projects-hero__enter--copy projects-hero-copy mx-auto lg:mx-0">
               Live gallery websites built as product, brand, and services demos — open any card to
               visit the deployed site.
             </p>
