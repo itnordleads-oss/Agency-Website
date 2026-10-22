@@ -121,14 +121,14 @@ export default function HomeAgencyHeroPanel() {
       <div className="relative z-10 space-y-3">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-[#A4F4FD] min-[341px]:text-xs">
+            <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD]">
               {visual.eyebrow}
             </p>
-            <p className="mt-1 text-sm font-semibold leading-snug text-white sm:text-[0.95rem]">
+            <p className="mt-1 text-[0.9375rem] font-semibold leading-snug tracking-[-0.01em] text-white sm:text-base">
               {visual.title}
             </p>
           </div>
-          <span className="shrink-0 rounded-full border border-accent-soft/25 bg-accent-soft/10 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-wide text-[#A4F4FD]">
+          <span className="shrink-0 rounded-full border border-accent-soft/25 bg-accent-soft/10 px-2.5 py-1 text-[0.6875rem] font-semibold uppercase tracking-[0.06em] text-[#A4F4FD]">
             {visual.badge}
           </span>
         </div>
@@ -180,7 +180,7 @@ export default function HomeAgencyHeroPanel() {
               {STAGE_NODES.map((node) => (
                 <span
                   key={node.id}
-                  className={`home-hero-panel__chip rounded-md border bg-[#0C111B]/8 px-1.5 py-1 text-[0.58rem] font-semibold text-white/90 backdrop-blur-sm sm:px-2 sm:text-[0.68rem] ${
+                  className={`home-hero-panel__chip rounded-md border bg-[#0C111B]/8 px-1.5 py-1 text-[0.6875rem] font-semibold leading-none text-white/90 backdrop-blur-sm sm:px-2 sm:text-[0.75rem] ${
                     node.id === "product" ? "border-[#A4F4FD]/45 text-[#A4F4FD]" : "border-white/12"
                   }`}
                 >
@@ -195,7 +195,7 @@ export default function HomeAgencyHeroPanel() {
                   key={label}
                   className="home-hero-panel__chip rounded-md border border-white/12 bg-white/[0.045] px-0.5 py-1.5 text-center sm:rounded-lg sm:px-1.5 sm:py-2"
                 >
-                  <span className="block text-[0.5rem] font-semibold uppercase tracking-wide text-[#A4F4FD]/95 sm:text-[0.6rem]">
+                  <span className="block text-[0.625rem] font-semibold uppercase tracking-[0.04em] text-[#A4F4FD] sm:text-[0.6875rem]">
                     {label}
                   </span>
                 </div>
@@ -204,7 +204,9 @@ export default function HomeAgencyHeroPanel() {
           </div>
         </div>
 
-        <p className="text-[0.75rem] leading-relaxed text-white/58 sm:text-xs">{visual.caption}</p>
+        <p className="text-[0.8125rem] leading-relaxed text-white/68 sm:text-[0.8125rem]">
+          {visual.caption}
+        </p>
       </div>
     </div>
   );

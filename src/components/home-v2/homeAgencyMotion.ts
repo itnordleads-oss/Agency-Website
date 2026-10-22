@@ -10,7 +10,8 @@ export function homepageRevealProps(reduceMotion: boolean | null, delay = 0) {
   return {
     initial: { opacity: 0, y: 18 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, amount: 0.18 },
+    // Generous margin so lower-row cards/steps settle visible before leaving the viewport.
+    viewport: { once: true, amount: 0.05, margin: "64px 0px 96px 0px" },
     transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
   };
 }

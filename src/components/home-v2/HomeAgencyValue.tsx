@@ -68,9 +68,7 @@ export default function HomeAgencyValue() {
             >
               {value.title}
             </h2>
-            <p className="text-body text-[0.95rem] leading-relaxed text-white/70 sm:text-base">
-              {value.subtitle}
-            </p>
+            <p className="home-agency-lede">{value.subtitle}</p>
 
             <ol className="home-agency-value__index" aria-label="Delivery principles">
               {INDEX_LABELS.map((label, index) => (

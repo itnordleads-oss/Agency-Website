@@ -57,9 +57,7 @@ export default function HomeAgencyServices() {
             <h2 id="agency-services-heading" className="section-title">
               {services.title}
             </h2>
-            <p className="text-body max-w-xl text-[0.95rem] leading-relaxed text-white/68 sm:text-base">
-              {services.subtitle}
-            </p>
+            <p className="home-agency-lede max-w-xl">{services.subtitle}</p>
           </div>
           <SecondaryButton
             onClick={() => navigateAppPath("/services")}
@@ -79,13 +77,23 @@ export default function HomeAgencyServices() {
             }
             const serviceId = item.id as AgencyServiceId;
             const href = getAgencyServicePath(serviceId);
+            // Animate from the grid parent once; avoid per-tile whileInView leaving
+            // lower-row cards stuck at opacity 0 on short mobile viewports.
+            const tileMotion = reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 14 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, amount: 0.01, margin: "120px 0px 160px 0px" },
+                  transition: {
+                    duration: 0.5,
+                    delay: homepageStaggerDelay(index, 0.05),
+                    ease: [0.22, 1, 0.36, 1] as const,
+                  },
+                };
 
             return (
-              <motion.li
-                key={item.id}
-                className="min-h-0 min-w-0"
-                {...homepageRevealProps(reduceMotion, homepageStaggerDelay(index, 0.05))}
-              >
+              <motion.li key={item.id} className="min-h-0 min-w-0" {...tileMotion}>
                 <a
                   href={href}
                   onClick={(event) => navigateToService(event, href)}
@@ -97,13 +105,9 @@ export default function HomeAgencyServices() {
                     <span className="home-agency-services-icon mb-2.5">
                       <HomeAgencyServiceIcon serviceId={serviceId} className="h-4 w-4" />
                     </span>
-                    <h3 className="text-[0.95rem] font-semibold leading-snug text-white md:text-base">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/66">
-                      {item.description}
-                    </p>
-                    <span className="mt-auto inline-flex items-center gap-2 pt-3.5 text-sm font-semibold text-[#A4F4FD] transition-colors duration-200 group-hover:text-white">
+                    <h3 className="home-agency-card-title">{item.title}</h3>
+                    <p className="home-agency-card-copy">{item.description}</p>
+                    <span className="home-agency-card-cta inline-flex items-center gap-2 text-[#A4F4FD] transition-colors duration-200 group-hover:text-white">
                       {services.exploreLabel}
                       <ArrowRight className="home-agency-services-cta-arrow h-4 w-4" aria-hidden />
                     </span>

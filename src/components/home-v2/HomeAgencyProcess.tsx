@@ -55,9 +55,7 @@ export default function HomeAgencyProcess() {
           <h2 id="agency-process-heading" className="section-title text-left">
             {process.title}
           </h2>
-          <p className="text-body text-[0.95rem] leading-relaxed text-white/70 sm:text-base">
-            {process.subtitle}
-          </p>
+          <p className="home-agency-lede">{process.subtitle}</p>
         </motion.div>
 
         <motion.div {...homepageRevealProps(reduceMotion, 0.08)}>

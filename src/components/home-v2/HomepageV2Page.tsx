@@ -25,6 +25,7 @@ import {
 } from "../../lib/homepageSections";
 import { getAgencyPageSeo } from "../../lib/agencyPageSeo";
 import { applyPageMetadata } from "../../lib/pageMetadata";
+import "./homeAgencyType.css";
 
 const V2_TITLE = "Home";
 function useHomepageMetadata(variant: HomepageVariant) {
@@ -160,7 +161,7 @@ export default function HomepageV2Page({ variant = "v2" }: { variant?: HomepageV
 
   return (
     <HomepageVariantProvider variant={variant}>
-      <main className="min-w-0 flex-grow overflow-x-hidden">
+      <main id={isV3 ? "home-page" : undefined} className="min-w-0 flex-grow overflow-x-hidden">
         {/*
           Keep DeferredMount wrappers stable. Swapping them for eager trees on
           hash click remounts Hero and moves section targets after scroll.

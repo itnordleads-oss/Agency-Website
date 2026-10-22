@@ -51,9 +51,7 @@ export default function HomeAgencyWork() {
             <h2 id="agency-work-heading" className="section-title text-left">
               {workPreview.title}
             </h2>
-            <p className="text-body max-w-xl text-[0.95rem] leading-relaxed text-white/68 sm:text-base">
-              {workPreview.subtitle}
-            </p>
+            <p className="home-agency-lede max-w-xl">{workPreview.subtitle}</p>
           </div>
           <SecondaryButton
             onClick={() => navigateAppPath("/projects")}
