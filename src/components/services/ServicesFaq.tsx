@@ -1,6 +1,7 @@
 import React, { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import SectionEyebrow from "../SectionEyebrow";
+import { navigateAppPath } from "../../App";
 import {
   SERVICES_DETAIL_CLASS,
   SERVICES_SECTION_CLASS,
@@ -103,7 +104,24 @@ export default function ServicesFaq({ copy, variant = "hub" }: ServicesFaqProps)
               {copy.title}
             </h2>
             <p>{copy.subtitle}</p>
-            <a className="services-faq-contact" href="/contact">
+            <a
+              className="services-faq-contact"
+              href="/contact"
+              onClick={(event) => {
+                if (
+                  event.defaultPrevented ||
+                  event.button !== 0 ||
+                  event.metaKey ||
+                  event.ctrlKey ||
+                  event.shiftKey ||
+                  event.altKey
+                ) {
+                  return;
+                }
+                event.preventDefault();
+                navigateAppPath("/contact");
+              }}
+            >
               Still have a question?
               <span>Contact Us →</span>
             </a>

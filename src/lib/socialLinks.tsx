@@ -40,7 +40,14 @@ function isSafeExternalUrl(value: string | null | undefined): value is string {
 
   try {
     const url = new URL(trimmed);
-    return (url.protocol === "https:" || url.protocol === "http:") && url.hostname.length > 0;
+    if (!(url.protocol === "https:" || url.protocol === "http:") || url.hostname.length === 0) {
+      return false;
+    }
+    const host = url.hostname.toLowerCase();
+    if (host === "placeholder.com" || host.endsWith(".placeholder.com") || host === "example.com") {
+      return false;
+    }
+    return true;
   } catch {
     return false;
   }

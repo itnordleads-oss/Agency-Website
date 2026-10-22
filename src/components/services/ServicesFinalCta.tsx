@@ -14,7 +14,7 @@ export default function ServicesFinalCta({ copy }: ServicesFinalCtaProps) {
   return (
     <section className="services-final-cta relative overflow-hidden py-8 sm:py-10 md:py-11">
       <div className={SERVICES_SHELL_CLASS}>
-        <div className="liquid-glass cta-glow-panel relative overflow-hidden rounded-2xl border border-white/14 bg-white/[0.04] px-5 py-8 text-center sm:rounded-3xl sm:px-8 sm:py-10 md:px-12 md:py-11">
+        <div className="liquid-glass cta-glow-panel relative overflow-hidden rounded-2xl border border-white/14 bg-white/[0.04] px-4 py-7 text-center min-[390px]:px-5 sm:rounded-3xl sm:px-8 sm:py-10 md:px-12 md:py-11">
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-full"
             style={{
@@ -25,9 +25,12 @@ export default function ServicesFinalCta({ copy }: ServicesFinalCtaProps) {
           />
           <div className="relative z-10 mx-auto max-w-lg space-y-3">
             <h2 className="section-title">{copy.title}</h2>
-            <p className="text-sm leading-relaxed text-white/68 md:text-base">{copy.subtitle}</p>
+            <p className="services-final-cta__copy">{copy.subtitle}</p>
             <div className="flex justify-center pt-2">
-              <PrimaryButton onClick={navigateToContact} className="w-full px-8 py-3.5 sm:w-auto">
+              <PrimaryButton
+                onClick={navigateToContact}
+                className="min-h-11 w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+              >
                 {copy.primaryCta}
               </PrimaryButton>
             </div>

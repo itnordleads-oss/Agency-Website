@@ -930,13 +930,13 @@ body {
 
 /* ── Services page layout rhythm (scoped; does not change global section-padding) ── */
 #services-page .services-section {
-  padding-top: 2.25rem;
-  padding-bottom: 2.25rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 #services-page .services-detail {
-  padding-top: 2.25rem;
-  padding-bottom: 2.25rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .service-detail-page .services-detail {
@@ -946,13 +946,13 @@ body {
 
 @media (min-width: 768px) {
   #services-page .services-section {
-    padding-top: 3.25rem;
-    padding-bottom: 3.25rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   #services-page .services-detail {
-    padding-top: 3.25rem;
-    padding-bottom: 3.25rem;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }
 
@@ -967,8 +967,8 @@ body {
   #services-page .services-section,
   #services-page .services-detail,
   .service-detail-page .services-detail {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 2.75rem;
+    padding-bottom: 2.75rem;
   }
 }
 
