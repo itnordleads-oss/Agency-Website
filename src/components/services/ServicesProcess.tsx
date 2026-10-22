@@ -50,6 +50,7 @@ export default function ServicesProcess({ copy }: ServicesProcessProps) {
 
     if (typeof IntersectionObserver === "undefined") {
       setRevealed(true);
+      setActiveStep(copy.steps.length - 1);
       return;
     }
 
@@ -107,7 +108,7 @@ export default function ServicesProcess({ copy }: ServicesProcessProps) {
           <h2 id="services-process-title" className="section-title">
             {copy.title}
           </h2>
-          <p className="max-w-2xl text-base leading-relaxed text-white/68">{copy.subtitle}</p>
+          <p className="services-section-lede max-w-2xl">{copy.subtitle}</p>
         </div>
 
         <div className="services-delivery-system">

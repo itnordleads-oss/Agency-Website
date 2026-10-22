@@ -78,9 +78,7 @@ export default function ServicesWhyUs({ copy }: ServicesWhyUsProps) {
               <h2 id="services-why-title" className="section-title text-left">
                 {copy.title}
               </h2>
-              <p className="max-w-sm text-sm leading-relaxed text-white/68 sm:text-base">
-                {copy.subtitle}
-              </p>
+              <p className="services-why-intro max-w-sm">{copy.subtitle}</p>
             </div>
 
             <ol className="services-principle-nav" aria-label="Delivery principles">
@@ -93,7 +91,14 @@ export default function ServicesWhyUs({ copy }: ServicesWhyUsProps) {
                       className={`services-principle-nav__button${isActive ? " is-active" : ""}`}
                       aria-pressed={isActive}
                       onClick={() => setActiveIndex(index)}
-                      onMouseEnter={() => setActiveIndex(index)}
+                      onMouseEnter={() => {
+                        if (
+                          typeof window !== "undefined" &&
+                          window.matchMedia("(hover: hover) and (pointer: fine)").matches
+                        ) {
+                          setActiveIndex(index);
+                        }
+                      }}
                       onFocus={() => setActiveIndex(index)}
                     >
                       <span aria-hidden>{String(index + 1).padStart(2, "0")}</span>
