@@ -34,7 +34,7 @@ export default function ProjectsPage() {
   const projects = useMemo(() => getPublishedProjects(), []);
   const interactiveDemos = useMemo(() => getInteractiveDemoProjects(), []);
   const categories = useMemo(() => getPublishedProjectCategories(), []);
-  const showFilters = categories.length > 1 && projects.length > 5;
+  const showFilters = categories.length > 1 && projects.length > 6;
   const [filter, setFilter] = useState<FilterId>("all");
   const approachRef = useRef<HTMLElement | null>(null);
   const [approachVisible, setApproachVisible] = useState(false);
@@ -142,7 +142,7 @@ export default function ProjectsPage() {
               Selected projects
             </h2>
             <p className="projects-section-lede max-w-2xl">
-              Five live gallery websites — open any card to visit the deployed site.
+              Six live gallery websites — open any card to visit the deployed site.
             </p>
           </div>
 

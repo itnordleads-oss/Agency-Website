@@ -95,19 +95,21 @@ test.describe("smoke", () => {
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(5);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
-    for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
+    for (const title of [
+      "Relay",
+      "Brewnns",
+      "Ridgeline Roofing",
+      "Halden",
+      "Stemline",
+      "MegaPersonals Automation Panel",
+    ]) {
       await expect(
         projectsRegion.getByRole("link", { name: new RegExp(`Visit website: ${title}`, "i") })
       ).toHaveCount(1);
     }
-    const demosRegion = page.getByRole("region", { name: /interactive demos/i });
-    await expect(demosRegion.getByRole("link", { name: /Open demo: MegaPersonals/i })).toHaveCount(
-      1
-    );
-    await expect(demosRegion.getByText("Interactive Demo", { exact: true })).toBeVisible();
-    await expect(page.getByRole("group", { name: "Filter projects by category" })).toHaveCount(0);
+    await expect(page.getByRole("region", { name: /interactive demos/i })).toHaveCount(0);
   });
 
   test("MegaPersonals automation demo opens all sidebar pages", async ({ page }) => {
@@ -152,6 +154,7 @@ test.describe("smoke", () => {
       ["ridgeline", "Ridgeline Roofing"],
       ["halden", "Halden"],
       ["stemline", "Stemline"],
+      ["megapersonals-automation", "MegaPersonals Automation Panel"],
     ] as const;
 
     for (const [slug, title] of projects) {
