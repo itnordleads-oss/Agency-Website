@@ -4,6 +4,7 @@ import ProjectCard from "./projects/ProjectCard";
 import ProjectsFinalCta from "./projects/ProjectsFinalCta";
 import ProjectsHero from "./projects/ProjectsHero";
 import {
+  getInteractiveDemoProjects,
   getProjectCategoryLabel,
   getPublishedProjectCategories,
   getPublishedProjects,
@@ -31,6 +32,7 @@ const APPROACH_STEPS = [
  */
 export default function ProjectsPage() {
   const projects = useMemo(() => getPublishedProjects(), []);
+  const interactiveDemos = useMemo(() => getInteractiveDemoProjects(), []);
   const categories = useMemo(() => getPublishedProjectCategories(), []);
   const showFilters = categories.length > 1 && projects.length > 5;
   const [filter, setFilter] = useState<FilterId>("all");
@@ -182,6 +184,31 @@ export default function ProjectsPage() {
           <p className="text-sm text-white/55">No projects match this filter.</p>
         )}
       </section>
+
+      {interactiveDemos.length > 0 ? (
+        <section
+          className="projects-section-reveal relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
+          aria-labelledby="interactive-demos-heading"
+        >
+          <div className="mb-5 space-y-1.5 md:mb-6">
+            <h2
+              id="interactive-demos-heading"
+              className="section-title text-left"
+              style={{ textWrap: "balance" }}
+            >
+              Interactive demos
+            </h2>
+            <p className="projects-section-lede max-w-2xl">
+              Openable product shells with dummy data — not live client commissions.
+            </p>
+          </div>
+          <div className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5">
+            {interactiveDemos.map((project, index) => (
+              <ProjectCard key={`demo-${project.slug}`} project={project} enterIndex={index} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section
         ref={approachRef}

@@ -102,7 +102,35 @@ test.describe("smoke", () => {
         projectsRegion.getByRole("link", { name: new RegExp(`Visit website: ${title}`, "i") })
       ).toHaveCount(1);
     }
+    const demosRegion = page.getByRole("region", { name: /interactive demos/i });
+    await expect(demosRegion.getByRole("link", { name: /Open demo: MegaPersonals/i })).toHaveCount(
+      1
+    );
+    await expect(demosRegion.getByText("Interactive Demo", { exact: true })).toBeVisible();
     await expect(page.getByRole("group", { name: "Filter projects by category" })).toHaveCount(0);
+  });
+
+  test("MegaPersonals automation demo opens all sidebar pages", async ({ page }) => {
+    await page.goto("/demos/megapersonals-automation");
+    await acceptCookiesIfPresent(page);
+    await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
+    await expect(page.getByText(/Portfolio demo/i)).toBeVisible();
+
+    for (const [name, heading] of [
+      ["Accounts", "Accounts"],
+      ["Advertisements", "Advertisements"],
+      ["Gmail Accounts", "Gmail Accounts"],
+      ["Location Targeting", "Location Targeting"],
+      ["Automation", "Automation"],
+      ["Reports", "Reports"],
+      ["Settings", "Settings"],
+    ] as const) {
+      await page
+        .getByRole("navigation", { name: "Demo navigation" })
+        .getByRole("link", { name, exact: true })
+        .click();
+      await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
+    }
   });
 
   test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {

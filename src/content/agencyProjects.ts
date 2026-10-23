@@ -477,4 +477,43 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       { variant: 3, alt: "Forge Store concept — product frame", layout: "portrait" },
     ],
   },
+  {
+    id: "demo-megapersonals-automation",
+    slug: "megapersonals-automation",
+    title: "MegaPersonals Automation Panel",
+    label: "Operations dashboard demo",
+    shortDescription:
+      "Interactive demo dashboard for account, ad, Gmail, location, and automation workflows — dummy data only.",
+    homepageDescription: "Interactive operations dashboard demo with dummy data.",
+    overview:
+      "MegaPersonals Automation Panel is a portfolio demo UI. It recreates a full operations shell (dashboard, accounts, advertisements, Gmail, locations, automation, reports, and settings) with static dummy data so visitors can click through the product. It is not connected to MegaPersonals or any live marketplace API.",
+    category: "software",
+    services: ["Software Development", "Dashboard UI"],
+    technologies: ["React", "TypeScript", "Vite"],
+    projectType: "Interactive product demo",
+    platform: "Web",
+    status: "Demo · Interactive",
+    featured: false,
+    visualMotif: "dashboard",
+    isDemo: true,
+    published: true,
+    projectUrl: "/demos/megapersonals-automation",
+    challenge:
+      "Show a dense multi-page operations product clearly enough that a visitor can open it from the gallery and understand the workflow without real backend systems.",
+    solution:
+      "A full-screen demo app under /demos/megapersonals-automation with sidebar navigation, dummy tables, maps, charts, and automation toggles that stay entirely local.",
+    deliverables: [
+      "Dashboard overview",
+      "Accounts and advertisements pages",
+      "Gmail and location targeting pages",
+      "Automation, reports, and settings pages",
+    ],
+    outcome:
+      "Visitors can open the live demo from Projects and walk every sidebar page using dummy data.",
+    gallery: [
+      { variant: 1, alt: "MegaPersonals demo — dashboard frame", layout: "full" },
+      { variant: 2, alt: "MegaPersonals demo — accounts table frame", layout: "wide" },
+      { variant: 3, alt: "MegaPersonals demo — automation frame", layout: "default" },
+    ],
+  },
 ];
