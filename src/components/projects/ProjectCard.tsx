@@ -28,6 +28,11 @@ export default function ProjectCard({
   const interactiveDemoUrl =
     project.isDemo && project.projectUrl?.startsWith("/demos/") ? project.projectUrl : null;
   const href = liveUrl ?? interactiveDemoUrl ?? getProjectPath(project.slug);
+  const isProductionApp =
+    liveUrl !== null &&
+    (project.projectType === "Software product" || project.visualMotif === "dashboard");
+  const liveCtaLabel = isProductionApp ? "Open application" : "Visit website";
+  const liveBadgeLabel = isProductionApp ? "Production" : "Live";
   const categoryLabel = getProjectCategoryLabel(project.category);
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();
   const isCompact = variant === "compact";
@@ -63,7 +68,7 @@ export default function ProjectCard({
       }
       aria-label={
         liveUrl
-          ? `Visit website: ${project.title}`
+          ? `${liveCtaLabel}: ${project.title}`
           : interactiveDemoUrl
             ? `Open demo: ${project.title}`
             : `View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`
@@ -97,8 +102,14 @@ export default function ProjectCard({
             Concept Project
           </span>
         ) : liveUrl ? (
-          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-[#00D2FF]/30 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD] backdrop-blur-sm">
-            Live
+          <span
+            className={`project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm${
+              isProductionApp
+                ? " border-emerald-400/35 bg-[#0C111B]/9 text-emerald-200"
+                : " border-[#00D2FF]/30 bg-[#0C111B]/88 text-[#A4F4FD]"
+            }`}
+          >
+            {liveBadgeLabel}
           </span>
         ) : null}
       </div>
@@ -142,7 +153,7 @@ export default function ProjectCard({
         ) : null}
 
         <div className="project-card__cta">
-          <span>{liveUrl ? "Visit website" : "View Project"}</span>
+          <span>{liveUrl ? liveCtaLabel : "View Project"}</span>
           <ArrowRight className="project-card__arrow h-4 w-4" aria-hidden />
         </div>
       </div>

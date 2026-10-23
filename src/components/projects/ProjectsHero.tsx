@@ -89,8 +89,8 @@ export default function ProjectsHero() {
               Digital products built around real requirements
             </h1>
             <p className="projects-hero__enter projects-hero__enter--copy projects-hero-copy mx-auto lg:mx-0">
-              Live gallery websites built as product, brand, and services demos — open any card to
-              visit the deployed site.
+              Live product sites and production applications — open any card to visit the deployed
+              work.
             </p>
           </div>
 

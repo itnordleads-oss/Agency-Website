@@ -483,10 +483,10 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "MegaPersonals Automation Panel",
     label: "Operations dashboard product",
     shortDescription:
-      "Multi-page operations product for accounts, ads, Gmail, locations, and automation.",
-    homepageDescription: "Operations dashboard for accounts, ads, and automation workflows.",
+      "Production operations application for accounts, ads, Gmail, locations, and automation.",
+    homepageDescription: "Production operations application for account and ad workflows.",
     overview:
-      "MegaPersonals Automation Panel is a published operations product. The live app covers dashboard metrics, account tables, advertisement management, Gmail connections, location targeting, automation rules, reports, and workspace settings.",
+      "MegaPersonals Automation Panel is a production operations application. The live product covers dashboard metrics, account tables, advertisement management, Gmail connections, location targeting, automation rules, reports, and workspace settings.",
     category: "software",
     services: ["Software Development", "Dashboard UI"],
     technologies: ["React", "TypeScript", "Vite"],
