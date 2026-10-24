@@ -95,7 +95,7 @@ test.describe("smoke", () => {
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(6);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(7);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
@@ -154,6 +154,7 @@ test.describe("smoke", () => {
       ["halden", "Halden"],
       ["stemline", "Stemline"],
       ["megapersonals-automation", "MegaPersonals Automation Panel"],
+      ["diet-soda", "Diet Soda"],
     ] as const;
 
     for (const [slug, title] of projects) {

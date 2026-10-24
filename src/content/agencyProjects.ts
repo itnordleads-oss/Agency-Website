@@ -518,4 +518,45 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       { variant: 3, alt: "MegaPersonals automation and activity widgets", layout: "default" },
     ],
   },
+  {
+    id: "live-diet-soda",
+    slug: "diet-soda",
+    title: "Diet Soda",
+    label: "Interactive beverage landing",
+    shortDescription:
+      "Full-viewport 3D soda hero with flavor swap, cursor tilt, and floating berry parallax.",
+    homepageDescription: "Interactive 3D beverage landing with flavor transitions.",
+    overview:
+      "Diet Soda is a published product landing page. A dark radial gradient fills the viewport while a Google model-viewer can tilts toward the cursor. Floating cherry and leaf models use parallax and pointer repulsion; translucent bubbles rise endlessly. Flavor cards choreograph a background morph, a 720° can spin with texture swap, and berry implode/explode transitions between Classic and Zero Lime.",
+    category: "websites",
+    services: ["Website Development", "3D Web Experience"],
+    technologies: ["HTML", "CSS", "JavaScript", "GSAP", "model-viewer"],
+    thumbnail: "/projects/diet-soda.jpg",
+    thumbnailAlt: "Diet Soda landing with teal gradient and 3D can",
+    heroImage: "/projects/diet-soda.jpg",
+    projectType: "Brand website",
+    platform: "Web",
+    status: "Live",
+    featured: true,
+    visualMotif: "commerce",
+    isDemo: false,
+    published: true,
+    projectUrl: "https://hrnordleads-sso.github.io/gallary7/",
+    challenge:
+      "A beverage brand needed a no-scroll first impression that feels premium and interactive without a build step.",
+    solution:
+      "A single self-contained HTML page with GSAP choreography, model-viewer 3D assets, and pointer-driven motion for the can, berries, and leaves.",
+    deliverables: [
+      "Full-viewport hero landing",
+      "Flavor carousel with texture swap",
+      "3D can, berries, leaves, and bubble motion",
+      "Live static deployment",
+    ],
+    outcome: "Published at the gallery deployment and linked from the portfolio.",
+    gallery: [
+      { variant: 1, alt: "Diet Soda hero with floating can and teal backdrop", layout: "full" },
+      { variant: 2, alt: "Diet Soda flavor cards and side headline", layout: "wide" },
+      { variant: 3, alt: "Diet Soda Zero Lime blue theme transition", layout: "default" },
+    ],
+  },
 ];

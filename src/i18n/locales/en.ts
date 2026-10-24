@@ -1394,7 +1394,7 @@ const en = {
     workPreview: {
       eyebrow: "Featured projects",
       title: "Selected work",
-      subtitle: "Five live gallery websites. Open a card to visit the site.",
+      subtitle: "Seven live gallery websites. Open a card to visit the site.",
       cta: "View All Projects",
     },
     process: {
