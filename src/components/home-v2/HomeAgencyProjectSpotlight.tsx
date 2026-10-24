@@ -186,12 +186,20 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
                 rel={liveUrl ? "noopener noreferrer" : undefined}
                 aria-label={
                   liveUrl
-                    ? `Visit website: ${activeProject.title}`
+                    ? activeProject.projectType === "Software product" ||
+                      activeProject.visualMotif === "dashboard"
+                      ? `Open application: ${activeProject.title}`
+                      : `Visit website: ${activeProject.title}`
                     : `View project: ${activeProject.title}`
                 }
                 onClick={liveUrl ? undefined : (event) => navigateProject(event, href)}
               >
-                {liveUrl ? "Visit website" : "View Project"}
+                {liveUrl
+                  ? activeProject.projectType === "Software product" ||
+                    activeProject.visualMotif === "dashboard"
+                    ? "Open application"
+                    : "Visit website"
+                  : "View Project"}
                 <ArrowRight className="home-agency-spotlight__cta-arrow h-4 w-4" aria-hidden />
               </a>
             </div>

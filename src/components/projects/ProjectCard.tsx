@@ -25,7 +25,14 @@ export default function ProjectCard({
   enterIndex,
 }: ProjectCardProps) {
   const liveUrl = !project.isDemo && project.projectUrl ? project.projectUrl : null;
-  const href = liveUrl ?? getProjectPath(project.slug);
+  const interactiveDemoUrl =
+    project.isDemo && project.projectUrl?.startsWith("/demos/") ? project.projectUrl : null;
+  const href = liveUrl ?? interactiveDemoUrl ?? getProjectPath(project.slug);
+  const isProductionApp =
+    liveUrl !== null &&
+    (project.projectType === "Software product" || project.visualMotif === "dashboard");
+  const liveCtaLabel = isProductionApp ? "Open application" : "Visit website";
+  const liveBadgeLabel = isProductionApp ? "Production" : "Live";
   const categoryLabel = getProjectCategoryLabel(project.category);
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();
   const isCompact = variant === "compact";
@@ -52,7 +59,7 @@ export default function ProjectCard({
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       className={`project-card group overflow-hidden rounded-2xl border border-white/[0.1] bg-white/[0.02] text-left no-underline outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF] project-card--${variant}${
-        liveUrl ? " project-card--live" : ""
+        liveUrl || interactiveDemoUrl ? " project-card--live" : ""
       }${typeof enterIndex === "number" ? " project-card-enter" : ""}`}
       style={
         typeof enterIndex === "number"
@@ -61,8 +68,10 @@ export default function ProjectCard({
       }
       aria-label={
         liveUrl
-          ? `Visit website: ${project.title}`
-          : `View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`
+          ? `${liveCtaLabel}: ${project.title}`
+          : interactiveDemoUrl
+            ? `Open demo: ${project.title}`
+            : `View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`
       }
     >
       <span className="project-card__shine" aria-hidden />
@@ -84,13 +93,23 @@ export default function ProjectCard({
             />
           )}
         </div>
-        {project.isDemo ? (
+        {interactiveDemoUrl ? (
+          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-[#00D2FF]/30 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD] backdrop-blur-sm">
+            Interactive Demo
+          </span>
+        ) : project.isDemo ? (
           <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2.5 py-0.5 font-semibold uppercase backdrop-blur-sm">
             Concept Project
           </span>
         ) : liveUrl ? (
-          <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-[#00D2FF]/30 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD] backdrop-blur-sm">
-            Live
+          <span
+            className={`project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm${
+              isProductionApp
+                ? " border-emerald-400/35 bg-[#0C111B]/9 text-emerald-200"
+                : " border-[#00D2FF]/30 bg-[#0C111B]/88 text-[#A4F4FD]"
+            }`}
+          >
+            {liveBadgeLabel}
           </span>
         ) : null}
       </div>
@@ -134,7 +153,7 @@ export default function ProjectCard({
         ) : null}
 
         <div className="project-card__cta">
-          <span>{liveUrl ? "Visit website" : "View Project"}</span>
+          <span>{liveUrl ? liveCtaLabel : "View Project"}</span>
           <ArrowRight className="project-card__arrow h-4 w-4" aria-hidden />
         </div>
       </div>

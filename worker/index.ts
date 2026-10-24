@@ -65,7 +65,9 @@ function isAgencyDocumentPath(pathname: string) {
     PROJECTS_PATHS.has(pathname) ||
     pathname.startsWith("/projects/") ||
     WORK_PATHS.has(pathname) ||
-    pathname.startsWith("/work/")
+    pathname.startsWith("/work/") ||
+    pathname === "/demos/megapersonals-automation" ||
+    pathname.startsWith("/demos/megapersonals-automation/")
   );
 }
 

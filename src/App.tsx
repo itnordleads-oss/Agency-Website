@@ -19,6 +19,8 @@ import ServiceDetailRoute from "./components/ServiceDetailRoute";
 import AboutPage from "./components/AboutPage";
 import CareersPage from "./components/CareersPage";
 import HomepageV3Page from "./components/home-v2/HomepageV3Page";
+import MegaPersonalsDemoApp from "./demos/megapersonals-automation/MegaPersonalsDemoApp";
+import { DEMO_BASE_PATH } from "./demos/megapersonals-automation/data";
 import { isWorkPagePublished } from "./lib/workProjects";
 import { mapWorkPathToProjects } from "./lib/agencyProjects";
 import {
@@ -279,6 +281,7 @@ export default function App() {
   const isProjectsIndex = path === "/projects";
   const isProjectDetail = projectSlug !== null;
   const showProjectsFooter = isProjectsIndex || isProjectDetail;
+  const isMegaPersonalsDemo = path === DEMO_BASE_PATH || path.startsWith(`${DEMO_BASE_PATH}/`);
 
   useEffect(() => {
     const onPopState = () => {
@@ -294,6 +297,19 @@ export default function App() {
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
+
+  if (isMegaPersonalsDemo) {
+    return (
+      <div className="relative min-h-screen overflow-x-hidden bg-[#0B0E14] text-white font-sans w-full max-w-[100vw] min-w-0 touch-fast app-root">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <div id="main-content" tabIndex={-1} className="min-h-screen outline-none">
+          <MegaPersonalsDemoApp path={path} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-[#0C111B] text-white selection:bg-brand/35 selection:text-white font-sans w-full max-w-[100vw] min-w-0 touch-fast app-root">

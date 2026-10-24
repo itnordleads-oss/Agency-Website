@@ -15,11 +15,28 @@ export const PUBLIC_PORTFOLIO_PROJECT_SLUGS = [
   "ridgeline",
   "halden",
   "stemline",
+  "megapersonals-automation",
+  "diet-soda",
 ] as const;
 
 const PUBLIC_PORTFOLIO_SLUG_ORDER = new Map<string, number>(
   PUBLIC_PORTFOLIO_PROJECT_SLUGS.map((slug, index) => [slug, index])
 );
+
+/** Interactive portfolio demos hosted under `/demos/*` (dummy data only). */
+export function isInteractiveDemoProject(project: AgencyProject): boolean {
+  return (
+    project.published === true &&
+    project.isDemo === true &&
+    typeof project.projectUrl === "string" &&
+    project.projectUrl.startsWith("/demos/")
+  );
+}
+
+/** Openable `/demos/*` showcases for the Projects page (separate from live portfolio). */
+export function getInteractiveDemoProjects(): AgencyProject[] {
+  return AGENCY_PROJECTS.filter(isInteractiveDemoProject);
+}
 
 /** Projects approved for public display — live portfolio only, never concept demos. */
 export function getPublishedProjects(): AgencyProject[] {
