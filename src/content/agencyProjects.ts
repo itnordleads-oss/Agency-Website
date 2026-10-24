@@ -559,4 +559,45 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       { variant: 3, alt: "Diet Soda Zero Lime blue theme transition", layout: "default" },
     ],
   },
+  {
+    id: "live-neural-monitor",
+    slug: "neural-monitor",
+    title: "Neural Monitor",
+    label: "Cinematic 3D neural experience",
+    shortDescription:
+      "Scroll-driven point-cloud brain with navy starfield, camera choreography, and synchronized storytelling.",
+    homepageDescription: "Immersive scroll-driven 3D neural field experience.",
+    overview:
+      "Neural Monitor is a published immersive website. A dark navy void holds a luminous point-cloud cerebrum while GSAP ScrollTrigger drives camera paths, scan sweeps, particle dispersal, and chaptered narrative across seven full-viewport stages.",
+    category: "websites",
+    services: ["Website Development", "3D Web Experience"],
+    technologies: ["Next.js", "TypeScript", "Three.js", "React Three Fiber", "GSAP"],
+    thumbnail: "/projects/neural-monitor.jpg",
+    thumbnailAlt: "Neural Monitor glowing blue brain in a dark navy starfield",
+    heroImage: "/projects/neural-monitor.jpg",
+    projectType: "Brand website",
+    platform: "Web",
+    status: "Live",
+    featured: true,
+    visualMotif: "platform",
+    isDemo: false,
+    published: true,
+    projectUrl: "https://hrnordleads-sso.github.io/gallary8/",
+    challenge:
+      "An AI/health narrative needed a premium, scroll-synchronized 3D specimen instead of a static hero illustration.",
+    solution:
+      "A Next.js experience with a procedural brain point cloud, starfield parallax, ScrollTrigger scrubbing, and HUD storytelling timed to camera and particle states.",
+    deliverables: [
+      "Seven-chapter scroll narrative",
+      "3D brain point cloud with scan and scatter",
+      "HUD metrics and responsive layout",
+      "Static GitHub Pages deployment",
+    ],
+    outcome: "Published at the gallery deployment and linked from the portfolio.",
+    gallery: [
+      { variant: 1, alt: "Neural Monitor arrival chapter with glowing cerebrum", layout: "full" },
+      { variant: 2, alt: "Neural Monitor scan pass across cortical folds", layout: "wide" },
+      { variant: 3, alt: "Neural Monitor constellation dispersal finale", layout: "default" },
+    ],
+  },
 ];
