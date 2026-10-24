@@ -151,12 +151,40 @@ export default function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
             {project.projectUrl ? (
               <a
                 href={project.projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit website: ${project.title}`}
+                target={project.projectUrl.startsWith("/") ? undefined : "_blank"}
+                rel={project.projectUrl.startsWith("/") ? undefined : "noopener noreferrer"}
+                aria-label={
+                  project.isDemo
+                    ? `Open demo: ${project.title}`
+                    : project.projectType === "Software product" ||
+                        project.visualMotif === "dashboard"
+                      ? `Open application: ${project.title}`
+                      : `Visit website: ${project.title}`
+                }
                 className="inline-flex items-center gap-2 self-center text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
+                onClick={(event) => {
+                  if (!project.projectUrl?.startsWith("/")) {
+                    return;
+                  }
+                  if (
+                    event.metaKey ||
+                    event.ctrlKey ||
+                    event.shiftKey ||
+                    event.altKey ||
+                    event.button !== 0
+                  ) {
+                    return;
+                  }
+                  event.preventDefault();
+                  navigateAppPath(project.projectUrl);
+                }}
               >
-                {project.isDemo ? "View Demo" : "Visit website"}
+                {project.isDemo
+                  ? "View Demo"
+                  : project.projectType === "Software product" ||
+                      project.visualMotif === "dashboard"
+                    ? "Open application"
+                    : "Visit website"}
                 <ArrowUpRight className="h-4 w-4" aria-hidden />
               </a>
             ) : null}
