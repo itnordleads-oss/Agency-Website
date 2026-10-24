@@ -17,6 +17,7 @@ export const PUBLIC_PORTFOLIO_PROJECT_SLUGS = [
   "stemline",
   "megapersonals-automation",
   "diet-soda",
+  "neural-monitor",
 ] as const;
 
 const PUBLIC_PORTFOLIO_SLUG_ORDER = new Map<string, number>(
