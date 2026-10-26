@@ -95,7 +95,7 @@ test.describe("smoke", () => {
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(8);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(11);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
