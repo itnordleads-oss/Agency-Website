@@ -19,11 +19,31 @@ import "./projects/projectsType.css";
 type FilterId = "all" | AgencyProjectCategory;
 
 const APPROACH_STEPS = [
-  { id: "requirements", label: "Requirements" },
-  { id: "scope", label: "Scope" },
-  { id: "build", label: "Build" },
-  { id: "review", label: "Review" },
-  { id: "delivery", label: "Delivery" },
+  {
+    id: "requirements",
+    label: "Requirements",
+    description: "Understand the project goals, users, constraints, and required outcome.",
+  },
+  {
+    id: "scope",
+    label: "Scope",
+    description: "Define the priorities, boundaries, and work needed for the next delivery stage.",
+  },
+  {
+    id: "build",
+    label: "Build",
+    description: "Turn the approved direction into working software or a digital experience.",
+  },
+  {
+    id: "review",
+    label: "Review",
+    description: "Check functionality, usability, visual quality, and implementation together.",
+  },
+  {
+    id: "delivery",
+    label: "Delivery",
+    description: "Prepare the project for launch, handoff, or the next round of improvements.",
+  },
 ] as const;
 
 /**
@@ -45,6 +65,8 @@ export default function ProjectsPage() {
       title: seo.title,
       description: seo.description,
       pathname: seo.pathname,
+      ogDescription: seo.ogDescription,
+      twitterDescription: seo.twitterDescription,
       robots: "index, follow, max-image-preview:large",
     });
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -134,6 +156,7 @@ export default function ProjectsPage() {
       >
         <div className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-6">
           <div className="space-y-1.5">
+            <SectionEyebrow label="SELECTED PROJECTS" />
             <h2
               id="all-projects-heading"
               className="section-title text-left"
@@ -142,7 +165,9 @@ export default function ProjectsPage() {
               Selected projects
             </h2>
             <p className="projects-section-lede max-w-2xl">
-              Eleven live gallery websites — open any card to visit the deployed site.
+              {projects.length > 0
+                ? `${projects.length} live demo websites — open any available project to view the deployed experience.`
+                : "Explore our current collection of demo websites and software experiences."}
             </p>
           </div>
 
@@ -225,11 +250,16 @@ export default function ProjectsPage() {
               className="projects-approach__heading section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              From requirements to a useful product
+              From requirements to a useful digital product
             </h2>
+            <p className="projects-approach__lede text-body">
+              We move from clear requirements and focused scope through development, review,
+              testing, and delivery.
+            </p>
           </div>
           <p className="projects-approach__copy text-body">
-            Requirements, scope, build, review, then delivery.
+            Requirements, scope, development, review, and delivery — kept clear from start to
+            finish.
           </p>
         </div>
 
@@ -241,7 +271,10 @@ export default function ProjectsPage() {
               style={{ ["--step-index" as string]: String(index) }}
             >
               <span className="projects-approach__node" aria-hidden />
-              <span className="projects-approach__step-label">{step.label}</span>
+              <div className="projects-approach__step-copy min-w-0">
+                <span className="projects-approach__step-label">{step.label}</span>
+                <p className="projects-approach__step-desc">{step.description}</p>
+              </div>
             </li>
           ))}
         </ol>

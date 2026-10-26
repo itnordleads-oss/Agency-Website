@@ -25,7 +25,8 @@ export default function ProjectsFinalCta() {
             Have a project in mind?
           </h2>
           <p className="projects-final-cta__copy">
-            Tell us what you are building and we will discuss the right approach.
+            Tell us what you are building, what stage the project is in, and where you need
+            development support.
           </p>
           <div className="flex justify-center pt-1.5">
             <PrimaryButton

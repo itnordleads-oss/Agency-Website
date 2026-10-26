@@ -31,7 +31,7 @@ export default function ProjectCard({
   const isProductionApp =
     liveUrl !== null &&
     (project.projectType === "Software product" || project.visualMotif === "dashboard");
-  const liveCtaLabel = isProductionApp ? "Open application" : "Visit website";
+  const liveCtaLabel = isProductionApp ? "Open Application" : "Visit Website";
   const liveBadgeLabel = isProductionApp ? "Production" : "Live";
   const categoryLabel = getProjectCategoryLabel(project.category);
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();

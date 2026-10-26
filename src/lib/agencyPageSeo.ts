@@ -1,7 +1,7 @@
 /**
  * F11 — per-route SEO copy for public agency pages.
  *
- * Titles follow: `{Page} — {site name}` for secondary pages, and the approved /
+ * Titles follow: `{Page} | {site name}` for secondary pages, and the approved /
  * provisional home SEO title for `/`. Descriptions stay factual and provisional
  * until leadership-approved page copy lands (F5/F6/F10).
  */
@@ -116,9 +116,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/projects",
-        title: pageTitle("Projects"),
+        title: "Projects & Web Development Work | Nordlead Studio",
         description:
-          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+          "Explore Nordlead Studio projects and demo websites across custom software, responsive web development, interactive experiences, and digital product design.",
+        ogDescription:
+          "Explore software, web development, and interactive demo projects created by Nordlead Studio.",
+        twitterDescription:
+          "A collection of software, websites, and interactive digital experiences from Nordlead Studio.",
         indexable: true,
       };
     case "work":
@@ -126,9 +130,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/projects",
-        title: pageTitle("Projects"),
+        title: "Projects & Web Development Work | Nordlead Studio",
         description:
-          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+          "Explore Nordlead Studio projects and demo websites across custom software, responsive web development, interactive experiences, and digital product design.",
+        ogDescription:
+          "Explore software, web development, and interactive demo projects created by Nordlead Studio.",
+        twitterDescription:
+          "A collection of software, websites, and interactive digital experiences from Nordlead Studio.",
         indexable: true,
       };
     default: {

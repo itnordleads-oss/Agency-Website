@@ -79,7 +79,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
   });
 
@@ -88,7 +88,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
     await expect(page.getByRole("heading", { level: 2, name: /selected projects/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toHaveCount(
