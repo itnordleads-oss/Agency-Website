@@ -11,7 +11,7 @@ type HomepageSectionId = "services" | "value" | "process" | "about";
 
 const HOMEPAGE_H1_PATTERN =
   /custom software|software and digital|meetings|busywork|delivery|clarity/i;
-const SERVICES_H1 = /Build digital products and web experiences that fit your business/i;
+const SERVICES_H1 = /Build digital products and web experiences around your business/i;
 
 async function expectHomepageSectionBelowNavbar(page: Page, sectionId: HomepageSectionId) {
   const section = page.locator(`section#${sectionId}`);
