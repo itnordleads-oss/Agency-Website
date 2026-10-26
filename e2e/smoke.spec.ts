@@ -79,7 +79,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
   });
 
@@ -88,14 +88,14 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
     await expect(page.getByRole("heading", { level: 2, name: /selected projects/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toHaveCount(
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(8);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(11);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
