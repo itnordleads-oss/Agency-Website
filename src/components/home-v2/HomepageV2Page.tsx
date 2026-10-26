@@ -44,6 +44,8 @@ function useHomepageMetadata(variant: HomepageVariant) {
         title: seo.title,
         description: seo.description,
         pathname: seo.pathname,
+        ogDescription: seo.ogDescription,
+        twitterDescription: seo.twitterDescription,
       });
     } else {
       document.title = V2_TITLE;

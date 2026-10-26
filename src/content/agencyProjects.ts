@@ -96,7 +96,8 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Relay",
     label: "Workflow product website",
     shortDescription: "Workflow product site with a live canvas and a link to the deployed site.",
-    homepageDescription: "Workflow product website with a live 3D canvas.",
+    homepageDescription:
+      "An interactive workflow product demo built around a live visual experience.",
     overview:
       "Relay is a published product website. The homepage shows the handoff story, a branching canvas, and a direct link to the live deployment.",
     category: "software",

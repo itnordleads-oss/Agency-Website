@@ -21,6 +21,10 @@ export type AgencyPageSeo = {
   pathname: string;
   title: string;
   description: string;
+  /** Optional Open Graph description when it differs from the meta description. */
+  ogDescription?: string;
+  /** Optional Twitter description when it differs from the meta description. */
+  twitterDescription?: string;
   /** Whether the route should appear in sitemap / be treated as indexable. */
   indexable: boolean;
 };
@@ -47,6 +51,10 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         pathname: "/",
         title: getSeoTitle(),
         description: siteDescription,
+        ogDescription:
+          "Custom software, websites, mobile apps, Shopify stores, and WordPress development built through a clear and practical process.",
+        twitterDescription:
+          "Custom software and digital product development for teams that need clear, practical delivery.",
         indexable: true,
       };
     case "services":

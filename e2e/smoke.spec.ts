@@ -64,8 +64,8 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
+    await expect(page.getByRole("banner").getByLabel("Nordlead Studio")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     await expect(page.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
@@ -589,13 +589,15 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       const header = page.locator("header");
-      // F2: approved logo asset is TBC, so the header may render a text mark instead of <img>.
-      const logoLink = header.getByRole("link", { name: "Agency" });
+      // Approved studio name is published; logo asset remains TBC so the header uses a text mark.
+      const logoLink = header.getByRole("link", { name: "Nordlead Studio" });
       await expect(logoLink).toBeVisible();
 
       const metrics = await page.evaluate(() => {
         const headerEl = document.querySelector("header");
-        const linkEl = headerEl?.querySelector('a[aria-label="Agency"]') as HTMLElement | null;
+        const linkEl = headerEl?.querySelector(
+          'a[aria-label="Nordlead Studio"]'
+        ) as HTMLElement | null;
         const markEl = (linkEl?.querySelector("img") ??
           linkEl?.querySelector("span")) as HTMLElement | null;
         if (!headerEl || !linkEl || !markEl) {
@@ -933,7 +935,7 @@ test.describe("smoke", () => {
 
     const hero = page.locator("section#v2-hero");
     await expect(
-      hero.getByText(/Custom software and digital products, delivered with clarity\./i)
+      hero.getByText(/Custom software and digital products, built with clarity\./i)
     ).toBeVisible();
     await expect(hero.getByRole("button", { name: "Start a Project" })).toBeVisible();
     await expect(hero.getByRole("button", { name: "Explore Services" })).toBeVisible();
@@ -961,7 +963,9 @@ test.describe("smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Custom WordPress Theme Development" })
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Have a project in mind?" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Have a software or website project in mind?" })
+    ).toBeVisible();
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
@@ -1473,7 +1477,7 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       await expect(page).toHaveURL(/\/$/);
-      await expect(page).toHaveTitle(/Agency Website/i);
+      await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     }
   );
@@ -1483,7 +1487,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Agency Website/i);
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
@@ -1492,7 +1496,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Agency Website/i);
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
