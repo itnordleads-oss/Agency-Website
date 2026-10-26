@@ -86,11 +86,11 @@ export default function ProjectsHero() {
               id="projects-hero-title"
               className="projects-hero__enter projects-hero__enter--title projects-hero-title mx-auto lg:mx-0"
             >
-              Digital products built around real requirements
+              Digital products and web experiences built around real requirements
             </h1>
             <p className="projects-hero__enter projects-hero__enter--copy projects-hero-copy mx-auto lg:mx-0">
-              Live product sites and production applications — open any card to visit the deployed
-              work.
+              Explore software, websites, and interactive demo projects created to demonstrate
+              different approaches to design, development, and digital product delivery.
             </p>
           </div>
 

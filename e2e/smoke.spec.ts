@@ -11,7 +11,7 @@ type HomepageSectionId = "services" | "value" | "process" | "about";
 
 const HOMEPAGE_H1_PATTERN =
   /custom software|software and digital|meetings|busywork|delivery|clarity/i;
-const SERVICES_H1 = /Build digital products and web experiences that fit your business/i;
+const SERVICES_H1 = /Build digital products and web experiences around your business/i;
 
 async function expectHomepageSectionBelowNavbar(page: Page, sectionId: HomepageSectionId) {
   const section = page.locator(`section#${sectionId}`);
@@ -64,8 +64,8 @@ test.describe("smoke", () => {
     await page.goto("/");
     await acceptCookiesIfPresent(page);
 
-    await expect(page).toHaveTitle(/Agency Website/i);
-    await expect(page.getByRole("banner").getByLabel("Agency")).toBeVisible();
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
+    await expect(page.getByRole("banner").getByLabel("Nordlead Studio")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible({ timeout: 15_000 });
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     await expect(page.getByRole("link", { name: "Skip to main content" })).toHaveAttribute(
@@ -79,7 +79,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
   });
 
@@ -88,14 +88,14 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
     await expect(page).toHaveURL(/\/projects\/?(?:\?|$)/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      /digital products built around real requirements/i
+      /digital products and web experiences built around real requirements/i
     );
     await expect(page.getByRole("heading", { level: 2, name: /selected projects/i })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /featured projects/i })).toHaveCount(
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(8);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(11);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
@@ -589,13 +589,15 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       const header = page.locator("header");
-      // F2: approved logo asset is TBC, so the header may render a text mark instead of <img>.
-      const logoLink = header.getByRole("link", { name: "Agency" });
+      // Approved studio name is published; logo asset remains TBC so the header uses a text mark.
+      const logoLink = header.getByRole("link", { name: "Nordlead Studio" });
       await expect(logoLink).toBeVisible();
 
       const metrics = await page.evaluate(() => {
         const headerEl = document.querySelector("header");
-        const linkEl = headerEl?.querySelector('a[aria-label="Agency"]') as HTMLElement | null;
+        const linkEl = headerEl?.querySelector(
+          'a[aria-label="Nordlead Studio"]'
+        ) as HTMLElement | null;
         const markEl = (linkEl?.querySelector("img") ??
           linkEl?.querySelector("span")) as HTMLElement | null;
         if (!headerEl || !linkEl || !markEl) {
@@ -933,7 +935,7 @@ test.describe("smoke", () => {
 
     const hero = page.locator("section#v2-hero");
     await expect(
-      hero.getByText(/Custom software and digital products, delivered with clarity\./i)
+      hero.getByText(/Custom software and digital products, built with clarity\./i)
     ).toBeVisible();
     await expect(hero.getByRole("button", { name: "Start a Project" })).toBeVisible();
     await expect(hero.getByRole("button", { name: "Explore Services" })).toBeVisible();
@@ -961,7 +963,9 @@ test.describe("smoke", () => {
     await expect(
       page.getByRole("heading", { name: "Custom WordPress Theme Development" })
     ).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Have a project in mind?" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Have a software or website project in mind?" })
+    ).toBeVisible();
     await expect(page.locator("section#pricing")).toHaveCount(0);
     await expect(page.locator("section#v2-results")).toHaveCount(0);
     await expect(page.locator("#v2-testimonials")).toHaveCount(0);
@@ -1473,7 +1477,7 @@ test.describe("smoke", () => {
       await acceptCookiesIfPresent(page);
 
       await expect(page).toHaveURL(/\/$/);
-      await expect(page).toHaveTitle(/Agency Website/i);
+      await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
       await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
     }
   );
@@ -1483,7 +1487,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Agency Website/i);
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
@@ -1492,7 +1496,7 @@ test.describe("smoke", () => {
     await acceptCookiesIfPresent(page);
 
     await expect(page).toHaveURL(/\/$/);
-    await expect(page).toHaveTitle(/Agency Website/i);
+    await expect(page).toHaveTitle(/Nordlead Studio \| Custom Software & Web Development/i);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(HOMEPAGE_H1_PATTERN);
   });
 
@@ -1505,7 +1509,7 @@ test.describe("smoke", () => {
   });
 
   test.describe("contact form keyboard submit", () => {
-    const nameError = "Add your name or company.";
+    const nameError = "Please enter your name.";
 
     async function openContactForm(page: Page) {
       await page.goto("/contact");
@@ -1535,7 +1539,7 @@ test.describe("smoke", () => {
       await form.locator("#business-name").press("Enter");
 
       await expect(form.getByText(nameError)).toHaveCount(0);
-      await expect(form.getByText("Add the email where we should reply.")).toBeVisible();
+      await expect(form.getByText("Please enter your email address.")).toBeVisible();
       expect(await submitCount(page)).toBe(1);
     });
 
@@ -1798,23 +1802,25 @@ test.describe("smoke", () => {
     const contact = page.locator("main#contact-page");
     await expect(contact).toBeVisible({ timeout: 15_000 });
 
-    const heading = contact.getByRole("heading", { name: "Contact us another way" });
+    const heading = contact.getByRole("heading", { name: "Find Nordlead Studio online" });
     await expect(heading).toBeVisible();
 
     const cards = contact.locator("a.contact-social-card");
     await expect(cards).toHaveCount(3);
 
-    const linkedin = contact.getByRole("link", { name: /LinkedIn/i });
+    const linkedin = contact.getByRole("link", { name: /Visit Nordlead Studio on LinkedIn/i });
     await expect(linkedin).toBeVisible();
     await expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/company/nordleadsai");
     await expect(linkedin).toHaveAttribute("target", "_blank");
     await expect(linkedin).toHaveAttribute("rel", "noopener noreferrer");
 
-    const instagram = contact.getByRole("link", { name: /Instagram/i });
+    const instagram = contact.getByRole("link", {
+      name: /Visit Nordlead Studio on Instagram/i,
+    });
     await expect(instagram).toBeVisible();
     await expect(instagram).toHaveAttribute("href", "https://www.instagram.com/nordleads");
 
-    const github = contact.getByRole("link", { name: "GitHub", exact: true });
+    const github = contact.getByRole("link", { name: /Visit Nordlead Studio on GitHub/i });
     await expect(github).toBeVisible();
     await expect(github).toHaveAttribute("href", "https://github.com/itnordleads-oss");
 

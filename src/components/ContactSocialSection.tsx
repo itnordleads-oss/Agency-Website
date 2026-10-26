@@ -29,7 +29,7 @@ export default function ContactSocialSection({ title, subtitle }: ContactSocialS
           const shortLabel =
             item.key === "email"
               ? "Email"
-              : item.label.replace(/^(Chat on |Follow on |Email )/, "");
+              : item.label.replace(/^(Chat on |Follow on |Email |Visit Nordlead Studio on )/, "");
 
           return (
             <a

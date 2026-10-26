@@ -1,17 +1,12 @@
 /**
  * F11 — per-route SEO copy for public agency pages.
  *
- * Titles follow: `{Page} — {site name}` for secondary pages, and the approved /
+ * Titles follow: `{Page} | {site name}` for secondary pages, and the approved /
  * provisional home SEO title for `/`. Descriptions stay factual and provisional
  * until leadership-approved page copy lands (F5/F6/F10).
  */
 
-import {
-  getSeoDescription,
-  getSeoSiteName,
-  getSeoTitle,
-  LAYOUT_BRAND_FALLBACK,
-} from "./studioBranding";
+import { getSeoDescription, getSeoSiteName, getSeoTitle } from "./studioBranding";
 
 export type AgencySeoPageId =
   "home" | "services" | "about" | "careers" | "contact" | "terms" | "projects" | "work";
@@ -21,6 +16,10 @@ export type AgencyPageSeo = {
   pathname: string;
   title: string;
   description: string;
+  /** Optional Open Graph description when it differs from the meta description. */
+  ogDescription?: string;
+  /** Optional Twitter description when it differs from the meta description. */
+  twitterDescription?: string;
   /** Whether the route should appear in sitemap / be treated as indexable. */
   indexable: boolean;
 };
@@ -47,23 +46,36 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
         pathname: "/",
         title: getSeoTitle(),
         description: siteDescription,
+        ogDescription:
+          "Custom software, websites, mobile apps, Shopify stores, and WordPress development built through a clear and practical process.",
+        twitterDescription:
+          "Custom software and digital product development for teams that need clear, practical delivery.",
         indexable: true,
       };
     case "services":
       return {
         id,
         pathname: "/services",
-        title: pageTitle("Services"),
+        title: "Software & Web Development Services | Nordlead Studio",
         description:
-          "Services offered by the agency. Page content is published here as it is approved.",
+          "Explore Nordlead Studio services for custom software, website development, mobile apps, Shopify stores, WordPress websites, and custom WordPress themes.",
+        ogDescription:
+          "Custom software, websites, mobile apps, Shopify stores, WordPress websites, and custom WordPress theme development.",
+        twitterDescription:
+          "Explore practical software and web development services from Nordlead Studio.",
         indexable: true,
       };
     case "about":
       return {
         id,
         pathname: "/about",
-        title: pageTitle("About"),
-        description: "About the agency — background, approach, and how we work with clients.",
+        title: "About Nordlead Studio | Software & Digital Product Development",
+        description:
+          "Learn how Nordlead Studio plans, builds, reviews, and delivers custom software, websites, mobile apps, and digital products through a clear and practical process.",
+        ogDescription:
+          "Learn how Nordlead Studio approaches software and digital product development through clear planning, practical engineering, review, and delivery.",
+        twitterDescription:
+          "A practical software and digital product studio focused on clear planning, useful development, and maintainable delivery.",
         indexable: true,
       };
     case "careers":
@@ -75,17 +87,19 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
           "Careers at the agency: future opportunities, studio working style, and how to get in touch.",
         indexable: true,
       };
-    case "contact": {
-      const siteName = getSeoSiteName();
-      const contactTarget = siteName === LAYOUT_BRAND_FALLBACK ? "the agency" : siteName;
+    case "contact":
       return {
         id,
         pathname: "/contact",
-        title: pageTitle("Contact"),
-        description: `Contact ${contactTarget} to start a conversation about your project.`,
+        title: "Contact Nordlead Studio | Start a Software or Web Project",
+        description:
+          "Contact Nordlead Studio to discuss custom software, website development, mobile apps, Shopify, WordPress, or other digital product requirements.",
+        ogDescription:
+          "Tell Nordlead Studio what you are building and where you need help with software, web, mobile, Shopify, or WordPress development.",
+        twitterDescription:
+          "Start a conversation about your software, website, mobile, Shopify, or WordPress project.",
         indexable: true,
       };
-    }
     case "terms":
       return {
         id,
@@ -99,9 +113,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/projects",
-        title: pageTitle("Projects"),
+        title: "Projects & Web Development Work | Nordlead Studio",
         description:
-          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+          "Explore Nordlead Studio projects and demo websites across custom software, responsive web development, interactive experiences, and digital product design.",
+        ogDescription:
+          "Explore software, web development, and interactive demo projects created by Nordlead Studio.",
+        twitterDescription:
+          "A collection of software, websites, and interactive digital experiences from Nordlead Studio.",
         indexable: true,
       };
     case "work":
@@ -109,9 +127,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/projects",
-        title: pageTitle("Projects"),
+        title: "Projects & Web Development Work | Nordlead Studio",
         description:
-          "Portfolio of software, website, mobile, Shopify, and WordPress project concepts and selected work.",
+          "Explore Nordlead Studio projects and demo websites across custom software, responsive web development, interactive experiences, and digital product design.",
+        ogDescription:
+          "Explore software, web development, and interactive demo projects created by Nordlead Studio.",
+        twitterDescription:
+          "A collection of software, websites, and interactive digital experiences from Nordlead Studio.",
         indexable: true,
       };
     default: {
