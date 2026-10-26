@@ -18,6 +18,9 @@ export const PUBLIC_PORTFOLIO_PROJECT_SLUGS = [
   "megapersonals-automation",
   "diet-soda",
   "neural-monitor",
+  "ferro-room",
+  "virell",
+  "voltara",
 ] as const;
 
 const PUBLIC_PORTFOLIO_SLUG_ORDER = new Map<string, number>(
