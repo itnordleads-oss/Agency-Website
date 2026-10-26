@@ -4,7 +4,6 @@ import { Send, CheckCircle2, ShieldCheck, Info } from "lucide-react";
 import ContactSocialSection from "./ContactSocialSection";
 import ContactLocationMap from "./ContactLocationMap";
 import { useSiteCopy } from "../lib/useSiteCopy";
-import { resolveContactEmail } from "../lib/siteContact";
 import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
 import "./contactType.css";
@@ -79,11 +78,23 @@ function useContactPageMetadata(enabled = true) {
       title: seo.title,
       description: seo.description,
       pathname: seo.pathname,
+      ogDescription: seo.ogDescription,
+      twitterDescription: seo.twitterDescription,
+      robots: "index, follow, max-image-preview:large",
     });
     window.scrollTo({ top: 0, behavior: "auto" });
 
     return restore;
   }, [enabled]);
+}
+
+type ContactNextStep = string | { title: string; description?: string };
+
+function resolveNextStep(step: ContactNextStep): { title: string; description?: string } {
+  if (typeof step === "string") {
+    return { title: step };
+  }
+  return step;
 }
 
 export default function ContactPage({ embedded = false }: { embedded?: boolean }) {
@@ -104,7 +115,11 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
   const endpoint = import.meta.env.VITE_CONTACT_ENDPOINT || "/api/contact";
   const turnstileSiteKey = resolveTurnstileSiteKey();
   const captchaLoadError = serverError === t("footer.validation.captchaFailed");
-  const nextSteps = Array.isArray(footer.nextSteps) ? footer.nextSteps : [];
+  const nextSteps = (Array.isArray(footer.nextSteps) ? footer.nextSteps : []) as ContactNextStep[];
+  const formSupport =
+    typeof (footer as { formSupport?: string }).formSupport === "string"
+      ? (footer as { formSupport?: string }).formSupport
+      : undefined;
   const contactPageCopy = t("contactPage", { returnObjects: true }) as {
     backHome?: string;
     socialTitle?: string;
@@ -233,18 +248,10 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
       setServerError(null);
       resetTurnstile();
       setSubmitted(true);
-    } catch (err) {
+    } catch {
       resetTurnstile();
-      setServerError(() => {
-        if (err instanceof Error) {
-          return err.message;
-        }
-        const publishedEmail = resolveContactEmail();
-        if (publishedEmail) {
-          return t("footer.validation.fallbackError", { email: publishedEmail });
-        }
-        return t("footer.validation.fallbackErrorNoEmail");
-      });
+      // Never surface backend/system errors to visitors.
+      setServerError(t("footer.validation.fallbackErrorNoEmail"));
     } finally {
       setSubmitting(false);
     }
@@ -459,6 +466,12 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
                   noValidate
                   className="relative z-10 flex flex-col"
                 >
+                  {formSupport ? (
+                    <p className="contact-form-support mb-3 text-sm leading-relaxed text-white/62">
+                      {formSupport}
+                    </p>
+                  ) : null}
+
                   {/* Inter-section spacing comes from fixed error/status slots (replaces space-y-5). */}
                   <div className="grid grid-cols-1 gap-x-4 gap-y-3 min-[769px]:grid-cols-2">
                     <div className="flex flex-col gap-1.5">
@@ -622,16 +635,26 @@ export default function ContactPage({ embedded = false }: { embedded?: boolean }
                   </button>
 
                   <div className="mt-5 rounded-xl border border-white/[0.1] bg-black/25 p-4 sm:p-[1.125rem] space-y-3.5">
-                    <div className="contact-next-label">{footer.nextTitle}</div>
+                    <h2 className="contact-next-label">{footer.nextTitle}</h2>
                     <div className="grid grid-cols-1 gap-3.5 min-[769px]:grid-cols-3 min-[769px]:gap-4">
-                      {nextSteps.map((step, i) => (
-                        <div key={step} className="flex min-w-0 items-start gap-3">
-                          <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-brand/30 bg-brand/15 text-xs font-bold text-[#A4F4FD]">
-                            {i + 1}
-                          </span>
-                          <span className="contact-next-step min-w-0">{step}</span>
-                        </div>
-                      ))}
+                      {nextSteps.map((step, i) => {
+                        const resolved = resolveNextStep(step);
+                        return (
+                          <div key={resolved.title} className="flex min-w-0 items-start gap-3">
+                            <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-brand/30 bg-brand/15 text-xs font-bold text-[#A4F4FD]">
+                              {i + 1}
+                            </span>
+                            <div className="contact-next-step min-w-0 space-y-1">
+                              <p className="font-semibold text-white/88">{resolved.title}</p>
+                              {resolved.description ? (
+                                <p className="text-xs leading-relaxed text-white/58">
+                                  {resolved.description}
+                                </p>
+                              ) : null}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </form>

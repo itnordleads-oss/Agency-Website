@@ -1,17 +1,12 @@
 /**
  * F11 — per-route SEO copy for public agency pages.
  *
- * Titles follow: `{Page} — {site name}` for secondary pages, and the approved /
+ * Titles follow: `{Page} | {site name}` for secondary pages, and the approved /
  * provisional home SEO title for `/`. Descriptions stay factual and provisional
  * until leadership-approved page copy lands (F5/F6/F10).
  */
 
-import {
-  getSeoDescription,
-  getSeoSiteName,
-  getSeoTitle,
-  LAYOUT_BRAND_FALLBACK,
-} from "./studioBranding";
+import { getSeoDescription, getSeoSiteName, getSeoTitle } from "./studioBranding";
 
 export type AgencySeoPageId =
   "home" | "services" | "about" | "careers" | "contact" | "terms" | "projects" | "work";
@@ -21,6 +16,10 @@ export type AgencyPageSeo = {
   pathname: string;
   title: string;
   description: string;
+  /** Optional Open Graph description when it differs from the meta description. */
+  ogDescription?: string;
+  /** Optional Twitter description when it differs from the meta description. */
+  twitterDescription?: string;
   /** Whether the route should appear in sitemap / be treated as indexable. */
   indexable: boolean;
 };
@@ -75,17 +74,19 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
           "Careers at the agency: future opportunities, studio working style, and how to get in touch.",
         indexable: true,
       };
-    case "contact": {
-      const siteName = getSeoSiteName();
-      const contactTarget = siteName === LAYOUT_BRAND_FALLBACK ? "the agency" : siteName;
+    case "contact":
       return {
         id,
         pathname: "/contact",
-        title: pageTitle("Contact"),
-        description: `Contact ${contactTarget} to start a conversation about your project.`,
+        title: "Contact Nordlead Studio | Start a Software or Web Project",
+        description:
+          "Contact Nordlead Studio to discuss custom software, website development, mobile apps, Shopify, WordPress, or other digital product requirements.",
+        ogDescription:
+          "Tell Nordlead Studio what you are building and where you need help with software, web, mobile, Shopify, or WordPress development.",
+        twitterDescription:
+          "Start a conversation about your software, website, mobile, Shopify, or WordPress project.",
         indexable: true,
       };
-    }
     case "terms":
       return {
         id,

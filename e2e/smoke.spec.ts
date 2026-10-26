@@ -1505,7 +1505,7 @@ test.describe("smoke", () => {
   });
 
   test.describe("contact form keyboard submit", () => {
-    const nameError = "Add your name or company.";
+    const nameError = "Please enter your name.";
 
     async function openContactForm(page: Page) {
       await page.goto("/contact");
@@ -1535,7 +1535,7 @@ test.describe("smoke", () => {
       await form.locator("#business-name").press("Enter");
 
       await expect(form.getByText(nameError)).toHaveCount(0);
-      await expect(form.getByText("Add the email where we should reply.")).toBeVisible();
+      await expect(form.getByText("Please enter your email address.")).toBeVisible();
       expect(await submitCount(page)).toBe(1);
     });
 
@@ -1798,23 +1798,25 @@ test.describe("smoke", () => {
     const contact = page.locator("main#contact-page");
     await expect(contact).toBeVisible({ timeout: 15_000 });
 
-    const heading = contact.getByRole("heading", { name: "Contact us another way" });
+    const heading = contact.getByRole("heading", { name: "Find Nordlead Studio online" });
     await expect(heading).toBeVisible();
 
     const cards = contact.locator("a.contact-social-card");
     await expect(cards).toHaveCount(3);
 
-    const linkedin = contact.getByRole("link", { name: /LinkedIn/i });
+    const linkedin = contact.getByRole("link", { name: /Visit Nordlead Studio on LinkedIn/i });
     await expect(linkedin).toBeVisible();
     await expect(linkedin).toHaveAttribute("href", "https://www.linkedin.com/company/nordleadsai");
     await expect(linkedin).toHaveAttribute("target", "_blank");
     await expect(linkedin).toHaveAttribute("rel", "noopener noreferrer");
 
-    const instagram = contact.getByRole("link", { name: /Instagram/i });
+    const instagram = contact.getByRole("link", {
+      name: /Visit Nordlead Studio on Instagram/i,
+    });
     await expect(instagram).toBeVisible();
     await expect(instagram).toHaveAttribute("href", "https://www.instagram.com/nordleads");
 
-    const github = contact.getByRole("link", { name: "GitHub", exact: true });
+    const github = contact.getByRole("link", { name: /Visit Nordlead Studio on GitHub/i });
     await expect(github).toBeVisible();
     await expect(github).toHaveAttribute("href", "https://github.com/itnordleads-oss");
 
