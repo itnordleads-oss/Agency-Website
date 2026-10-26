@@ -47,9 +47,9 @@ function configuredOrEnv(configured: string | null, envName: keyof ImportMetaEnv
  * Keep every public identity value `null` until explicitly approved.
  */
 const APPROVED = {
-  studioName: null as string | null,
+  studioName: "Nordlead Studio" as string | null,
   domain: null as string | null,
-  logoSrc: null as string | null,
+  logoSrc: "/brand/nordlead-studio-logo-production.png" as string | null,
   faviconHref: null as string | null,
   ogImagePath: null as string | null,
   contactEmail: null as string | null,
@@ -77,9 +77,11 @@ const APPROVED = {
   },
   location: null as StudioBusinessLocation | null,
   seo: {
-    title: null as string | null,
-    description: null as string | null,
-    siteName: null as string | null,
+    title: "Nordlead Studio | Custom Software & Web Development" as string | null,
+    description:
+      "Nordlead Studio builds custom software, websites, mobile apps, Shopify stores, and WordPress solutions through a clear and practical development process." as
+        string | null,
+    siteName: "Nordlead Studio" as string | null,
     twitterHandle: null as string | null,
   },
   /**

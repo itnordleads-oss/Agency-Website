@@ -9,7 +9,7 @@ import {
   type AgencyServiceId,
 } from "../content/agencyServices";
 import { useSiteCopy } from "../lib/useSiteCopy";
-import { getSeoTitle } from "../lib/studioBranding";
+import { getSeoSiteName } from "../lib/studioBranding";
 
 type AgencyServiceDetailPageProps = {
   slug: string;
@@ -32,9 +32,9 @@ export default function AgencyServiceDetailPage({ slug }: AgencyServiceDetailPag
     }
     const previousTitle = document.title;
     if (service) {
-      document.title = `${service.title} — ${getSeoTitle()}`;
+      document.title = `${service.title} — ${getSeoSiteName()}`;
     } else {
-      document.title = `Service not found — ${getSeoTitle()}`;
+      document.title = `Service not found — ${getSeoSiteName()}`;
     }
     return () => {
       document.title = previousTitle;

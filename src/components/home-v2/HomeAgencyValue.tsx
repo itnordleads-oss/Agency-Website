@@ -11,7 +11,7 @@ import "./homeAgencyValue.css";
 const VALUE_SECTION = "relative min-w-0 overflow-visible py-12 sm:py-14 md:py-16 lg:py-[4.5rem]";
 
 const VALUE_ICONS: LucideIcon[] = [MessagesSquare, Code2, Layers, ListChecks];
-const INDEX_LABELS = ["Communication", "Engineering", "Delivery", "Maintainability"] as const;
+const INDEX_LABELS = ["Communication", "Engineering", "Delivery", "Change"] as const;
 
 function canUseHoverPreview(): boolean {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") {

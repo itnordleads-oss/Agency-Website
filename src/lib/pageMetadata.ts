@@ -21,6 +21,10 @@ export type PageMetadataInput = {
   pathname: string;
   /** Defaults to the production indexable robots directive from index.html. */
   robots?: string;
+  /** When set, overrides `description` for `og:description` only. */
+  ogDescription?: string;
+  /** When set, overrides `description` for `twitter:description` only. */
+  twitterDescription?: string;
 };
 
 type Snapshot = {
@@ -146,7 +150,7 @@ export function applyPageMetadata(input: PageMetadataInput): () => void {
   canonicalEl.setAttribute("href", canonicalHref);
 
   ogTitleEl.setAttribute("content", input.title);
-  ogDescriptionEl.setAttribute("content", input.description);
+  ogDescriptionEl.setAttribute("content", input.ogDescription ?? input.description);
   ogSiteNameEl.setAttribute("content", siteName);
   if (absolute) {
     ogUrlEl.setAttribute("content", absolute);
@@ -155,7 +159,7 @@ export function applyPageMetadata(input: PageMetadataInput): () => void {
   }
 
   twitterTitleEl.setAttribute("content", input.title);
-  twitterDescriptionEl.setAttribute("content", input.description);
+  twitterDescriptionEl.setAttribute("content", input.twitterDescription ?? input.description);
 
   if (ogImage) {
     ensureMeta("property", "og:image").setAttribute("content", ogImage);

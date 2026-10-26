@@ -6,9 +6,9 @@ import "./homeAgencyHeroPanel.css";
 const STAGE_NODES = [
   { id: "brief", label: "Brief", x: 12, y: 28 },
   { id: "understand", label: "Understand", x: 31, y: 44 },
-  { id: "build", label: "Design / Build", x: 50, y: 28 },
+  { id: "build", label: "Design & Build", x: 50, y: 28 },
   { id: "review", label: "Review", x: 69, y: 44 },
-  { id: "product", label: "Product", x: 88, y: 28 },
+  { id: "product", label: "Launch", x: 88, y: 28 },
 ] as const;
 
 const SURFACE_LABELS = ["SOFTWARE", "WEB", "MOBILE", "COMMERCE", "CMS"] as const;

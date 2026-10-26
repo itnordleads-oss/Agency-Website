@@ -96,7 +96,8 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     title: "Relay",
     label: "Workflow product website",
     shortDescription: "Workflow product site with a live canvas and a link to the deployed site.",
-    homepageDescription: "Workflow product website with a live 3D canvas.",
+    homepageDescription:
+      "An interactive workflow product demo built around a live visual experience.",
     overview:
       "Relay is a published product website. The homepage shows the handoff story, a branching canvas, and a direct link to the live deployment.",
     category: "software",
@@ -703,7 +704,11 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     deliverables: ["Brand homepage", "Hero portrait", "Lead statement", "Live site link"],
     outcome: "Published at the Voltara deployment and linked from the portfolio.",
     gallery: [
-      { variant: 1, alt: "Voltara homepage with Sharp signal Fast motion headline", layout: "full" },
+      {
+        variant: 1,
+        alt: "Voltara homepage with Sharp signal Fast motion headline",
+        layout: "full",
+      },
       { variant: 2, alt: "Voltara portrait and lead designer mark", layout: "portrait" },
       { variant: 3, alt: "Voltara direction statement section", layout: "default" },
     ],
