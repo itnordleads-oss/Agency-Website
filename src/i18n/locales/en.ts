@@ -1834,41 +1834,48 @@ const en = {
   servicesPage: {
     backHome: "Back to homepage",
     metaDescription:
-      "Software, website, and mobile development plus Shopify stores and WordPress websites—including custom theme development—for teams that need clear, maintainable digital products.",
+      "Explore Nordlead Studio services for custom software, website development, mobile apps, Shopify stores, WordPress websites, and custom WordPress themes.",
     hero: {
-      eyebrow: "Services",
-      title: "Build digital products and web experiences that fit your business",
+      eyebrow: "Software & Web Development Services",
+      title: "Build digital products and web experiences around your business",
       subtitle:
-        "Software, websites, mobile apps, Shopify, and WordPress—built around real requirements.",
+        "We design and build custom software, websites, mobile apps, Shopify stores, and WordPress experiences around real business requirements.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
-      visualNote: "Six connected capabilities.",
+      visualNote: "Six connected delivery capabilities.",
       activeSummaryLabel: "Active capability",
+      systemLabel: "Connected Delivery Capabilities",
+      exploreServiceCta: "Explore Service",
     },
     overview: {
       eyebrow: "Overview",
       title: "Six focused development services",
-      subtitle: "Digital delivery for business needs.",
+      subtitle:
+        "Choose the service that fits your project, then open the dedicated page for capabilities, process, and next steps.",
       learnMore: "Explore Service",
     },
     spotlight: {
-      eyebrow: "Capabilities",
+      eyebrow: "Explore Capabilities",
       title: "Explore what we can build",
-      subtitle: "Select a service to see how it comes together.",
+      subtitle:
+        "Select a service to review a practical blueprint, fit signals, and the dedicated service page.",
       exploreCta: "Explore Service",
       suitableLabel: "Good fit for",
+      capabilitiesLabel: "Capabilities",
     },
     detailSectionEyebrow: "Service details",
     services: [
       {
         id: "software-development",
         title: "Software Development",
-        shortDescription: "Custom software for workflows, users, and integration needs.",
+        shortDescription:
+          "Custom software for business workflows, internal tools, platforms, and product ideas.",
         tabLabel: "Software",
         suitableFor: ["Internal tools", "Workflow systems", "Product operations"],
-        hubHighlights: ["Business apps and tools", "Workflows and integrations"],
+        hubHighlights: ["Business apps and internal tools", "Workflows and integrations"],
+        blueprintHighlights: ["Internal tools", "Automation", "Integrations"],
         paragraphs: [
-          "Custom software for the workflow you have — tools, admin screens, and integrations.",
+          "Custom software shaped around the workflow you have — tools, admin screens, integrations, and maintainable application structure.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1884,12 +1891,14 @@ const en = {
       {
         id: "website-development",
         title: "Website Development",
-        shortDescription: "Responsive websites for practical business needs.",
+        shortDescription:
+          "Responsive, maintainable websites built around your content and business goals.",
         tabLabel: "Web",
         suitableFor: ["Marketing sites", "Business websites", "Landing pages"],
-        hubHighlights: ["Business websites", "Extendable front-end"],
+        hubHighlights: ["Business and marketing websites", "Responsive front-end builds"],
+        blueprintHighlights: ["Business sites", "Responsive pages", "Forms and integrations"],
         paragraphs: [
-          "Business and marketing sites that stay responsive and straightforward to extend.",
+          "Business and marketing websites that stay responsive, clear for users, and practical to extend as requirements change.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1905,12 +1914,14 @@ const en = {
       {
         id: "mobile-app-development",
         title: "Mobile App Development",
-        shortDescription: "Mobile apps for product, data, and account needs.",
+        shortDescription:
+          "Mobile applications designed around your product, users, and day-to-day workflows.",
         tabLabel: "Mobile",
         suitableFor: ["Customer apps", "Business apps", "Account flows"],
-        hubHighlights: ["Mobile product UX", "Account and data"],
+        hubHighlights: ["Mobile product flows", "Accounts and data connections"],
+        blueprintHighlights: ["Product flows", "Accounts", "Data connections"],
         paragraphs: [
-          "Mobile apps for customer and business flows, planned around the product requirements.",
+          "Mobile apps for customer and business flows, planned around product requirements, accounts, and connected data.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1926,12 +1937,14 @@ const en = {
       {
         id: "shopify-stores",
         title: "Shopify Stores",
-        shortDescription: "Shopify storefronts, theme work, and store improvements.",
+        shortDescription:
+          "Shopify storefront development, theme work, and practical store improvements.",
         tabLabel: "Shopify",
         suitableFor: ["New stores", "Theme updates", "Catalog polish"],
-        hubHighlights: ["Store setup and themes", "Catalog polish"],
+        hubHighlights: ["Store setup and theme work", "Catalog and storefront polish"],
+        blueprintHighlights: ["Store setup", "Theme work", "Commerce improvements"],
         paragraphs: [
-          "Shopify storefronts, theme work, and catalog improvements for an existing or new store.",
+          "Shopify storefronts, theme customization, and catalog improvements for a new or existing store.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1947,12 +1960,14 @@ const en = {
       {
         id: "wordpress-websites",
         title: "WordPress Websites",
-        shortDescription: "Maintainable WordPress websites for content-driven teams.",
+        shortDescription:
+          "Flexible WordPress websites that are clear to manage, update, and maintain.",
         tabLabel: "WordPress",
         suitableFor: ["Content sites", "Business sites", "Editable pages"],
-        hubHighlights: ["Content structure", "Maintainable builds"],
+        hubHighlights: ["Content-friendly structure", "Maintainable WordPress builds"],
+        blueprintHighlights: ["Editable pages", "Content structure", "Plugin integration"],
         paragraphs: [
-          "WordPress sites with editable content, clear structure, and room to improve later.",
+          "WordPress websites with editable content, clear structure, and room to improve as the site grows.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1968,12 +1983,14 @@ const en = {
       {
         id: "custom-wordpress-theme-development",
         title: "Custom WordPress Theme Development",
-        shortDescription: "Custom themes for distinct CMS-editable layouts.",
+        shortDescription:
+          "Custom WordPress themes for unique layouts, content needs, and brand experiences.",
         tabLabel: "Custom Themes",
         suitableFor: ["Design systems", "Theme rebuilds", "Editable sections"],
-        hubHighlights: ["Custom layouts", "Editable sections"],
+        hubHighlights: ["Custom layout systems", "CMS-editable sections"],
+        blueprintHighlights: ["Layout systems", "Reusable templates", "Editable sections"],
         paragraphs: [
-          "A maintainable WordPress theme when the site structure exists and the layout needs to be custom.",
+          "Custom WordPress theme implementation when the site structure exists and the layout needs to be distinct and maintainable.",
         ],
         capabilitiesTitle: "What we can help with",
         capabilities: [
@@ -1988,61 +2005,72 @@ const en = {
       },
     ],
     whyUs: {
-      eyebrow: "Why work with us",
+      eyebrow: "Why Work With Us",
       title: "Clear delivery without inflated promises",
-      subtitle: "Focused scope, clear updates, maintainable builds.",
+      subtitle:
+        "Focused scope, visible progress, and maintainable builds — without claiming outcomes we cannot support.",
       principles: [
         {
           shortLabel: "Communication",
           title: "Clear Communication",
-          description: "Priorities and decisions stay visible.",
+          description:
+            "Priorities, decisions, and next steps stay visible so the project remains easy to follow.",
         },
         {
           shortLabel: "Requirements",
           title: "Requirement-Focused Development",
-          description: "Build what the product actually needs.",
+          description:
+            "We build around the product requirements you actually have instead of speculative extras.",
         },
         {
           shortLabel: "Delivery",
           title: "Structured Delivery",
-          description: "Scope and progress remain reviewable.",
+          description:
+            "Scope, checkpoints, and reviewable progress keep the work aligned before it moves forward.",
         },
         {
           shortLabel: "Maintainability",
           title: "Maintainable Solutions",
-          description: "Code stays practical after launch.",
+          description:
+            "We aim for practical code and systems that remain understandable after launch.",
         },
       ],
     },
     process: {
       eyebrow: "Process",
       title: "Our development process",
-      subtitle: "From requirements to launch.",
+      subtitle:
+        "A clear path from requirements to launch, with room to refine as the product takes shape.",
       steps: [
         {
           number: "01",
           title: "Discovery",
-          description: "Clarify goals, users, constraints, and scope.",
+          description:
+            "Clarify goals, users, constraints, priorities, and what a successful outcome should look like.",
         },
         {
           number: "02",
           title: "Planning",
-          description: "Define priorities, structure, and review points.",
+          description:
+            "Define scope, priorities, technical direction, and the review points that keep delivery focused.",
         },
         {
           number: "03",
           title: "Design & Development",
-          description: "Build requirements in reviewable increments.",
+          description:
+            "Turn the approved direction into working software and web experiences in reviewable increments.",
         },
         {
           number: "04",
           title: "Review & Testing",
-          description: "Validate quality, usability, and responsiveness.",
+          description:
+            "Validate quality, usability, responsiveness, and important flows before release.",
         },
         {
           number: "05",
           title: "Launch & Iteration",
-          description: "Ship, then improve where needed.",
+          description:
+            "Prepare for launch or handoff, then continue improving where new needs become clear.",
         },
       ],
     },
@@ -2086,41 +2114,46 @@ const en = {
     faq: {
       eyebrow: "FAQ",
       title: "Common questions",
-      subtitle: "Services and delivery, answered.",
+      subtitle: "Straightforward answers about our services and how delivery works.",
+      contactPrompt: "Still have a question?",
+      contactCta: "Contact Us",
       items: [
         {
           q: "What types of projects do you work on?",
-          a: "We work across custom software, websites, mobile apps, Shopify, WordPress, and custom themes.",
+          a: "We work across custom software, website development, mobile apps, Shopify stores, WordPress websites, and custom WordPress themes.",
         },
         {
           q: "Can you develop a project from scratch?",
-          a: "Yes. We take projects from requirements through launch.",
+          a: "Yes. We can take a project from requirements and planning through design, development, review, and launch.",
         },
         {
           q: "Can you improve an existing website or application?",
-          a: "Yes. We improve products with UI work, integrations, and structural updates.",
+          a: "Yes. We improve existing products with interface work, integrations, structural updates, and maintainable refinements.",
         },
         {
           q: "Do you build Shopify stores?",
-          a: "Yes. We support setup, themes, and practical store improvements.",
+          a: "Yes. We support Shopify store setup, theme customization, catalog structure, and practical storefront improvements.",
         },
         {
           q: "Do you work with WordPress?",
-          a: "Yes. We build maintainable WordPress websites.",
+          a: "Yes. We build and improve WordPress websites with clear content structure and maintainable implementation.",
         },
         {
           q: "Can you build a custom WordPress theme?",
-          a: "Yes. We implement custom themes with editable sections.",
+          a: "Yes. We implement custom WordPress themes with reusable templates and CMS-editable sections when the project needs them.",
         },
         {
           q: "How can we discuss a project?",
-          a: "Use the Contact page to share your project and support needs.",
+          a: "Share a short project brief through Contact, including goals, current stage, and any existing materials you already have.",
+          ctaLabel: "Start a Project",
+          ctaHref: "/contact",
         },
       ],
     },
     finalCta: {
       title: "Have a project in mind?",
-      subtitle: "Share your project. We will outline the next step.",
+      subtitle:
+        "Tell us what you are building and what you need help with. We will outline the next step.",
       primaryCta: "Start a Project",
     },
   },

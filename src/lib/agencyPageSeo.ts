@@ -61,9 +61,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/services",
-        title: pageTitle("Services"),
+        title: "Software & Web Development Services | Nordlead Studio",
         description:
-          "Services offered by the agency. Page content is published here as it is approved.",
+          "Explore Nordlead Studio services for custom software, website development, mobile apps, Shopify stores, WordPress websites, and custom WordPress themes.",
+        ogDescription:
+          "Custom software, websites, mobile apps, Shopify stores, WordPress websites, and custom WordPress theme development.",
+        twitterDescription:
+          "Explore practical software and web development services from Nordlead Studio.",
         indexable: true,
       };
     case "about":

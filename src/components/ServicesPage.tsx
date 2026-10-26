@@ -13,7 +13,7 @@ export default function ServicesPage() {
   const { servicesPage } = useSiteCopy();
   const services = Array.isArray(servicesPage.services) ? servicesPage.services : [];
 
-  useServicesPageMetadata(servicesPage.metaDescription);
+  useServicesPageMetadata();
 
   return (
     <main id="services-page" className="min-w-0 flex-1 overflow-x-hidden">

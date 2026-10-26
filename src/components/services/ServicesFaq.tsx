@@ -12,9 +12,13 @@ type FaqCopy = {
   eyebrow: string;
   title: string;
   subtitle: string;
+  contactPrompt?: string;
+  contactCta?: string;
   items: readonly {
     q: string;
     a: string;
+    ctaLabel?: string;
+    ctaHref?: string;
   }[];
 };
 
@@ -122,8 +126,8 @@ export default function ServicesFaq({ copy, variant = "hub" }: ServicesFaqProps)
                 navigateAppPath("/contact");
               }}
             >
-              Still have a question?
-              <span>Contact Us →</span>
+              {copy.contactPrompt ?? "Still have a question?"}
+              <span>{copy.contactCta ?? "Contact Us"} →</span>
             </a>
           </div>
 
@@ -157,6 +161,28 @@ export default function ServicesFaq({ copy, variant = "hub" }: ServicesFaqProps)
                   >
                     <div>
                       <p>{item.a}</p>
+                      {item.ctaLabel && item.ctaHref ? (
+                        <a
+                          className="services-faq-contact mt-3 inline-flex"
+                          href={item.ctaHref}
+                          onClick={(event) => {
+                            if (
+                              event.defaultPrevented ||
+                              event.button !== 0 ||
+                              event.metaKey ||
+                              event.ctrlKey ||
+                              event.shiftKey ||
+                              event.altKey
+                            ) {
+                              return;
+                            }
+                            event.preventDefault();
+                            navigateAppPath(item.ctaHref!);
+                          }}
+                        >
+                          <span>{item.ctaLabel} →</span>
+                        </a>
+                      ) : null}
                     </div>
                   </div>
                 </div>

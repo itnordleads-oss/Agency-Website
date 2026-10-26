@@ -224,7 +224,7 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
               aria-labelledby={labelId}
             >
               <p id={labelId} className="services-hero-system__label">
-                Connected Delivery Capabilities
+                {copy.systemLabel}
               </p>
 
               {/* Desktop / tablet editorial diagram */}
@@ -375,7 +375,7 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
                     className="services-hero-system__summary-cta"
                     onClick={() => navigateAppPath(`/services/${activeService.id}`)}
                   >
-                    Explore Service
+                    {copy.exploreServiceCta}
                     <span aria-hidden>→</span>
                   </button>
                 </div>
