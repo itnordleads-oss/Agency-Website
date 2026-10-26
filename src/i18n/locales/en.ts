@@ -59,8 +59,8 @@ const en = {
   contactPage: {
     backHome: "Back to homepage",
     eyebrowLabel: "Contact",
-    socialTitle: "Contact us another way",
-    socialSubtitle: "Reach us wherever is easiest — LinkedIn, email, or WhatsApp.",
+    socialTitle: "Find Nordlead Studio online",
+    socialSubtitle: "Use one of the verified channels below to visit our public profiles.",
     mapTitle: "Our office",
     mapSubtitle:
       "We're a remote company that works online. The address below is our registered business address for legal registration and official mail. All meetings and client work are conducted remotely.",
@@ -420,14 +420,15 @@ const en = {
     ],
   },
   footer: {
-    title: "Let's start the conversation.",
+    title: "Let’s start the conversation.",
     subtitle:
-      "Tell us what you need built. We'll review it and suggest the next step — no pressure, no obligation.",
-    confidential: "No pressure. No commitment. Friendly conversation.",
-    scaleProof: "We usually reply within one business day. Your information stays private.",
-    successTitle: "Thanks — we got your message.",
-    successBody:
-      "We'll review what you shared and reply to your email within one business day with a clear next step.",
+      "Tell us what you are building, what you need help with, and where the project currently stands. We will use that context to understand the next practical step.",
+    confidential: "Start with the project, requirements, or problem you want to solve.",
+    scaleProof: "Your message helps us understand the scope before discussing possible next steps.",
+    formSupport:
+      "You do not need a complete specification. A short description of the project and the current challenge is enough to start.",
+    successTitle: "Thanks — your message has been received.",
+    successBody: "We’ll review the details and use them to understand the next step.",
     submitAnother: "Send another message",
     fields: {
       businessName: "Name",
@@ -436,7 +437,7 @@ const en = {
       businessEmailPlaceholder: "you@company.com",
       targetMarket: "What are you working on?",
       targetMarketPlaceholder:
-        "A few sentences about the product, site, or workflow you want help with",
+        "Tell us about the product, website, app, store, or workflow you want help with.",
       website: "Website",
     },
     loadingProtection: "Loading…",
@@ -444,13 +445,26 @@ const en = {
     spamProtectionBody: "Please refresh the page and try again in a moment.",
     submitIdle: "Start the Conversation",
     submitLoading: "Sending…",
-    requestReadyTitle: "We couldn't send that just yet.",
-    noSpam: "No spam. A short, human reply from our team.",
-    nextTitle: "What happens next",
+    requestReadyTitle: "We couldn’t send your message.",
+    noSpam:
+      "A short description of your software, website, mobile, Shopify, or WordPress needs is enough to begin.",
+    nextTitle: "WHAT HAPPENS NEXT",
     nextSteps: [
-      "We review your details.",
-      "We'll suggest the best plan.",
-      "If we can help, we'll plan the next step together.",
+      {
+        title: "We review the project details",
+        description:
+          "We look at what you are building, the current stage, and the type of support you need.",
+      },
+      {
+        title: "We identify the next practical step",
+        description:
+          "If the project appears relevant to our work, we can discuss scope, requirements, and possible next steps.",
+      },
+      {
+        title: "We plan the conversation around your needs",
+        description:
+          "The next discussion can focus on the project requirements, priorities, and delivery approach.",
+      },
     ],
     brandDescription: "Custom software and digital product delivery for growing teams.",
     copyright: "© 2026. All rights reserved.",
@@ -459,15 +473,15 @@ const en = {
     termsLink: "Terms",
     prefillMessage: "I'm looking at a {{sector}} project. Happy to share more about what we need.",
     validation: {
-      nameRequired: "Add your name or company.",
-      emailRequired: "Add the email where we should reply.",
-      emailInvalid: "Use a valid email address.",
-      messageRequired: "Share a short note about what you're working on.",
+      nameRequired: "Please enter your name.",
+      emailRequired: "Please enter your email address.",
+      emailInvalid: "Enter a valid email address.",
+      messageRequired: "Tell us a little about what you are working on.",
       turnstileRequired: "Please confirm you're human to continue.",
       turnstileExpired: "Please confirm you're human again before sending.",
       captchaFailed: "Please refresh the page and try again.",
-      fallbackError: "Something went wrong. Please try again or email {{email}}.",
-      fallbackErrorNoEmail: "Something went wrong. Please try again in a moment.",
+      fallbackError: "We couldn’t send your message. Please check the form and try again.",
+      fallbackErrorNoEmail: "We couldn’t send your message. Please check the form and try again.",
     },
   },
   hero: {

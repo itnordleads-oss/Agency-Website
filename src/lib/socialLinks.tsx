@@ -168,7 +168,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
       return {
         key: "linkedin" as const,
         href,
-        label: "Follow on LinkedIn",
+        label: "Visit Nordlead Studio on LinkedIn",
         platformClass: "social-icon--linkedin",
         icon: <Linkedin className={iconClassName} strokeWidth={2} />,
       };
@@ -237,7 +237,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
       return {
         key: "instagram" as const,
         href,
-        label: "Follow on Instagram",
+        label: "Visit Nordlead Studio on Instagram",
         platformClass: "social-icon--instagram",
         icon: <Instagram className={iconClassName} strokeWidth={2} />,
       };
@@ -250,7 +250,7 @@ function buildSocialLinkItems(): SocialLinkItem[] {
       return {
         key: "github" as const,
         href,
-        label: "GitHub",
+        label: "Visit Nordlead Studio on GitHub",
         platformClass: "social-icon--github",
         icon: <Github className={iconClassName} strokeWidth={2} />,
       };
