@@ -142,7 +142,7 @@ export default function ProjectsPage() {
               Selected projects
             </h2>
             <p className="projects-section-lede max-w-2xl">
-              Eight live gallery websites — open any card to visit the deployed site.
+              Eleven live gallery websites — open any card to visit the deployed site.
             </p>
           </div>
 

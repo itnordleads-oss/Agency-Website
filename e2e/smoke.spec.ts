@@ -156,6 +156,9 @@ test.describe("smoke", () => {
       ["megapersonals-automation", "MegaPersonals Automation Panel"],
       ["diet-soda", "Diet Soda"],
       ["neural-monitor", "Neural Monitor"],
+      ["ferro-room", "Ferro Room"],
+      ["virell", "Virell"],
+      ["voltara", "Voltara"],
     ] as const;
 
     for (const [slug, title] of projects) {
