@@ -20,19 +20,6 @@ type ServicesSpotlightProps = {
   services: readonly ServiceSummary[];
 };
 
-const BLUEPRINT_CAPABILITIES: Record<string, readonly string[]> = {
-  "software-development": ["Internal tools", "Automation", "Integrations"],
-  "website-development": ["Business sites", "Responsive pages", "Forms and integrations"],
-  "mobile-app-development": ["Product flows", "Accounts", "Data connections"],
-  "shopify-stores": ["Store setup", "Theme work", "Commerce improvements"],
-  "wordpress-websites": ["Editable pages", "Content structure", "Plugin integration"],
-  "custom-wordpress-theme-development": [
-    "Layout systems",
-    "Reusable templates",
-    "Editable sections",
-  ],
-};
-
 export default function ServicesSpotlight({ copy, services }: ServicesSpotlightProps) {
   const tablistId = useId();
   const selectorRef = useRef<HTMLDivElement | null>(null);
@@ -75,7 +62,7 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
 
   const suitableFor = activeService.suitableFor.slice(0, 3);
   const capabilities =
-    BLUEPRINT_CAPABILITIES[activeService.id] ?? activeService.capabilities.slice(0, 3);
+    activeService.blueprintHighlights?.slice(0, 3) ?? activeService.capabilities.slice(0, 3);
 
   const activateService = (index: number) => {
     const next = services[index];
@@ -184,7 +171,7 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
               {activeService.shortDescription}
             </p>
             <div className="space-y-2.5">
-              <p className="services-blueprint-kicker">Capabilities</p>
+              <p className="services-blueprint-kicker">{copy.capabilitiesLabel}</p>
               <ul className="space-y-2">
                 {capabilities.map((capability) => (
                   <li key={capability} className="flex gap-2.5">
