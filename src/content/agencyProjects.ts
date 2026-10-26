@@ -703,7 +703,11 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     deliverables: ["Brand homepage", "Hero portrait", "Lead statement", "Live site link"],
     outcome: "Published at the Voltara deployment and linked from the portfolio.",
     gallery: [
-      { variant: 1, alt: "Voltara homepage with Sharp signal Fast motion headline", layout: "full" },
+      {
+        variant: 1,
+        alt: "Voltara homepage with Sharp signal Fast motion headline",
+        layout: "full",
+      },
       { variant: 2, alt: "Voltara portrait and lead designer mark", layout: "portrait" },
       { variant: 3, alt: "Voltara direction statement section", layout: "default" },
     ],
