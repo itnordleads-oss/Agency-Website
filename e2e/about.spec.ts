@@ -15,7 +15,7 @@ test.describe("About page structural layout", () => {
     await expect(
       page.getByRole("heading", {
         level: 2,
-        name: /Software and digital product delivery shaped around real requirements/i,
+        name: /Software and digital product development shaped around real requirements/i,
       })
     ).toBeVisible();
     await expect(
@@ -24,11 +24,11 @@ test.describe("About page structural layout", () => {
     await expect(
       page.getByRole("heading", {
         level: 2,
-        name: /Broad capabilities we apply across projects/i,
+        name: /Practical capabilities across software and web projects/i,
       })
     ).toBeVisible();
     await expect(
-      page.getByRole("heading", { level: 2, name: /A simple path from idea to launch/i })
+      page.getByRole("heading", { level: 2, name: /A clear path from idea to launch/i })
     ).toBeVisible();
 
     await expect(page.locator('[aria-label="Studio delivery system"]')).toHaveCount(1);
@@ -36,7 +36,7 @@ test.describe("About page structural layout", () => {
     await expect(page.locator(".about-capability-row").first()).toBeVisible();
     await expect(page.locator(".about-process-node").first()).toBeVisible();
     await expect(page.getByText("Build what the product actually needs.")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Custom Software Delivery" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Custom Software Development" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Understand", exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Launch", exact: true })).toBeVisible();
 
@@ -49,7 +49,7 @@ test.describe("About page structural layout", () => {
     await page.goto("/about");
     await page
       .locator("main#about-page")
-      .getByRole("button", { name: /get in touch/i })
+      .getByRole("button", { name: /start the conversation/i })
       .click();
     await expect(page).toHaveURL(/\/contact/);
   });
