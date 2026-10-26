@@ -70,8 +70,13 @@ export function getAgencyPageSeo(id: AgencySeoPageId): AgencyPageSeo {
       return {
         id,
         pathname: "/about",
-        title: pageTitle("About"),
-        description: "About the agency — background, approach, and how we work with clients.",
+        title: "About Nordlead Studio | Software & Digital Product Development",
+        description:
+          "Learn how Nordlead Studio plans, builds, reviews, and delivers custom software, websites, mobile apps, and digital products through a clear and practical process.",
+        ogDescription:
+          "Learn how Nordlead Studio approaches software and digital product development through clear planning, practical engineering, review, and delivery.",
+        twitterDescription:
+          "A practical software and digital product studio focused on clear planning, useful development, and maintainable delivery.",
         indexable: true,
       };
     case "careers":

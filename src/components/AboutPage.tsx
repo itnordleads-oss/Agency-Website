@@ -13,7 +13,8 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "./SectionEyebrow";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import { useSiteCopy } from "../lib/useSiteCopy";
-import { getBrandAriaLabel } from "../lib/studioBranding";
+import { getAgencyPageSeo } from "../lib/agencyPageSeo";
+import { applyPageMetadata } from "../lib/pageMetadata";
 import { navigateAppPath, navigateToContact } from "../App";
 import "./about-page.css";
 import "./aboutType.css";
@@ -36,27 +37,26 @@ type AboutPrinciple = { title: string; description: string };
 type FlowStep = { label: string };
 type ProcessStep = { label: string; description: string };
 
-const STAGE_SUPPORT = [
-  "Clarify goals, constraints, and success criteria.",
-  "Create clear, reviewable implementation.",
-  "Validate quality, usability, and requirements.",
-  "Ship cleanly with clear next steps.",
+const FALLBACK_STAGE_SUPPORT = [
+  "We clarify the problem, users, priorities, risks, and expected outcome before development starts.",
+  "We turn the agreed direction into clear, reviewable software and digital experiences.",
+  "We test important flows, review progress, and refine the work based on feedback.",
+  "We prepare the product for launch or handoff with clear next steps.",
 ] as const;
 
-function useAboutPageMetadata(documentTitle: string) {
+function useAboutPageMetadata() {
   useEffect(() => {
-    if (typeof document === "undefined") {
-      return;
-    }
-
-    const previousTitle = document.title;
-    document.title = documentTitle;
+    const seo = getAgencyPageSeo("about");
+    const restore = applyPageMetadata({
+      title: seo.title,
+      description: seo.description,
+      pathname: seo.pathname,
+      ogDescription: seo.ogDescription,
+      twitterDescription: seo.twitterDescription,
+    });
     window.scrollTo({ top: 0, behavior: "auto" });
-
-    return () => {
-      document.title = previousTitle;
-    };
-  }, [documentTitle]);
+    return restore;
+  }, []);
 }
 
 function revealProps(reduceMotion: boolean | null, delay = 0) {
@@ -75,10 +75,16 @@ function revealProps(reduceMotion: boolean | null, delay = 0) {
 function AboutHeroVisual({
   principles,
   flowSteps,
+  stageSupport,
+  deliveryEyebrow,
+  deliveryTitle,
   reduceMotion,
 }: {
   principles: AboutPrinciple[];
   flowSteps: FlowStep[];
+  stageSupport: readonly string[];
+  deliveryEyebrow: string;
+  deliveryTitle: string;
   reduceMotion: boolean;
 }) {
   const stages = flowSteps.slice(1, 5);
@@ -86,6 +92,7 @@ function AboutHeroVisual({
   const [activeStage, setActiveStage] = useState(reduceMotion ? stageCount - 1 : 0);
   const timersRef = useRef<number[]>([]);
   const interactionStartedRef = useRef(false);
+  const supportCopy = stageSupport.length >= stageCount ? stageSupport : FALLBACK_STAGE_SUPPORT;
 
   const clearProgression = () => {
     timersRef.current.forEach((timer) => window.clearTimeout(timer));
@@ -135,7 +142,10 @@ function AboutHeroVisual({
 
         <div className="relative z-10">
           <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#A4F4FD]/90 sm:text-xs">
-            Delivery system
+            {deliveryEyebrow}
+          </p>
+          <p className="mt-1 text-[0.9375rem] font-semibold leading-snug tracking-[-0.01em] text-white sm:text-base">
+            {deliveryTitle}
           </p>
 
           <div
@@ -153,7 +163,7 @@ function AboutHeroVisual({
               <span className="about-flow-node" aria-hidden>
                 <span />
               </span>
-              <span>{flowSteps[0]?.label ?? "Project input"}</span>
+              <span>{flowSteps[0]?.label ?? "Project Input"}</span>
             </div>
             {stages.map((stage, index) => (
               <button
@@ -181,7 +191,7 @@ function AboutHeroVisual({
 
           <p className="about-stage-detail" aria-live="polite">
             <strong>{activeLabel}</strong>
-            <span>{STAGE_SUPPORT[activeStage]}</span>
+            <span>{supportCopy[activeStage]}</span>
           </p>
 
           <div className="relative mt-4 border-t border-white/[0.09] pt-3">
@@ -291,17 +301,28 @@ export default function AboutPage() {
   const shouldReduceMotion = reduceMotion === true;
   const [activePrinciple, setActivePrinciple] = useState(0);
   const [activeFocusArea, setActiveFocusArea] = useState(0);
-  const brandLabel = getBrandAriaLabel();
-  const documentTitle = `${brandLabel} | ${aboutPage.documentTitleSuffix}`;
 
-  useAboutPageMetadata(documentTitle);
+  useAboutPageMetadata();
 
   const hero = aboutPage.hero;
   const heroPrinciples = Array.isArray(hero.principles) ? hero.principles : [];
   const deliveryFlow = Array.isArray(hero.deliveryFlow) ? hero.deliveryFlow : [];
+  const stageSupport = Array.isArray(hero.stageSupport) ? hero.stageSupport : [];
+  const deliveryEyebrow =
+    typeof hero.deliveryEyebrow === "string" && hero.deliveryEyebrow.trim()
+      ? hero.deliveryEyebrow
+      : "Delivery System";
+  const deliveryTitle =
+    typeof hero.deliveryTitle === "string" && hero.deliveryTitle.trim()
+      ? hero.deliveryTitle
+      : "A clear path from requirements to launch";
   const titleLine1 =
     typeof hero.titleLine1 === "string" && hero.titleLine1.trim() ? hero.titleLine1 : hero.title;
   const titleLine2 = typeof hero.titleLine2 === "string" ? hero.titleLine2 : "";
+  const finalSecondaryCta =
+    "secondaryCta" in aboutPage.finalCta && typeof aboutPage.finalCta.secondaryCta === "string"
+      ? aboutPage.finalCta.secondaryCta
+      : hero.secondaryCta;
 
   const principles = Array.isArray(aboutPage.principles?.items) ? aboutPage.principles.items : [];
   const focusAreas = Array.isArray(aboutPage.focusAreas?.items) ? aboutPage.focusAreas.items : [];
@@ -318,7 +339,7 @@ export default function AboutPage() {
     typeof aboutPage.whoWeAre?.sectionMark === "string" ? aboutPage.whoWeAre.sectionMark : "01";
 
   const defaultFlow: FlowStep[] = [
-    { label: "Project input" },
+    { label: "Project Input" },
     { label: "Understand" },
     { label: "Build" },
     { label: "Review" },
@@ -369,6 +390,9 @@ export default function AboutPage() {
               <AboutHeroVisual
                 principles={heroPrinciples}
                 flowSteps={flowSteps}
+                stageSupport={stageSupport}
+                deliveryEyebrow={deliveryEyebrow}
+                deliveryTitle={deliveryTitle}
                 reduceMotion={shouldReduceMotion}
               />
             </div>
@@ -618,7 +642,7 @@ export default function AboutPage() {
                   onClick={() => navigateAppPath("/services")}
                   className="group inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
                 >
-                  {hero.secondaryCta}
+                  {finalSecondaryCta}
                   <ArrowRight
                     className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transform-none"
                     aria-hidden

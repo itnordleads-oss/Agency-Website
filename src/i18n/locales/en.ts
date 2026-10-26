@@ -67,135 +67,163 @@ const en = {
     mapOpenMaps: "Open in Google Maps",
   },
   aboutPage: {
-    documentTitleSuffix: "About",
+    documentTitleSuffix: "About Nordlead Studio | Software & Digital Product Development",
     hero: {
-      eyebrow: "About",
-      title: "A development studio focused on useful delivery",
-      titleLine1: "A development studio",
-      titleLine2: "focused on useful delivery",
+      eyebrow: "About Nordlead Studio",
+      title: "A development studio focused on practical digital delivery",
+      titleLine1: "A development studio focused on",
+      titleLine2: "practical digital delivery",
       subtitle:
-        "Custom software and digital products, shaped around the requirements you actually have.",
+        "We design and build custom software, websites, mobile apps, and digital products around real requirements, clear priorities, and maintainable solutions.",
       primaryCta: "Start a Project",
       secondaryCta: "Explore Services",
+      deliveryEyebrow: "Delivery System",
+      deliveryTitle: "A clear path from requirements to launch",
       deliveryFlow: [
-        { label: "Project input" },
+        { label: "Project Input" },
         { label: "Understand" },
         { label: "Build" },
         { label: "Review" },
         { label: "Deliver" },
       ],
+      stageSupport: [
+        "We clarify the problem, users, priorities, risks, and expected outcome before development starts.",
+        "We turn the agreed direction into clear, reviewable software and digital experiences.",
+        "We test important flows, review progress, and refine the work based on feedback.",
+        "We prepare the product for launch or handoff with clear next steps.",
+      ],
       principles: [
         {
           title: "Clear Communication",
-          description: "Priorities and decisions stay visible.",
+          description:
+            "Priorities, decisions, progress, and next steps stay visible throughout the project.",
         },
         {
           title: "Practical Engineering",
-          description: "Build what the product needs — not speculative extras.",
+          description:
+            "We build around real product needs instead of adding unnecessary technical complexity.",
         },
         {
           title: "Structured Delivery",
-          description: "Scope, checkpoints, and reviewable progress.",
+          description:
+            "Scope, checkpoints, and reviews keep the work focused and easier to evaluate.",
         },
         {
           title: "Maintainable Solutions",
-          description: "Code and systems teams can keep running.",
+          description:
+            "We aim for code and systems that can be understood, updated, and extended over time.",
         },
       ],
     },
     whoWeAre: {
-      eyebrow: "Who we are",
-      title: "Software and digital product delivery shaped around real requirements",
+      eyebrow: "Who We Are",
+      title: "Software and digital product development shaped around real requirements",
       highlight: "Build what the product actually needs.",
       paragraphs: [
-        "We plan and build custom software and digital products around the brief — not a one-size template.",
+        "Nordlead Studio plans and builds software and digital products around the real problem, the people using the product, and the outcome it needs to support.",
+        "We avoid treating every project like the same template. Instead, we clarify the requirements first, define a focused scope, and choose the design and technology that fit the work.",
+        "Our goal is straightforward: build useful digital products that are clear to review, practical to maintain, and ready to improve as requirements change.",
       ],
       exploreServices: "Explore Services",
-      workingModel: ["Requirement-led", "Reviewable delivery", "Maintainable outcome"],
+      workingModel: ["Requirement-led", "Reviewable delivery", "Maintainable solutions"],
       sectionMark: "01",
     },
     principles: {
-      eyebrow: "Working principles",
+      eyebrow: "Working Principles",
       title: "How we keep delivery useful",
       subtitle:
-        "Four habits that keep collaboration clear and delivery sized to what the product needs next.",
+        "Four working principles help us keep collaboration clear, decisions focused, and progress aligned with what the product needs next.",
       items: [
         {
           title: "Understand the Problem",
-          description: "Clarify goals, constraints, and what success looks like before building.",
+          description:
+            "We clarify the goals, users, constraints, priorities, and what a successful outcome should look like before building.",
         },
         {
           title: "Define the Scope",
-          description: "Shape a focused plan so work stays reviewable and aligned.",
+          description:
+            "We turn the requirements into a focused plan with clear priorities, boundaries, and review points.",
         },
         {
           title: "Build and Review",
-          description: "Implement with steady progress and shared checkpoints for feedback.",
+          description:
+            "We implement the work in reviewable stages so progress can be checked, discussed, and improved along the way.",
         },
         {
           title: "Iterate and Deliver",
-          description: "Refine based on review, then ship with clear next steps.",
+          description:
+            "We refine the product based on review and testing, then prepare it for launch or the next delivery stage.",
         },
       ],
     },
     focusAreas: {
-      eyebrow: "What we focus on",
-      title: "Broad capabilities we apply across projects",
+      eyebrow: "What We Focus On",
+      title: "Practical capabilities across software and web projects",
       subtitle:
-        "About covers the kinds of work we take on. Detailed offerings live on the Services page.",
+        "Our work covers the main areas needed to plan, build, improve, and deliver useful digital products.",
       exploreServices: "Explore Services",
       items: [
         {
-          title: "Custom Software Delivery",
-          description: "Application work shaped around real product workflows and constraints.",
+          title: "Custom Software Development",
+          description:
+            "Software built around business workflows, product requirements, internal processes, and user needs.",
         },
         {
           title: "Digital Product Experiences",
           description:
-            "Modern web experiences that stay clear for users and maintainable for teams.",
+            "Web and mobile experiences designed to keep products clear, usable, responsive, and easy to maintain.",
         },
         {
           title: "Frontend & Backend Development",
           description:
-            "Contemporary application development across the stack when the project needs it.",
+            "Practical application development across the interface, application logic, APIs, data, and supporting systems when the project requires it.",
         },
         {
           title: "Structured Project Delivery",
-          description: "A simple path from understanding needs through review and launch.",
+          description:
+            "A clear path from requirements and planning through implementation, review, testing, and launch.",
         },
       ],
     },
     process: {
-      eyebrow: "How we work",
-      title: "A simple path from idea to launch",
-      subtitle: "Neutral delivery phases we use to keep work visible and reviewable.",
+      eyebrow: "How We Work",
+      title: "A clear path from idea to launch",
+      subtitle:
+        "Our process keeps the work visible and reviewable from the first requirements discussion through launch.",
       steps: [
         {
           label: "Understand",
-          description: "Clarify goals, constraints, and what success looks like.",
+          description:
+            "We clarify the goals, users, requirements, constraints, and what success should look like.",
         },
         {
           label: "Plan",
-          description: "Shape scope, approach, and the next delivery steps.",
+          description:
+            "We define the scope, priorities, technical direction, and the next delivery steps.",
         },
         {
           label: "Build",
-          description: "Implement with practical engineering and steady progress.",
+          description:
+            "We turn the approved direction into working software through focused, practical development.",
         },
         {
           label: "Review",
-          description: "Check quality together and refine based on feedback.",
+          description:
+            "We test important flows, review quality together, and refine the work based on feedback.",
         },
         {
           label: "Launch",
-          description: "Ship confidently and hand off with clear next steps.",
+          description:
+            "We prepare the product for release or handoff and define the next steps for future improvements.",
         },
       ],
     },
     finalCta: {
       title: "Ready to start a project?",
-      subtitle: "Tell us what you need. We will explain how we can help.",
-      primaryCta: "Get in Touch",
+      subtitle:
+        "Tell us what you are building, where the project currently stands, and what you need help with.",
+      primaryCta: "Start the Conversation",
+      secondaryCta: "Explore Services",
     },
   },
   platformPage: {
