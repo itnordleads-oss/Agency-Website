@@ -585,7 +585,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     visualMotif: "platform",
     isDemo: false,
     published: true,
-    projectUrl: "https://hrnordleads-sso.github.io/gallary8/",
+    projectUrl: "https://sunny-cucurucho-3762ed.netlify.app/",
     challenge:
       "An AI/health narrative needed a premium, scroll-synchronized 3D specimen instead of a static hero illustration.",
     solution:
