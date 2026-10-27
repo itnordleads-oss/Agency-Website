@@ -67,9 +67,9 @@ export default function ProjectGallery({ project }: ProjectGalleryProps) {
                 }}
               >
                 <div className="project-detail-gallery__frame">
-                  {project.thumbnail && item.variant === 1 ? (
+                  {item.image || (project.thumbnail && item.variant === 1) ? (
                     <img
-                      src={project.thumbnail}
+                      src={item.image || project.thumbnail}
                       alt=""
                       className="h-full w-full rounded-lg object-cover object-top"
                       loading="lazy"
