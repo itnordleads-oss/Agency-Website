@@ -30,6 +30,8 @@ export type AgencyProjectGalleryItem = {
   caption?: string;
   /** Editorial layout hint for detail gallery composition. */
   layout?: AgencyProjectGalleryLayout;
+  /** Optional real screenshot path (preferred over CSS concept frame). */
+  image?: string;
 };
 
 export type AgencyProject = {
@@ -573,7 +575,8 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     services: ["Website Development", "Interactive Web"],
     technologies: ["Next.js", "TypeScript", "Three.js", "React Three Fiber", "GSAP"],
     thumbnail: "/projects/neural-monitor.jpg",
-    thumbnailAlt: "Neural Monitor 3D neural experience preview",
+    thumbnailAlt:
+      "Neural Monitor live Arrival preview with luminous cyan point-cloud brain and HUD",
     heroImage: "/projects/neural-monitor.jpg",
     projectType: "Brand website",
     platform: "Web",
@@ -595,9 +598,24 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     ],
     outcome: "Published at the gallery deployment and linked from the portfolio.",
     gallery: [
-      { variant: 1, alt: "Neural Monitor 3D neural experience preview", layout: "full" },
-      { variant: 2, alt: "Neural Monitor scan pass across cortical folds", layout: "wide" },
-      { variant: 3, alt: "Neural Monitor constellation dispersal finale", layout: "default" },
+      {
+        variant: 1,
+        alt: "Neural Monitor Arrival — live preview with glowing cerebrum",
+        layout: "full",
+        image: "/projects/neural-monitor.jpg",
+      },
+      {
+        variant: 2,
+        alt: "Neural Monitor cortical scan chapter from live preview",
+        layout: "wide",
+        image: "/projects/neural-monitor-2.jpg",
+      },
+      {
+        variant: 3,
+        alt: "Neural Monitor constellation release from live preview",
+        layout: "default",
+        image: "/projects/neural-monitor-3.jpg",
+      },
     ],
   },
   {
