@@ -23,7 +23,7 @@ export type ProjectVisualMotif =
 export type AgencyProjectGalleryLayout = "full" | "wide" | "portrait" | "default";
 
 export type AgencyProjectGalleryItem = {
-  /** CSS concept frame variant ‚Äî not a stock photo of a real product. */
+  /** CSS concept frame variant ó not a stock photo of a real product. */
   variant: 1 | 2 | 3;
   alt: string;
   /** Short editorial caption shown under the frame. */
@@ -52,17 +52,17 @@ export type AgencyProject = {
   thumbnailAlt?: string;
   heroImage?: string;
   gallery?: AgencyProjectGalleryItem[];
-  /** Demo-safe ‚ÄúProject Goal‚Äù copy lives here when `isDemo` is true. */
+  /** Demo-safe ìProject Goalî copy lives here when `isDemo` is true. */
   challenge?: string;
   solution?: string;
   deliverables?: string[];
   /** @deprecated Prefer `deliverables`. Kept for older callers. */
   whatWeBuilt?: string[];
-  /** Delivery / concept summary ‚Äî never fake metrics. */
+  /** Delivery / concept summary ó never fake metrics. */
   outcome?: string;
   /**
    * Optional capability signals for the demonstrates section.
-   * Must stay concept/capability-focused ‚Äî never fake results.
+   * Must stay concept/capability-focused ó never fake results.
    */
   demonstrateSignals?: string[];
   /** Compact concept-direction flow labels (editorial, not metrics). */
@@ -89,7 +89,7 @@ export const PROJECT_CATEGORY_LABELS: Record<AgencyProjectCategory, string> = {
 
 /**
  * Demo portfolio concepts for UI completion.
- * Replace individually with real projects later ‚Äî no UI rewrite required.
+ * Replace individually with real projects later ó no UI rewrite required.
  */
 export const AGENCY_PROJECTS: AgencyProject[] = [
   {
@@ -256,7 +256,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       "Concept storefront for product discovery, collections, and checkout-oriented flows.",
     homepageDescription: "A concept storefront for discovery, collections, and checkout.",
     overview:
-      "Nova Commerce is a demo concept for a modern commerce experience. It focuses on clear product navigation, responsive layouts, and a maintainable storefront structure ‚Äî not a real client engagement.",
+      "Nova Commerce is a demo concept for a modern commerce experience. It focuses on clear product navigation, responsive layouts, and a maintainable storefront structure ó not a real client engagement.",
     category: "websites",
     services: ["Website Development"],
     technologies: ["React", "TypeScript", "CSS"],
@@ -280,9 +280,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates a maintainable commerce UI architecture with clear visual hierarchy and reusable components for future real storefront work.",
     gallery: [
-      { variant: 1, alt: "Nova Commerce concept ‚Äî storefront overview frame", layout: "full" },
-      { variant: 2, alt: "Nova Commerce concept ‚Äî product grid frame", layout: "default" },
-      { variant: 3, alt: "Nova Commerce concept ‚Äî detail panel frame", layout: "portrait" },
+      { variant: 1, alt: "Nova Commerce concept ó storefront overview frame", layout: "full" },
+      { variant: 2, alt: "Nova Commerce concept ó product grid frame", layout: "default" },
+      { variant: 3, alt: "Nova Commerce concept ó detail panel frame", layout: "portrait" },
     ],
   },
   {
@@ -293,7 +293,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     shortDescription: "Dashboard concept for activity, status, and operational views in one place.",
     homepageDescription: "A concept dashboard for activity, status, and operations.",
     overview:
-      "Orbit Dashboard is a demo SaaS interface concept. It shows how dense operational information can stay readable through hierarchy, cards, and restrained data presentation ‚Äî presented as a concept only.",
+      "Orbit Dashboard is a demo SaaS interface concept. It shows how dense operational information can stay readable through hierarchy, cards, and restrained data presentation ó presented as a concept only.",
     category: "software",
     services: ["Software Development"],
     technologies: ["React", "TypeScript"],
@@ -317,9 +317,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Shows a component-driven dashboard structure suited to future product tooling and internal business applications.",
     gallery: [
-      { variant: 1, alt: "Orbit Dashboard concept ‚Äî overview frame", layout: "full" },
-      { variant: 2, alt: "Orbit Dashboard concept ‚Äî metrics frame", layout: "default" },
-      { variant: 3, alt: "Orbit Dashboard concept ‚Äî activity list frame", layout: "wide" },
+      { variant: 1, alt: "Orbit Dashboard concept ó overview frame", layout: "full" },
+      { variant: 2, alt: "Orbit Dashboard concept ó metrics frame", layout: "default" },
+      { variant: 3, alt: "Orbit Dashboard concept ó activity list frame", layout: "wide" },
     ],
   },
   {
@@ -355,9 +355,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates mobile-first composition and interaction patterns ready to adapt for a future shipped application.",
     gallery: [
-      { variant: 1, alt: "Atlas Mobile concept ‚Äî home screen frame", layout: "portrait" },
-      { variant: 2, alt: "Atlas Mobile concept ‚Äî detail screen frame", layout: "default" },
-      { variant: 3, alt: "Atlas Mobile concept ‚Äî profile screen frame", layout: "portrait" },
+      { variant: 1, alt: "Atlas Mobile concept ó home screen frame", layout: "portrait" },
+      { variant: 2, alt: "Atlas Mobile concept ó detail screen frame", layout: "default" },
+      { variant: 3, alt: "Atlas Mobile concept ó profile screen frame", layout: "portrait" },
     ],
   },
   {
@@ -369,7 +369,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       "WordPress concept for structured pages, reusable sections, and editor-friendly layouts.",
     homepageDescription: "A content concept for structured pages and reusable sections.",
     overview:
-      "Vertex CMS is a demo content-site concept. It focuses on sectioned page composition and CMS-friendly structure ‚Äî not a live WordPress client site.",
+      "Vertex CMS is a demo content-site concept. It focuses on sectioned page composition and CMS-friendly structure ó not a live WordPress client site.",
     category: "wordpress",
     services: ["WordPress", "Custom WordPress Theme"],
     technologies: ["WordPress", "PHP", "CSS"],
@@ -393,9 +393,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Illustrates a content-friendly WordPress theme approach that can later be adapted for a real publishing site.",
     gallery: [
-      { variant: 1, alt: "Vertex CMS concept ‚Äî landing sections frame", layout: "full" },
-      { variant: 2, alt: "Vertex CMS concept ‚Äî article layout frame", layout: "wide" },
-      { variant: 3, alt: "Vertex CMS concept ‚Äî content blocks frame", layout: "default" },
+      { variant: 1, alt: "Vertex CMS concept ó landing sections frame", layout: "full" },
+      { variant: 2, alt: "Vertex CMS concept ó article layout frame", layout: "wide" },
+      { variant: 3, alt: "Vertex CMS concept ó content blocks frame", layout: "default" },
     ],
   },
   {
@@ -431,9 +431,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Demonstrates a scalable software shell and interaction model suitable for future custom platform builds.",
     gallery: [
-      { variant: 1, alt: "Lumen Platform concept ‚Äî workspace frame", layout: "full" },
-      { variant: 2, alt: "Lumen Platform concept ‚Äî modules frame", layout: "default" },
-      { variant: 3, alt: "Lumen Platform concept ‚Äî settings frame", layout: "default" },
+      { variant: 1, alt: "Lumen Platform concept ó workspace frame", layout: "full" },
+      { variant: 2, alt: "Lumen Platform concept ó modules frame", layout: "default" },
+      { variant: 3, alt: "Lumen Platform concept ó settings frame", layout: "default" },
     ],
   },
   {
@@ -446,7 +446,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     homepageDescription:
       "A Shopify concept for merchandising, collections, and storefront presentation.",
     overview:
-      "Forge Store is a demo Shopify commerce concept. It focuses on merchandising layout and storefront clarity for a concept shop ‚Äî not a commissioned Shopify store.",
+      "Forge Store is a demo Shopify commerce concept. It focuses on merchandising layout and storefront clarity for a concept shop ó not a commissioned Shopify store.",
     category: "shopify",
     services: ["Shopify"],
     technologies: ["Shopify", "Liquid", "CSS"],
@@ -470,9 +470,9 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     outcome:
       "Shows a Shopify-oriented theme structure and merchandising presentation ready to adapt for a future real store build.",
     gallery: [
-      { variant: 1, alt: "Forge Store concept ‚Äî storefront frame", layout: "full" },
-      { variant: 2, alt: "Forge Store concept ‚Äî collection frame", layout: "default" },
-      { variant: 3, alt: "Forge Store concept ‚Äî product frame", layout: "portrait" },
+      { variant: 1, alt: "Forge Store concept ó storefront frame", layout: "full" },
+      { variant: 2, alt: "Forge Store concept ó collection frame", layout: "default" },
+      { variant: 3, alt: "Forge Store concept ó product frame", layout: "portrait" },
     ],
   },
   {
@@ -529,7 +529,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
       "A full-screen product concept featuring a 3D can, motion-driven interactions, and playful visual transitions.",
     homepageDescription: "Interactive 3D beverage landing with flavor transitions.",
     overview:
-      "Diet Soda is a published product landing page. A dark radial gradient fills the viewport while a Google model-viewer can tilts toward the cursor. Floating cherry and leaf models use parallax and pointer repulsion; translucent bubbles rise endlessly. Flavor cards choreograph a background morph, a 720¬∞ can spin with texture swap, and berry implode/explode transitions between Classic and Zero Lime.",
+      "Diet Soda is a published product landing page. A dark radial gradient fills the viewport while a Google model-viewer can tilts toward the cursor. Floating cherry and leaf models use parallax and pointer repulsion; translucent bubbles rise endlessly. Flavor cards choreograph a background morph, a 720∞ can spin with texture swap, and berry implode/explode transitions between Classic and Zero Lime.",
     category: "websites",
     services: ["Website Development", "Interactive Web"],
     technologies: ["HTML", "CSS", "JavaScript", "GSAP", "model-viewer"],
@@ -585,7 +585,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     visualMotif: "platform",
     isDemo: false,
     published: true,
-    projectUrl: "https://sunny-cucurucho-3762ed.netlify.app/",
+    projectUrl: "https://hrnordleads-sso.github.io/gallary8/",
     challenge:
       "An AI/health narrative needed a premium, scroll-synchronized 3D specimen instead of a static hero illustration.",
     solution:
@@ -600,7 +600,7 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     gallery: [
       {
         variant: 1,
-        alt: "Neural Monitor Arrival ‚Äî live preview with glowing cerebrum",
+        alt: "Neural Monitor Arrival ó live preview with glowing cerebrum",
         layout: "full",
         image: "/projects/neural-monitor.jpg",
       },
