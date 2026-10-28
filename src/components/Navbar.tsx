@@ -31,7 +31,7 @@ export default function Navbar() {
   const menuId = useId();
   const desktopLanguageSwitcherId = useId();
   const mobileLanguageSwitcherId = useId();
-  const menuItems = getPublishedStudioNavItems();
+  const menuItems = getPublishedStudioNavItems(nav.studio);
   const activeLanguage = resolveActiveLanguage(i18n.resolvedLanguage ?? i18n.language);
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(activeLanguage);
   const primaryCtaLabel = homepageV3.hero.primaryCta;
@@ -92,12 +92,14 @@ export default function Navbar() {
     void changeAppLanguage(language);
   };
 
-  const renderLanguageSwitcher = (switcherId: string) => (
+  const renderLanguageSwitcher = (switcherId: string, menuAlign: "start" | "end" = "end") => (
     <LanguageDropdown
       id={switcherId}
       label={nav.languageLabel}
       value={selectedLanguage}
+      languageCodes={nav.languageCodes ?? {}}
       languageLabels={nav.languages ?? {}}
+      menuAlign={menuAlign}
       onChange={handleLanguageChange}
     />
   );
@@ -136,7 +138,10 @@ export default function Navbar() {
             <HeaderLogo />
           </a>
 
-          <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Primary">
+          <nav
+            className="hidden lg:flex items-center gap-5 xl:gap-7 min-w-0"
+            aria-label={nav.primaryNavLabel || "Primary"}
+          >
             {menuItems.map((item) => {
               const isActive = activeNavId === item.id;
 
@@ -148,7 +153,7 @@ export default function Navbar() {
                     event.preventDefault();
                     handleNavItem(item.id, item.path);
                   }}
-                  className={desktopNavClassName(isActive)}
+                  className={`${desktopNavClassName(isActive)} whitespace-nowrap`}
                   aria-current={isActive ? "page" : undefined}
                 >
                   {item.label}
@@ -163,13 +168,14 @@ export default function Navbar() {
             <PrimaryButton onClick={() => navigateToContact()}>{primaryCtaLabel}</PrimaryButton>
           </div>
 
-          <div className="lg:hidden flex items-center gap-2">
-            {renderLanguageSwitcher(mobileLanguageSwitcherId)}
+          <div className="lg:hidden flex items-center gap-1.5 min-[375px]:gap-2 shrink-0">
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
               className="w-11 h-11 flex items-center justify-center rounded-full border border-white/15 bg-white/5 active:scale-95 transition-all text-white/80 hover:text-white hover:bg-white/10"
-              aria-label={nav.toggleMenuLabel}
+              aria-label={
+                mobileMenuOpen ? nav.closeMenuLabel || nav.toggleMenuLabel : nav.toggleMenuLabel
+              }
               aria-expanded={mobileMenuOpen}
               aria-controls={menuId}
             >
@@ -184,7 +190,7 @@ export default function Navbar() {
             className="lg:hidden border-b border-white/10 bg-[#0C111B]/95 backdrop-blur-2xl overflow-hidden"
             role="dialog"
             aria-modal="true"
-            aria-label="Main menu"
+            aria-label={nav.mobileNavLabel || "Main menu"}
           >
             <div className="px-3 min-[341px]:px-4 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-4 min-[341px]:gap-5">
               {menuItems.map((item) => {
@@ -198,20 +204,26 @@ export default function Navbar() {
                       event.preventDefault();
                       handleNavItem(item.id, item.path);
                     }}
-                    className={mobileNavClassName(isActive)}
+                    className={`${mobileNavClassName(isActive)} min-h-11 flex items-center`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.label}
                   </a>
                 );
               })}
-              <div className="pt-2">
+              <div className="pt-1 border-t border-white/[0.06]">
+                <p className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-white/45">
+                  {nav.languageLabel}
+                </p>
+                {renderLanguageSwitcher(mobileLanguageSwitcherId, "start")}
+              </div>
+              <div className="pt-1">
                 <PrimaryButton
                   onClick={() => {
                     setMobileMenuOpen(false);
                     navigateToContact();
                   }}
-                  className="w-full justify-center"
+                  className="w-full justify-center min-h-11"
                 >
                   {primaryCtaLabel}
                 </PrimaryButton>

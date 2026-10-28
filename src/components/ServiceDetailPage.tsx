@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { navigateAppPath } from "../App";
 import type en from "../i18n/locales/en";
+import { useSiteCopy } from "../lib/useSiteCopy";
 import SectionEyebrow from "./SectionEyebrow";
 import ServicesFaq from "./services/ServicesFaq";
 import ServicesFinalCta from "./services/ServicesFinalCta";
@@ -48,6 +49,17 @@ export default function ServiceDetailPage({
   process,
   finalCta,
 }: ServiceDetailPageProps) {
+  const { studioChrome } = useSiteCopy();
+  const detailChrome = studioChrome.serviceDetail ?? {
+    overviewEyebrow: "Service overview",
+    capabilitiesEyebrow: "Capabilities",
+    benefitsEyebrow: "Key benefits",
+    processEyebrow: "Development process",
+    platformEyebrow: "Platform",
+    relatedEyebrow: "Related services",
+    relatedTitle: "Continue exploring",
+    exploreService: "Explore Service",
+  };
   const pageRef = useRef<HTMLElement | null>(null);
   const serviceId = service.id as ServiceId;
   const detail = SERVICE_DETAIL_CONTENT[serviceId];
@@ -130,7 +142,7 @@ export default function ServiceDetailPage({
         <div className={SERVICES_SHELL_CLASS}>
           <div className="service-detail-overview grid grid-cols-1 gap-6 border-y border-white/[0.08] py-8 md:py-10 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-5">
-              <SectionEyebrow label="Service overview" />
+              <SectionEyebrow label={detailChrome.overviewEyebrow} />
               <h2 id="service-overview-title" className="section-title mt-4 text-balance">
                 {detail.overviewTitle}
               </h2>
@@ -156,7 +168,7 @@ export default function ServiceDetailPage({
       >
         <div className={SERVICES_SHELL_CLASS}>
           <div className="service-detail-section-intro mb-7 max-w-3xl space-y-3 md:mb-8">
-            <SectionEyebrow label="Capabilities" />
+            <SectionEyebrow label={detailChrome.capabilitiesEyebrow} />
             <h2 id="service-capabilities-title" className="section-title">
               {service.capabilitiesTitle}
             </h2>
@@ -178,7 +190,7 @@ export default function ServiceDetailPage({
         <div className={SERVICES_SHELL_CLASS}>
           <div className="service-detail-benefits">
             <div>
-              <SectionEyebrow label="Key benefits" />
+              <SectionEyebrow label={detailChrome.benefitsEyebrow} />
               <h2 id="service-benefits-title" className="section-title mt-4">
                 {detail.benefitsTitle}
               </h2>
@@ -198,7 +210,7 @@ export default function ServiceDetailPage({
       >
         <div className={SERVICES_SHELL_CLASS}>
           <div className="service-detail-section-intro mb-7 max-w-3xl space-y-3 md:mb-8">
-            <SectionEyebrow label="Development process" />
+            <SectionEyebrow label={detailChrome.processEyebrow} />
             <h2 id="service-approach-title" className="section-title">
               {detail.approachTitle}
             </h2>
@@ -224,7 +236,7 @@ export default function ServiceDetailPage({
           <div className={SERVICES_SHELL_CLASS}>
             <div className="service-detail-platform">
               <div>
-                <SectionEyebrow label="Platform" />
+                <SectionEyebrow label={detailChrome.platformEyebrow} />
                 <h2
                   id="service-platforms-title"
                   className="mt-3 text-xl font-semibold tracking-tight text-white sm:text-2xl"
@@ -257,9 +269,9 @@ export default function ServiceDetailPage({
       >
         <div className={SERVICES_SHELL_CLASS}>
           <div className="service-detail-section-intro mb-7 max-w-3xl space-y-3 md:mb-8">
-            <SectionEyebrow label="Related services" />
+            <SectionEyebrow label={detailChrome.relatedEyebrow} />
             <h2 id="related-services-title" className="section-title">
-              Continue exploring
+              {detailChrome.relatedTitle}
             </h2>
           </div>
           <div className="service-detail-related-grid grid grid-cols-1 gap-x-8 md:grid-cols-2 lg:grid-cols-3">
@@ -282,10 +294,10 @@ export default function ServiceDetailPage({
                     <p className="mt-2 text-sm leading-relaxed text-body">
                       {relatedService.shortDescription}
                     </p>
-                    <span className="mt-3 inline-flex whitespace-nowrap items-center gap-2 text-sm font-semibold text-[#A4F4FD]">
-                      Explore service
+                    <span className="mt-3 inline-flex max-w-full flex-wrap items-center gap-2 text-sm font-semibold text-[#A4F4FD]">
+                      {detailChrome.exploreService}
                       <ArrowRight
-                        className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none"
+                        className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-1 motion-reduce:transform-none"
                         aria-hidden
                       />
                     </span>

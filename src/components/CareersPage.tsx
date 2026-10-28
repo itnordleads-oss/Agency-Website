@@ -1,12 +1,13 @@
 import React, { useId, useRef, useState } from "react";
 import { ArrowRight, BriefcaseBusiness, ChevronDown, CircleDot, MessageSquare } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { CAREER_EXPERTISE, CAREER_FAQS, CAREER_JOBS } from "../content/careers";
+import { CAREER_FAQS, CAREER_JOBS } from "../content/careers";
 import { navigateAppPath } from "../App";
 import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import SectionEyebrow from "./SectionEyebrow";
+import CareersWorkTypes from "./careers/CareersWorkTypes";
 import { HOME_AGENCY_SHELL } from "./home-v2/homeAgencyLayout";
 import "./careers.css";
 import "./careersType.css";
@@ -60,7 +61,6 @@ function scrollToCareersSection(id: string) {
 
 export default function CareersPage() {
   const reduceMotion = useReducedMotion();
-  const [activeExpertise, setActiveExpertise] = useState(0);
   const [activePrinciple, setActivePrinciple] = useState(0);
   const [openFaq, setOpenFaq] = useState<string | null>(CAREER_FAQS[0]?.id ?? null);
   const styleRef = useRef<HTMLElement | null>(null);
@@ -68,7 +68,6 @@ export default function CareersPage() {
   const styleVisible = useInView(styleRef, { once: true, amount: 0.3 }) || reduceMotion;
   const hiringVisible = useInView(hiringRef, { once: true, amount: 0.3 }) || reduceMotion;
   const faqBaseId = useId();
-  const activeWork = CAREER_EXPERTISE[activeExpertise] ?? CAREER_EXPERTISE[0];
   const openJobs = CAREER_JOBS.filter((job) => job.status === "open");
 
   React.useEffect(() => {
@@ -192,59 +191,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section className="careers-section careers-expertise" aria-labelledby="work-types-heading">
-        <div className={HOME_AGENCY_SHELL}>
-          <motion.div className="careers-expertise__heading" {...reveal(reduceMotion)}>
-            <SectionEyebrow label="Work types" />
-            <h2 id="work-types-heading" className="section-title text-left">
-              Work across different kinds of digital products
-            </h2>
-          </motion.div>
-          <motion.div className="careers-expertise__rail" {...reveal(reduceMotion, 0.05)}>
-            <div className="careers-expertise__tabs" role="tablist" aria-label="Areas of work">
-              {CAREER_EXPERTISE.map((item, index) => (
-                <button
-                  type="button"
-                  role="tab"
-                  key={item.id}
-                  id={`career-expertise-${item.id}`}
-                  aria-selected={activeExpertise === index}
-                  aria-controls="career-expertise-panel"
-                  tabIndex={activeExpertise === index ? 0 : -1}
-                  className={activeExpertise === index ? "is-active" : ""}
-                  onClick={() => setActiveExpertise(index)}
-                  onFocus={() => setActiveExpertise(index)}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-            <div
-              id="career-expertise-panel"
-              role="tabpanel"
-              aria-labelledby={`career-expertise-${activeWork?.id}`}
-              className="careers-expertise__panel"
-            >
-              <div key={activeWork?.id} className="careers-expertise__panel-copy">
-                <span className="careers-expertise__panel-label">{activeWork?.label}</span>
-                <h3>{activeWork?.label}</h3>
-                <p>{activeWork?.description}</p>
-                <span className="careers-expertise__service-label">Agency service area</span>
-              </div>
-              <div
-                key={`${activeWork?.id}-visual`}
-                className={`careers-expertise__visual careers-expertise__visual--${activeWork?.id}`}
-                aria-hidden
-              >
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <CareersWorkTypes reveal={reveal} />
 
       <section
         ref={styleRef}

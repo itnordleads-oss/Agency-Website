@@ -20,36 +20,60 @@ export type CareerJob = {
  */
 export const CAREER_JOBS: readonly CareerJob[] = [];
 
-export const CAREER_EXPERTISE = [
+export type CareerExpertiseId = "software" | "web" | "mobile" | "shopify" | "wordpress" | "themes";
+
+export type CareerExpertiseItem = {
+  id: CareerExpertiseId;
+  label: string;
+  title: string;
+  description: string;
+  tags: readonly string[];
+};
+
+export const CAREER_EXPERTISE: readonly CareerExpertiseItem[] = [
   {
     id: "software",
     label: "Software",
-    description: "Custom software for workflows, integrations, and product operations.",
+    title: "Software",
+    description:
+      "Custom software for workflows, integrations, internal tools, and product operations.",
+    tags: ["Workflows", "Integrations", "Product Operations"],
   },
   {
     id: "web",
     label: "Web",
-    description: "Websites and digital experiences with clear, maintainable implementation.",
+    title: "Web",
+    description:
+      "Modern websites and web experiences focused on usability, performance, and clear delivery.",
+    tags: ["Usability", "Performance", "Clear Delivery"],
   },
   {
     id: "mobile",
     label: "Mobile",
-    description: "Mobile applications shaped around focused screens and useful actions.",
+    title: "Mobile",
+    description: "Mobile product experiences designed and developed around useful user flows.",
+    tags: ["User Flows", "Focused Screens", "Useful Actions"],
   },
   {
     id: "shopify",
     label: "Shopify",
-    description: "Storefront setup, customization, and commerce-focused improvements.",
+    title: "Shopify",
+    description: "Commerce experiences and Shopify storefront work.",
+    tags: ["Storefronts", "Customization", "Commerce"],
   },
   {
     id: "wordpress",
     label: "WordPress",
-    description: "Content-driven websites designed for practical publishing workflows.",
+    title: "WordPress",
+    description: "WordPress websites focused on maintainability, content, and practical delivery.",
+    tags: ["Content", "Maintainability", "Publishing"],
   },
   {
     id: "themes",
-    label: "Custom themes",
-    description: "Distinct layouts and CMS-editable sections for WordPress sites.",
+    label: "Custom Themes",
+    title: "Custom Themes",
+    description: "Purpose-built WordPress theme work for more tailored website requirements.",
+    tags: ["Layouts", "Components", "CMS Sections"],
   },
 ] as const;
 

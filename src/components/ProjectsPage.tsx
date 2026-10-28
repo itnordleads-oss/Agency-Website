@@ -5,12 +5,12 @@ import ProjectsFinalCta from "./projects/ProjectsFinalCta";
 import ProjectsHero from "./projects/ProjectsHero";
 import {
   getInteractiveDemoProjects,
-  getProjectCategoryLabel,
   getPublishedProjectCategories,
   getPublishedProjects,
 } from "../lib/agencyProjects";
 import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
+import { useSiteCopy } from "../lib/useSiteCopy";
 import type { AgencyProjectCategory } from "../content/agencyProjects";
 import "./projects/projectsPage.css";
 import "./projects/projectsApproach.css";
@@ -18,39 +18,12 @@ import "./projects/projectsType.css";
 
 type FilterId = "all" | AgencyProjectCategory;
 
-const APPROACH_STEPS = [
-  {
-    id: "requirements",
-    label: "Requirements",
-    description: "Understand the project goals, users, constraints, and required outcome.",
-  },
-  {
-    id: "scope",
-    label: "Scope",
-    description: "Define the priorities, boundaries, and work needed for the next delivery stage.",
-  },
-  {
-    id: "build",
-    label: "Build",
-    description: "Turn the approved direction into working software or a digital experience.",
-  },
-  {
-    id: "review",
-    label: "Review",
-    description: "Check functionality, usability, visual quality, and implementation together.",
-  },
-  {
-    id: "delivery",
-    label: "Delivery",
-    description: "Prepare the project for launch, handoff, or the next round of improvements.",
-  },
-] as const;
-
 /**
  * Public Projects / Portfolio index at `/projects`.
  * One grid derived from AGENCY_PROJECTS — no featured duplicate strip.
  */
 export default function ProjectsPage() {
+  const { projectsPage, t } = useSiteCopy();
   const projects = useMemo(() => getPublishedProjects(), []);
   const interactiveDemos = useMemo(() => getInteractiveDemoProjects(), []);
   const categories = useMemo(() => getPublishedProjectCategories(), []);
@@ -58,6 +31,11 @@ export default function ProjectsPage() {
   const [filter, setFilter] = useState<FilterId>("all");
   const approachRef = useRef<HTMLElement | null>(null);
   const [approachVisible, setApproachVisible] = useState(false);
+
+  const categoryLabel = (category: AgencyProjectCategory) => {
+    const labels = projectsPage.categories as Record<string, string>;
+    return labels[category] || category;
+  };
 
   useEffect(() => {
     const seo = getAgencyPageSeo("projects");
@@ -146,6 +124,8 @@ export default function ProjectsPage() {
   const visibleProjects =
     filter === "all" ? projects : projects.filter((project) => project.category === filter);
 
+  const countLede = t("projectsPage.grid.countLede", { count: projects.length });
+
   return (
     <main className="min-w-0 flex-grow" id="projects-page" aria-labelledby="projects-hero-title">
       <ProjectsHero />
@@ -156,18 +136,16 @@ export default function ProjectsPage() {
       >
         <div className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-6">
           <div className="space-y-1.5">
-            <SectionEyebrow label="SELECTED PROJECTS" />
+            <SectionEyebrow label={projectsPage.grid.eyebrow} />
             <h2
               id="all-projects-heading"
               className="section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              Selected projects
+              {projectsPage.grid.title}
             </h2>
             <p className="projects-section-lede max-w-2xl">
-              {projects.length > 0
-                ? `${projects.length} live demo websites — open any available project to view the deployed experience.`
-                : "Explore our current collection of demo websites and software experiences."}
+              {projects.length > 0 ? countLede : projectsPage.grid.emptyLede}
             </p>
           </div>
 
@@ -176,17 +154,17 @@ export default function ProjectsPage() {
               <div
                 className="projects-filter-row flex max-w-full gap-2 overflow-x-auto pb-0.5 md:flex-wrap md:justify-end md:overflow-visible md:pb-0 md:max-w-xl"
                 role="group"
-                aria-label="Filter projects by category"
+                aria-label={projectsPage.grid.filterAriaLabel}
               >
                 <FilterChip
-                  label="All"
+                  label={projectsPage.grid.filterAll}
                   active={filter === "all"}
                   onClick={() => setFilter("all")}
                 />
                 {categories.map((category) => (
                   <FilterChip
                     key={category}
-                    label={getProjectCategoryLabel(category)}
+                    label={categoryLabel(category)}
                     active={filter === category}
                     onClick={() => setFilter(category)}
                   />
@@ -206,7 +184,7 @@ export default function ProjectsPage() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-white/55">No projects match this filter.</p>
+          <p className="text-sm text-white/55">{projectsPage.grid.noMatch}</p>
         )}
       </section>
 
@@ -221,11 +199,9 @@ export default function ProjectsPage() {
               className="section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              Interactive demos
+              {projectsPage.grid.interactiveTitle}
             </h2>
-            <p className="projects-section-lede max-w-2xl">
-              Openable product shells with dummy data — not live client commissions.
-            </p>
+            <p className="projects-section-lede max-w-2xl">{projectsPage.grid.interactiveLede}</p>
           </div>
           <div className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5">
             {interactiveDemos.map((project, index) => (
@@ -244,27 +220,21 @@ export default function ProjectsPage() {
       >
         <div className="projects-approach__layout">
           <div className="min-w-0">
-            <SectionEyebrow label="PROJECT APPROACH" />
+            <SectionEyebrow label={projectsPage.approach.eyebrow} />
             <h2
               id="projects-approach-heading"
               className="projects-approach__heading section-title text-left"
               style={{ textWrap: "balance" }}
             >
-              From requirements to a useful digital product
+              {projectsPage.approach.title}
             </h2>
-            <p className="projects-approach__lede text-body">
-              We move from clear requirements and focused scope through development, review,
-              testing, and delivery.
-            </p>
+            <p className="projects-approach__lede text-body">{projectsPage.approach.lede}</p>
           </div>
-          <p className="projects-approach__copy text-body">
-            Requirements, scope, development, review, and delivery — kept clear from start to
-            finish.
-          </p>
+          <p className="projects-approach__copy text-body">{projectsPage.approach.copy}</p>
         </div>
 
-        <ol className="projects-approach__rail" aria-label="Delivery path">
-          {APPROACH_STEPS.map((step, index) => (
+        <ol className="projects-approach__rail" aria-label={projectsPage.approach.railAriaLabel}>
+          {projectsPage.approach.steps.map((step, index) => (
             <li
               key={step.id}
               className="projects-approach__step"

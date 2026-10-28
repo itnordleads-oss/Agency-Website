@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import type { AgencyProject } from "../../content/agencyProjects";
@@ -37,19 +37,16 @@ function resolveActiveProject(
 }
 
 /**
- * Homepage project spotlight.
- *
- * Critical invariant: one `activeProjectSlug` → one `activeProject` object →
- * every visible field (selector, visual, metadata, CTA). One keyed render
- * boundary changes that object atomically, so stale project fields cannot
- * remain in the DOM.
+ * Homepage project spotlight — curated interactive showcase.
+ * One active slug drives preview, metadata, and CTA atomically.
  */
 export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProjectSpotlightProps) {
   const reduceMotion = useReducedMotion();
   const baseId = useId();
+  const indexRef = useRef<HTMLDivElement | null>(null);
   const [activeProjectSlug, setActiveProjectSlug] = useState(() => projects[0]?.slug ?? "");
+  const [swapKey, setSwapKey] = useState(0);
 
-  // Keep selection valid if centralized featured data changes identity/order.
   useEffect(() => {
     if (projects.length > 0 && !projects.some((entry) => entry.slug === activeProjectSlug)) {
       setActiveProjectSlug(projects[0]?.slug ?? "");
@@ -58,17 +55,28 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
 
   const activeProject = resolveActiveProject(projects, activeProjectSlug);
 
+  useEffect(() => {
+    const root = indexRef.current;
+    if (!root) {
+      return;
+    }
+    root.querySelector<HTMLElement>('[aria-selected="true"]')?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      inline: "nearest",
+      block: "nearest",
+    });
+  }, [activeProjectSlug, reduceMotion]);
+
   if (!activeProject) {
     return null;
   }
 
-  // Derive ALL presentation fields from the same object — never from parallel state.
   const liveUrl =
     !activeProject.isDemo && activeProject.projectUrl ? activeProject.projectUrl : null;
   const href = liveUrl ?? getProjectPath(activeProject.slug);
   const categoryLabel = getProjectCategoryLabel(activeProject.category);
   const serviceLabel = activeProject.services?.[0];
-  const technologies = (activeProject.technologies ?? []).slice(0, 3).join(" · ");
+  const technologies = (activeProject.technologies ?? []).slice(0, 4);
   const activeIndex = Math.max(
     0,
     projects.findIndex((entry) => entry.slug === activeProject.slug)
@@ -77,13 +85,11 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
   const tabId = (index: number) => `${baseId}-tab-${index}`;
 
   const activateSlug = (slug: string) => {
-    if (!projects.some((entry) => entry.slug === slug)) {
-      return;
-    }
-    if (slug === activeProjectSlug) {
+    if (!projects.some((entry) => entry.slug === slug) || slug === activeProjectSlug) {
       return;
     }
     setActiveProjectSlug(slug);
+    setSwapKey((value) => value + 1);
   };
 
   const activateIndex = (index: number) => {
@@ -127,36 +133,49 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
         role="tabpanel"
         aria-labelledby={tabId(activeIndex)}
       >
-        {/* One atomic active-project surface; deliberately no exiting layers. */}
         <div
-          key={activeProject.slug}
+          key={`${activeProject.slug}-${swapKey}`}
           className={`home-agency-spotlight__active${
             reduceMotion ? "" : " home-agency-spotlight__active--enter"
           }`}
           data-project-slug={activeProject.slug}
         >
-          <div className="home-agency-spotlight__visual">
-            {activeProject.isDemo ? (
-              <span className="home-agency-spotlight__badge">Concept Project</span>
-            ) : liveUrl ? (
-              <span className="home-agency-spotlight__badge">Live</span>
-            ) : null}
-            <div className="home-agency-spotlight__visual-inner">
-              {activeProject.thumbnail ? (
-                <img
-                  src={activeProject.thumbnail}
-                  alt={activeProject.thumbnailAlt || ""}
-                  className="home-agency-spotlight__image"
-                />
-              ) : (
-                <ProjectVisual
-                  key={activeProject.slug}
-                  motif={activeProject.visualMotif}
-                  variant={1}
-                  density="rich"
-                  className="home-agency-spotlight__project-visual"
-                />
-              )}
+          <div className="home-agency-spotlight__preview">
+            <div className="home-agency-spotlight__browser">
+              <div className="home-agency-spotlight__chrome" aria-hidden>
+                <span />
+                <span />
+                <span />
+                <div className="home-agency-spotlight__address">
+                  {liveUrl ? "Live demo" : activeProject.isDemo ? "Concept" : "Preview"}
+                </div>
+              </div>
+              <div className="home-agency-spotlight__visual">
+                {activeProject.isDemo ? (
+                  <span className="home-agency-spotlight__badge">Concept Project</span>
+                ) : liveUrl ? (
+                  <span className="home-agency-spotlight__badge">Live</span>
+                ) : null}
+                <div className="home-agency-spotlight__visual-inner">
+                  {activeProject.thumbnail ? (
+                    <img
+                      src={activeProject.thumbnail}
+                      alt={activeProject.thumbnailAlt || ""}
+                      className="home-agency-spotlight__image"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <ProjectVisual
+                      key={activeProject.slug}
+                      motif={activeProject.visualMotif}
+                      variant={1}
+                      density="rich"
+                      className="home-agency-spotlight__project-visual"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -166,7 +185,9 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
                 {activeProject.isDemo ? (
                   <span className="home-agency-spotlight__pill">Concept Project</span>
                 ) : liveUrl ? (
-                  <span className="home-agency-spotlight__pill">Live</span>
+                  <span className="home-agency-spotlight__pill home-agency-spotlight__pill--live">
+                    Live
+                  </span>
                 ) : null}
                 <span className="home-agency-spotlight__pill">{categoryLabel}</span>
               </div>
@@ -177,7 +198,13 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
               <p className="home-agency-spotlight__detail-label">Delivery focus</p>
               <div className="home-agency-spotlight__stack">
                 {serviceLabel ? <strong>{serviceLabel}</strong> : null}
-                {technologies ? <span>{technologies}</span> : null}
+                {technologies.length > 0 ? (
+                  <ul className="home-agency-spotlight__tech" aria-label="Technologies">
+                    {technologies.map((tech) => (
+                      <li key={tech}>{tech}</li>
+                    ))}
+                  </ul>
+                ) : null}
               </div>
               <a
                 href={href}
@@ -186,20 +213,12 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
                 rel={liveUrl ? "noopener noreferrer" : undefined}
                 aria-label={
                   liveUrl
-                    ? activeProject.projectType === "Software product" ||
-                      activeProject.visualMotif === "dashboard"
-                      ? `Open application: ${activeProject.title}`
-                      : `Visit website: ${activeProject.title}`
+                    ? `Visit website: ${activeProject.title}`
                     : `View project: ${activeProject.title}`
                 }
                 onClick={liveUrl ? undefined : (event) => navigateProject(event, href)}
               >
-                {liveUrl
-                  ? activeProject.projectType === "Software product" ||
-                    activeProject.visualMotif === "dashboard"
-                    ? "Open application"
-                    : "Visit website"
-                  : "View Project"}
+                {liveUrl ? "Visit Website" : "View Project"}
                 <ArrowRight className="home-agency-spotlight__cta-arrow h-4 w-4" aria-hidden />
               </a>
             </div>
@@ -208,6 +227,7 @@ export default function HomeAgencyProjectSpotlight({ projects }: HomeAgencyProje
       </div>
 
       <div
+        ref={indexRef}
         className="home-agency-spotlight__index"
         role="tablist"
         aria-label="Selected projects"

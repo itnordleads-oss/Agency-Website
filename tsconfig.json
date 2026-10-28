@@ -17,5 +17,11 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "exclude": ["node_modules", "dist", "nordleads-platform-next", "src/**/*.test.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "nordleads-platform-next",
+    "src/**/*.test.ts",
+    "_locale_extract"
+  ]
 }
