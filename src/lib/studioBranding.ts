@@ -50,7 +50,7 @@ const APPROVED = {
   studioName: "Nordlead Studio" as string | null,
   domain: null as string | null,
   logoSrc: "/brand/nordlead-studio-logo-production.png" as string | null,
-  faviconHref: null as string | null,
+  faviconHref: "/favicon.ico" as string | null,
   ogImagePath: null as string | null,
   contactEmail: null as string | null,
   contactPhone: null as string | null,
