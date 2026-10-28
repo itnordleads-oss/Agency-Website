@@ -1461,38 +1461,44 @@ const en = {
       ],
     },
     value: {
-      eyebrow: "Why Work With Us",
+      eyebrow: "Why work with us",
       title: "A practical development approach built around clear delivery",
-      subtitle:
-        "We keep communication, scope, and implementation clear from the start so each project can move forward with fewer surprises.",
+      subtitle: "Clear communication and practical engineering from scope through delivery.",
       items: [
         {
+          shortLabel: "Communication",
           title: "Clear Communication",
           description:
-            "Project priorities, decisions, and next steps stay visible throughout the work.",
+            "Keep project priorities, decisions, scope, and next steps visible throughout delivery.",
+          points: ["Visible priorities", "Shared decisions", "Clear next steps"],
         },
         {
+          shortLabel: "Engineering",
           title: "Practical Engineering",
           description:
-            "We choose solutions that fit the actual product needs instead of adding unnecessary complexity.",
+            "Choose solutions appropriate to the actual product requirement rather than adding unnecessary complexity.",
+          points: ["Requirement-led", "Right-sized solutions", "Useful implementation"],
         },
         {
+          shortLabel: "Delivery",
           title: "Structured Delivery",
           description:
-            "Work is broken into clear stages so progress can be reviewed before moving forward.",
+            "Break work into clear stages so progress can be reviewed before moving forward.",
+          points: ["Clear stages", "Reviewable progress", "Managed scope"],
         },
         {
+          shortLabel: "Change",
           title: "Built for Change",
           description:
-            "We build with future updates, new requirements, and ongoing product improvements in mind.",
+            "Build with future updates, changing requirements, and continued product improvement in mind.",
+          points: ["Update-ready", "Changing requirements", "Continued improvement"],
         },
       ],
     },
     workPreview: {
-      eyebrow: "Selected Work",
-      title: "Selected digital experiences",
-      subtitle:
-        "Explore live demo websites created to demonstrate different design, development, and interaction approaches.",
+      eyebrow: "Portfolio",
+      title: "Selected Digital Experiences",
+      subtitle: "A curated look at live demo websites from the studio portfolio.",
       cta: "View All Projects",
     },
     process: {
