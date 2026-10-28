@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Homepage Why Work With Us — interactive delivery-principles experience.
  */
 
@@ -211,23 +211,75 @@
 }
 
 .home-agency-value__points {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
   margin: 0;
   padding: 0;
   list-style: none;
+  min-width: 0;
 }
 
-.home-agency-value__points li {
-  border: 1px solid rgba(0, 210, 255, 0.28);
+.home-agency-value__point {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 0.55rem;
+  border: 1px solid rgba(0, 210, 255, 0.18);
+  border-radius: 0.75rem; /* 12px */
+  background: rgba(12, 17, 27, 0.55);
+  padding: 0.55rem 0.7rem;
+  min-height: 2.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.home-agency-value__point-dot {
+  flex-shrink: 0;
+  width: 0.375rem;
+  height: 0.375rem;
+  margin-top: 0.45rem;
   border-radius: 999px;
-  background: rgba(0, 210, 255, 0.07);
-  padding: 0.28rem 0.7rem;
-  font-size: 0.72rem;
-  font-weight: 650;
-  letter-spacing: 0.03em;
-  color: rgba(210, 248, 255, 0.92);
+  background: #00d2ff;
+  box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.12);
+}
+
+.home-agency-value__point-label {
+  min-width: 0;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: rgba(235, 250, 255, 0.9);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .home-agency-value__points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-agency-value__points {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .home-agency-value__point {
+    border-radius: 0.7rem; /* ~11px */
+    padding: 0.6rem 0.75rem;
+  }
+
+  .home-agency-value__point-label {
+    font-size: 0.9375rem; /* 15px */
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-agency-value__point-label {
+    font-size: 1rem; /* 16px */
+  }
 }
 
 .home-agency-value__diagram {

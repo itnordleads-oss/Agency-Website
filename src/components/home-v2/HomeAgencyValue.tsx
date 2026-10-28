@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useId, useRef, useState } from "react";
+﻿import React, { useCallback, useEffect, useId, useRef, useState } from "react";
 import { MessagesSquare, Code2, Layers, RefreshCw, type LucideIcon } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
@@ -235,9 +235,12 @@ export default function HomeAgencyValue() {
               </div>
               <p className="home-agency-value__lead-copy">{active.description}</p>
               {active.points?.length ? (
-                <ul className="home-agency-value__points">
+                <ul className="home-agency-value__points" aria-label="Principle highlights">
                   {active.points.map((point) => (
-                    <li key={point}>{point}</li>
+                    <li key={point} className="home-agency-value__point">
+                      <span className="home-agency-value__point-dot" aria-hidden />
+                      <span className="home-agency-value__point-label">{point}</span>
+                    </li>
                   ))}
                 </ul>
               ) : null}
