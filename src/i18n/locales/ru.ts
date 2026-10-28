@@ -1,20 +1,37 @@
 const ru = {
   common: {
-    brand: "ADealForge",
-    ctaBookPilot: "Записаться на пилотный звонок",
+    brand: "Agency",
+    ctaBookPilot: "Давайте обсудим",
   },
   nav: {
-    toggleMenuLabel: "Открыть меню",
+    toggleMenuLabel: "Открыть или закрыть меню",
     languageLabel: "Язык",
+    closeMenuLabel: "Закрыть меню",
+    primaryNavLabel: "Основная навигация",
+    mobileNavLabel: "Главное меню",
     languages: {
+      en: "English",
+      pl: "Polski",
+      de: "Deutsch",
+      ru: "Русский",
+      fr: "Français",
+      es: "Español",
+    },
+    languageCodes: {
       en: "EN",
-      ru: "RU",
+      pl: "PL",
       de: "DE",
-      es: "ES",
+      ru: "RU",
       fr: "FR",
-      pt: "PT",
-      it: "IT",
-      zh: "ZH",
+      es: "ES",
+    },
+    studio: {
+      home: "Главная",
+      about: "О нас",
+      services: "Услуги",
+      projects: "Проекты",
+      careers: "Карьера",
+      contact: "Контакты",
     },
     menu: [
       {
@@ -39,7 +56,7 @@ const ru = {
       },
       {
         id: "v2-pricing",
-        label: "Цены",
+        label: "Тарифы",
       },
       {
         id: "contact",
@@ -47,71 +64,250 @@ const ru = {
       },
     ],
   },
+  studioChrome: {
+    footerExplore: "Разделы",
+    footerCompany: "Компания",
+    footerLegal: "Правовая информация",
+    footerAriaLabel: "Подвал сайта",
+    footerExploreAria: "Подвал — Разделы",
+    footerCompanyAria: "Подвал — Компания",
+    footerLegalAria: "Подвал — Правовая информация",
+    footerHomeAriaSuffix: "главная",
+    footerDescription: "Разработка заказного ПО и цифровых продуктов для растущих команд.",
+    footerServiceTags: "Цифровые продукты · ПО · Веб",
+    footerCta: "Начать проект",
+    footerCopyright: "© 2026. Все права защищены.",
+    footerServiceLine: "ПО, веб, мобильные приложения, Shopify и WordPress.",
+    serviceNotFoundTitle: "Услуга не найдена",
+    serviceNotFoundBody: "Эта страница услуги недоступна. Откройте полный обзор услуг.",
+    serviceDetail: {
+      overviewEyebrow: "Обзор услуги",
+      capabilitiesEyebrow: "Возможности",
+      benefitsEyebrow: "Ключевые преимущества",
+      processEyebrow: "Процесс разработки",
+      platformEyebrow: "Платформа",
+      relatedEyebrow: "Связанные услуги",
+      relatedTitle: "Продолжить знакомство",
+      exploreService: "Подробнее об услуге",
+    },
+  },
   emailButton: {
-    openLabel: "Написать на {{email}}",
+    openLabel: "Написать нам на {{email}}",
     openingLabel: "Открытие почтового клиента",
-    openingShort: "Открываем...",
+    openingShort: "Открытие...",
     title: "Email {{email}}",
     titleOpening: "Открытие почтового клиента...",
   },
   contactPage: {
     backHome: "На главную",
     eyebrowLabel: "Контакты",
-    eyebrowTag: "Запросить пилот",
-    socialTitle: "Свяжитесь с нами",
+    socialTitle: "Nordlead Studio в сети",
     socialSubtitle:
-      "Следите за ADealForge: обновления продукта, идеи по outbound и новости компании.",
+      "Воспользуйтесь одним из проверенных каналов ниже, чтобы открыть наши публичные профили.",
+    mapTitle: "Наш офис",
+    mapSubtitle:
+      "Мы удалённая компания и работаем онлайн. Адрес ниже — наш зарегистрированный юридический адрес для официальной корреспонденции. Все встречи и работа с клиентами проходят удалённо.",
+    mapOpenMaps: "Открыть в Google Maps",
   },
-  platformPage: {
-    documentTitle: "ADealForge | Платформа",
-    backHome: "На главную",
-    eyebrowLabel: "Платформа",
-    eyebrowTag: "Агентная генерация лидов",
-    title: "Платформа",
-    subtitle:
-      "ADealForge помогает находить подходящие аккаунты, исследовать каждую компанию и готовить понятный первый outreach — с человеческой проверкой и поддержкой кампаний.",
-    statusNote:
-      "Платформа ещё в разработке. Основные рабочие процессы, пайплайны данных и инструменты доставки активно создаются.",
-    ctaLead:
-      "Хотите узнать, что мы строим? Расскажите о ваших outbound-целях — без давления и обязательств.",
-    primaryCta: "Начать разговор",
-    illustrationAriaLabel: "Иллюстрация: платформа в разработке",
-  },
-  workflowPage: {
-    documentTitle: "ADealForge | Процесс",
-    metaDescription:
-      "Как ADealForge ведет outbound от поиска подходящих компаний до готовых первых писем и поддержки кампаний в реальном времени.",
+  aboutPage: {
+    documentTitleSuffix: "О Nordlead Studio | Разработка ПО и цифровых продуктов",
+    hero: {
+      eyebrow: "О Nordlead Studio",
+      title: "Студия разработки с фокусом на практическую цифровую поставку",
+      titleLine1: "Студия разработки с фокусом на",
+      titleLine2: "практическую цифровую поставку",
+      subtitle:
+        "Мы проектируем и создаём заказное ПО, сайты, мобильные приложения и цифровые продукты исходя из реальных требований, понятных приоритетов и поддерживаемых решений.",
+      primaryCta: "Начать проект",
+      secondaryCta: "Смотреть услуги",
+      deliveryEyebrow: "Система поставки",
+      deliveryTitle: "Понятный путь от требований до запуска",
+      deliveryFlow: [
+        {
+          label: "Ввод проекта",
+        },
+        {
+          label: "Понять",
+        },
+        {
+          label: "Собрать",
+        },
+        {
+          label: "Проверить",
+        },
+        {
+          label: "Передать",
+        },
+      ],
+      stageSupport: [
+        "Мы уточняем задачу, пользователей, приоритеты, риски и ожидаемый результат до начала разработки.",
+        "Мы превращаем согласованное направление в понятное, проверяемое ПО и цифровые интерфейсы.",
+        "Мы тестируем важные сценарии, сверяем прогресс и дорабатываем продукт по обратной связи.",
+        "Мы готовим продукт к запуску или передаче с понятными следующими шагами.",
+      ],
+      principles: [
+        {
+          title: "Понятная коммуникация",
+          description:
+            "Приоритеты, решения, прогресс и следующие шаги остаются видимыми на всём протяжении проекта.",
+        },
+        {
+          title: "Практичная инженерия",
+          description:
+            "Мы строим вокруг реальных потребностей продукта, а не добавляем лишнюю техническую сложность.",
+        },
+        {
+          title: "Структурированная поставка",
+          description:
+            "Объём, контрольные точки и ревью помогают держать работу в фокусе и проще оценивать результат.",
+        },
+        {
+          title: "Поддерживаемые решения",
+          description:
+            "Мы стремимся к коду и системам, которые можно понимать, обновлять и расширять со временем.",
+        },
+      ],
+    },
+    whoWeAre: {
+      eyebrow: "Кто мы",
+      title: "Разработка ПО и цифровых продуктов вокруг реальных требований",
+      highlight: "Создавать то, что продукту действительно нужно.",
+      paragraphs: [
+        "Nordlead Studio планирует и создаёт ПО и цифровые продукты вокруг реальной задачи, людей, которые ими пользуются, и результата, который нужно поддержать.",
+        "Мы не относимся к каждому проекту как к одному и тому же шаблону. Сначала уточняем требования, задаём сфокусированный объём и выбираем дизайн и технологии, которые подходят задаче.",
+        "Наша цель проста: создавать полезные цифровые продукты, которые удобно ревьюить, практично поддерживать и развивать по мере изменения требований.",
+      ],
+      exploreServices: "Смотреть услуги",
+      workingModel: ["От требований", "Проверяемая поставка", "Поддерживаемые решения"],
+      sectionMark: "01",
+    },
+    principles: {
+      eyebrow: "Принципы работы",
+      title: "Как мы делаем поставку полезной",
+      subtitle:
+        "Четыре рабочих принципа помогают сохранять ясность сотрудничества, фокус решений и прогресс, согласованный с тем, что продукту нужно дальше.",
+      items: [
+        {
+          title: "Понять задачу",
+          description:
+            "Мы уточняем цели, пользователей, ограничения, приоритеты и то, как должен выглядеть успешный результат, до начала разработки.",
+        },
+        {
+          title: "Определить объём",
+          description:
+            "Мы превращаем требования в сфокусированный план с ясными приоритетами, границами и точками ревью.",
+        },
+        {
+          title: "Собрать и проверить",
+          description:
+            "Мы реализуем работу проверяемыми этапами, чтобы прогресс можно было сверять, обсуждать и улучшать по ходу.",
+        },
+        {
+          title: "Итерировать и передать",
+          description:
+            "Мы дорабатываем продукт по результатам ревью и тестирования, затем готовим его к запуску или следующему этапу поставки.",
+        },
+      ],
+    },
+    focusAreas: {
+      eyebrow: "На чём мы фокусируемся",
+      title: "Практичные возможности для ПО и веб-проектов",
+      subtitle:
+        "Наша работа охватывает основные направления, нужные чтобы планировать, создавать, улучшать и поставлять полезные цифровые продукты.",
+      exploreServices: "Смотреть услуги",
+      items: [
+        {
+          title: "Заказная разработка ПО",
+          description:
+            "ПО вокруг бизнес-процессов, продуктовых требований, внутренних процессов и потребностей пользователей.",
+        },
+        {
+          title: "Цифровые продуктовые интерфейсы",
+          description:
+            "Веб- и мобильные интерфейсы, которые остаются понятными, удобными, отзывчивыми и простыми в поддержке.",
+        },
+        {
+          title: "Frontend и backend разработка",
+          description:
+            "Практичная разработка приложений: интерфейс, логика, API, данные и сопутствующие системы, когда это нужно проекту.",
+        },
+        {
+          title: "Структурированная поставка проектов",
+          description:
+            "Понятный путь от требований и планирования через реализацию, ревью, тестирование и запуск.",
+        },
+      ],
+    },
+    process: {
+      eyebrow: "Как мы работаем",
+      title: "Понятный путь от идеи до запуска",
+      subtitle:
+        "Наш процесс сохраняет работу видимой и проверяемой от первого обсуждения требований до запуска.",
+      steps: [
+        {
+          label: "Понять",
+          description:
+            "Мы уточняем цели, пользователей, требования, ограничения и то, как должен выглядеть успех.",
+        },
+        {
+          label: "Спланировать",
+          description:
+            "Мы определяем объём, приоритеты, техническое направление и следующие шаги поставки.",
+        },
+        {
+          label: "Собрать",
+          description:
+            "Мы превращаем утверждённое направление в работающее ПО через сфокусированную практичную разработку.",
+        },
+        {
+          label: "Проверить",
+          description:
+            "Мы тестируем важные сценарии, вместе оцениваем качество и дорабатываем результат по обратной связи.",
+        },
+        {
+          label: "Запустить",
+          description:
+            "Мы готовим продукт к релизу или передаче и определяем следующие шаги для будущих улучшений.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Готовы начать проект?",
+      subtitle: "Расскажите, что вы создаёте, на каком этапе проект сейчас и с чем нужна помощь.",
+      primaryCta: "Начать разговор",
+      secondaryCta: "Смотреть услуги",
+    },
   },
   cookie: {
     consentModal: {
-      title: "Мы уважаем вашу конфиденциальность",
+      title: "Мы ценим вашу конфиденциальность",
       description:
-        'Мы используем файлы cookie, чтобы улучшить работу сайта, запомнить ваши настройки и анализировать трафик. Дополнительные аналитические cookie применяются только с вашего согласия. Вы можете изменить предпочтения в любое время. Подробнее — в <a href="/terms">Условиях использования</a>.',
+        'Мы используем cookie, чтобы улучшать ваш опыт, анализировать использование сайта и поддерживать необходимую функциональность. <a href="/terms">Условия использования</a>',
       acceptAllBtn: "Принять все",
       acceptNecessaryBtn: "Отклонить необязательные",
-      showPreferencesBtn: "Настроить",
+      showPreferencesBtn: "Настроить предпочтения",
     },
     preferencesModal: {
       title: "Настройки конфиденциальности",
       acceptAllBtn: "Принять все",
       acceptNecessaryBtn: "Отклонить необязательные",
-      savePreferencesBtn: "Сохранить",
-      closeIconLabel: "Закрыть",
+      savePreferencesBtn: "Сохранить предпочтения",
+      closeIconLabel: "Закрыть настройки",
       sections: [
         {
-          title: "Ваш выбор",
+          title: "Ваш выбор конфиденциальности",
           description:
-            "Выберите, какие дополнительные сервисы можно включить. Необходимые cookie обеспечивают работу сайта и сохраняют ваш выбор.",
+            "Выберите, какие необязательные сервисы можно включить. Необходимые cookie обеспечивают работу сайта и сохраняют ваш выбор согласия.",
         },
         {
           title: "Необходимые",
-          description: "Нужны для базовой работы сайта и хранения ваших настроек согласия.",
+          description: "Нужны для базовой работы сайта и хранения ваших предпочтений cookie.",
           linkedCategory: "necessary",
         },
         {
           title: "Аналитика",
           description:
-            "Google Analytics 4 помогает измерять посещаемость и производительность страниц, если вы разрешите аналитические cookie.",
+            "Google Analytics 4 помогает измерять трафик и производительность страниц, если вы разрешите аналитические cookie.",
           linkedCategory: "analytics",
         },
       ],
@@ -123,21 +319,23 @@ const ru = {
     eyebrowTag: "Условия использования",
     title: "Условия использования",
     intro:
-      'Настоящие Условия использования ("Условия") регулируют доступ к сайту ADealForge по адресу adealforge.com ("Сайт"), которым управляет ADealForge ("ADealForge", "мы", "нас" или "наш"). Получая доступ к Сайту или используя его, вы соглашаетесь соблюдать эти Условия. Если вы не согласны, пожалуйста, не используйте Сайт.',
-    effective: "Действуют с {{date}}",
+      "Настоящие Условия использования («Условия») регулируют ваш доступ к этому веб-сайту («Сайт») и его использование. Оператором Сайта является Agency («Agency», «мы», «нас» или «наш»). Получая доступ к Сайту или используя его, вы соглашаетесь соблюдать эти Условия. Если вы не согласны, вы не должны использовать Сайт.",
+    effective: "Действует с {{date}}",
+    lastUpdated: "Последнее обновление {{date}}",
+    tableOfContents: "Содержание",
     summaryTitle: "Кратко",
     sectionsHeading: "Условия использования сайта",
     sectionsIntro:
-      "Внимательно ознакомьтесь с пронумерованными разделами перед использованием Сайта или отправкой заявки.",
-    footerNote: "Нужна копия подписанного клиентского договора? Напишите на {{email}}.",
+      "Пожалуйста, внимательно ознакомьтесь с этими пронумерованными условиями перед использованием Сайта или отправкой запроса.",
+    footerNote: "Нужна копия подписанного клиентского соглашения? Напишите на {{email}}.",
     summaryCards: [
       {
         title: "Использование сайта",
-        body: "Эти Условия применяются к просмотру, запросам и публичным материалам на Сайте. Они не заменяют подписанный коммерческий договор на платные услуги.",
+        body: "Эти Условия применяются к просмотру, запросам и общедоступным материалам на Сайте. Они не заменяют подписанное коммерческое соглашение на платные услуги.",
       },
       {
         title: "Клиентские проекты",
-        body: "Любой платный пилот, управляемый outbound-проект или индивидуальный коммерческий объём регулируется отдельным предложением, формой заказа или соглашением об услугах.",
+        body: "Любой платный проект или индивидуальный коммерческий объём регулируется отдельным предложением или соглашением.",
       },
       {
         title: "Вопросы",
@@ -148,618 +346,1299 @@ const ru = {
       {
         title: "1. Принятие Условий",
         paragraphs: [
-          "By accessing, browsing, or otherwise using the Site, you confirm that you are at least 18 years of age (or the age of legal majority in your jurisdiction) and have the legal capacity to enter into a binding agreement.",
-          'If you access the Site on behalf of a company or other legal entity, you represent that you have authority to bind that entity to these Terms, and "you" refers to that entity.',
+          "Получая доступ к Сайту, просматривая его или иным образом используя его, вы подтверждаете, что вам не менее 18 лет (или вы достигли возраста совершеннолетия в вашей юрисдикции) и что у вас есть правоспособность заключить обязательное соглашение.",
+          "Если вы получаете доступ к Сайту от имени компании или другого юридического лица, вы заявляете, что уполномочены связать это лицо этими Условиями, и «вы» относится к этому лицу.",
         ],
       },
       {
-        title: "2. Изменения Условий",
+        title: "2. Изменения этих Условий",
         paragraphs: [
-          'We may revise these Terms from time to time to reflect changes in law, our services, or Site features. The "Effective" date at the top of this page indicates when the current version took effect.',
-          "Your continued use of the Site after revised Terms are posted constitutes acceptance of the updates. If you do not agree to the revised Terms, you must stop using the Site.",
+          "Мы можем время от времени пересматривать эти Условия, чтобы отразить изменения в законодательстве, наших услугах или функциях Сайта. Дата «Действует с» в верхней части этой страницы указывает, когда вступила в силу текущая версия.",
+          "Продолжение использования Сайта после публикации обновлённых Условий означает принятие обновлений. Если вы не согласны с пересмотренными Условиями, вы должны прекратить использование Сайта.",
         ],
       },
       {
         title: "3. Описание Сайта и услуг",
         paragraphs: [
-          "The Site describes ADealForge's managed B2B outbound, prospecting, research, personalization, and related revenue-support offerings, and provides channels for prospective clients to contact us.",
-          "Content on the Site is for general informational purposes only. It does not constitute a binding offer, legal advice, financial advice, or other regulated professional advice. Service scope, pricing, timelines, and deliverables are defined only in written commercial agreements executed between you and ADealForge.",
+          "Сайт описывает работу Agency в области заказного ПО, веб-сайтов и цифровых продуктов и предоставляет каналы для связи потенциальных клиентов с нами.",
+          "Контент на Сайте носит исключительно общий информационный характер. Он не является обязательным предложением, юридической, финансовой или иной регулируемой профессиональной консультацией. Объём услуг, цены, сроки и результаты определяются только в письменных коммерческих соглашениях, заключённых между вами и Agency.",
         ],
       },
       {
-        title: "4. Запросы и отправляемая информация",
+        title: "4. Аккаунты, запросы и предоставленная информация",
         paragraphs: [
-          "When you submit an inquiry through the Site (including contact forms), you agree to provide accurate, current, and complete information and to update it as needed.",
-          "You must not submit confidential, highly sensitive, or unnecessary personal data unless we have agreed in writing to receive it under an appropriate confidentiality or data-processing framework. You are responsible for the lawfulness of any information you share with us.",
-          "We may use information you submit to respond to your inquiry, evaluate commercial fit, operate spam and security protections, and communicate about relevant services, as further described in our privacy and cookie practices.",
+          "Отправляя запрос через Сайт (включая контактные формы), вы соглашаетесь предоставлять точную, актуальную и полную информацию и обновлять её при необходимости.",
+          "Вы не должны отправлять конфиденциальные, особо чувствительные или ненужные персональные данные, если мы письменно не согласились их принимать в рамках соответствующего режима конфиденциальности или обработки данных. Вы несёте ответственность за законность любой информации, которой делитесь с нами.",
+          "Мы можем использовать предоставленную вами информацию, чтобы ответить на запрос, оценить коммерческую релевантность, обеспечить защиту от спама и безопасность, а также сообщать о релевантных услугах — как подробнее описано в наших практиках конфиденциальности и cookie.",
         ],
       },
       {
         title: "5. Допустимое использование",
         paragraphs: [
-          "You agree to use the Site only for lawful business purposes and in accordance with these Terms. Without limitation, you must not: (a) attempt to gain unauthorized access to the Site, related systems, or data; (b) interfere with or disrupt the Site's integrity or performance; (c) introduce malware, bots, or harmful code; (d) scrape, harvest, or index the Site in a manner that overloads or harms our infrastructure or violates applicable law; (e) reverse engineer any non-public aspect of the Site except where mandatory law permits; or (f) use the Site to transmit unlawful, infringing, deceptive, or harassing content.",
-          "We may suspend or restrict access to the Site if we reasonably believe you have violated these Terms or pose a security or legal risk.",
+          "Вы соглашаетесь использовать Сайт только в законных деловых целях и в соответствии с этими Условиями. Без ограничения вы не должны: (a) пытаться получить несанкционированный доступ к Сайту, связанным системам или данным; (b) вмешиваться в целостность или производительность Сайта или нарушать их; (c) внедрять вредоносное ПО, ботов или вредоносный код; (d) выполнять scraping, сбор или индексацию Сайта способом, который перегружает или вредит нашей инфраструктуре или нарушает применимое право; (e) проводить обратную разработку любых непубличных аспектов Сайта, кроме случаев, когда это разрешено императивным правом; или (f) использовать Сайт для передачи незаконного, нарушающего права, обманного или домогательского контента.",
+          "Мы можем приостановить или ограничить доступ к Сайту, если обоснованно полагаем, что вы нарушили эти Условия или создаёте риск для безопасности или права.",
         ],
       },
       {
         title: "6. Интеллектуальная собственность",
         paragraphs: [
-          "The Site and all related materials—including text, graphics, logos, icons, images, audiovisual content, software, design, and arrangement—are owned by or licensed to ADealForge and are protected by copyright, trademark, and other intellectual property laws.",
-          "Subject to these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Site for your internal business evaluation. No other rights are granted by implication or otherwise. You may not copy, modify, distribute, sell, lease, or commercially exploit Site content without our prior written consent, except for limited excerpts used in good-faith, non-commercial evaluation with attribution where customary.",
+          "Сайт и все связанные материалы — включая текст, графику, логотипы, иконки, изображения, аудиовизуальный контент, ПО, дизайн и компоновку — принадлежат Agency или лицензированы ей и защищены авторским правом, товарными знаками и другими законами об интеллектуальной собственности.",
+          "В соответствии с этими Условиями мы предоставляем вам ограниченную, неисключительную, непередаваемую, отзывную лицензию на доступ к Сайту и его использование для вашей внутренней деловой оценки. Никакие иные права не предоставляются по умолчанию или иным образом. Вы не можете копировать, изменять, распространять, продавать, сдавать в аренду или коммерчески эксплуатировать контент Сайта без нашего предварительного письменного согласия, за исключением ограниченных фрагментов, используемых добросовестно для некоммерческой оценки с указанием авторства, где это принято.",
         ],
       },
       {
         title: "7. Сторонние сервисы и ссылки",
         paragraphs: [
-          "The Site may integrate or link to third-party services such as analytics providers, spam-prevention tools (including CAPTCHA), payment or scheduling tools, and social media platforms. Those services are governed by their own terms and privacy policies.",
-          "ADealForge does not control and is not responsible for third-party content, availability, security, or practices. Linking to a third-party site does not imply endorsement.",
+          "Сайт может интегрировать или ссылаться на сторонние сервисы, такие как аналитика, средства защиты от спама (включая CAPTCHA), инструменты оплаты или планирования и социальные платформы. Эти сервисы регулируются их собственными условиями и политиками конфиденциальности.",
+          "Agency не контролирует и не несёт ответственности за сторонний контент, доступность, безопасность или практики. Ссылка на сторонний сайт не означает одобрения.",
         ],
       },
       {
         title: "8. Cookie и аналитика",
         paragraphs: [
-          "We use necessary cookies to operate the Site and store consent preferences. Optional analytics cookies (for example Google Analytics) are used only with your consent where required. You can manage preferences through our cookie banner or preference center.",
-          "Disabling optional cookies may limit our ability to measure Site performance but will not prevent use of core Site features.",
+          "Мы используем необходимые cookie для работы Сайта и хранения предпочтений согласия. Необязательные аналитические cookie (например, Google Analytics) используются только с вашего согласия, где это требуется. Вы можете управлять предпочтениями через баннер cookie или центр настроек.",
+          "Отключение необязательных cookie может ограничить нашу возможность измерять производительность Сайта, но не помешает использованию основных функций Сайта.",
         ],
       },
       {
         title: "9. Отказ от гарантий",
         paragraphs: [
-          'THE SITE AND ALL CONTENT ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.',
-          "Without limiting the foregoing, we do not warrant that the Site will be uninterrupted, secure, error-free, or free of harmful components, or that content will be accurate, complete, or current. You use the Site at your own risk.",
+          "САЙТ И ВЕСЬ КОНТЕНТ ПРЕДОСТАВЛЯЮТСЯ НА УСЛОВИЯХ «КАК ЕСТЬ» И «ПО МЕРЕ ДОСТУПНОСТИ» БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ — ЯВНЫХ, ПОДРАЗУМЕВАЕМЫХ ИЛИ УСТАНОВЛЕННЫХ ЗАКОНОМ, ВКЛЮЧАЯ ПОДРАЗУМЕВАЕМЫЕ ГАРАНТИИ ТОВАРНОЙ ПРИГОДНОСТИ, ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОЙ ЦЕЛИ, ПРАВА СОБСТВЕННОСТИ И НЕНАРУШЕНИЯ ПРАВ.",
+          "Без ограничения вышесказанного мы не гарантируем, что Сайт будет бесперебойным, безопасным, свободным от ошибок или вредоносных компонентов, или что контент будет точным, полным или актуальным. Вы используете Сайт на свой риск.",
         ],
       },
       {
         title: "10. Ограничение ответственности",
         paragraphs: [
-          "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ADEALFORGE AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND AGENTS WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, REVENUE, DATA, GOODWILL, OR BUSINESS OPPORTUNITY, ARISING OUT OF OR RELATED TO YOUR USE OF (OR INABILITY TO USE) THE SITE, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
-          "TO THE MAXIMUM EXTENT PERMITTED BY LAW, OUR TOTAL LIABILITY ARISING OUT OF OR RELATED TO THE SITE WILL NOT EXCEED ONE HUNDRED U.S. DOLLARS (USD $100) OR THE MINIMUM AMOUNT REQUIRED BY APPLICABLE LAW, WHICHEVER IS GREATER. Some jurisdictions do not allow certain limitations; in those cases, our liability is limited to the fullest extent permitted.",
+          "В МАКСИМАЛЬНОЙ СТЕПЕНИ, ДОПУСТИМОЙ ПРИМЕНИМЫМ ПРАВОМ, AGENCY И ЕЁ АФФИЛИРОВАННЫЕ ЛИЦА, ДОЛЖНОСТНЫЕ ЛИЦА, СОТРУДНИКИ И АГЕНТЫ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ЗА ЛЮБЫЕ КОСВЕННЫЕ, СЛУЧАЙНЫЕ, ОСОБЫЕ, ПОСЛЕДУЮЩИЕ, ШТРАФНЫЕ ИЛИ ПРИМЕРНЫЕ УБЫТКИ, А ТАКЖЕ ЗА ЛЮБУЮ УТРАТУ ПРИБЫЛИ, ВЫРУЧКИ, ДАННЫХ, ДЕЛОВОЙ РЕПУТАЦИИ ИЛИ БИЗНЕС-ВОЗМОЖНОСТЕЙ, ВОЗНИКАЮЩИЕ ИЗ ВАШЕГО ИСПОЛЬЗОВАНИЯ САЙТА (ИЛИ НЕВОЗМОЖНОСТИ ЕГО ИСПОЛЬЗОВАТЬ) ИЛИ СВЯЗАННЫЕ С НИМ, НЕЗАВИСИМО ОТ ОСНОВАНИЯ — ГАРАНТИЯ, ДОГОВОР, ДЕЛИКТ (ВКЛЮЧАЯ НЕБРЕЖНОСТЬ) ИЛИ ИНАЯ ПРАВОВАЯ ТЕОРИЯ — ДАЖЕ ЕСЛИ ИМ БЫЛО ИЗВЕСТНО О ВОЗМОЖНОСТИ ТАКИХ УБЫТКОВ.",
+          "В МАКСИМАЛЬНОЙ СТЕПЕНИ, ДОПУСТИМОЙ ЗАКОНОМ, НАША СОВОКУПНАЯ ОТВЕТСТВЕННОСТЬ, ВОЗНИКАЮЩАЯ ИЗ САЙТА ИЛИ СВЯЗАННАЯ С НИМ, НЕ ПРЕВЫСИТ СТА ДОЛЛАРОВ США (USD $100) ИЛИ МИНИМАЛЬНУЮ СУММУ, ТРЕБУЕМУЮ ПРИМЕНИМЫМ ПРАВОМ, В ЗАВИСИМОСТИ ОТ ТОГО, ЧТО БОЛЬШЕ. Некоторые юрисдикции не допускают определённых ограничений; в таких случаях наша ответственность ограничивается в наибольшей допустимой степени.",
         ],
       },
       {
         title: "11. Возмещение убытков",
         paragraphs: [
-          "You agree to defend, indemnify, and hold harmless ADealForge and its affiliates, officers, employees, and agents from and against any claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Site; (b) your violation of these Terms; or (c) your violation of any law or third-party right in connection with the Site.",
+          "Вы соглашаетесь защищать, возмещать убытки и ограждать Agency и её аффилированных лиц, должностных лиц, сотрудников и агентов от любых претензий, ущерба, убытков, обязательств, затрат и расходов (включая разумные расходы на адвокатов), возникающих из: (a) вашего использования Сайта; (b) вашего нарушения этих Условий; или (c) вашего нарушения любого закона или права третьей стороны в связи с Сайтом — или связанных с этим.",
         ],
       },
       {
-        title: "12. Прекращение доступа",
+        title: "12. Прекращение",
         paragraphs: [
-          "We may terminate or suspend your access to the Site at any time, with or without notice, if we believe you have violated these Terms or if we discontinue the Site.",
-          "Upon termination, the license granted under Section 6 ends immediately. Sections that by their nature should survive (including intellectual property, disclaimers, limitations of liability, indemnification, and governing law) will survive termination.",
+          "Мы можем прекратить или приостановить ваш доступ к Сайту в любое время, с уведомлением или без него, если полагаем, что вы нарушили эти Условия, или если мы прекращаем работу Сайта.",
+          "При прекращении лицензия, предоставленная согласно разделу 6, заканчивается немедленно. Разделы, которые по своей природе должны сохранять силу (включая интеллектуальную собственность, отказы от гарантий, ограничения ответственности, возмещение убытков и применимое право), сохраняют силу после прекращения.",
         ],
       },
       {
-        title: "13. Применимое право и споры",
+        title: "13. Применимое право и разрешение споров",
         paragraphs: [
-          "These Terms are governed by the laws applicable in the jurisdiction where ADealForge principally conducts business, without regard to conflict-of-law principles, except where mandatory consumer or local laws provide otherwise.",
-          "Before filing a formal claim, you agree to contact us at {{email}} and attempt to resolve the dispute informally within thirty (30) days. If unresolved, disputes will be resolved in the courts of competent jurisdiction in that principal place of business, unless applicable law requires another forum.",
+          "Эти Условия регулируются законами юрисдикции, в которой Agency преимущественно ведёт деятельность, без учёта коллизионных норм, за исключением случаев, когда императивное потребительское или местное право предусматривает иное.",
+          "До подачи официальной претензии вы соглашаетесь связаться с нами по адресу {{email}} и попытаться разрешить спор в неформальном порядке в течение тридцати (30) дней. Если спор не урегулирован, он будет разрешаться в судах компетентной юрисдикции по месту основного ведения деятельности, если применимое право не требует иного форума.",
         ],
       },
       {
         title: "14. Делимость и полнота соглашения",
         paragraphs: [
-          "If any provision of these Terms is held unenforceable, that provision will be enforced to the maximum extent permissible, and the remaining provisions will remain in full force and effect.",
-          "These Terms, together with any notices or policies expressly referenced on the Site (including cookie preferences), constitute the entire agreement between you and ADealForge regarding Site use and supersede prior understandings on that subject. They do not supersede executed commercial agreements for paid services.",
+          "Если какое-либо положение этих Условий признано неисполнимым, оно будет применяться в максимально допустимой степени, а остальные положения сохранят полную силу.",
+          "Эти Условия вместе с любыми уведомлениями или политиками, прямо указанными на Сайте (включая предпочтения cookie), составляют полное соглашение между вами и Agency относительно использования Сайта и заменяют предыдущие договорённости по этому предмету. Они не заменяют заключённые коммерческие соглашения на платные услуги.",
         ],
       },
       {
         title: "15. Контакты",
         paragraphs: [
-          "For questions about these Terms & Conditions, contact ADealForge at {{email}}.",
-          "Active clients seeking information about commercial terms, confidentiality, data processing, or deliverables should refer to their signed agreement or contact their ADealForge representative.",
+          "По вопросам об этих Условиях использования свяжитесь с Agency по адресу {{email}}.",
+          "Действующим клиентам, которым нужна информация о коммерческих условиях, конфиденциальности, обработке данных или результатах работ, следует обращаться к подписанному соглашению или к своему представителю Agency.",
         ],
       },
     ],
   },
   footer: {
-    title: "Запустите пилотный процесс.",
+    title: "Давайте начнём разговор.",
     subtitle:
-      "Расскажите, какой рынок, сектор или тип компаний хотите таргетировать. Мы поможем собрать структурированный процесс проспектинга под ваши цели.",
-    confidential: "Профессиональная и конфиденциальная бизнес-дискуссия",
-    scaleProof: "Процесс подтвержден на масштабе outreach до 100 000 компаний",
-    successTitle: "Запрос на пилот получен",
-    successBody:
-      "Спасибо. Представитель свяжется с вами по рабочему email в течение одного рабочего дня, чтобы согласовать следующие шаги.",
-    submitAnother: "Отправить еще один запрос",
+      "Расскажите, что вы создаёте, с чем нужна помощь и на каком этапе проект. Мы используем этот контекст, чтобы понять следующий практичный шаг.",
+    confidential: "Начните с проекта, требований или задачи, которую хотите решить.",
+    scaleProof: "Ваше сообщение помогает понять объём до обсуждения возможных следующих шагов.",
+    formSupport:
+      "Полная спецификация не нужна. Короткого описания проекта и текущей задачи достаточно, чтобы начать.",
+    successTitle: "Спасибо — ваше сообщение получено.",
+    successBody: "Мы изучим детали и используем их, чтобы понять следующий шаг.",
+    submitAnother: "Отправить ещё одно сообщение",
     fields: {
-      businessName: "Название компании",
-      businessNamePlaceholder: "Ваша компания",
-      businessEmail: "Рабочий email",
+      businessName: "Имя",
+      businessNamePlaceholder: "Ваше имя или компания",
+      businessEmail: "Email",
       businessEmailPlaceholder: "you@company.com",
-      targetMarket: "Целевой рынок или сектор",
-      targetMarketPlaceholder: "Опишите страну, сектор или тип компаний для таргетинга",
+      targetMarket: "Над чем вы работаете?",
+      targetMarketPlaceholder:
+        "Расскажите о продукте, сайте, приложении, магазине или процессе, с которым нужна помощь.",
       website: "Сайт",
     },
-    loadingProtection: "Загрузка антиспам-защиты...",
-    spamProtectionTitle: "Антиспам-защита еще загружается.",
-    spamProtectionBody: "Обновите страницу и попробуйте снова через несколько секунд.",
-    submitIdle: "Получить план пилота",
-    submitLoading: "Отправка...",
-    requestReadyTitle: "Ваш запрос почти готов.",
-    noSpam: "Без спама. Один сфокусированный ответ от нашей команды.",
-    nextTitle: "Что дальше",
-    nextSteps: ["15-мин fit-call", "Таргетинг-бриф", "План пилотного запуска"],
-    brandDescription:
-      "ADealForge помогает B2B-командам превращать исследование компаний в структурированный проспектинг, более чистые данные и релевантный outreach.",
-    copyright: "© 2026 ADealForge. Все права защищены.",
-    tagline:
-      "Управляемая B2B outbound-генерация лидов: поиск, исследование, персонализация и отправка — полностью под нашим управлением.",
+    loadingProtection: "Загрузка…",
+    spamProtectionTitle: "На нашей стороне что-то пошло не так.",
+    spamProtectionBody: "Обновите страницу и попробуйте снова через мгновение.",
+    submitIdle: "Начать разговор",
+    submitLoading: "Отправка…",
+    requestReadyTitle: "Не удалось отправить сообщение.",
+    noSpam:
+      "Короткого описания ваших задач по ПО, сайту, мобильному приложению, Shopify или WordPress достаточно, чтобы начать.",
+    nextTitle: "ЧТО БУДЕТ ДАЛЬШЕ",
+    nextSteps: [
+      {
+        title: "Мы изучаем детали проекта",
+        description: "Смотрим, что вы создаёте, на каком этапе проект и какой тип поддержки нужен.",
+      },
+      {
+        title: "Определяем следующий практичный шаг",
+        description:
+          "Если проект релевантен нашей работе, можем обсудить объём, требования и возможные следующие шаги.",
+      },
+      {
+        title: "Планируем разговор вокруг ваших задач",
+        description:
+          "Следующее обсуждение может сфокусироваться на требованиях, приоритетах и подходе к поставке.",
+      },
+    ],
+    brandDescription: "Разработка заказного ПО и цифровых продуктов для растущих команд.",
+    copyright: "© 2026. Все права защищены.",
+    tagline: "",
     navigate: "Навигация",
-    termsLink: "Условия использования",
-    logoOptions: "Варианты логотипа",
-    prefillMessage: "Целевой сектор: {{sector}}. Помогите подготовить пилотный outreach-процесс.",
+    termsLink: "Условия",
+    prefillMessage:
+      "Рассматриваю проект в сфере {{sector}}. Готов(а) рассказать подробнее о наших задачах.",
     validation: {
-      nameRequired: "Добавьте название компании.",
-      emailRequired: "Добавьте email для обратной связи.",
-      emailInvalid: "Укажите корректный рабочий email.",
-      messageRequired: "Опишите рынок или сектор, который хотите таргетировать.",
-      turnstileRequired: "Подтвердите антиспам-проверку для продолжения.",
-      turnstileExpired: "Завершите антиспам-проверку перед отправкой.",
-      captchaFailed: "Captcha не загрузилась. Обновите страницу и попробуйте снова.",
-      fallbackError: "Что-то пошло не так. Попробуйте снова или напишите на {{email}}.",
+      nameRequired: "Пожалуйста, укажите имя.",
+      emailRequired: "Пожалуйста, укажите email.",
+      emailInvalid: "Введите корректный email.",
+      messageRequired: "Расскажите немного о том, над чем вы работаете.",
+      turnstileRequired: "Подтвердите, что вы человек, чтобы продолжить.",
+      turnstileExpired: "Подтвердите ещё раз, что вы человек, перед отправкой.",
+      captchaFailed: "Обновите страницу и попробуйте снова.",
+      fallbackError: "Не удалось отправить сообщение. Проверьте форму и попробуйте снова.",
+      fallbackErrorNoEmail: "Не удалось отправить сообщение. Проверьте форму и попробуйте снова.",
     },
   },
-  hero: {
-    eyebrow: "Управляемый B2B outbound-сервис",
-    headlineLead: "Запускайте персонализированный outbound ",
-    headlineAccent: "без найма внутренней команды продаж",
-    subheadline:
-      "Мы находим компании под ваш ICP, исследуем каждую и отправляем персональные первые письма - полностью под ключ.",
-    primaryCta: "Записаться на пилотный звонок",
-    secondaryCta: "Посмотреть процесс",
-    processLine: ["Поиск", "Обогащение", "Проверка", "Персонализация", "Отправка"],
-    pills: [
-      "Для фаундеров и sales-лидов",
-      "Таргетинг в разных отраслях",
-      "Практическая реализация кампаний",
-    ],
-    proofLine: "Подтверждено кампаниями outbound до 100 000 компаний.",
-    consoleTitle: "Deal Intelligence Console",
-    workspaceBadge: "Рабочее пространство пайплайна",
-    cards: {
-      discovery: {
-        title: "Поиск компаний",
-        badge: "Высокое соответствие",
-        items: [
-          {
-            company: "Целевая компания A",
-            status: "Высокое соответствие",
-          },
-          {
-            company: "Региональный поставщик",
-            status: "Обогащено",
-          },
-          {
-            company: "Сервисная компания",
-            status: "Проверено",
-          },
+  homepageV3: {
+    hero: {
+      eyebrow: "Студия ПО и цифровых продуктов",
+      headline: "Заказное ПО и цифровые продукты — с ясностью.",
+      subheadline:
+        "Мы проектируем и создаём ПО, сайты, мобильные приложения и digital commerce вокруг реальных бизнес-задач — от раннего планирования до запуска.",
+      primaryCta: "Начать проект",
+      secondaryCta: "Смотреть услуги",
+      secondaryCtaWork: "Смотреть работы",
+      previewBadge: "Обзор исходящих продаж",
+      previewTitle: "Прогресс кампании",
+      previewRows: [
+        {
+          label: "Подходящие компании",
+          value: "1,240",
+        },
+        {
+          label: "Проверенные контакты",
+          value: "880",
+        },
+        {
+          label: "Готово к отправке",
+          value: "70%",
+        },
+        {
+          label: "Статус",
+          value: "Отправка",
+        },
+      ],
+    },
+    heroVisual: {
+      eyebrow: "Система поставки",
+      title: "От идеи до работающего продукта",
+      badge: "Студия",
+      caption: "Понятный путь от требований до протестированного продукта, готового к запуску.",
+      ariaLabel:
+        "Иллюстрация поставки цифрового продукта: от брифа через понимание, дизайн и сборку, ревью к запуску",
+    },
+    services: {
+      eyebrow: "Услуги",
+      title: "Шесть сфокусированных услуг для разработки ПО и веба",
+      subtitle:
+        "Выберите услугу под ваш проект, затем откройте отдельную страницу с подробностями.",
+      cta: "Все услуги",
+      exploreLabel: "Подробнее об услуге",
+      backToServices: "Назад к услугам",
+      detailPrimaryCta: "Начать проект",
+      relatedTitle: "Связанные услуги",
+      items: [
+        {
+          id: "software-development",
+          title: "Разработка ПО",
+          description:
+            "Заказное ПО для бизнес-процессов, внутренних инструментов, платформ и продуктовых идей.",
+        },
+        {
+          id: "website-development",
+          title: "Разработка сайтов",
+          description:
+            "Адаптивные, быстрые и поддерживаемые сайты вокруг вашего контента и бизнес-целей.",
+        },
+        {
+          id: "mobile-app-development",
+          title: "Разработка мобильных приложений",
+          description:
+            "Мобильные приложения вокруг вашего продукта, пользователей и повседневных процессов.",
+        },
+        {
+          id: "shopify-stores",
+          title: "Магазины Shopify",
+          description:
+            "Разработка витрин Shopify, кастомизация и улучшения для современных онлайн-магазинов.",
+        },
+        {
+          id: "wordpress-websites",
+          title: "Сайты на WordPress",
+          description:
+            "Гибкие сайты на WordPress, которыми удобно управлять, обновлять и поддерживать.",
+        },
+        {
+          id: "custom-wordpress-theme-development",
+          title: "Разработка кастомных тем WordPress",
+          description:
+            "Кастомные темы WordPress для уникальных макетов, контентных задач и брендового опыта.",
+        },
+      ],
+    },
+    value: {
+      eyebrow: "Почему с нами",
+      title: "Практичный подход к разработке с понятной поставкой",
+      subtitle:
+        "Мы держим коммуникацию, объём и реализацию ясными с самого начала, чтобы проект двигался вперёд с меньшим числом сюрпризов.",
+      items: [
+        {
+          title: "Понятная коммуникация",
+          description:
+            "Приоритеты проекта, решения и следующие шаги остаются видимыми на всём протяжении работы.",
+        },
+        {
+          title: "Практичная инженерия",
+          description:
+            "Мы выбираем решения под реальные потребности продукта, а не добавляем лишнюю сложность.",
+        },
+        {
+          title: "Структурированная поставка",
+          description:
+            "Работа разбита на понятные этапы, чтобы прогресс можно было ревьюить до перехода дальше.",
+        },
+        {
+          title: "Готовность к изменениям",
+          description:
+            "Мы строим с учётом будущих обновлений, новых требований и постоянных улучшений продукта.",
+        },
+      ],
+    },
+    workPreview: {
+      eyebrow: "Избранные работы",
+      title: "Избранные цифровые решения",
+      subtitle:
+        "Изучите живые демо-сайты, созданные, чтобы показать разные подходы к дизайну, разработке и взаимодействию.",
+      cta: "Все проекты",
+    },
+    process: {
+      eyebrow: "Как мы работаем",
+      title: "Понятный процесс от идеи до запуска",
+      subtitle:
+        "Каждый проект следует простому процессу поставки, чтобы объём, решения и прогресс было легко понимать.",
+      steps: [
+        {
+          label: "Исследование",
+          description:
+            "Мы узнаём о продукте, пользователях, бизнес-целях и задаче, которую должен решить проект.",
+        },
+        {
+          label: "Планирование",
+          description:
+            "Определяем объём, приоритеты, техническое направление и ключевые этапы поставки.",
+        },
+        {
+          label: "Дизайн и разработка",
+          description:
+            "Превращаем утверждённое направление в работающий цифровой опыт через сфокусированный дизайн и разработку.",
+        },
+        {
+          label: "Ревью и тестирование",
+          description: "Ревьюим работу, тестируем важные сценарии и устраняем проблемы до запуска.",
+        },
+        {
+          label: "Запуск и итерации",
+          description:
+            "Готовим продукт к запуску и продолжаем улучшать его, когда появляются новые потребности.",
+        },
+      ],
+    },
+    aboutPreview: {
+      eyebrow: "О Nordlead Studio",
+      title: "Разработка с фокусом на полезные цифровые продукты",
+      support:
+        "Nordlead Studio создаёт ПО и цифровые решения с практичным вниманием к удобству, поддерживаемости и понятной поставке. Мы начинаем с задачи, затем выбираем дизайн и технологии, которые лучше всего подходят продукту.",
+      identity: {
+        lead: "Мы создаём",
+        domains: ["ПО", "веб", "мобильные", "коммерцию", "контент-системы"],
+        aroundLabel: "Вокруг",
+        aroundValue: "понятных требований",
+        forLabel: "Для",
+        forValue: "полезной поставки",
+      },
+      cta: "О студии",
+    },
+    trust: {
+      title: "Для исходящих команд в разных отраслях",
+      metrics: [
+        {
+          stat: "100k+",
+          label: "Компаний охвачено в исходящих программах",
+        },
+        {
+          stat: "Полный цикл",
+          label: "От исследования до outreach — за вас",
+        },
+        {
+          stat: "Готово для продаж",
+          label: "Чистая передача вашим продавцам",
+        },
+      ],
+      logoLabels: ["B2B SaaS", "Услуги", "Промышленность", "Staffing", "Логистика"],
+    },
+    product: {
+      eyebrow: "Платформа",
+      title: "Весь outreach в одном месте",
+      subtitle:
+        "Живой обзор компаний на пути от исследования до готовности к отправке — чтобы команда всегда понимала, что происходит.",
+      highlights: [
+        {
+          title: "Находить подходящие компании",
+          description: "Целевые аккаунты, соответствующие рынку, до начала outreach.",
+        },
+        {
+          title: "Готовить понятные первые письма",
+          description:
+            "Использовать реальный контекст компании, чтобы сообщения были релевантными, а не шаблонными.",
+        },
+        {
+          title: "Передавать работу, готовую для продаж",
+          description: "Давать команде чистые списки и сообщения вместо хаотичных таблиц.",
+        },
+      ],
+      panelBadge: "Живая кампания",
+      panelTitle: "Проверяемые компании",
+      accounts: [
+        {
+          company: "Nordic Build Partners",
+          fit: "Сильное",
+          stage: "Отправка",
+        },
+        {
+          company: "Vertex Logistics EU",
+          fit: "Хорошее",
+          stage: "Исследование",
+        },
+        {
+          company: "Facet Facilities",
+          fit: "Хорошее",
+          stage: "Готово",
+        },
+        {
+          company: "BuildSpan Group",
+          fit: "Сильное",
+          stage: "Отправка",
+        },
+      ],
+    },
+    features: {
+      eyebrow: "Что вы получаете",
+      title: "Всё необходимое для исходящих продаж",
+      items: [
+        {
+          title: "Исследование проспектов",
+          description:
+            "Сфокусированные списки компаний, соответствующих вашему идеальному профилю покупателя.",
+        },
+        {
+          title: "ПО для sales intelligence",
+          description: "Детали о компании, которые помогают продавцам писать лучшие первые письма.",
+        },
+        {
+          title: "Персонализация холодных писем",
+          description:
+            "Понятные первые сообщения на основе реального исследования — не copy-paste шаблоны.",
+        },
+        {
+          title: "Автоматизация исходящих продаж",
+          description:
+            "Исследование, написание и отправка в одном простом потоке sales automation.",
+        },
+        {
+          title: "Revenue intelligence",
+          description:
+            "Видеть, какие аккаунты и сообщения дают ответы и квалифицированные встречи.",
+        },
+        {
+          title: "Агентный workflow",
+          description:
+            "Направляемые шаги берут рутину, пока команда фокусируется на закрытии сделок.",
+        },
+      ],
+    },
+    benefits: {
+      eyebrow: "Почему команды выбирают Agency",
+      title: "От работы по outreach к результатам продаж",
+      subtitle:
+        "Надёжный исходящий процесс внутри требует исследования, валидации, персонализации, операций кампаний и постоянного контроля качества. Agency ведёт эту работу как одну управляемую систему.",
+      contrast: {
+        withoutLabel: "Без Agency",
+        withLabel: "С Agency",
+        withoutPoints: [
+          "Часы на ручной поиск и квалификацию компаний",
+          "Контакты и первые письма проверяются в разных инструментах",
+          "Исследование, обогащение, ревью и отправка разнесены по передачам",
+          "Продавцы теряют время разговора на подготовку и операции кампаний",
+        ],
+        withPoints: [
+          "Шорт-листы под ICP приходят с контекстом аккаунта",
+          "Проверенные записи и первые письма под аккаунт с человеческим ревью",
+          "Один видимый процесс от исследования до готового к отправке outreach",
+          "Подготовка выполнена до того, как квалифицированные разговоры доходят до продавцов",
         ],
       },
-      intelligence: {
-        title: "Аналитика компаний",
-        badge: "Обогащено",
-        tags: ["Профиль компании", "Деятельность", "Контактные сигналы"],
+      labels: {
+        problem: "Проблема",
+        workRequired: "Нужная работа",
+        solution: "Как помогает Agency",
+        outcome: "Бизнес-результат",
       },
-      workflowCard: {
-        title: "Outbound процесс",
-        badge: "Готово к экспорту",
-        steps: ["Поиск", "Обогащение", "Проверка", "Отправка"],
-        footer: "Данные структурированы для проверки · Угол коммуникации подготовлен",
+      items: [
+        {
+          problem: "Исследование аккаунтов съедает часы продаж.",
+          workRequired:
+            "Команды копаются в списках, сайтах и заметках, чтобы решить, какие компании стоит контактировать.",
+          solution: "Мы собираем шорт-лист под ICP с контекстом аккаунта, нужным продавцам.",
+          outcome: "Команда начинает с релевантных аккаунтов — не с сырых баз.",
+        },
+        {
+          problem: "Слабые контакты и шаблонные сообщения ослабляют кампании.",
+          workRequired:
+            "Кто-то должен проверять записи, переписывать открытия и ловить проблемы качества до запуска.",
+          solution:
+            "Мы валидируем записи и готовим первые письма под аккаунт с человеческим контролем качества.",
+          outcome: "Outreach начинается с более чистыми данными и большей релевантностью.",
+        },
+        {
+          problem: "Операции исходящих продаж растянуты между инструментами и передачами.",
+          workRequired:
+            "Исследование, обогащение, ревью, отправка и отслеживание статуса живут в разных местах.",
+          solution: "Мы ведём workflow как один видимый процесс, за которым может следить команда.",
+          outcome: "Меньше шагов. Меньше операционной фрагментации.",
+        },
+        {
+          problem: "Внутреннее исполнение отнимает время у покупателей.",
+          workRequired:
+            "Продавцы тратят циклы на подготовку, координацию и операции кампаний вместо разговоров.",
+          solution:
+            "Мы выполняем работу до того, как квалифицированные разговоры доходят до вашей команды продаж.",
+          outcome: "Больше ёмкости остаётся на покупателей и активные возможности.",
+        },
+      ],
+    },
+    results: {
+      eyebrow: "Результаты",
+      title: "Что это значит для вашего бизнеса",
+      subtitle: "Как наш управляемый сервис помогает вашей команде продаж.",
+      items: [
+        {
+          stat: "Стабильный поток продаж",
+          label: "Мы ведём outreach регулярно, а не разовыми кампаниями.",
+        },
+        {
+          stat: "Экспертная помощь без найма",
+          label:
+            "Наша команда ведёт работу от исследования до отправки. Без найма и новых инструментов.",
+        },
+        {
+          stat: "Качество при любом масштабе",
+          label: "Каждый аккаунт исследуется и проверяется — целитесь ли вы в 50 или в 5 000.",
+        },
+        {
+          stat: "Видно каждый шаг",
+          label: "Видно каждый шаг от целевой компании до забронированной встречи.",
+        },
+      ],
+    },
+    testimonials: {
+      eyebrow: "Истории клиентов",
+      title: "Более понятный sales outreach для вашей команды.",
+      items: [
+        {
+          quote:
+            "Наши исходящие продажи наконец стали понятными. Лучшие списки, лучшие письма и больше квалифицированных встреч.",
+          name: "Elena Marquez",
+          title: "Head of Growth",
+          company: "Northline Logistics",
+          result: "Больше квалифицированных встреч",
+          logoInitials: "NL",
+        },
+        {
+          quote:
+            "Sales automation сэкономила нашей команде часы каждую неделю и упорядочила workflow исходящих продаж.",
+          name: "James Okoro",
+          title: "VP of Sales",
+          company: "BuildSpan Group",
+          result: "Больше времени на продажи",
+          logoInitials: "BG",
+        },
+        {
+          quote:
+            "B2B исходящие продажи стали проще с первой недели. Понятные письма и поддержка, которой можно доверять.",
+          name: "Sofia Bergström",
+          title: "Revenue Operations",
+          company: "Facet Facilities",
+          result: "Быстрее запуск",
+          logoInitials: "FF",
+        },
+      ],
+    },
+    pricing: {
+      eyebrow: "Тарифы",
+      title: "Тарифы для управляемых исходящих продаж",
+      subtitle:
+        "Выберите план для B2B-команд продаж и растущих компаний, готовых масштабировать исходящие продажи.",
+      priceSuffix: "/мес",
+      yearlyBillingNote: "Оплата раз в год",
+      billingToggle: {
+        groupLabel: "Выберите режим тарификации",
+        monthly: "Ежемесячно",
+        yearly: "Ежегодно",
+        oneTimeLeads: "Разово",
+        saveLabel: "Скидка 20%",
       },
+      oneTimeLeads: {
+        priceSuffix: "разово",
+        billingNote: "Без подписки",
+        quantityLabel: "Фиксированное число проверенных лидов",
+        leadCountLabel: "{{count}} проверенных лидов",
+      },
+      tiers: [
+        {
+          id: "free",
+          name: "FREE",
+          monthlyPrice: 0,
+          description:
+            "Понятный старт для небольших команд продаж, тестирующих автоматизацию исходящих продаж.",
+          cta: "Начать",
+          features: [
+            "Базовое исследование проспектов",
+            "Добавление контактных данных",
+            "Проверка email",
+            "5 000 контактов",
+            "Outreach через cold email software",
+            "Подключение к вашим sales-инструментам",
+            "Простая панель",
+            "Базовые отчёты",
+            "Стандартная поддержка",
+          ],
+        },
+        {
+          id: "growth",
+          name: "Growth",
+          monthlyPrice: 399,
+          featured: true,
+          description: "Для растущих B2B-команд, которым нужен больший объём исходящих продаж.",
+          cta: "Давайте обсудим",
+          features: [
+            "Всё из Free",
+            "50 000 контактов",
+            "Помощь с персонализацией холодных писем",
+            "Автоматические follow-up",
+            "Outreach в LinkedIn",
+            "Умные напоминания",
+            "Лучшие отчёты revenue intelligence",
+            "Доступ для команды",
+            "Синхронизация sales-инструментов",
+            "Дополнительные интеграции",
+            "Приоритетная поддержка",
+          ],
+        },
+        {
+          id: "flexible",
+          name: "FLEXIBLE",
+          monthlyPrice: 0,
+          customPricing: true,
+          priceLabel: "Индивидуальная цена",
+          description:
+            "Гибкая цена исходя из объёма лидов, требований к workflow и целей кампании.",
+          cta: "Связаться с нами",
+          features: [
+            "Всё из Growth",
+            "Индивидуальный объём лидов",
+            "Кастомная настройка исходящих продаж",
+            "Объём кампании, согласованный с workflow",
+            "Свой менеджер поддержки",
+            "Сопровождаемая настройка",
+            "Надёжная безопасность",
+            "Один вход для команды",
+            "Кастомные подключения",
+            "Гарантированные сроки поддержки",
+          ],
+        },
+      ],
+    },
+    blog: {
+      eyebrow: "Материалы",
+      title: "Идеи для усиления исходящих продаж",
+      description:
+        "Практичные советы по автоматизации исходящих продаж, исследованию проспектов и лучшим первым письмам.",
+      readArticleLabel: "Читать статью",
+      posts: [
+        {
+          category: "Исходящие продажи",
+          title: "Как собирать более сильные списки для исходящих продаж",
+          description:
+            "Используйте исследование проспектов, чтобы выбирать правильные компании до начала outreach.",
+          readingTime: "6 мин чтения",
+          href: "/blog/build-a-b2b-prospect-list",
+          imageAlt: "Иллюстрация построения списков исходящих продаж и исследования проспектов",
+        },
+        {
+          category: "Автоматизация исходящих продаж",
+          title: "Автоматизация исходящих продаж, которая ощущается личной",
+          description:
+            "Как персонализация холодных писем и поддержка AI cold email улучшают процент ответов.",
+          readingTime: "5 мин чтения",
+          href: "/blog/ai-in-b2b-outreach",
+          imageAlt: "Иллюстрация автоматизации исходящих продаж и AI cold email",
+        },
+        {
+          category: "Sales intelligence",
+          title: "Как sales intelligence помогает начинать лучшие разговоры",
+          description:
+            "Превращайте контекст компании в более понятные разговоры по исходящим продажам с меньшим числом догадок.",
+          readingTime: "7 мин чтения",
+          href: "/blog/cold-lead-to-qualified-meeting",
+          imageAlt: "Иллюстрация sales intelligence software и бронирования встреч",
+        },
+      ],
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "Частые вопросы",
+      items: [
+        {
+          q: "Что происходит после того, как я свяжусь с вами?",
+          a: "Мы узнаём о ваших целях по исходящим продажам и объясняем, как можем помочь.",
+        },
+        {
+          q: "Как скоро можно начать?",
+          a: "Большинство команд начинают после короткого вводного звонка, чтобы подтвердить рынок и сообщение. Затем можно перейти от исследования к отправке без долгой настройки.",
+        },
+        {
+          q: "Нужна ли большая команда продаж?",
+          a: "Нет. Небольшие и растущие B2B-команды используют ADealForge. Вы фокусируетесь на продажах. Мы берём исследование и работу с email.",
+        },
+        {
+          q: "В каких отраслях это лучше всего работает?",
+          a: "Мы работаем с B2B-командами в SaaS, услугах, промышленности, staffing, логистике и похожих рынках.",
+        },
+        {
+          q: "Остаёмся ли мы в контроле над сообщениями и таргетингом?",
+          a: "Да. Вы решаете, с кем мы связываемся и что должно говорить сообщение. Мы берём исследование, подготовку и отправку. Ваша команда фокусируется на разговорах.",
+        },
+      ],
+    },
+    finalCta: {
+      eyebrow: "Начать проект",
+      title: "Есть идея проекта по ПО или сайту?",
+      subtitle: "Расскажите, что вы создаёте, с чем нужна помощь и на каком этапе проект сейчас.",
+      primaryCta: "Начать разговор",
+      secondaryCta: "Смотреть услуги",
+      footnote: ["Поговорить с нашей командой", ""],
+    },
+    conversationPrompt: {
+      title: "Давайте начнём разговор",
+      subtitle: "Без давления. Без обязательств. Просто дружеский разговор.",
+      primaryCta: "Начать здесь",
+      dismissCta: "Продолжить просмотр",
+      closeLabel: "Закрыть карточку разговора",
     },
   },
-  platformStrip: {
-    kicker: "Как это работает",
-    title: "От целевого рынка до готового outreach.",
-    subtitle:
-      "Три понятных этапа. Человеческая проверка там, где это важно. Ваша команда фокусируется на разговорах.",
-    values: [
-      {
-        title: "Найти нужные аккаунты",
-        desc: "Короткий список под вашего идеального клиента — не общий экспорт.",
-        stage: "discovery",
-      },
-      {
-        title: "Исследовать до письма",
-        desc: "Каждое первое письмо отражает реальный контекст компании и готово к проверке или запуску.",
-        stage: "personalization",
-      },
-      {
-        title: "Запуск с поддержкой",
-        desc: "Доставка и прозрачность кампании остаются под контролем, пока команда общается с покупателями.",
-        stage: "outreach",
-      },
-    ],
-    cta: "Давайте поговорим",
-    footnote: "Без давления. Без обязательств.",
-  },
-  capabilities: {
-    eyebrow: {
-      label: "Возможности",
-      tag: "Что вы получаете",
+  servicesPage: {
+    backHome: "На главную",
+    metaDescription:
+      "Услуги Nordlead Studio: заказное ПО, разработка сайтов, мобильные приложения, магазины Shopify, сайты WordPress и кастомные темы WordPress.",
+    hero: {
+      eyebrow: "Услуги по разработке ПО и веб-решений",
+      title: "Цифровые продукты и веб-опыт вокруг вашего бизнеса",
+      subtitle:
+        "Мы проектируем и создаём заказное ПО, сайты, мобильные приложения, магазины Shopify и решения на WordPress исходя из реальных бизнес-требований.",
+      primaryCta: "Начать проект",
+      secondaryCta: "Смотреть услуги",
+      visualNote: "Шесть связанных возможностей поставки.",
+      activeSummaryLabel: "Активная возможность",
+      systemLabel: "Связанные возможности поставки",
+      exploreServiceCta: "Подробнее об услуге",
     },
-    title: "Работа, стоящая за лучшим outbound.",
-    subtitle:
-      "Поиск, исследование, валидация, сообщения и отправка — чтобы команда тратила время на живые разговоры.",
-    pills: ["Человеческая проверка", "Проверенные данные", "Прозрачность кампаний"],
-    chips: ["Поиск", "Исследование", "Проверка", "Сообщения", "Отправка", "Передача"],
-    primaryCta: "Начать разговор",
-    secondaryCta: "Как это работает",
-    items: [
-      {
-        title: "Поиск prospects по ICP",
-        desc: "Находим компании, которые соответствуют рынку, географии и сигналам покупки.",
-      },
-      {
-        title: "Интеллект на уровне аккаунта",
-        desc: "Обогащаем каждый аккаунт бизнес-контекстом и понятным обоснованием fit.",
-      },
-      {
-        title: "Валидация данных ЛПР",
-        desc: "Отделяем надёжные контакты от сомнительных записей до старта outreach.",
-      },
-      {
-        title: "Персонализированные сообщения",
-        desc: "Первые письма под каждый аккаунт с вашим оффером и тоном.",
-      },
-      {
-        title: "Управляемая отправка и доставляемость",
-        desc: "Отправка с ваших доменов или прогретых ящиков, с контролем deliverability.",
-      },
-    ],
-  },
-  proofBand: [
-    {
-      stat: "Up to 100,000",
-      label: "companies reached in a single managed outbound program",
+    overview: {
+      eyebrow: "Обзор",
+      title: "Шесть сфокусированных услуг разработки",
+      subtitle:
+        "Выберите услугу, которая подходит вашему проекту, затем откройте отдельную страницу с возможностями, процессом и следующими шагами.",
+      learnMore: "Подробнее об услуге",
     },
-    {
-      stat: "End-to-end",
-      label: "delivery from account research to inbox-ready execution",
+    spotlight: {
+      eyebrow: "Возможности",
+      title: "Что мы можем создать",
+      subtitle:
+        "Выберите услугу, чтобы посмотреть практичный план, признаки подходящего проекта и отдельную страницу услуги.",
+      exploreCta: "Подробнее об услуге",
+      suitableLabel: "Хорошо подходит для",
+      capabilitiesLabel: "Возможности",
     },
-    {
-      stat: "Your voice, your offer",
-      label: "outreach messaging aligned with your sales narrative",
-    },
-    {
-      stat: "Your domains or ours",
-      label: "sending infrastructure configured for steady inbox placement",
-    },
-  ],
-  workflow: {
-    eyebrow: "Внутри вашей кампании",
-    title: "Смотрите, что именно получит ваша sales-команда",
-    subtitle:
-      "Проследите путь одного аккаунта от первого совпадения до письма, готового к отправке. Нажмите на этап, чтобы увидеть изменения.",
-    consoleTitle: "Deal Intelligence Console",
-    workspaceName: "ADealForge Workspace",
-    workspaceNote: "Управляется нашей командой",
-    cta: "Записаться на пилотный звонок",
-    sampleAccountLabel: "Пример аккаунта",
-    sampleAccountIntro:
-      "Наблюдайте, как один аккаунт проходит путь от сырого совпадения до send-ready состояния.",
-    detailLabel: "Детали рабочего пространства",
-    deliverablesTitle: "Что команда получает на этом этапе",
-    outcomeTitle: "Что это значит для вас",
-    exportNote: "Передается в формате, готовом для CRM",
-    exportCta: "Получить это для вашего рынка ->",
-    stages: [
+    detailSectionEyebrow: "Детали услуги",
+    services: [
       {
-        id: "discovery",
-        navLabel: "Поиск",
-        accentLabel: "Поиск",
-        panelTitle: "Начинаем с компаний, которые реально подходят.",
-        panelDescription:
-          "Мы превращаем ваш таргет-бриф в сфокусированный список компаний под ICP, чтобы команда не работала с сырыми общими базами.",
-        deliverables: [
-          "Короткий список аккаунтов под ICP",
-          "Фильтры по отрасли, географии и размеру",
-          "Первичный скоринг релевантности",
+        id: "software-development",
+        title: "Разработка ПО",
+        shortDescription:
+          "Заказное ПО для бизнес-процессов, внутренних инструментов, платформ и продуктовых идей.",
+        tabLabel: "ПО",
+        suitableFor: ["Внутренние инструменты", "Системы процессов", "Продуктовые операции"],
+        hubHighlights: ["Бизнес-приложения и внутренние инструменты", "Процессы и интеграции"],
+        blueprintHighlights: ["Внутренние инструменты", "Автоматизация", "Интеграции"],
+        paragraphs: [
+          "Заказное ПО под ваш процесс — инструменты, админ-экраны, интеграции и поддерживаемая структура приложения.",
         ],
-        stageOutcome: "Вы стартуете с чистого short-list вместо 50 000 случайных строк.",
-        angle: "Сопоставление по отрасли, размеру и коммерческому fit - с приоритизацией лучших.",
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Заказные бизнес-приложения и внутренние инструменты",
+          "Веб-ПО и административные интерфейсы",
+          "Автоматизация процессов и workflow",
+          "API и интеграции со сторонними сервисами",
+          "Структурированная, поддерживаемая архитектура приложений",
+          "Улучшения существующего ПО",
+        ],
+        cta: "Обсудить разработку ПО",
       },
       {
-        id: "enrichment",
-        navLabel: "Обогащение",
-        accentLabel: "Обогащение",
-        panelTitle: "Добавляем контекст, который повышает отклик.",
-        panelDescription:
-          "Мы исследуем каждую компанию - чем занимается, где работает и почему релевантна - чтобы коммуникация опиралась на реальный бизнес-контекст.",
-        deliverables: [
-          "Структурированный контекст компании",
-          "Сигналы по услугам и активности",
-          "Профили, готовые к сегментации",
+        id: "website-development",
+        title: "Разработка сайтов",
+        shortDescription: "Адаптивные, поддерживаемые сайты вокруг вашего контента и бизнес-целей.",
+        tabLabel: "Веб",
+        suitableFor: ["Маркетинговые сайты", "Бизнес-сайты", "Лендинги"],
+        hubHighlights: ["Бизнес- и маркетинговые сайты", "Адаптивная фронтенд-разработка"],
+        blueprintHighlights: ["Бизнес-сайты", "Адаптивные страницы", "Формы и интеграции"],
+        paragraphs: [
+          "Бизнес- и маркетинговые сайты, которые остаются адаптивными, понятными для пользователей и практичными для расширения при изменении требований.",
         ],
-        stageOutcome: "Команда понимает, почему с каждым аккаунтом стоит работать.",
-        angle: "Профилирование по активности, фокусу услуг и региональному fit.",
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Бизнес-, корпоративные и агентские сайты",
+          "Лендинги и маркетинговые сайты",
+          "Адаптивная вёрстка и фронтенд-разработка",
+          "Backend и интеграции форм",
+          "Модернизация и рефакторинг сайтов",
+          "Производительный, поддерживаемый код",
+        ],
+        cta: "Обсудить разработку сайта",
       },
       {
-        id: "contacts",
-        navLabel: "Контакты",
-        accentLabel: "Проверка контактов",
-        panelTitle: "Оставляем только контакты, по которым стоит писать.",
-        panelDescription:
-          "Мы проверяем доступные каналы контакта и убираем слабые/рисковые записи, чтобы не терять объем на bounce и тупиковые адреса.",
-        deliverables: [
-          "Достижимые контактные пути",
-          "Проверка надежности каждой записи",
-          "Список с пониженным риском отправки",
+        id: "mobile-app-development",
+        title: "Разработка мобильных приложений",
+        shortDescription:
+          "Мобильные приложения вокруг вашего продукта, пользователей и повседневных процессов.",
+        tabLabel: "Мобильные",
+        suitableFor: ["Клиентские приложения", "Бизнес-приложения", "Аккаунтные сценарии"],
+        hubHighlights: ["Мобильные продуктовые сценарии", "Аккаунты и подключения данных"],
+        blueprintHighlights: ["Продуктовые сценарии", "Аккаунты", "Подключения данных"],
+        paragraphs: [
+          "Мобильные приложения для клиентских и бизнес-сценариев, спланированные вокруг требований продукта, аккаунтов и связанных данных.",
         ],
-        stageOutcome: "Вы снижаете bounce-риск еще до первой отправки.",
-        angle: "Проверенные маршруты к decision maker, готовые к запуску.",
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Бизнес- и клиентские мобильные приложения",
+          "Реализация UI для мобильных продуктовых сценариев",
+          "Аутентификация и аккаунтный опыт",
+          "Мобильные функции с подключением к backend",
+          "API-интеграция для мобильных клиентов",
+          "Итеративные улучшения после первого релиза",
+        ],
+        cta: "Обсудить мобильную разработку",
       },
       {
-        id: "review",
-        navLabel: "Проверка",
-        accentLabel: "Проверка качества",
-        panelTitle: "Запускайте кампанию со списком, которому можно доверять.",
-        panelDescription:
-          "Перед персонализацией мы проверяем релевантность, полноту и дубликаты, чтобы процесс оставался управляемым.",
-        deliverables: [
-          "Проверенные и одобренные аккаунты",
-          "Удалены дубликаты и слабые соответствия",
-          "Чистые записи для кампании",
+        id: "shopify-stores",
+        title: "Магазины Shopify",
+        shortDescription:
+          "Разработка витрин Shopify, работа с темами и практичные улучшения магазина.",
+        tabLabel: "Shopify",
+        suitableFor: ["Новые магазины", "Обновление тем", "Доработка каталога"],
+        hubHighlights: ["Настройка магазина и темы", "Каталог и доработка витрины"],
+        blueprintHighlights: ["Настройка магазина", "Работа с темами", "Улучшения коммерции"],
+        paragraphs: [
+          "Витрины Shopify, кастомизация тем и улучшения каталога для нового или существующего магазина.",
         ],
-        stageOutcome: "Вы двигаетесь дальше с меньшим количеством dead-аккаунтов и без дублей.",
-        angle: "Только одобренные аккаунты - чисто, релевантно и без повторов.",
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Настройка и конфигурация магазина Shopify",
+          "Кастомизация темы витрины",
+          "Структура товаров и каталога",
+          "Адаптивные клиентские макеты",
+          "Интеграции сторонних приложений",
+          "Улучшения существующих магазинов Shopify",
+        ],
+        cta: "Обсудить проект Shopify",
       },
       {
-        id: "personalization",
-        navLabel: "Персонализация",
-        accentLabel: "Персонализация",
-        panelTitle: "Превращаем исследование в сообщения, которые получают ответы.",
-        panelDescription:
-          "Мы готовим точный first-touch угол для каждого аккаунта, чтобы письмо выглядело написанным именно для этой компании.",
-        deliverables: [
-          "Персональный opening angle для каждого аккаунта",
-          "First-touch текст на основе контекста",
-          "Лучшее соответствие сообщения и аккаунта",
+        id: "wordpress-websites",
+        title: "Сайты на WordPress",
+        shortDescription:
+          "Гибкие сайты на WordPress, которыми удобно управлять, обновлять и поддерживать.",
+        tabLabel: "WordPress",
+        suitableFor: ["Контентные сайты", "Бизнес-сайты", "Редактируемые страницы"],
+        hubHighlights: ["Удобная для контента структура", "Поддерживаемые сборки WordPress"],
+        blueprintHighlights: [
+          "Редактируемые страницы",
+          "Структура контента",
+          "Интеграция плагинов",
         ],
-        stageOutcome: "Вы повышаете reply rate, опираясь на реальный контекст каждого аккаунта.",
-        angle:
-          "Видим ваши региональные fit-out проекты - вот как похожие команды масштабируют delivery без роста headcount.",
+        paragraphs: [
+          "Сайты на WordPress с редактируемым контентом, понятной структурой и запасом для роста по мере развития сайта.",
+        ],
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Поставка бизнес-сайтов на WordPress",
+          "Адаптивная разработка на WordPress",
+          "Настройка сайта и удобные для контента структуры",
+          "Разработка страниц и шаблонов",
+          "Интеграция и настройка плагинов",
+          "Улучшения существующих сайтов на WordPress",
+        ],
+        cta: "Обсудить разработку на WordPress",
       },
       {
-        id: "outreach",
-        navLabel: "Отправка",
-        accentLabel: "Готово к outreach",
-        panelTitle: "Мы отправляем - или передаем вашей команде.",
-        panelDescription:
-          "Квалифицированные и персонализированные аккаунты готовы к запуску. Мы ведем отправку с ваших или новых доменов и прогревом inbox.",
-        deliverables: [
-          "Персональные first-touch письма",
-          "Автоматическая отправка с ваших или новых доменов",
-          "Прогрев inbox, deliverability и экспорт в CRM",
+        id: "custom-wordpress-theme-development",
+        title: "Разработка кастомных тем WordPress",
+        shortDescription:
+          "Кастомные темы WordPress для уникальных макетов, контентных задач и брендового опыта.",
+        tabLabel: "Кастомные темы",
+        suitableFor: ["Дизайн-системы", "Пересборка тем", "Редактируемые блоки"],
+        hubHighlights: ["Кастомные системы макетов", "Редактируемые в CMS блоки"],
+        blueprintHighlights: ["Системы макетов", "Переиспользуемые шаблоны", "Редактируемые блоки"],
+        paragraphs: [
+          "Реализация кастомной темы WordPress, когда структура сайта уже есть, а макет должен быть уникальным и поддерживаемым.",
         ],
-        stageOutcome: "Вы получаете назначенные встречи, а не еще один файл с исследованием.",
-        angle: "Управляем отправкой end-to-end из прогретых, deliverable inbox.",
+        capabilitiesTitle: "С чем мы можем помочь",
+        capabilities: [
+          "Реализация кастомных тем WordPress",
+          "Перенос дизайна в WordPress",
+          "Переиспользуемые шаблоны и частичные блоки",
+          "Адаптивные системы макетов",
+          "Редактируемые в CMS блоки для маркетинговых команд",
+          "Кастомизация тем и структурированный рефакторинг",
+        ],
+        cta: "Обсудить работу над кастомной темой",
       },
     ],
-    recordFields: [
-      {
-        label: "Отрасль и размер компании",
-        detail: "Строительство - 80-120 сотрудников",
-      },
-      {
-        label: "Бизнес-активность",
-        detail: "Коммерческие fit-out проекты, региональные объекты",
-      },
-      {
-        label: "Контактный маршрут",
-        detail: "Проверенный email decision maker",
-      },
-      {
-        label: "Проверка качества",
-        detail: "Одобрено - без дублей",
-      },
-      {
-        label: "Коммуникационный угол",
-        detail: "Персонализировано под текущие проекты",
-      },
-      {
-        label: "Готово к отправке",
-        detail: "Добавлено в очередь first-touch писем",
-      },
-    ],
-  },
-  sectors: {
-    eyebrow: {
-      label: "Сценарии",
-      tag: "Гибкий процесс",
+    whyUs: {
+      eyebrow: "Почему с нами",
+      title: "Понятная поставка без завышенных обещаний",
+      subtitle:
+        "Сфокусированный объём, видимый прогресс и поддерживаемые сборки — без заявлений о результатах, которые мы не можем подтвердить.",
+      principles: [
+        {
+          shortLabel: "Коммуникация",
+          title: "Понятная коммуникация",
+          description:
+            "Приоритеты, решения и следующие шаги остаются видимыми, чтобы проект было легко отслеживать.",
+        },
+        {
+          shortLabel: "Требования",
+          title: "Разработка вокруг требований",
+          description:
+            "Мы строим вокруг реальных требований продукта, а не вокруг спекулятивных дополнений.",
+        },
+        {
+          shortLabel: "Поставка",
+          title: "Структурированная поставка",
+          description:
+            "Объём, контрольные точки и ревьюируемый прогресс держат работу согласованной до перехода дальше.",
+        },
+        {
+          shortLabel: "Поддержка",
+          title: "Поддерживаемые решения",
+          description:
+            "Мы стремимся к практичному коду и системам, которые остаются понятными после запуска.",
+        },
+      ],
     },
-    title: "Подходит для разных B2B-секторов.",
-    subtitle:
-      "ADealForge помогает перейти от хаотичного ресерча рынка к сфокусированным спискам, понятному контексту и релевантному outreach.",
-    ctaLink: "Plan outbound strategy for this sector",
-    items: [
-      {
-        title: "Строительство и субподряд",
-        pill: "Ключевой сектор",
-        highlight: true,
-        desc: "Находим подрядчиков, субподрядчиков, ремонтные компании и проектные бизнесы. Готовим таргетированные списки и кооперационные сценарии outreach.",
-        bestWhen: "Лучше всего, когда вы продаете проектные B2B-услуги.",
-      },
-      {
-        title: "Логистика и склады",
-        pill: "Рынок большого объема",
-        highlight: false,
-        desc: "Выявляем склады, транспортных операторов, fulfillment-компании и логистических провайдеров со структурированным бизнес-контекстом.",
-        bestWhen: "Лучше всего, когда важны география и доступные мощности.",
-      },
-      {
-        title: "Подбор персонала",
-        pill: "Спрос-зависимый сегмент",
-        highlight: false,
-        desc: "Находим компании, которым может понадобиться усиление команды, подрядные ресурсы или рекрутинг в разных отраслях.",
-        bestWhen: "Лучше всего, когда outreach определяется срочностью и hiring-сигналами.",
-      },
-      {
-        title: "Производство и индустриальные услуги",
-        pill: "Индустриальный фокус",
-        highlight: false,
-        desc: "Строим пайплайн проспектов в производстве, техобслуживании, технических сервисах и цепочках поставщиков.",
-        bestWhen: "Лучше всего, когда при квалификации важна техническая специализация.",
-      },
-      {
-        title: "Facility-сервисы и клининг",
-        pill: "Сервисный рынок",
-        highlight: false,
-        desc: "Таргетируем отели, офисы, управляющие компании и facility-операторов с организованными данными о проспектах.",
-        bestWhen: "Лучше всего, когда ядро предложения - регулярные сервисные контракты.",
-      },
-      {
-        title: "Профессиональные B2B-сервисы",
-        pill: "Гибкий сценарий",
-        highlight: false,
-        desc: "Помогаем агентствам и сервисным компаниям находить более релевантных проспектов и писать более точные коммерческие сообщения.",
-        bestWhen: "Лучше всего, когда win rate зависит от позиционирования и fit scoring.",
-      },
-    ],
-  },
-  howItWorks: {
-    eyebrow: {
-      label: "Как это работает",
-      tag: "3 этапа delivery",
+    process: {
+      eyebrow: "Процесс",
+      title: "Наш процесс разработки",
+      subtitle:
+        "Понятный путь от требований до запуска с возможностью доработки по мере формирования продукта.",
+      steps: [
+        {
+          number: "01",
+          title: "Исследование",
+          description:
+            "Уточняем цели, пользователей, ограничения, приоритеты и то, как должен выглядеть успешный результат.",
+        },
+        {
+          number: "02",
+          title: "Планирование",
+          description:
+            "Определяем объём, приоритеты, техническое направление и точки ревью, которые держат поставку в фокусе.",
+        },
+        {
+          number: "03",
+          title: "Дизайн и разработка",
+          description:
+            "Превращаем утверждённое направление в работающее ПО и веб-опыт проверяемыми приращениями.",
+        },
+        {
+          number: "04",
+          title: "Ревью и тестирование",
+          description:
+            "Проверяем качество, удобство, адаптивность и важные сценарии перед релизом.",
+        },
+        {
+          number: "05",
+          title: "Запуск и итерации",
+          description:
+            "Готовим к запуску или передаче, затем продолжаем улучшать, когда появляются новые потребности.",
+        },
+      ],
     },
-    title: "От исследования рынка к квалифицированному пайплайну проспектов.",
-    sidebar:
-      "Мы превращаем сырые данные о компаниях в квалифицированных проспектов, готовых к отправке, чтобы команда фокусировалась на разговорах.",
-    cta: "Записаться на пилотный звонок",
-    steps: [
-      {
-        step: 1,
-        title: "Определяем целевые критерии",
-        desc: "Выбираем страны, отрасли, категории бизнеса и типы компаний под ваши коммерческие цели.",
-        stageLabel: "Целевые критерии",
-        outcome: "Результат: четкий ICP и фильтры для настройки кампании.",
-      },
-      {
-        step: 2,
-        title: "Находим и обогащаем компании",
-        desc: "Строим сфокусированный список проспектов по активности, географии и рыночной релевантности, затем обогащаем каждый профиль.",
-        stageLabel: "Обогащение компаний",
-        outcome: "Результат: квалифицированный список с контекстом для персонализации.",
-      },
-      {
-        step: 3,
-        title: "Персонализируем и экспортируем",
-        desc: "Проверяем контекст компании, готовим углы outreach и экспортируем структурированные данные для sales-процесса.",
-        stageLabel: "Готово к outreach",
-        outcome: "Результат: набор данных и first-touch угол, готовые к запуску.",
-      },
-    ],
-  },
-  dataQuality: {
-    eyebrow: {
-      label: "Качество данных",
-      tag: "Качество и доверие",
+    platforms: {
+      eyebrow: "Платформы и инструменты",
+      title: "Технологии, с которыми мы работаем",
+      subtitle:
+        "Мы используем платформы и инструменты, подходящие услуге — подтверждённые стеки для этого сайта и работы по поставке перечислены ниже.",
+      groups: [
+        {
+          label: "Веб-фронтенд",
+          items: ["React", "TypeScript"],
+        },
+        {
+          label: "Управление контентом",
+          items: ["WordPress"],
+        },
+        {
+          label: "Электронная коммерция",
+          items: ["Shopify"],
+        },
+        {
+          label: "Мобильные",
+          items: ["Разработка мобильных приложений исходя из требований"],
+        },
+      ],
     },
-    title: "Чище данные - больше ответов.",
-    subtitle:
-      "Плохие данные незаметно сжигают объем отправок и снижают reply rate. Мы проверяем, убираем дубли и структурируем записи до outreach.",
-    pills: [
-      "Quality gates до outreach",
-      "Ручная проверка там, где нужно",
-      "Выгрузка в CRM и таблицы",
-    ],
-    cta: "Обсудить ваш целевой рынок",
-    cards: [
-      {
-        title: "Полнота профиля",
-        desc: "Собираем и структурируем релевантные данные о компании, активности и целевых индикаторах.",
-        method: "Структура профиля компании",
-        status: "Организовано",
-        impact: "Повышает точность таргетинга до outreach.",
-      },
-      {
-        title: "Бизнес-контекст",
-        desc: "Фиксируем фокус услуг, позицию на рынке и контекст, чтобы команда оценивала релевантность до старта.",
-        method: "Проверка бизнес-контекста",
-        status: "Обогащено",
-        impact: "Повышает релевантность сообщений и качество ответов.",
-      },
-      {
-        title: "Проверка контактов",
-        desc: "Организуем доступные контакты и отделяем пригодные записи от сомнительных до outreach.",
-        method: "Подготовка контактных данных",
-        status: "Проверено",
-        impact: "Снижает bounce и пустые отправки.",
-      },
-      {
-        title: "Контроль дублей",
-        desc: "Убираем повторные компании, пересечения и дубликаты перед экспортом списков.",
-        method: "Entity matching процесс",
-        status: "Под контролем",
-        impact: "Исключает пересечения между командами и кампаниями.",
-      },
-      {
-        title: "Сегментация",
-        desc: "Группируем проспекты по географии, отрасли, типу услуг, fit и приоритету outreach.",
-        method: "Карта целевых групп",
-        status: "Сегментировано",
-        impact: "Улучшает приоритизацию кампаний.",
-      },
-      {
-        title: "Готовность к экспорту",
-        desc: "Подготавливаем чистые и структурированные наборы данных для sales, партнерств и BD-процессов.",
-        method: "Структура для таблиц и CRM",
-        status: "Готово",
-        impact: "Ускоряет запуск и передачу в исполнение.",
-      },
-    ],
-  },
-  faq: {
-    eyebrow: {
-      label: "FAQ",
-      tag: "Перед звонком",
+    engagement: {
+      eyebrow: "Форматы сотрудничества",
+      title: "Гибкие подходы к проектам",
+      subtitle:
+        "Формат сотрудничества определяется тем, что вы создаёте — не фиксированными пакетами или прайсом на этой странице.",
+      themes: [
+        "Разработка нового продукта или приложения",
+        "Улучшения существующих сайтов или приложений",
+        "Редизайн и пересборка публичных веб-решений",
+        "Интеграции платформ и сторонних сервисов",
+        "Постоянные улучшения после запуска",
+      ],
     },
-    title: "Вопросы, которые команды задают перед пилотом.",
-    subtitle:
-      "Короткие ответы по объему работ, скорости и формату, чтобы вы понимали ожидания до созвона.",
-    footerNote: "Остались вопросы? Задайте их на звонке.",
-    cta: "Записаться на пилотный звонок",
-    items: [
-      {
-        q: "Что именно я получу?",
-        a: "Список компаний под ICP, исследование бизнес-контекста, персональные first-touch письма и выгрузку в CRM. Мы ведем процесс end-to-end.",
-      },
-      {
-        q: "Насколько быстро можно запуститься?",
-        a: "Начинаем с 15-минутного fit-call, затем brief по таргетингу и план пилотного запуска. Без долгого онбординга.",
-      },
-      {
-        q: "Подойдет ли это для моего сектора?",
-        a: "Да, мы работаем с разными нишами: строительство, логистика, staffing, производство, facility и профессиональные сервисы.",
-      },
-      {
-        q: "Что вам нужно от нас?",
-        a: "Ваши target criteria: рынок, сектор, тип компании и признаки good-fit клиента. Остальное - на нашей стороне.",
-      },
-      {
-        q: "Насколько персонализированы письма и можно ли это контролировать?",
-        a: "Персонализация полностью настраивается: от AI-модели до промпта. Сообщения строятся на реальном контексте компании, а не шаблонной рассылке.",
-      },
-      {
-        q: "Кто отправляет письма и как вы защищаете deliverability?",
-        a: "Мы можем вести автоматическую отправку с ваших доменов или новых, которые настроим и прогреем, с управлением deliverability.",
-      },
-      {
-        q: "Какой объем вы можете обработать?",
-        a: "Процесс подтвержден в outbound-кампаниях до 100 000 компаний, поэтому масштабируемся под ваши цели.",
-      },
-    ],
+    faq: {
+      eyebrow: "FAQ",
+      title: "Частые вопросы",
+      subtitle: "Прямые ответы об услугах и о том, как устроена поставка.",
+      contactPrompt: "Остались вопросы?",
+      contactCta: "Связаться с нами",
+      items: [
+        {
+          q: "С какими типами проектов вы работаете?",
+          a: "Мы работаем с заказным ПО, разработкой сайтов, мобильными приложениями, магазинами Shopify, сайтами WordPress и кастомными темами WordPress.",
+        },
+        {
+          q: "Можете ли вы разработать проект с нуля?",
+          a: "Да. Мы можем провести проект от требований и планирования через дизайн, разработку, ревью и запуск.",
+        },
+        {
+          q: "Можете ли вы улучшить существующий сайт или приложение?",
+          a: "Да. Мы улучшаем существующие продукты через интерфейсную работу, интеграции, структурные обновления и поддерживаемые доработки.",
+        },
+        {
+          q: "Делаете ли вы магазины Shopify?",
+          a: "Да. Мы поддерживаем настройку магазинов Shopify, кастомизацию тем, структуру каталога и практичные улучшения витрины.",
+        },
+        {
+          q: "Работаете ли вы с WordPress?",
+          a: "Да. Мы создаём и улучшаем сайты на WordPress с понятной структурой контента и поддерживаемой реализацией.",
+        },
+        {
+          q: "Можете ли вы сделать кастомную тему WordPress?",
+          a: "Да. Мы реализуем кастомные темы WordPress с переиспользуемыми шаблонами и редактируемыми в CMS блоками, когда проекту это нужно.",
+        },
+        {
+          q: "Как обсудить проект?",
+          a: "Отправьте короткое описание проекта через Контакты: цели, текущий этап и любые уже имеющиеся материалы.",
+          ctaLabel: "Начать проект",
+          ctaHref: "/contact",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Есть идея проекта?",
+      subtitle: "Расскажите, что вы создаёте и с чем нужна помощь. Мы наметим следующий шаг.",
+      primaryCta: "Начать проект",
+    },
   },
-  finalCta: {
-    eyebrow: "Следующий шаг",
-    title: "Проверим, подходим ли мы друг другу.",
-    subtitle:
-      "Расскажите о ваших outbound-целях. Мы изучим запрос и предложим понятный следующий шаг — без давления.",
-    primaryCta: "Начать разговор",
-    secondaryCta: "Как это работает",
-    footnote: ["Без давления. Без обязательств.", "Обычно отвечаем в течение одного рабочего дня"],
+  careersPage: {
+    hero: {
+      eyebrow: "Карьера",
+      titleLine1: "Создавайте полезные продукты.",
+      titleLine2: "Растите вместе с работой.",
+      support: "Работа над ПО и продуктами с общим ревью.",
+      primaryCta: "Смотреть вакансии",
+      secondaryCta: "Как мы работаем",
+      flowAriaLabel: "Поток сотрудничества от идеи до релиза",
+      sharedDelivery: "Совместная поставка",
+      inMotion: "В работе",
+      flowNodes: ["Идея", "Сотрудничество", "Сборка", "Ревью", "Релиз"],
+      roles: ["Инженерия", "Продукт", "Дизайн", "Поставка"],
+    },
+    principles: {
+      eyebrow: "Работа у нас",
+      title: "Там, где вклад остаётся видимым",
+      subtitle: "Полезная работа движется вперёд, когда контекст, решения и обратная связь общие.",
+      listAriaLabel: "Принципы работы",
+      items: [
+        {
+          title: "Осмысленная работа",
+          description:
+            "Участвуйте в создании ПО, веба, мобильных, коммерческих и контентных продуктов.",
+        },
+        {
+          title: "Понятное сотрудничество",
+          description:
+            "Требования, прогресс и обратная связь остаются видимыми на всём пути поставки.",
+        },
+        {
+          title: "Ответственность",
+          description: "Берите ответственность за полезную работу — от понимания задачи до ревью.",
+        },
+        {
+          title: "Постоянное улучшение",
+          description: "Учитесь через реализацию, ревью, итерации и решения по проекту.",
+        },
+      ],
+    },
+    expertise: {
+      eyebrow: "Типы работы",
+      title: "Работа над разными видами цифровых продуктов",
+      tabsAriaLabel: "Направления работы",
+      serviceAreaLabel: "Направление услуг студии",
+      items: [
+        {
+          id: "software",
+          label: "ПО",
+          description: "Заказное ПО для процессов, интеграций и продуктовых операций.",
+        },
+        {
+          id: "web",
+          label: "Веб",
+          description: "Сайты и цифровые интерфейсы с понятной, поддерживаемой реализацией.",
+        },
+        {
+          id: "mobile",
+          label: "Мобильные",
+          description: "Мобильные приложения вокруг сфокусированных экранов и полезных действий.",
+        },
+        {
+          id: "shopify",
+          label: "Shopify",
+          description: "Настройка витрин, кастомизация и улучшения для коммерции.",
+        },
+        {
+          id: "wordpress",
+          label: "WordPress",
+          description: "Контентные сайты, рассчитанные на практичные процессы публикации.",
+        },
+        {
+          id: "themes",
+          label: "Кастомные темы",
+          description: "Уникальные макеты и редактируемые в CMS блоки для сайтов на WordPress.",
+        },
+      ],
+    },
+    workingStyle: {
+      eyebrow: "Стиль работы",
+      title: "Держать работу понятной и в движении",
+      subtitle: "Общий ритм для вклада, ревью и улучшения полезной работы.",
+      steps: [
+        {
+          title: "Понять",
+          description: "Знать требование до начала реализации.",
+        },
+        {
+          title: "Работать",
+          description: "Держать изменения ревьюируемыми и управляемыми.",
+        },
+        {
+          title: "Ревью",
+          description: "Использовать обратную связь, чтобы улучшить реализацию.",
+        },
+        {
+          title: "Поставить",
+          description: "Доводить работу до полезного релиза.",
+        },
+      ],
+    },
+    positions: {
+      eyebrow: "Возможности",
+      title: "Открытые вакансии",
+      viewPosition: "Смотреть вакансию",
+      emptyTitle: "Сейчас открытых вакансий нет.",
+      emptyBody: "Мы опубликуем новые возможности здесь, когда они появятся.",
+      contactCta: "Связаться с нами",
+    },
+    hiring: {
+      eyebrow: "Путь найма",
+      title: "Понятный путь через общение",
+      steps: [
+        {
+          title: "Заявка",
+          description: "Отправьте данные на доступную роль.",
+        },
+        {
+          title: "Рассмотрение",
+          description: "Мы сверяем заявку с требованиями роли.",
+        },
+        {
+          title: "Разговор",
+          description: "Релевантных кандидатов можем пригласить обсудить роль и опыт.",
+        },
+        {
+          title: "Следующие шаги",
+          description: "Дальнейшие шаги сообщаются кандидатам напрямую.",
+        },
+      ],
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "Несколько полезных деталей",
+      items: [
+        {
+          id: "apply",
+          question: "Как подать заявку на открытую вакансию?",
+          answer: "У каждой опубликованной роли будут инструкции по подаче и способ связи.",
+        },
+        {
+          id: "roles",
+          question: "Где публикуются открытые роли?",
+          answer: "Актуальные возможности будут опубликованы на этой странице, когда появятся.",
+        },
+        {
+          id: "contact",
+          question: "Можно ли связаться со студией, если сейчас нет вакансий?",
+          answer: "Вы можете связаться с нами с релевантным запросом через страницу контактов.",
+        },
+        {
+          id: "details",
+          question: "Какую информацию указать при подаче?",
+          answer:
+            "Используйте сведения, запрошенные в опубликованной роли, и приложите релевантные работы.",
+        },
+      ],
+    },
+    finalCta: {
+      eyebrow: "Карьера",
+      title: "Хотите работать с нами?",
+      body: "Следите за открытыми ролями или свяжитесь, когда появится релевантная возможность.",
+      primaryCta: "Смотреть вакансии",
+      secondaryCta: "Связаться с нами",
+    },
   },
-} as const;
+  projectsPage: {
+    hero: {
+      eyebrow: "ПРОЕКТЫ",
+      title: "Цифровые продукты и веб-решения вокруг реальных требований",
+      subtitle:
+        "Изучите ПО, сайты и интерактивные демо-проекты, созданные, чтобы показать разные подходы к дизайну, разработке и поставке цифровых продуктов.",
+      visualSoftware: "ПО",
+      visualWeb: "Веб",
+      visualMobile: "Мобильные",
+    },
+    grid: {
+      eyebrow: "ИЗБРАННЫЕ ПРОЕКТЫ",
+      title: "Избранные проекты",
+      countLede:
+        "{{count}} живых демо-сайтов — откройте любой доступный проект, чтобы увидеть развёрнутый опыт.",
+      emptyLede: "Изучите нашу текущую коллекцию демо-сайтов и программных решений.",
+      filterAriaLabel: "Фильтр проектов по категории",
+      filterAll: "Все",
+      noMatch: "Нет проектов, подходящих под этот фильтр.",
+      interactiveTitle: "Интерактивные демо",
+      interactiveLede:
+        "Открываемые продуктовые оболочки с тестовыми данными — не живые клиентские заказы.",
+    },
+    approach: {
+      eyebrow: "ПОДХОД К ПРОЕКТУ",
+      title: "От требований к полезному цифровому продукту",
+      lede: "Мы идём от понятных требований и сфокусированного объёма через разработку, ревью, тестирование и поставку.",
+      copy: "Требования, объём, разработка, ревью и поставка — ясно от начала до конца.",
+      railAriaLabel: "Путь поставки",
+      steps: [
+        {
+          id: "requirements",
+          label: "Требования",
+          description: "Понять цели проекта, пользователей, ограничения и нужный результат.",
+        },
+        {
+          id: "scope",
+          label: "Объём",
+          description: "Определить приоритеты, границы и работу для следующего этапа поставки.",
+        },
+        {
+          id: "build",
+          label: "Сборка",
+          description: "Превратить утверждённое направление в работающее ПО или цифровой опыт.",
+        },
+        {
+          id: "review",
+          label: "Ревью",
+          description:
+            "Вместе проверить функциональность, удобство, визуальное качество и реализацию.",
+        },
+        {
+          id: "delivery",
+          label: "Поставка",
+          description: "Подготовить проект к запуску, передаче или следующему раунду улучшений.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Есть идея проекта?",
+      body: "Расскажите, что вы создаёте, на каком этапе проект и где нужна поддержка разработки.",
+      primaryCta: "Начать проект",
+    },
+    card: {
+      openApplication: "Открыть приложение",
+      visitWebsite: "Перейти на сайт",
+      productionBadge: "Продакшен",
+      liveBadge: "Онлайн",
+      interactiveDemo: "Интерактивное демо",
+      conceptProject: "Концепт-проект",
+      openDemoAria: "Открыть демо: {{title}}",
+      viewProjectAria: "Смотреть проект: {{title}}",
+      viewConceptAria: "Смотреть проект: {{title}} (концепт-проект)",
+      previewAlt: "Превью {{title}}",
+    },
+    categories: {
+      software: "ПО",
+      websites: "Веб",
+      mobile: "Мобильные",
+      shopify: "Shopify",
+      wordpress: "WordPress",
+    },
+  },
+};
 
 export default ru;

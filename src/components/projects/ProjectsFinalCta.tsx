@@ -1,11 +1,14 @@
 import React from "react";
 import { PrimaryButton } from "../Buttons";
 import { navigateToContact } from "../../App";
+import { useSiteCopy } from "../../lib/useSiteCopy";
 
 /**
  * Shared final CTA for Projects index and project detail pages.
  */
 export default function ProjectsFinalCta() {
+  const { projectsPage } = useSiteCopy();
+
   return (
     <section
       className="relative mx-auto min-w-0 max-w-7xl overflow-hidden px-3 pb-8 max-[340px]:pb-7 min-[341px]:px-4 sm:px-6 md:pb-10"
@@ -22,18 +25,15 @@ export default function ProjectsFinalCta() {
         />
         <div className="relative z-10 mx-auto max-w-xl space-y-2.5 md:space-y-3">
           <h2 id="projects-final-cta-heading" className="section-title">
-            Have a project in mind?
+            {projectsPage.finalCta.title}
           </h2>
-          <p className="projects-final-cta__copy">
-            Tell us what you are building, what stage the project is in, and where you need
-            development support.
-          </p>
+          <p className="projects-final-cta__copy">{projectsPage.finalCta.body}</p>
           <div className="flex justify-center pt-1.5">
             <PrimaryButton
               onClick={navigateToContact}
-              className="projects-final-cta__button w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+              className="projects-final-cta__button w-full max-w-full px-6 py-3.5 sm:w-auto sm:px-8 whitespace-normal sm:whitespace-nowrap"
             >
-              Start a Project
+              {projectsPage.finalCta.primaryCta}
             </PrimaryButton>
           </div>
         </div>

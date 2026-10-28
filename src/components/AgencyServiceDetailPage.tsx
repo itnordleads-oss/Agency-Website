@@ -20,7 +20,7 @@ type AgencyServiceDetailPageProps = {
  * Full Services hub/detail polish remains owned by the Services feature branch.
  */
 export default function AgencyServiceDetailPage({ slug }: AgencyServiceDetailPageProps) {
-  const { homepageV3 } = useSiteCopy();
+  const { homepageV3, studioChrome } = useSiteCopy();
   const { services } = homepageV3;
 
   const serviceId = isAgencyServiceId(slug) ? slug : null;
@@ -34,19 +34,19 @@ export default function AgencyServiceDetailPage({ slug }: AgencyServiceDetailPag
     if (service) {
       document.title = `${service.title} — ${getSeoSiteName()}`;
     } else {
-      document.title = `Service not found — ${getSeoSiteName()}`;
+      document.title = `${studioChrome.serviceNotFoundTitle} — ${getSeoSiteName()}`;
     }
     return () => {
       document.title = previousTitle;
     };
-  }, [service]);
+  }, [service, studioChrome.serviceNotFoundTitle]);
 
   if (!serviceId || !service) {
     return (
       <main className="mx-auto w-full max-w-7xl flex-grow px-3 py-16 min-[341px]:px-4 sm:px-6 md:py-20">
-        <h1 className="section-title">Service not found</h1>
+        <h1 className="section-title">{studioChrome.serviceNotFoundTitle}</h1>
         <p className="mt-3 max-w-xl text-body text-sm text-white/65 sm:text-base">
-          That service page is not available. Browse the full services overview instead.
+          {studioChrome.serviceNotFoundBody}
         </p>
         <div className="mt-6">
           <SecondaryButton onClick={() => navigateAppPath("/services")}>

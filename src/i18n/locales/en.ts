@@ -8,15 +8,32 @@ const en = {
   nav: {
     toggleMenuLabel: "Toggle menu",
     languageLabel: "Language",
+    closeMenuLabel: "Close menu",
+    primaryNavLabel: "Primary",
+    mobileNavLabel: "Main menu",
     languages: {
+      en: "English",
+      pl: "Polski",
+      de: "Deutsch",
+      ru: "Русский",
+      fr: "Français",
+      es: "Español",
+    },
+    languageCodes: {
       en: "EN",
-      ru: "RU",
+      pl: "PL",
       de: "DE",
-      es: "ES",
+      ru: "RU",
       fr: "FR",
-      pt: "PT",
-      it: "IT",
-      zh: "ZH",
+      es: "ES",
+    },
+    studio: {
+      home: "Home",
+      about: "About",
+      services: "Services",
+      projects: "Projects",
+      careers: "Careers",
+      contact: "Contact",
     },
     menu: [
       {
@@ -48,6 +65,34 @@ const en = {
         label: "Contact",
       },
     ],
+  },
+  studioChrome: {
+    footerExplore: "Explore",
+    footerCompany: "Company",
+    footerLegal: "Legal",
+    footerAriaLabel: "Site footer",
+    footerExploreAria: "Footer Explore",
+    footerCompanyAria: "Footer Company",
+    footerLegalAria: "Footer Legal",
+    footerHomeAriaSuffix: "home",
+    footerDescription: "Custom software and digital product delivery for growing teams.",
+    footerServiceTags: "Digital products · Software · Web",
+    footerCta: "Start a Project",
+    footerCopyright: "© 2026. All rights reserved.",
+    footerServiceLine: "Software, web, mobile, Shopify, and WordPress delivery.",
+    serviceNotFoundTitle: "Service not found",
+    serviceNotFoundBody:
+      "That service page is not available. Browse the full services overview instead.",
+    serviceDetail: {
+      overviewEyebrow: "Service overview",
+      capabilitiesEyebrow: "Capabilities",
+      benefitsEyebrow: "Key benefits",
+      processEyebrow: "Development process",
+      platformEyebrow: "Platform",
+      relatedEyebrow: "Related services",
+      relatedTitle: "Continue exploring",
+      exploreService: "Explore Service",
+    },
   },
   emailButton: {
     openLabel: "Email us at {{email}}",
@@ -2169,6 +2214,257 @@ const en = {
       subtitle:
         "Tell us what you are building and what you need help with. We will outline the next step.",
       primaryCta: "Start a Project",
+    },
+  },
+  careersPage: {
+    hero: {
+      eyebrow: "Careers",
+      titleLine1: "Build useful products.",
+      titleLine2: "Grow with the work.",
+      support: "Software and product work, with shared review.",
+      primaryCta: "View Open Positions",
+      secondaryCta: "How We Work",
+      flowAriaLabel: "Collaboration flow from idea to ship",
+      sharedDelivery: "Shared delivery",
+      inMotion: "In motion",
+      flowNodes: ["Idea", "Collaborate", "Build", "Review", "Ship"],
+      roles: ["Engineering", "Product", "Design", "Delivery"],
+    },
+    principles: {
+      eyebrow: "Working here",
+      title: "Work where contribution stays visible",
+      subtitle: "Useful work moves forward when context, decisions, and feedback are shared.",
+      listAriaLabel: "Working principles",
+      items: [
+        {
+          title: "Meaningful Work",
+          description:
+            "Contribute to software, web, mobile, commerce, and content-focused products.",
+        },
+        {
+          title: "Clear Collaboration",
+          description: "Requirements, progress, and feedback stay visible through delivery.",
+        },
+        {
+          title: "Ownership",
+          description: "Take responsibility for useful work from understanding through review.",
+        },
+        {
+          title: "Continuous Improvement",
+          description: "Learn through implementation, review, iteration, and project decisions.",
+        },
+      ],
+    },
+    expertise: {
+      eyebrow: "Work types",
+      title: "Work across different kinds of digital products",
+      tabsAriaLabel: "Areas of work",
+      serviceAreaLabel: "Agency service area",
+      items: [
+        {
+          id: "software",
+          label: "Software",
+          description: "Custom software for workflows, integrations, and product operations.",
+        },
+        {
+          id: "web",
+          label: "Web",
+          description: "Websites and digital experiences with clear, maintainable implementation.",
+        },
+        {
+          id: "mobile",
+          label: "Mobile",
+          description: "Mobile applications shaped around focused screens and useful actions.",
+        },
+        {
+          id: "shopify",
+          label: "Shopify",
+          description: "Storefront setup, customization, and commerce-focused improvements.",
+        },
+        {
+          id: "wordpress",
+          label: "WordPress",
+          description: "Content-driven websites designed for practical publishing workflows.",
+        },
+        {
+          id: "themes",
+          label: "Custom themes",
+          description: "Distinct layouts and CMS-editable sections for WordPress sites.",
+        },
+      ],
+    },
+    workingStyle: {
+      eyebrow: "Working style",
+      title: "Keep the work clear and moving",
+      subtitle: "A shared rhythm for contributing, reviewing, and improving useful work.",
+      steps: [
+        {
+          title: "Understand",
+          description: "Know the requirement before implementation.",
+        },
+        {
+          title: "Work",
+          description: "Keep changes reviewable and manageable.",
+        },
+        {
+          title: "Review",
+          description: "Use feedback to improve implementation.",
+        },
+        {
+          title: "Deliver",
+          description: "Refine the work toward a useful release.",
+        },
+      ],
+    },
+    positions: {
+      eyebrow: "Opportunities",
+      title: "Open positions",
+      viewPosition: "View Position",
+      emptyTitle: "There are currently no open positions.",
+      emptyBody: "We’ll publish new opportunities here when they become available.",
+      contactCta: "Contact Us",
+    },
+    hiring: {
+      eyebrow: "Hiring journey",
+      title: "A clear path through the conversation",
+      steps: [
+        {
+          title: "Application",
+          description: "Submit your details for an available role.",
+        },
+        {
+          title: "Review",
+          description: "We review the application against the role requirements.",
+        },
+        {
+          title: "Conversation",
+          description: "Relevant candidates may be invited to discuss the role and experience.",
+        },
+        {
+          title: "Next Steps",
+          description: "Further steps are shared directly with candidates.",
+        },
+      ],
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "A few useful details",
+      items: [
+        {
+          id: "apply",
+          question: "How do I apply for an open position?",
+          answer:
+            "Each published role will include its application instructions and contact route.",
+        },
+        {
+          id: "roles",
+          question: "Where will open roles be listed?",
+          answer:
+            "Current opportunities will be published on this page when they become available.",
+        },
+        {
+          id: "contact",
+          question: "Can I contact the studio if there are no current openings?",
+          answer: "You can contact us with a relevant enquiry through the contact page.",
+        },
+        {
+          id: "details",
+          question: "What information should I include when applying?",
+          answer:
+            "Use the information requested in the published role and include work relevant to it.",
+        },
+      ],
+    },
+    finalCta: {
+      eyebrow: "Careers",
+      title: "Interested in working with us?",
+      body: "Keep an eye on open roles or get in touch when there is a relevant opportunity.",
+      primaryCta: "View Open Positions",
+      secondaryCta: "Contact Us",
+    },
+  },
+  projectsPage: {
+    hero: {
+      eyebrow: "PROJECTS",
+      title: "Digital products and web experiences built around real requirements",
+      subtitle:
+        "Explore software, websites, and interactive demo projects created to demonstrate different approaches to design, development, and digital product delivery.",
+      visualSoftware: "Software",
+      visualWeb: "Web",
+      visualMobile: "Mobile",
+    },
+    grid: {
+      eyebrow: "SELECTED PROJECTS",
+      title: "Selected projects",
+      countLede:
+        "{{count}} live demo websites — open any available project to view the deployed experience.",
+      emptyLede: "Explore our current collection of demo websites and software experiences.",
+      filterAriaLabel: "Filter projects by category",
+      filterAll: "All",
+      noMatch: "No projects match this filter.",
+      interactiveTitle: "Interactive demos",
+      interactiveLede: "Openable product shells with dummy data — not live client commissions.",
+    },
+    approach: {
+      eyebrow: "PROJECT APPROACH",
+      title: "From requirements to a useful digital product",
+      lede: "We move from clear requirements and focused scope through development, review, testing, and delivery.",
+      copy: "Requirements, scope, development, review, and delivery — kept clear from start to finish.",
+      railAriaLabel: "Delivery path",
+      steps: [
+        {
+          id: "requirements",
+          label: "Requirements",
+          description: "Understand the project goals, users, constraints, and required outcome.",
+        },
+        {
+          id: "scope",
+          label: "Scope",
+          description:
+            "Define the priorities, boundaries, and work needed for the next delivery stage.",
+        },
+        {
+          id: "build",
+          label: "Build",
+          description: "Turn the approved direction into working software or a digital experience.",
+        },
+        {
+          id: "review",
+          label: "Review",
+          description:
+            "Check functionality, usability, visual quality, and implementation together.",
+        },
+        {
+          id: "delivery",
+          label: "Delivery",
+          description:
+            "Prepare the project for launch, handoff, or the next round of improvements.",
+        },
+      ],
+    },
+    finalCta: {
+      title: "Have a project in mind?",
+      body: "Tell us what you are building, what stage the project is in, and where you need development support.",
+      primaryCta: "Start a Project",
+    },
+    card: {
+      openApplication: "Open Application",
+      visitWebsite: "Visit Website",
+      productionBadge: "Production",
+      liveBadge: "Live",
+      interactiveDemo: "Interactive Demo",
+      conceptProject: "Concept Project",
+      openDemoAria: "Open demo: {{title}}",
+      viewProjectAria: "View project: {{title}}",
+      viewConceptAria: "View project: {{title}} (Concept Project)",
+      previewAlt: "{{title}} preview",
+    },
+    categories: {
+      software: "Software",
+      websites: "Web",
+      mobile: "Mobile",
+      shopify: "Shopify",
+      wordpress: "WordPress",
     },
   },
 } as const;

@@ -1,8 +1,9 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import type { AgencyProject } from "../../content/agencyProjects";
-import { getProjectCategoryLabel, getProjectPath } from "../../lib/agencyProjects";
+import { getProjectPath } from "../../lib/agencyProjects";
 import { navigateAppPath } from "../../App";
+import { useSiteCopy } from "../../lib/useSiteCopy";
 import ProjectVisual from "./ProjectVisual";
 import { useProjectCardTilt } from "./useProjectCardTilt";
 import "./projectCard.css";
@@ -24,6 +25,7 @@ export default function ProjectCard({
   variant = "standard",
   enterIndex,
 }: ProjectCardProps) {
+  const { projectsPage, t } = useSiteCopy();
   const liveUrl = !project.isDemo && project.projectUrl ? project.projectUrl : null;
   const interactiveDemoUrl =
     project.isDemo && project.projectUrl?.startsWith("/demos/") ? project.projectUrl : null;
@@ -31,9 +33,14 @@ export default function ProjectCard({
   const isProductionApp =
     liveUrl !== null &&
     (project.projectType === "Software product" || project.visualMotif === "dashboard");
-  const liveCtaLabel = isProductionApp ? "Open Application" : "Visit Website";
-  const liveBadgeLabel = isProductionApp ? "Production" : "Live";
-  const categoryLabel = getProjectCategoryLabel(project.category);
+  const liveCtaLabel = isProductionApp
+    ? projectsPage.card.openApplication
+    : projectsPage.card.visitWebsite;
+  const liveBadgeLabel = isProductionApp
+    ? projectsPage.card.productionBadge
+    : projectsPage.card.liveBadge;
+  const categoryLabels = projectsPage.categories as Record<string, string>;
+  const categoryLabel = categoryLabels[project.category] || project.category;
   const { ref, onPointerMove, onPointerLeave } = useProjectCardTilt();
   const isCompact = variant === "compact";
   const isFeatured = variant === "featured";
@@ -48,6 +55,17 @@ export default function ProjectCard({
     event.preventDefault();
     navigateAppPath(href);
   };
+
+  const ariaLabel = liveUrl
+    ? `${liveCtaLabel}: ${project.title}`
+    : interactiveDemoUrl
+      ? t("projectsPage.card.openDemoAria", { title: project.title })
+      : project.isDemo
+        ? t("projectsPage.card.viewConceptAria", { title: project.title })
+        : t("projectsPage.card.viewProjectAria", { title: project.title });
+
+  const previewAlt =
+    project.thumbnailAlt || t("projectsPage.card.previewAlt", { title: project.title });
 
   return (
     <a
@@ -66,13 +84,7 @@ export default function ProjectCard({
           ? { animationDelay: `${Math.min(enterIndex, 5) * 40}ms` }
           : undefined
       }
-      aria-label={
-        liveUrl
-          ? `${liveCtaLabel}: ${project.title}`
-          : interactiveDemoUrl
-            ? `Open demo: ${project.title}`
-            : `View project: ${project.title}${project.isDemo ? " (Concept Project)" : ""}`
-      }
+      aria-label={ariaLabel}
     >
       <span className="project-card__shine" aria-hidden />
       <div className="project-card__media-wrap relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#12203a] via-[#0C111B] to-[#0a1628]">
@@ -80,7 +92,7 @@ export default function ProjectCard({
           {project.thumbnail ? (
             <img
               src={project.thumbnail}
-              alt={project.thumbnailAlt || `${project.title} preview`}
+              alt={previewAlt}
               className="project-card__shot h-full w-full rounded-xl object-cover object-top"
               loading="lazy"
             />
@@ -95,11 +107,11 @@ export default function ProjectCard({
         </div>
         {interactiveDemoUrl ? (
           <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border border-[#00D2FF]/30 bg-[#0C111B]/88 px-2 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-[#A4F4FD] backdrop-blur-sm">
-            Interactive Demo
+            {projectsPage.card.interactiveDemo}
           </span>
         ) : project.isDemo ? (
           <span className="project-card__concept-badge absolute left-2.5 top-2.5 z-10 rounded-full border px-2.5 py-0.5 font-semibold uppercase backdrop-blur-sm">
-            Concept Project
+            {projectsPage.card.conceptProject}
           </span>
         ) : liveUrl ? (
           <span
@@ -153,7 +165,7 @@ export default function ProjectCard({
         ) : null}
 
         <div className="project-card__cta">
-          <span>{liveUrl ? liveCtaLabel : "View Project"}</span>
+          <span>{liveUrl ? liveCtaLabel : projectsPage.card.visitWebsite}</span>
           <ArrowRight className="project-card__arrow h-4 w-4" aria-hidden />
         </div>
       </div>

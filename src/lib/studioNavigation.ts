@@ -1,7 +1,8 @@
 /**
  * F3 — Development Studio public navigation.
  *
- * English chrome labels only. Full localized nav copy remains F10.
+ * Route ids/paths stay language-stable. Visible labels come from i18n
+ * (`nav.studio.*`) via `getPublishedStudioNavItems(labels)`.
  * Canonical portfolio route is `/projects`. Legacy `/work` redirects there.
  * Product routes (`/platform`, `/workflow`, product pricing) are retired in F9
  * (redirect to agency destinations) and are not listed in the public studio navbar.
@@ -16,31 +17,41 @@ export type StudioNavItem = {
   path: string;
 };
 
+export type StudioNavLabels = Partial<Record<Exclude<StudioNavItemId, "work">, string>>;
+
 /**
  * @deprecated Prefer checking published project content via agencyProjects.
  * Kept for older call sites during the /work → /projects migration.
  */
 export const IS_WORK_NAV_PUBLISHED = true;
 
-const STUDIO_NAV_ITEMS: StudioNavItem[] = [
-  { id: "home", label: "Home", path: "/" },
-  { id: "about", label: "About", path: "/about" },
-  { id: "services", label: "Services", path: "/services" },
-  { id: "projects", label: "Projects", path: "/projects" },
-  { id: "careers", label: "Careers", path: "/careers" },
-  { id: "contact", label: "Contact", path: "/contact" },
+const STUDIO_NAV_PATHS: ReadonlyArray<{
+  id: Exclude<StudioNavItemId, "work">;
+  path: string;
+  fallbackLabel: string;
+}> = [
+  { id: "home", path: "/", fallbackLabel: "Home" },
+  { id: "about", path: "/about", fallbackLabel: "About" },
+  { id: "services", path: "/services", fallbackLabel: "Services" },
+  { id: "projects", path: "/projects", fallbackLabel: "Projects" },
+  { id: "careers", path: "/careers", fallbackLabel: "Careers" },
+  { id: "contact", path: "/contact", fallbackLabel: "Contact" },
 ];
 
 /** Public header / mobile / footer navigation. */
-export function getPublishedStudioNavItems(): StudioNavItem[] {
-  return STUDIO_NAV_ITEMS;
+export function getPublishedStudioNavItems(labels?: StudioNavLabels): StudioNavItem[] {
+  return STUDIO_NAV_PATHS.map((item) => ({
+    id: item.id,
+    path: item.path,
+    label: labels?.[item.id] || item.fallbackLabel,
+  }));
 }
 
 export function getStudioNavHref(id: StudioNavItemId): string {
   if (id === "work") {
     return "/projects";
   }
-  const item = STUDIO_NAV_ITEMS.find((entry) => entry.id === id);
+  const item = STUDIO_NAV_PATHS.find((entry) => entry.id === id);
   return item?.path ?? "/";
 }
 
