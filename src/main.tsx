@@ -58,7 +58,6 @@ function ensureStudioFavicon() {
   });
 }
 
-
 async function bootstrap() {
   ensureStudioFavicon();
   await initI18n();
