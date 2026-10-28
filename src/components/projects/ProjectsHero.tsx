@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import SectionEyebrow from "../SectionEyebrow";
 import ProjectVisual from "./ProjectVisual";
+import { useSiteCopy } from "../../lib/useSiteCopy";
 import "./projectsHero.css";
 
 function prefersReducedMotion(): boolean {
@@ -22,6 +23,7 @@ function canUsePointerParallax(): boolean {
  * Entrance runs once; pointer parallax stays within a few pixels.
  */
 export default function ProjectsHero() {
+  const { projectsPage } = useSiteCopy();
   const visualRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<number | null>(null);
 
@@ -80,17 +82,16 @@ export default function ProjectsHero() {
         <div className="relative z-10 grid items-center gap-7 lg:grid-cols-2 lg:gap-10 xl:gap-12">
           <div className="mx-auto max-w-xl space-y-3.5 text-center sm:space-y-4 lg:mx-0 lg:max-w-[28rem] lg:text-left">
             <div className="projects-hero__enter projects-hero__enter--eyebrow flex justify-center lg:justify-start">
-              <SectionEyebrow label="PROJECTS" />
+              <SectionEyebrow label={projectsPage.hero.eyebrow} />
             </div>
             <h1
               id="projects-hero-title"
               className="projects-hero__enter projects-hero__enter--title projects-hero-title mx-auto lg:mx-0"
             >
-              Digital products and web experiences built around real requirements
+              {projectsPage.hero.title}
             </h1>
             <p className="projects-hero__enter projects-hero__enter--copy projects-hero-copy mx-auto lg:mx-0">
-              Explore software, websites, and interactive demo projects created to demonstrate
-              different approaches to design, development, and digital product delivery.
+              {projectsPage.hero.subtitle}
             </p>
           </div>
 
@@ -103,17 +104,21 @@ export default function ProjectsHero() {
           >
             <div className="projects-hero-visual__layer projects-hero-visual__layer--back absolute inset-x-[6%] top-[6%] bottom-[20%] rotate-[-5deg] opacity-75 motion-reduce:rotate-0">
               <ProjectVisual motif="dashboard" variant={2} density="rich" className="h-full" />
-              <span className="projects-hero-visual__caption">Software</span>
+              <span className="projects-hero-visual__caption">
+                {projectsPage.hero.visualSoftware}
+              </span>
             </div>
             <div className="projects-hero-visual__layer projects-hero-visual__layer--mid absolute inset-x-[16%] top-[16%] bottom-[6%] rotate-[2.5deg] motion-reduce:rotate-0">
               <ProjectVisual motif="commerce" variant={1} density="rich" className="h-full" />
-              <span className="projects-hero-visual__caption">Web</span>
+              <span className="projects-hero-visual__caption">{projectsPage.hero.visualWeb}</span>
             </div>
             <div className="projects-hero-visual__layer projects-hero-visual__layer--front absolute right-[2%] top-[18%] hidden h-[62%] w-[32%] sm:block">
               <div className="h-full rotate-[6deg] motion-reduce:rotate-0">
                 <ProjectVisual motif="mobile" variant={1} className="h-full" />
               </div>
-              <span className="projects-hero-visual__caption">Mobile</span>
+              <span className="projects-hero-visual__caption">
+                {projectsPage.hero.visualMobile}
+              </span>
             </div>
           </div>
         </div>

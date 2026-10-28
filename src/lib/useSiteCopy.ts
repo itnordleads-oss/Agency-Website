@@ -112,6 +112,18 @@ export function useSiteCopy() {
       t("servicesPage", { returnObjects: true, lng: language }),
       {} as Translations["servicesPage"]
     ),
+    careersPage: asObject(
+      t("careersPage", { returnObjects: true, lng: language }),
+      {} as Translations["careersPage"]
+    ),
+    projectsPage: asObject(
+      t("projectsPage", { returnObjects: true, lng: language }),
+      {} as Translations["projectsPage"]
+    ),
+    studioChrome: asObject(
+      t("studioChrome", { returnObjects: true, lng: language }),
+      {} as Translations["studioChrome"]
+    ),
     platformPage: asObject(
       t("platformPage", { returnObjects: true, lng: language }),
       {} as Translations["platformPage"]

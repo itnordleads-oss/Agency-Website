@@ -6,22 +6,32 @@ interface LanguageDropdownProps {
   id?: string;
   label: string;
   value: SupportedLanguage;
+  /** Compact codes shown on the trigger (EN, PL, …). */
+  languageCodes: Partial<Record<SupportedLanguage, string>>;
+  /** Full readable names shown in the menu (English, Polski, …). */
   languageLabels: Partial<Record<SupportedLanguage, string>>;
   onChange: (language: SupportedLanguage) => void;
+  /** Align the menu for constrained mobile headers. */
+  menuAlign?: "start" | "end";
+  className?: string;
 }
 
 export default function LanguageDropdown({
   id,
   label,
   value,
+  languageCodes,
   languageLabels,
   onChange,
+  menuAlign = "end",
+  className = "",
 }: LanguageDropdownProps) {
   const generatedId = useId();
   const triggerId = id ?? generatedId;
   const listboxId = `${triggerId}-listbox`;
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) {
@@ -36,7 +46,9 @@ export default function LanguageDropdown({
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        event.preventDefault();
         setOpen(false);
+        triggerRef.current?.focus();
       }
     };
 
@@ -48,11 +60,20 @@ export default function LanguageDropdown({
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const selected = document.getElementById(`${triggerId}-option-${value}`);
+    selected?.focus();
+  }, [open, triggerId, value]);
+
   const selectLanguage = (language: SupportedLanguage) => {
     if (language !== value) {
       onChange(language);
     }
     setOpen(false);
+    triggerRef.current?.focus();
   };
 
   const onTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -73,6 +94,20 @@ export default function LanguageDropdown({
       return;
     }
 
+    if (event.key === "Home") {
+      event.preventDefault();
+      document.getElementById(`${triggerId}-option-${supportedLanguages[0]}`)?.focus();
+      return;
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      document
+        .getElementById(`${triggerId}-option-${supportedLanguages[supportedLanguages.length - 1]}`)
+        ?.focus();
+      return;
+    }
+
     if (event.key === "ArrowDown") {
       event.preventDefault();
       const next = supportedLanguages[(index + 1) % supportedLanguages.length];
@@ -88,13 +123,19 @@ export default function LanguageDropdown({
     }
   };
 
+  const triggerLabel = languageCodes[value] ?? value.toUpperCase();
+
   return (
-    <div ref={rootRef} className="language-dropdown relative z-50 shrink-0">
+    <div
+      ref={rootRef}
+      className={`language-dropdown relative z-50 shrink-0${className ? ` ${className}` : ""}`}
+    >
       <span className="sr-only" id={`${triggerId}-label`}>
         {label}
       </span>
       <button
         type="button"
+        ref={triggerRef}
         id={triggerId}
         aria-labelledby={`${triggerId}-label`}
         aria-haspopup="listbox"
@@ -104,8 +145,8 @@ export default function LanguageDropdown({
         onKeyDown={onTriggerKeyDown}
         className="language-dropdown__trigger"
       >
-        <span className="language-dropdown__value">
-          {languageLabels[value] ?? value.toUpperCase()}
+        <span className="language-dropdown__value" lang={value}>
+          {triggerLabel}
         </span>
         <ChevronDown
           className={`language-dropdown__chevron ${open ? "language-dropdown__chevron--open" : ""}`}
@@ -118,10 +159,12 @@ export default function LanguageDropdown({
           id={listboxId}
           role="listbox"
           aria-labelledby={`${triggerId}-label`}
-          className="language-dropdown__menu"
+          className={`language-dropdown__menu language-dropdown__menu--${menuAlign}`}
         >
           {supportedLanguages.map((language, index) => {
             const isSelected = language === value;
+            const fullName = languageLabels[language] ?? language.toUpperCase();
+            const code = languageCodes[language] ?? language.toUpperCase();
             return (
               <li key={language} role="presentation">
                 <button
@@ -130,11 +173,15 @@ export default function LanguageDropdown({
                   role="option"
                   aria-selected={isSelected}
                   tabIndex={isSelected ? 0 : -1}
+                  lang={language}
                   onClick={() => selectLanguage(language)}
                   onKeyDown={(event) => onOptionKeyDown(event, language, index)}
                   className={`language-dropdown__option${isSelected ? " language-dropdown__option--selected" : ""}`}
                 >
-                  {languageLabels[language] ?? language.toUpperCase()}
+                  <span className="language-dropdown__option-name">{fullName}</span>
+                  <span className="language-dropdown__option-code" aria-hidden="true">
+                    {code}
+                  </span>
                 </button>
               </li>
             );
