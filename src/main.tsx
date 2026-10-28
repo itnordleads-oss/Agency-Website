@@ -41,16 +41,31 @@ function ensureStudioFavicon() {
       el!.setAttribute(key, value);
     });
   };
-  ensureLink("icon", { href, sizes: "any" });
-  ensureLink("icon", {
-    href: "/favicon-32x32.png",
-    type: "image/png",
-    sizes: "32x32",
-  });
+  ensureLink("icon", { href: "/favicon.ico", sizes: "any" });
   ensureLink("icon", {
     href: "/favicon-16x16.png",
     type: "image/png",
     sizes: "16x16",
+  });
+  ensureLink("icon", {
+    href,
+    type: "image/png",
+    sizes: "32x32",
+  });
+  ensureLink("icon", {
+    href: "/favicon-48x48.png",
+    type: "image/png",
+    sizes: "48x48",
+  });
+  ensureLink("icon", {
+    href: "/favicon-192x192.png",
+    type: "image/png",
+    sizes: "192x192",
+  });
+  ensureLink("icon", {
+    href: "/favicon-512x512.png",
+    type: "image/png",
+    sizes: "512x512",
   });
   ensureLink("apple-touch-icon", {
     href: "/apple-touch-icon.png",
