@@ -41,7 +41,7 @@ export default function HomeAgencyWork() {
       />
       <div className={HOME_AGENCY_SHELL}>
         <motion.div
-          className="mb-5 flex flex-col gap-3 sm:mb-6 md:mb-7 md:flex-row md:items-end md:justify-between md:gap-5"
+          className="mb-5 flex flex-col gap-3 sm:mb-6 md:mb-7 lg:flex-row lg:items-end lg:justify-between lg:gap-5"
           {...homepageRevealProps(reduceMotion)}
         >
           <div className={HOME_AGENCY_INTRO}>
@@ -57,7 +57,7 @@ export default function HomeAgencyWork() {
             onClick={() => navigateAppPath("/projects")}
             className="w-full shrink-0 text-sm sm:w-auto"
           >
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex min-h-11 items-center gap-2">
               {workPreview.cta}
               <ArrowRight className="h-4 w-4" aria-hidden />
             </span>

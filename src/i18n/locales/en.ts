@@ -1370,31 +1370,43 @@ const en = {
     },
     value: {
       eyebrow: "Why work with us",
-      title: "A delivery approach teams can plan around",
+      title: "A practical development approach built around clear delivery",
       subtitle: "Clear communication and practical engineering from scope through delivery.",
       items: [
         {
+          shortLabel: "Communication",
           title: "Clear Communication",
-          description: "Priorities and decisions stay visible.",
+          description:
+            "Keep project priorities, decisions, scope, and next steps visible throughout delivery.",
+          points: ["Visible priorities", "Shared decisions", "Clear next steps"],
         },
         {
+          shortLabel: "Engineering",
           title: "Practical Engineering",
-          description: "Build what the product needs.",
+          description:
+            "Choose solutions appropriate to the actual product requirement rather than adding unnecessary complexity.",
+          points: ["Requirement-led", "Right-sized solutions", "Useful implementation"],
         },
         {
+          shortLabel: "Delivery",
           title: "Structured Delivery",
-          description: "Scope and progress stay reviewable.",
+          description:
+            "Break work into clear stages so progress can be reviewed before moving forward.",
+          points: ["Clear stages", "Reviewable progress", "Managed scope"],
         },
         {
-          title: "Maintainable Solutions",
-          description: "Code and systems stay practical after launch.",
+          shortLabel: "Change",
+          title: "Built for Change",
+          description:
+            "Build with future updates, changing requirements, and continued product improvement in mind.",
+          points: ["Update-ready", "Changing requirements", "Continued improvement"],
         },
       ],
     },
     workPreview: {
-      eyebrow: "Featured projects",
-      title: "Selected work",
-      subtitle: "Five live gallery websites. Open a card to visit the site.",
+      eyebrow: "Portfolio",
+      title: "Selected Digital Experiences",
+      subtitle: "A curated look at live demo websites from the studio portfolio.",
       cta: "View All Projects",
     },
     process: {
