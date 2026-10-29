@@ -123,8 +123,12 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1.15rem;
-  background:
-    linear-gradient(165deg, rgba(16, 28, 48, 0.92) 0%, rgba(10, 16, 28, 0.88) 52%, rgba(9, 18, 34, 0.84) 100%);
+  background: linear-gradient(
+    165deg,
+    rgba(16, 28, 48, 0.92) 0%,
+    rgba(10, 16, 28, 0.88) 52%,
+    rgba(9, 18, 34, 0.84) 100%
+  );
   box-shadow:
     0 0 0 1px rgba(0, 210, 255, 0.05),
     0 22px 56px rgba(0, 0, 0, 0.32),
@@ -191,16 +195,17 @@
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 0.9rem;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 34%),
-    rgba(7, 12, 22, 0.92);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 34%), rgba(7, 12, 22, 0.92);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 0 0 1px rgba(0, 210, 255, 0.04),
     0 18px 40px rgba(0, 0, 0, 0.28);
-  transform: translate3d(var(--spotlight-shift-x), var(--spotlight-shift-y), 0)
-    perspective(900px) rotateX(var(--spotlight-tilt-x)) rotateY(var(--spotlight-tilt-y));
+  transform: translate3d(var(--spotlight-shift-x), var(--spotlight-shift-y), 0) perspective(900px)
+    rotateX(var(--spotlight-tilt-x)) rotateY(var(--spotlight-tilt-y));
   transform-style: preserve-3d;
-  transition: transform 180ms ease, box-shadow 220ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 220ms ease;
   will-change: transform;
 }
 

@@ -47,7 +47,10 @@ export default function HomeAgencyWork() {
             <span data-homepage-scroll-ref="work">
               <SectionEyebrow label={workPreview.eyebrow} />
             </span>
-            <h2 id="agency-work-heading" className="section-title home-agency-work__title text-left">
+            <h2
+              id="agency-work-heading"
+              className="section-title home-agency-work__title text-left"
+            >
               {workPreview.title}
             </h2>
             <p className="home-agency-lede home-agency-work__lede max-w-xl">
