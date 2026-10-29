@@ -190,7 +190,10 @@ export default function ServicesHero({
   };
 
   return (
-    <section className="services-hero relative overflow-hidden" aria-labelledby="services-hero-title">
+    <section
+      className="services-hero relative overflow-hidden"
+      aria-labelledby="services-hero-title"
+    >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_circle_at_80%_35%,rgba(61,129,227,0.14),transparent_62%)] motion-reduce:hidden"
         aria-hidden
