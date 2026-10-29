@@ -1,8 +1,8 @@
 import React from "react";
 import SectionEyebrow from "../SectionEyebrow";
-import { ArrowRight } from "lucide-react";
 import { navigateAppPath } from "../../App";
 import { ServiceIcon } from "./serviceIcons";
+import ServiceExploreLink from "./ServiceExploreLink";
 import {
   SERVICES_INTRO_CLASS,
   SERVICES_SECTION_CLASS,
@@ -72,13 +72,9 @@ export default function ServicesOverviewGrid({ overview, services }: ServicesOve
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
-                  <span className="services-overview-tile__cta mt-auto inline-flex items-center gap-1.5 whitespace-nowrap text-[#A4F4FD] transition-colors group-hover:text-white">
+                  <ServiceExploreLink embedded className="services-overview-tile__cta mt-auto">
                     {overview.learnMore}
-                    <ArrowRight
-                      className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[2px] motion-reduce:transform-none"
-                      aria-hidden
-                    />
-                  </span>
+                  </ServiceExploreLink>
                 </a>
               </li>
             );

@@ -82,10 +82,6 @@
     transform 200ms ease;
 }
 
-.home-agency-services-cta-arrow {
-  transition: transform 200ms ease;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .home-agency-services-tile:hover {
     background: rgba(255, 255, 255, 0.035);
@@ -106,10 +102,6 @@
   .home-agency-services-tile:hover .home-agency-services-deco {
     border-top-color: rgba(164, 244, 253, 0.4);
     border-right-color: rgba(164, 244, 253, 0.28);
-  }
-
-  .home-agency-services-tile:hover .home-agency-services-cta-arrow {
-    transform: translateX(3px);
   }
 }
 
@@ -180,7 +172,6 @@
 @media (prefers-reduced-motion: reduce) {
   .home-agency-services-tile,
   .home-agency-services-icon,
-  .home-agency-services-cta-arrow,
   .home-agency-services-tile::after {
     transition:
       background-color 200ms ease,
@@ -191,8 +182,7 @@
   }
 
   .home-agency-services-tile:hover,
-  .home-agency-services-tile:hover .home-agency-services-icon,
-  .home-agency-services-tile:hover .home-agency-services-cta-arrow {
+  .home-agency-services-tile:hover .home-agency-services-icon {
     transform: none;
   }
 }

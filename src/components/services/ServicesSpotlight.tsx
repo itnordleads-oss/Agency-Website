@@ -1,8 +1,8 @@
 import React, { useId, useLayoutEffect, useRef, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import SectionEyebrow from "../SectionEyebrow";
-import { navigateAppPath } from "../../App";
 import { ServiceIcon } from "./serviceIcons";
+import ServiceExploreLink from "./ServiceExploreLink";
 import ServicesSpotlightVisuals from "./ServicesSpotlightVisuals";
 import {
   SERVICES_INTRO_CLASS,
@@ -193,14 +193,13 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
                 </div>
               </div>
             ) : null}
-            <button
-              type="button"
-              className="inline-flex items-center gap-2 pt-1 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF]"
-              onClick={() => navigateAppPath(`/services/${activeService.id}`)}
+            <ServiceExploreLink
+              href={`/services/${activeService.id}`}
+              aria-label={`${copy.exploreCta}: ${activeService.title}`}
+              className="services-blueprint-panel__cta"
             >
               {copy.exploreCta}
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </button>
+            </ServiceExploreLink>
           </div>
           <div className="services-blueprint-panel__visual min-w-0 lg:col-span-8">
             <div className="services-blueprint-canvas">

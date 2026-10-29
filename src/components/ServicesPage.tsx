@@ -17,7 +17,11 @@ export default function ServicesPage() {
 
   return (
     <main id="services-page" className="min-w-0 flex-1 overflow-x-hidden">
-      <ServicesHero copy={servicesPage.hero} services={services} />
+      <ServicesHero
+        copy={servicesPage.hero}
+        services={services}
+        exploreLabel={servicesPage.overview.learnMore}
+      />
       <ServicesOverviewGrid overview={servicesPage.overview} services={services} />
       <ServicesSpotlight copy={servicesPage.spotlight} services={services} />
       <ServicesWhyUs copy={servicesPage.whyUs} />
