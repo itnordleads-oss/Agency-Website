@@ -184,40 +184,34 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
   };
 
   return (
-    <section
-      className="relative overflow-hidden pb-9 pt-6 sm:pb-11 sm:pt-7 md:pb-12 md:pt-8"
-      aria-labelledby="services-hero-title"
-    >
+    <section className="services-hero relative overflow-hidden" aria-labelledby="services-hero-title">
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(700px_circle_at_80%_35%,rgba(61,129,227,0.14),transparent_62%)] motion-reduce:hidden"
         aria-hidden
       />
       <div className={SERVICES_SHELL_CLASS}>
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12">
+        <div className="services-hero-layout grid grid-cols-1 items-center lg:grid-cols-12">
           <div className="services-hub-reveal services-hero-copy min-w-0 w-full lg:col-span-5 xl:col-span-5">
-            <SectionEyebrow label={copy.eyebrow} className="mb-4" />
+            <SectionEyebrow label={copy.eyebrow} className="services-hero-eyebrow" />
             <h1 id="services-hero-title" className="services-hero-title">
               {copy.title}
             </h1>
-            <p className="services-hero-subtitle mt-4 max-w-md">{copy.subtitle}</p>
-            <div className="services-hero-actions mt-7 flex flex-col flex-wrap gap-2.5 min-[390px]:flex-row min-[390px]:gap-3 sm:gap-3.5">
-              <PrimaryButton
-                onClick={navigateToContact}
-                className="services-hero-cta min-h-11 w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
-              >
+            <p className="services-hero-subtitle">{copy.subtitle}</p>
+            <div className="services-hero-actions">
+              <PrimaryButton onClick={navigateToContact} className="services-hero-cta">
                 {copy.primaryCta}
               </PrimaryButton>
               <SecondaryButton
                 type="button"
                 onClick={scrollToOverview}
-                className="services-hero-cta min-h-11 w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
+                className="services-hero-cta"
               >
                 {copy.secondaryCta}
               </SecondaryButton>
             </div>
           </div>
 
-          <div className="relative lg:col-span-7 xl:col-span-7">
+          <div className="services-hero-visual relative min-w-0 lg:col-span-7 xl:col-span-7">
             <div
               className={`services-hero-system${ready ? " is-ready" : ""}`}
               role="group"
@@ -328,7 +322,7 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
                 })}
               </div>
 
-              {/* Mobile compact vertical delivery list */}
+              {/* Mobile: delivery flow strip + compact capability pairs */}
               <div className="services-hero-system__stage services-hero-system__stage--mobile">
                 <div className="services-hero-system__mobile-axis" aria-hidden>
                   <span>Requirement</span>
@@ -381,7 +375,7 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
                 </div>
               ) : null}
             </div>
-            <p className="mt-3 text-xs leading-relaxed text-white/45">{copy.visualNote}</p>
+            <p className="services-hero-visual-note">{copy.visualNote}</p>
           </div>
         </div>
       </div>
