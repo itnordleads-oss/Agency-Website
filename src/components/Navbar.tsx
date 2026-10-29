@@ -71,9 +71,18 @@ export default function Navbar() {
       }
     };
 
+    const onResize = () => {
+      // Recover cleanly when crossing into desktop chrome with the menu open.
+      if (window.matchMedia("(min-width: 1024px)").matches) {
+        setMobileMenuOpen(false);
+      }
+    };
+
     window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", onResize);
       unlockBodyScroll();
       emitModalClose("mobileMenu");
     };
@@ -88,21 +97,10 @@ export default function Navbar() {
   };
 
   const handleLanguageChange = (language: SupportedLanguage) => {
+    // Keep the mobile menu open so the user can confirm the active language.
     setSelectedLanguage(language);
     void changeAppLanguage(language);
   };
-
-  const renderLanguageSwitcher = (switcherId: string, menuAlign: "start" | "end" = "end") => (
-    <LanguageDropdown
-      id={switcherId}
-      label={nav.languageLabel}
-      value={selectedLanguage}
-      languageCodes={nav.languageCodes ?? {}}
-      languageLabels={nav.languages ?? {}}
-      menuAlign={menuAlign}
-      onChange={handleLanguageChange}
-    />
-  );
 
   const desktopNavClassName = (isActive: boolean) =>
     `text-ui-button font-medium transition-colors cursor-pointer relative py-1 group ${
@@ -115,7 +113,7 @@ export default function Navbar() {
     }`;
 
   const mobileNavClassName = (isActive: boolean) =>
-    `text-left py-2 text-ui-button font-medium border-b ${
+    `text-left py-2.5 text-ui-button font-medium border-b min-w-0 break-words ${
       isActive ? "text-white border-brand/35" : "text-white/70 hover:text-white border-white/[0.03]"
     }`;
 
@@ -164,7 +162,15 @@ export default function Navbar() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            {renderLanguageSwitcher(desktopLanguageSwitcherId)}
+            <LanguageDropdown
+              id={desktopLanguageSwitcherId}
+              label={nav.languageLabel}
+              value={selectedLanguage}
+              languageCodes={nav.languageCodes ?? {}}
+              languageLabels={nav.languages ?? {}}
+              menuAlign="end"
+              onChange={handleLanguageChange}
+            />
             <PrimaryButton onClick={() => navigateToContact()}>{primaryCtaLabel}</PrimaryButton>
           </div>
 
@@ -187,36 +193,46 @@ export default function Navbar() {
         {mobileMenuOpen ? (
           <div
             id={menuId}
-            className="lg:hidden border-b border-white/10 bg-[#0C111B]/95 backdrop-blur-2xl overflow-hidden"
+            className="navbar-mobile-menu lg:hidden border-b border-white/10 bg-[#0C111B]"
             role="dialog"
             aria-modal="true"
             aria-label={nav.mobileNavLabel || "Main menu"}
           >
-            <div className="px-3 min-[341px]:px-4 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-4 min-[341px]:gap-5">
-              {menuItems.map((item) => {
-                const isActive = activeNavId === item.id;
+            <div className="navbar-mobile-menu__inner px-3 min-[341px]:px-4 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-3 min-[341px]:gap-4">
+              <nav className="flex flex-col gap-1" aria-label={nav.mobileNavLabel || "Main menu"}>
+                {menuItems.map((item) => {
+                  const isActive = activeNavId === item.id;
 
-                return (
-                  <a
-                    key={item.id}
-                    href={item.path}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      handleNavItem(item.id, item.path);
-                    }}
-                    className={`${mobileNavClassName(isActive)} min-h-11 flex items-center`}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    {item.label}
-                  </a>
-                );
-              })}
-              <div className="pt-1 border-t border-white/[0.06]">
-                <p className="mb-2 text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-white/45">
-                  {nav.languageLabel}
-                </p>
-                {renderLanguageSwitcher(mobileLanguageSwitcherId, "start")}
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.path}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleNavItem(item.id, item.path);
+                      }}
+                      className={`${mobileNavClassName(isActive)} min-h-11 flex items-center`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                })}
+              </nav>
+
+              <div className="pt-2 border-t border-white/[0.08]">
+                <LanguageDropdown
+                  id={mobileLanguageSwitcherId}
+                  label={nav.languageLabel}
+                  value={selectedLanguage}
+                  languageCodes={nav.languageCodes ?? {}}
+                  languageLabels={nav.languages ?? {}}
+                  menuAlign="start"
+                  variant="panel"
+                  onChange={handleLanguageChange}
+                />
               </div>
+
               <div className="pt-1">
                 <PrimaryButton
                   onClick={() => {
