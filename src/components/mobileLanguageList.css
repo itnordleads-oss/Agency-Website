@@ -1,0 +1,107 @@
+/**
+ * Mobile hamburger language section — flat rows, not a nested desktop dropdown.
+ */
+
+.mobile-language-list {
+  min-width: 0;
+}
+
+.mobile-language-list__heading {
+  margin: 0 0 0.55rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.mobile-language-list__options {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0.2rem 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-language-list__option {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  padding: 0.55rem 0.55rem 0.55rem 0.7rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.mobile-language-list__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.mobile-language-list__check,
+.mobile-language-list__check-slot {
+  flex-shrink: 0;
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.mobile-language-list__check {
+  color: #00d2ff;
+}
+
+.mobile-language-list__option:hover,
+.mobile-language-list__option:focus-visible {
+  background: rgba(255, 255, 255, 0.045);
+  color: #fff;
+}
+
+.mobile-language-list__option:focus {
+  outline: none;
+}
+
+.mobile-language-list__option:focus-visible {
+  box-shadow: 0 0 0 2px rgba(61, 129, 227, 0.55);
+}
+
+.mobile-language-list__option--selected {
+  color: #fff;
+  font-weight: 650;
+  background: transparent;
+}
+
+.mobile-language-list__option--selected::before {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  bottom: 0.55rem;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: #00d2ff;
+}
+
+.mobile-language-list__option--selected .mobile-language-list__name {
+  color: #dffbff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-language-list__option {
+    transition: none;
+  }
+}

@@ -760,6 +760,38 @@ body {
   }
 }
 
+/* Mobile hamburger panel — scroll within short viewports; keep page locked. */
+.navbar-mobile-menu {
+  max-height: min(calc(100dvh - 4.25rem), calc(100vh - 4.25rem));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  animation: navbar-mobile-menu-in 220ms ease-out;
+}
+
+.navbar-mobile-menu__inner {
+  min-width: 0;
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+}
+
+@keyframes navbar-mobile-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-mobile-menu {
+    animation: none;
+  }
+}
+
 /* Navbar language dropdown — compact trigger, readable menu */
 .language-dropdown__trigger {
   display: inline-flex;
