@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
-import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
 import HomeAgencyProjectSpotlight from "./HomeAgencyProjectSpotlight";
-import { SecondaryButton } from "../Buttons";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import { navigateAppPath } from "../../App";
 import { getFeaturedProjects, isProjectsPublished } from "../../lib/agencyProjects";
-import { HOME_AGENCY_INTRO, HOME_AGENCY_SECTION, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
+import { HOME_AGENCY_SECTION, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
 import { homepageRevealProps } from "./homeAgencyMotion";
+import "./homeAgencyProjectSpotlight.css";
 
 /**
  * Homepage Featured Projects — spotlight preview (not the /projects featured card grid).
@@ -28,45 +27,62 @@ export default function HomeAgencyWork() {
   return (
     <section
       id="featured-projects"
-      className={`${HOME_AGENCY_SECTION} relative`}
+      className={`${HOME_AGENCY_SECTION} home-agency-work relative`}
       aria-labelledby="agency-work-heading"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-0 opacity-90"
+        className="pointer-events-none absolute inset-0 -z-0 opacity-95"
         style={{
           backgroundImage:
-            "radial-gradient(640px circle at 78% 18%, rgba(0,210,255,0.08), transparent 55%), radial-gradient(520px circle at 8% 80%, rgba(61,129,227,0.07), transparent 50%)",
+            "radial-gradient(680px circle at 76% 16%, rgba(0,210,255,0.09), transparent 56%), radial-gradient(520px circle at 10% 84%, rgba(61,129,227,0.07), transparent 52%)",
         }}
       />
       <div className={HOME_AGENCY_SHELL}>
         <motion.div
-          className="mb-5 flex flex-col gap-3 sm:mb-6 md:mb-7 lg:flex-row lg:items-end lg:justify-between lg:gap-5"
+          className="home-agency-work__intro mb-6 flex flex-col gap-3 sm:mb-7 md:mb-8 lg:flex-row lg:items-end lg:justify-between lg:gap-6"
           {...homepageRevealProps(reduceMotion)}
         >
-          <div className={HOME_AGENCY_INTRO}>
+          <div className="home-agency-work__copy max-w-2xl">
             <span data-homepage-scroll-ref="work">
               <SectionEyebrow label={workPreview.eyebrow} />
             </span>
-            <h2 id="agency-work-heading" className="section-title text-left">
+            <h2
+              id="agency-work-heading"
+              className="section-title home-agency-work__title text-left"
+            >
               {workPreview.title}
             </h2>
-            <p className="home-agency-lede max-w-xl">{workPreview.subtitle}</p>
+            <p className="home-agency-lede home-agency-work__lede max-w-xl">
+              {workPreview.subtitle}
+            </p>
           </div>
-          <SecondaryButton
-            onClick={() => navigateAppPath("/projects")}
-            className="w-full shrink-0 text-sm sm:w-auto"
+          <a
+            href="/projects"
+            className="home-agency-work__view-all"
+            onClick={(event) => {
+              if (
+                event.defaultPrevented ||
+                event.button !== 0 ||
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+              ) {
+                return;
+              }
+              event.preventDefault();
+              navigateAppPath("/projects");
+            }}
           >
-            <span className="inline-flex min-h-11 items-center gap-2">
-              {workPreview.cta}
-              <ArrowRight className="h-4 w-4" aria-hidden />
+            <span>{workPreview.cta}</span>
+            <span className="home-agency-work__view-all-arrow" aria-hidden>
+              →
             </span>
-          </SecondaryButton>
+          </a>
         </motion.div>
 
-        <motion.div {...homepageRevealProps(reduceMotion, 0.08)}>
-          <HomeAgencyProjectSpotlight projects={featured} />
-        </motion.div>
+        <HomeAgencyProjectSpotlight projects={featured} />
       </div>
     </section>
   );

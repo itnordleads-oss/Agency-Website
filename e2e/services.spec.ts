@@ -104,7 +104,7 @@ test.describe("services experience", () => {
       "true"
     );
 
-    await blueprint.getByRole("button", { name: "Explore Service" }).click();
+    await blueprint.getByRole("link", { name: /Explore Service/ }).click();
     await expect(page).toHaveURL(/\/services\/shopify-stores$/);
   });
 

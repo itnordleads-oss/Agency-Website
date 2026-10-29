@@ -1,0 +1,88 @@
+/**
+ * Shared secondary service navigation — editorial text link, not a button.
+ * Keep clearly below PrimaryButton / SecondaryButton visual weight.
+ */
+
+.service-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0.55rem 0;
+  min-height: 2.75rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: inherit;
+  font-size: 0.8125rem; /* 13px mobile */
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 200ms ease;
+}
+
+.service-explore-link__label {
+  display: inline-block;
+}
+
+.service-explore-link__arrow {
+  display: inline-block;
+  color: rgba(125, 216, 232, 0.95);
+  font-size: 0.9375rem; /* ~15px */
+  font-weight: 500;
+  line-height: 1;
+  transform: translateX(0);
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 200ms ease;
+}
+
+@media (min-width: 768px) {
+  .service-explore-link {
+    min-height: 2rem;
+    padding: 0.35rem 0;
+    font-size: 0.75rem; /* 12px desktop */
+  }
+
+  .service-explore-link__arrow {
+    font-size: 0.875rem; /* 14px */
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-explore-link:hover,
+  .service-explore-link:focus-visible,
+  .group:hover .service-explore-link {
+    color: rgba(200, 248, 255, 0.98);
+  }
+
+  .service-explore-link:hover .service-explore-link__arrow,
+  .service-explore-link:focus-visible .service-explore-link__arrow,
+  .group:hover .service-explore-link .service-explore-link__arrow {
+    color: #00d2ff;
+    transform: translateX(4px);
+  }
+}
+
+.service-explore-link:focus-visible {
+  outline: 2px solid rgba(0, 210, 255, 0.45);
+  outline-offset: 3px;
+  border-radius: 0.2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-explore-link,
+  .service-explore-link__arrow {
+    transition: none;
+  }
+
+  .service-explore-link:hover .service-explore-link__arrow,
+  .service-explore-link:focus-visible .service-explore-link__arrow,
+  .group:hover .service-explore-link .service-explore-link__arrow {
+    transform: none;
+  }
+}
