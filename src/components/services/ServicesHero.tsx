@@ -1,9 +1,10 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import SectionEyebrow from "../SectionEyebrow";
 import { PrimaryButton, SecondaryButton } from "../Buttons";
-import { navigateAppPath, navigateToContact } from "../../App";
+import { navigateToContact } from "../../App";
 import { SERVICES_SHELL_CLASS } from "./servicesLayout";
 import { ServiceIcon } from "./serviceIcons";
+import ServiceExploreLink from "./ServiceExploreLink";
 import type en from "../../i18n/locales/en";
 import "./servicesHub.css";
 
@@ -13,6 +14,7 @@ type ServiceSummary = (typeof en)["servicesPage"]["services"][number];
 type ServicesHeroProps = {
   copy: HeroCopy;
   services: readonly ServiceSummary[];
+  exploreLabel?: string;
 };
 
 type NodeMeta = {
@@ -123,7 +125,11 @@ function prefersReducedMotion() {
   );
 }
 
-export default function ServicesHero({ copy, services }: ServicesHeroProps) {
+export default function ServicesHero({
+  copy,
+  services,
+  exploreLabel = "Explore Service",
+}: ServicesHeroProps) {
   const labelId = useId();
   const [selectedId, setSelectedId] = useState(services[0]?.id ?? "");
   const [previewId, setPreviewId] = useState<string | null>(null);
@@ -364,14 +370,13 @@ export default function ServicesHero({ copy, services }: ServicesHeroProps) {
                   <p className="services-hero-system__summary-copy">
                     {activeService.shortDescription}
                   </p>
-                  <button
-                    type="button"
+                  <ServiceExploreLink
+                    href={`/services/${activeService.id}`}
+                    aria-label={`${exploreLabel}: ${activeService.title}`}
                     className="services-hero-system__summary-cta"
-                    onClick={() => navigateAppPath(`/services/${activeService.id}`)}
                   >
-                    Explore Service
-                    <span aria-hidden>→</span>
-                  </button>
+                    {exploreLabel}
+                  </ServiceExploreLink>
                 </div>
               ) : null}
             </div>

@@ -1,9 +1,9 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import SectionEyebrow from "../SectionEyebrow";
 import { SecondaryButton } from "../Buttons";
 import HomeAgencyServiceIcon from "./HomeAgencyServiceIcon";
+import ServiceExploreLink from "../services/ServiceExploreLink";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import { navigateAppPath } from "../../App";
 import {
@@ -103,10 +103,9 @@ export default function HomeAgencyServices() {
                     <p className="mt-1.5 text-sm leading-relaxed text-white/66">
                       {item.description}
                     </p>
-                    <span className="mt-auto inline-flex items-center gap-2 pt-3.5 text-sm font-semibold text-[#A4F4FD] transition-colors duration-200 group-hover:text-white">
+                    <ServiceExploreLink embedded className="mt-auto pt-2">
                       {services.exploreLabel}
-                      <ArrowRight className="home-agency-services-cta-arrow h-4 w-4" aria-hidden />
-                    </span>
+                    </ServiceExploreLink>
                   </span>
                 </a>
               </motion.li>
