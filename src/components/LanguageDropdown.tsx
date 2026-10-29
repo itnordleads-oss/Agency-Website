@@ -11,8 +11,13 @@ interface LanguageDropdownProps {
   /** Full readable names shown in the menu (English, Polski, …). */
   languageLabels: Partial<Record<SupportedLanguage, string>>;
   onChange: (language: SupportedLanguage) => void;
-  /** Align the menu for constrained mobile headers. */
+  /** Align the floating menu on desktop. */
   menuAlign?: "start" | "end";
+  /**
+   * `panel` keeps the same dropdown control, but opens the list in-flow
+   * so mobile hamburger overflow cannot clip/misplace it.
+   */
+  variant?: "default" | "panel";
   className?: string;
 }
 
@@ -24,6 +29,7 @@ export default function LanguageDropdown({
   languageLabels,
   onChange,
   menuAlign = "end",
+  variant = "default",
   className = "",
 }: LanguageDropdownProps) {
   const generatedId = useId();
@@ -32,6 +38,8 @@ export default function LanguageDropdown({
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
+  const isPanel = variant === "panel";
 
   useEffect(() => {
     if (!open) {
@@ -66,6 +74,7 @@ export default function LanguageDropdown({
     }
     const selected = document.getElementById(`${triggerId}-option-${value}`);
     selected?.focus();
+    menuRef.current?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }, [open, triggerId, value]);
 
   const selectLanguage = (language: SupportedLanguage) => {
@@ -124,15 +133,24 @@ export default function LanguageDropdown({
   };
 
   const triggerLabel = languageCodes[value] ?? value.toUpperCase();
+  const panelTriggerLabel = languageLabels[value] ?? triggerLabel;
 
   return (
     <div
       ref={rootRef}
-      className={`language-dropdown relative z-50 shrink-0${className ? ` ${className}` : ""}`}
+      className={`language-dropdown relative z-50 shrink-0${
+        isPanel ? " language-dropdown--panel" : ""
+      }${className ? ` ${className}` : ""}`}
     >
-      <span className="sr-only" id={`${triggerId}-label`}>
-        {label}
-      </span>
+      {isPanel ? (
+        <p className="language-dropdown__panel-label" id={`${triggerId}-label`}>
+          {label}
+        </p>
+      ) : (
+        <span className="sr-only" id={`${triggerId}-label`}>
+          {label}
+        </span>
+      )}
       <button
         type="button"
         ref={triggerRef}
@@ -146,7 +164,7 @@ export default function LanguageDropdown({
         className="language-dropdown__trigger"
       >
         <span className="language-dropdown__value" lang={value}>
-          {triggerLabel}
+          {isPanel ? panelTriggerLabel : triggerLabel}
         </span>
         <ChevronDown
           className={`language-dropdown__chevron ${open ? "language-dropdown__chevron--open" : ""}`}
@@ -156,10 +174,13 @@ export default function LanguageDropdown({
 
       {open ? (
         <ul
+          ref={menuRef}
           id={listboxId}
           role="listbox"
           aria-labelledby={`${triggerId}-label`}
-          className={`language-dropdown__menu language-dropdown__menu--${menuAlign}`}
+          className={`language-dropdown__menu language-dropdown__menu--${menuAlign}${
+            isPanel ? " language-dropdown__menu--panel" : ""
+          }`}
         >
           {supportedLanguages.map((language, index) => {
             const isSelected = language === value;
@@ -176,7 +197,9 @@ export default function LanguageDropdown({
                   lang={language}
                   onClick={() => selectLanguage(language)}
                   onKeyDown={(event) => onOptionKeyDown(event, language, index)}
-                  className={`language-dropdown__option${isSelected ? " language-dropdown__option--selected" : ""}`}
+                  className={`language-dropdown__option${
+                    isSelected ? " language-dropdown__option--selected" : ""
+                  }`}
                 >
                   <span className="language-dropdown__option-name">{fullName}</span>
                   <span className="language-dropdown__option-code" aria-hidden="true">

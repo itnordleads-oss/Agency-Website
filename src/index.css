@@ -974,6 +974,55 @@ body {
   box-shadow: 0 0 0 2px var(--focus-ring-glow);
 }
 
+/* Mobile hamburger: same dropdown, but menu opens in document flow (no clip/misalign). */
+.language-dropdown--panel {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  z-index: 1;
+}
+
+.language-dropdown__panel-label {
+  margin: 0 0 0.55rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.language-dropdown--panel .language-dropdown__trigger {
+  width: 100%;
+  min-height: 2.75rem;
+  height: auto;
+  justify-content: space-between;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.7rem;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.language-dropdown--panel .language-dropdown__value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.language-dropdown__menu--panel {
+  position: static;
+  top: auto;
+  right: auto;
+  left: auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin-top: 0.45rem;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.03);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .language-dropdown__menu {
     animation: none;

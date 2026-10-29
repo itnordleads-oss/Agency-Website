@@ -5,7 +5,6 @@ import { PrimaryButton } from "./Buttons";
 import { Menu, X } from "lucide-react";
 import { useSiteCopy } from "../lib/useSiteCopy";
 import LanguageDropdown from "./LanguageDropdown";
-import MobileLanguageList from "./MobileLanguageList";
 import { changeAppLanguage, resolveActiveLanguage, type SupportedLanguage } from "../i18n";
 import { getBrandAriaLabel } from "../lib/studioBranding";
 import {
@@ -31,6 +30,7 @@ export default function Navbar() {
   );
   const menuId = useId();
   const desktopLanguageSwitcherId = useId();
+  const mobileLanguageSwitcherId = useId();
   const menuItems = getPublishedStudioNavItems(nav.studio);
   const activeLanguage = resolveActiveLanguage(i18n.resolvedLanguage ?? i18n.language);
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(activeLanguage);
@@ -221,10 +221,14 @@ export default function Navbar() {
               </nav>
 
               <div className="pt-2 border-t border-white/[0.08]">
-                <MobileLanguageList
+                <LanguageDropdown
+                  id={mobileLanguageSwitcherId}
                   label={nav.languageLabel}
                   value={selectedLanguage}
+                  languageCodes={nav.languageCodes ?? {}}
                   languageLabels={nav.languages ?? {}}
+                  menuAlign="start"
+                  variant="panel"
                   onChange={handleLanguageChange}
                 />
               </div>
