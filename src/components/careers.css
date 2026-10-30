@@ -864,30 +864,42 @@
 
 .careers-final__panel {
   display: grid;
-  gap: 1.4rem;
+  gap: 1.15rem;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 1rem;
   background:
     radial-gradient(680px circle at 80% 10%, rgba(61, 129, 227, 0.19), transparent 58%),
     rgba(255, 255, 255, 0.028);
-  padding: 1.4rem;
+  padding: 1.25rem 1.15rem;
 }
 
 .careers-final h2 {
-  margin: 0.75rem 0 0;
+  margin: 0.55rem 0 0;
 }
 
 .careers-final p {
-  margin: 0.7rem 0 0;
-  max-width: 39rem;
+  margin: 0.55rem 0 0;
+  max-width: 36rem;
   color: rgba(255, 255, 255, 0.72);
-  line-height: 1.6;
+  line-height: 1.55;
+}
+
+.careers-final__actions {
+  margin-top: 0.15rem;
+  gap: 0.6rem;
+}
+
+.careers-final__button {
+  min-height: 2.75rem;
+  padding-block: 0.7rem;
 }
 
 @media (min-width: 640px) {
   .careers-final__actions {
     flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
 
   .careers-flow {
@@ -933,14 +945,18 @@
   }
 
   .careers-final__panel {
-    grid-template-columns: minmax(0, 1.3fr) auto;
+    grid-template-columns: minmax(0, 1.35fr) auto;
     align-items: center;
-    padding: 2rem;
+    gap: 1.5rem;
+    padding: 1.5rem 1.65rem;
   }
 
   .careers-final__actions {
-    flex-direction: column;
-    min-width: 13.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    min-width: 0;
+    max-width: 22rem;
   }
 }
 
