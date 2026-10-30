@@ -54,10 +54,14 @@ export default function CareersWorkTypes({ reveal }: CareersWorkTypesProps) {
       setActiveIndex(next);
       setPanelKey((value) => value + 1);
       // Keep page scroll stable — tab focus / panel remount must not jump the document.
-      requestAnimationFrame(() => {
+      const restore = () => {
         if (Math.abs(window.scrollY - lockedY) > 1) {
           window.scrollTo({ top: lockedY, behavior: "auto" });
         }
+      };
+      requestAnimationFrame(() => {
+        restore();
+        requestAnimationFrame(restore);
       });
     },
     [items.length]

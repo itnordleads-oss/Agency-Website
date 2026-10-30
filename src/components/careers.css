@@ -946,16 +946,28 @@
 
 @media (min-width: 1024px) {
   .careers-hero {
-    padding-top: 4.25rem;
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
   }
 
+  /*
+   * Text column sized so 64px H1 lines fit without mid-sentence wrap
+   * (~55% text / ~45% visual). Visual still carries the flow story.
+   */
   .careers-hero__layout {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: 4rem;
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .careers-hero__actions {
+    margin-top: 1.6rem;
+    gap: 0.75rem;
   }
 
   .careers-flow {
-    min-height: 25rem;
+    min-height: 0;
+    padding: 1.35rem 1.4rem 1.45rem;
   }
 
   .careers-principles__layout {
@@ -1015,7 +1027,48 @@
   }
 
   .careers-flow__roles {
-    margin-top: 6.2rem;
+    margin-top: 5.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .careers-hero {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  .careers-hero__layout {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+    gap: 3rem;
+  }
+
+  .careers-flow {
+    padding: 1.45rem 1.5rem 1.55rem;
+  }
+
+  .careers-flow__nodes {
+    margin-top: 4.6rem;
+  }
+
+  .careers-flow__roles {
+    margin-top: 5.75rem;
+  }
+
+  .careers-flow__node strong {
+    font-size: 0.75rem;
+    letter-spacing: 0.07em;
+  }
+}
+
+@media (min-width: 1440px) {
+  /* Wider hero shell so 68px title keeps 2 clean lines */
+  .careers-hero__shell {
+    max-width: 90rem;
+  }
+
+  .careers-hero__layout {
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+    gap: 3.25rem;
   }
 }
 

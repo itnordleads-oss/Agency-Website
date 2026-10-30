@@ -249,16 +249,18 @@
 
 @media (min-width: 360px) and (max-width: 389px) {
   #careers-page .careers-hero__title {
-    font-size: 2.375rem; /* 38px */
-    line-height: 1.03;
+    font-size: 2.4375rem; /* 39px within 37–41 */
+    font-weight: 700;
+    line-height: 1.02;
     letter-spacing: -0.03em;
   }
 }
 
 @media (min-width: 390px) and (max-width: 430px) {
   #careers-page .careers-hero__title {
-    font-size: 2.5rem; /* 40px */
-    line-height: 1.03;
+    font-size: 2.625rem; /* 42px within 40–44 */
+    font-weight: 700;
+    line-height: 1.02;
     letter-spacing: -0.032em;
   }
 }
@@ -340,14 +342,20 @@
     display: none;
   }
 
+  /* Let the grid column + intentional <br> define 2 balanced lines — no 13ch trap */
   #careers-page .careers-hero__title {
-    max-width: 13ch;
-    font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
-    line-height: 1.04;
+    max-width: none;
+    font-size: clamp(2.75rem, 2rem + 1.6vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
   }
 
   #careers-page .careers-hero__support {
-    max-width: 34rem;
+    max-width: 32rem;
+    margin-top: 1.15rem;
+    font-size: 1rem;
+    line-height: 1.55;
   }
 
   #careers-page .section-title {
@@ -376,7 +384,9 @@
 
 @media (min-width: 1024px) {
   #careers-page .careers-hero__title {
-    font-size: clamp(3rem, 2.4rem + 0.9vw, 3.5rem);
+    font-size: clamp(3.5rem, 2.6rem + 1.4vw, 4.25rem); /* ~56–68 */
+    font-weight: 700;
+    line-height: 0.98;
     letter-spacing: -0.032em;
   }
 
@@ -385,7 +395,9 @@
   }
 
   #careers-page .careers-hero__support {
+    max-width: 28rem;
     font-size: 1.0625rem;
+    line-height: 1.55;
   }
 
   #careers-page .careers-final p {
@@ -395,11 +407,26 @@
 
 @media (min-width: 1280px) {
   #careers-page .careers-hero__title {
-    font-size: 3.5rem;
+    font-size: 4rem; /* 64px */
+    font-weight: 700;
+    line-height: 0.98;
     letter-spacing: -0.03em;
+  }
+
+  #careers-page .careers-hero__support {
+    max-width: 32rem;
+    font-size: 1.125rem;
   }
 
   #careers-page .section-title {
     font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  #careers-page .careers-hero__title {
+    font-size: 4.25rem; /* 68px — within 64–76, fits 2 clean lines */
+    line-height: 0.96;
+    letter-spacing: -0.03em;
   }
 }
