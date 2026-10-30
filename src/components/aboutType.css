@@ -1,24 +1,28 @@
 /**
- * About page (#about-page) — scoped mobile/tablet type + rhythm.
- * Desktop keeps approved hero / section scales.
+ * About page (#about-page) — mobile polish V2 type + rhythm system.
+ * Desktop scales remain aligned with the established About tokens.
  */
 
 #about-page {
-  --about-body: 0.9375rem;
-  --about-support: 0.875rem;
-  --about-meta: 0.6875rem;
-  --about-h3: 1.125rem;
+  --about-body: 0.9375rem; /* 15px */
+  --about-support: 0.9375rem; /* 15px */
+  --about-meta: 0.6875rem; /* 11px */
+  --about-h3: 1.1875rem; /* 19px */
+  --about-gutter: 1rem;
+  --about-section-y: 3.75rem; /* 60px */
 }
 
 #about-page .about-hero-title {
   margin: 0;
-  max-width: 14ch;
+  max-width: none;
+  width: 100%;
   color: #fff;
-  font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.625rem);
+  font-size: clamp(2.125rem, 1.85rem + 1.4vw, 2.375rem); /* 34–38 */
   font-weight: 700;
   line-height: 1.04;
   letter-spacing: -0.03em;
-  text-wrap: balance;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 #about-page .about-hero-title__line {
@@ -26,13 +30,14 @@
 }
 
 #about-page .about-hero-title__line + .about-hero-title__line {
-  margin-top: 0.1em;
+  margin-top: 0.08em;
   color: rgba(255, 255, 255, 0.92);
 }
 
 #about-page .about-hero-copy {
   margin: 1rem 0 0;
-  max-width: 28rem;
+  max-width: none;
+  width: 100%;
   color: rgba(255, 255, 255, 0.74);
   font-size: var(--about-body);
   font-weight: 400;
@@ -42,17 +47,20 @@
 
 #about-page .about-section-title {
   margin: 0;
+  max-width: none;
   color: #fff;
-  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  font-size: clamp(1.75rem, 1.45rem + 1.5vw, 2.125rem); /* ~28–34 */
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 #about-page .about-section-lede {
   margin: 0.65rem 0 0;
-  max-width: 42rem;
+  max-width: none;
+  width: 100%;
   color: rgba(255, 255, 255, 0.72);
   font-size: var(--about-support);
   font-weight: 400;
@@ -61,8 +69,8 @@
 }
 
 #about-page .about-pull-quote {
-  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.5rem);
-  line-height: 1.35;
+  font-size: clamp(1.1875rem, 1.05rem + 0.8vw, 1.375rem);
+  line-height: 1.4;
   font-weight: 650;
   letter-spacing: -0.02em;
   color: rgba(255, 255, 255, 0.95);
@@ -70,7 +78,8 @@
 
 #about-page .about-body-copy {
   margin: 0;
-  max-width: 42rem;
+  max-width: none;
+  width: 100%;
   color: rgba(255, 255, 255, 0.74);
   font-size: var(--about-body);
   font-weight: 400;
@@ -78,8 +87,8 @@
 }
 
 #about-page .about-working-model span {
-  font-size: 0.8125rem;
-  font-weight: 550;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: rgba(255, 255, 255, 0.78);
 }
 
@@ -103,7 +112,7 @@
 
 #about-page .about-bento-button .about-bento-description {
   margin: 0.5rem 0 0;
-  max-width: 28rem;
+  max-width: none;
   font-size: var(--about-support);
   font-weight: 400;
   line-height: 1.55;
@@ -127,20 +136,21 @@
 }
 
 #about-page .about-capability-index {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(164, 244, 253, 0.72);
 }
 
 #about-page .about-process-copy h3 {
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   font-weight: 650;
   line-height: 1.3;
   letter-spacing: -0.01em;
 }
 
 #about-page .about-process-copy p {
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.55;
 }
@@ -157,7 +167,7 @@
 }
 
 #about-page .about-delivery-stage {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 650;
 }
 
@@ -167,7 +177,7 @@
 }
 
 #about-page .about-stage-detail span {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.74);
 }
@@ -199,36 +209,136 @@
 #about-page .about-hero-actions .about-cta-primary,
 #about-page .about-hero-actions .about-cta-secondary {
   min-height: 2.75rem;
-  font-size: 0.9375rem;
+  font-size: 0.875rem; /* 14px */
   font-weight: 600;
 }
 
+#about-page [id^="eyebrow-"] > span,
+#about-page .section-eyebrow span {
+  font-size: var(--about-meta);
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+/* —— Mobile / phone composition —— */
 @media (max-width: 767px) {
+  #about-page .about-section {
+    padding-top: var(--about-section-y);
+    padding-bottom: var(--about-section-y);
+  }
+
+  #about-page .about-section-hero {
+    padding-top: 1.75rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  #about-page .about-section-cta {
+    padding-top: 1rem !important;
+    padding-bottom: var(--about-section-y) !important;
+  }
+
   #about-page .about-hero-title {
-    max-width: 16ch;
-    font-size: clamp(2.125rem, 1.7rem + 2.1vw, 2.5rem);
+    max-width: none;
+    font-size: 2.25rem; /* 36px default phone */
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+  }
+
+  #about-page .about-hero-copy {
+    max-width: none !important;
+    margin-top: 0.9rem;
+  }
+
+  #about-page .about-section-title {
+    font-size: clamp(1.875rem, 1.55rem + 1.6vw, 2.125rem); /* 30–34 */
+    font-weight: 700;
+    line-height: 1.06;
+  }
+
+  #about-page .about-section-lede,
+  #about-page .about-body-copy,
+  #about-page .about-bento-button .about-bento-description {
+    max-width: none;
   }
 
   #about-page .about-bento-button {
-    padding: 1.05rem 1rem 1.1rem;
+    padding: 1.05rem 1rem 1.15rem;
   }
 
   #about-page .about-cta-panel {
-    padding: 1.5rem 1rem;
+    padding-block: 2rem;
+  }
+
+  #about-page .about-capability-index {
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #00d2ff;
+  }
+
+  #about-page .about-process-copy h3 {
+    font-size: 1.0625rem;
+  }
+
+  #about-page .about-process-copy p {
+    font-size: 0.9375rem;
+  }
+}
+
+@media (max-width: 359px) {
+  #about-page {
+    --about-section-y: 3.5rem;
+  }
+
+  #about-page .about-hero-title {
+    font-size: 2.125rem; /* 34px */
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+  }
+
+  #about-page .about-section-title {
+    font-size: 1.75rem; /* 28px */
+  }
+}
+
+@media (min-width: 360px) and (max-width: 389px) {
+  #about-page .about-hero-title {
+    font-size: 2.375rem; /* 38px at 375 */
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+  }
+}
+
+@media (min-width: 390px) and (max-width: 430px) {
+  #about-page .about-hero-title {
+    font-size: 2.5rem; /* 40px */
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+  }
+}
+
+@media (min-width: 431px) and (max-width: 767px) {
+  #about-page .about-hero-title {
+    font-size: clamp(2.5rem, 2rem + 1.5vw, 2.75rem);
+    line-height: 1.05;
   }
 }
 
 @media (min-width: 375px) and (max-width: 767px) {
-  #about-page .about-hero-title {
-    font-size: clamp(2.375rem, 1.85rem + 2.2vw, 2.75rem);
+  #about-page {
+    --about-gutter: 1.125rem;
+    --about-section-y: 4rem; /* 64px */
   }
 }
 
+/* —— Tablet —— */
 @media (min-width: 768px) {
   #about-page {
     --about-body: 1rem;
     --about-support: 0.9375rem;
     --about-h3: 1.1875rem;
+    --about-section-y: 4rem;
   }
 
   #about-page .about-hero-title {
@@ -236,12 +346,33 @@
     font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
   }
 
+  #about-page .about-hero-copy {
+    max-width: 28rem;
+  }
+
   #about-page .about-section-title {
     font-size: clamp(1.875rem, 1.55rem + 0.9vw, 2.25rem);
+    line-height: 1.12;
+  }
+
+  #about-page .about-section-lede {
+    max-width: 42rem;
+  }
+
+  #about-page .about-body-copy {
+    max-width: 42rem;
   }
 
   #about-page .about-capability-title {
     font-size: clamp(1.25rem, 1.05rem + 0.5vw, 1.5rem);
+  }
+
+  #about-page .about-capability-index {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: rgba(255, 255, 255, 0.62);
   }
 
   #about-page .about-process-copy h3 {
@@ -251,8 +382,13 @@
   #about-page .about-process-copy p {
     font-size: 0.875rem;
   }
+
+  #about-page .about-bento-button .about-bento-description {
+    max-width: 28rem;
+  }
 }
 
+/* —— Desktop preserved —— */
 @media (min-width: 1024px) {
   #about-page .about-hero-title {
     max-width: 16ch;
@@ -281,5 +417,14 @@
 
   #about-page .about-bento-cell--lead h3 {
     font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #about-page .about-hero-system-panel,
+  #about-page .about-delivery-progress,
+  #about-page .about-process-progress {
+    animation: none !important;
+    transition: none !important;
   }
 }
