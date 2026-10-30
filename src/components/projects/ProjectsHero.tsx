@@ -132,7 +132,9 @@ export default function ProjectsHero() {
   );
   const liveLabel = projectsPage.card.liveBadge;
 
-  activeIndexRef.current = activeIndex;
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
 
   const clearAutoplay = useCallback(() => {
     if (autoplayTimerRef.current !== null) {
