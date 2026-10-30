@@ -108,7 +108,7 @@ export default function ServicesProcess({ copy }: ServicesProcessProps) {
           <h2 id="services-process-title" className="section-title">
             {copy.title}
           </h2>
-          <p className="services-section-lede max-w-2xl">{copy.subtitle}</p>
+          <p className="services-section-lede max-w-none md:max-w-2xl">{copy.subtitle}</p>
         </div>
 
         <div className="services-delivery-system">

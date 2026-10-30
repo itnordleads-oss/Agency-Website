@@ -16,7 +16,7 @@ export default function ServicesPage() {
   useServicesPageMetadata();
 
   return (
-    <main id="services-page" className="min-w-0 flex-1 overflow-x-hidden">
+    <main id="services-page" className="min-w-0 flex-1">
       <ServicesHero
         copy={servicesPage.hero}
         services={services}

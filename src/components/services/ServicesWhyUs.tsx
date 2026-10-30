@@ -78,7 +78,7 @@ export default function ServicesWhyUs({ copy }: ServicesWhyUsProps) {
               <h2 id="services-why-title" className="section-title text-left">
                 {copy.title}
               </h2>
-              <p className="services-why-intro max-w-sm">{copy.subtitle}</p>
+              <p className="services-why-intro max-w-none md:max-w-sm">{copy.subtitle}</p>
             </div>
 
             <ol className="services-principle-nav" aria-label="Delivery principles">
