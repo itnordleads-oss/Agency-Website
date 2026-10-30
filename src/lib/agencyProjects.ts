@@ -15,7 +15,6 @@ export const PUBLIC_PORTFOLIO_PROJECT_SLUGS = [
   "ridgeline",
   "halden",
   "stemline",
-  "megapersonals-automation",
   "diet-soda",
   "neural-monitor",
   "ferro-room",
