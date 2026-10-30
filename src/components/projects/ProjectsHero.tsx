@@ -81,9 +81,7 @@ function HeroPreviewCard({
       {isFront ? (
         <div key={swapKey ? `meta-${swapKey}` : undefined} className="projects-hero-preview__meta">
           <div className="projects-hero-preview__meta-row">
-            {indexLabel ? (
-              <span className="projects-hero-preview__index">{indexLabel}</span>
-            ) : null}
+            {indexLabel ? <span className="projects-hero-preview__index">{indexLabel}</span> : null}
             <span className="projects-hero-preview__category">{categoryLabel}</span>
             {project.status ? (
               <span className="projects-hero-preview__status">{liveLabel}</span>
@@ -191,10 +189,13 @@ export default function ProjectsHero() {
       setIsAdvancing(true);
       setActiveIndex(normalized);
       clearTransition();
-      transitionTimerRef.current = window.setTimeout(() => {
-        setIsAdvancing(false);
-        transitionTimerRef.current = null;
-      }, reducedMotionRef.current ? 180 : TRANSITION_MS);
+      transitionTimerRef.current = window.setTimeout(
+        () => {
+          setIsAdvancing(false);
+          transitionTimerRef.current = null;
+        },
+        reducedMotionRef.current ? 180 : TRANSITION_MS
+      );
       startAutoplay();
     },
     [clearTransition, count, startAutoplay]
@@ -337,10 +338,7 @@ export default function ProjectsHero() {
   }, [startAutoplay]);
 
   return (
-    <section
-      className="projects-hero-shell relative mx-auto"
-      aria-labelledby="projects-hero-title"
-    >
+    <section className="projects-hero-shell relative mx-auto" aria-labelledby="projects-hero-title">
       <div className="projects-hero liquid-glass relative overflow-hidden">
         <div
           className="pointer-events-none absolute inset-0 projects-hero__atmosphere"
