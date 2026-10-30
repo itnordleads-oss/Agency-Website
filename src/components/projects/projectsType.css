@@ -271,14 +271,14 @@
   }
 
   #projects-page .projects-hero-title {
-    max-width: 18ch;
-    font-size: clamp(2.75rem, 2.1rem + 1.5vw, 3.25rem);
+    max-width: none;
+    font-size: clamp(2.5rem, 1.9rem + 1.2vw, 2.875rem);
     line-height: 1.02;
-    letter-spacing: -0.032em;
+    letter-spacing: -0.03em;
   }
 
   #projects-page .projects-hero-copy {
-    max-width: 28rem;
+    max-width: 34rem;
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -301,19 +301,23 @@
   }
 }
 
-/* Desktop composition */
+/* Desktop composition — controlled hero type (not viewport-dominating) */
 @media (min-width: 1024px) {
   #projects-page .projects-hero-title {
-    max-width: 14ch;
-    font-size: clamp(3.25rem, 2.6rem + 1vw, 3.75rem);
-    line-height: 0.98;
-    letter-spacing: -0.034em;
+    max-width: none;
+    width: 100%;
+    font-size: clamp(2.75rem, 2.15rem + 0.9vw, 3.125rem); /* ~44–50 */
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-wrap: wrap; /* avoid pretty/balance orphan lines */
   }
 
   #projects-page .projects-hero-copy {
-    max-width: 26rem;
-    font-size: 1.125rem; /* 18px */
-    line-height: 1.58;
+    max-width: 34rem; /* ~544px */
+    font-size: 1.0625rem; /* 17px */
+    font-weight: 400;
+    line-height: 1.6;
   }
 
   #projects-page .section-title,
@@ -324,10 +328,15 @@
 
 @media (min-width: 1280px) {
   #projects-page .projects-hero-title {
-    max-width: 16ch;
-    font-size: 4.25rem; /* 68px */
-    line-height: 0.96;
-    letter-spacing: -0.035em;
+    font-size: 3.625rem; /* 58px */
+    line-height: 1.01;
+    letter-spacing: -0.03em;
+  }
+
+  #projects-page .projects-hero-copy {
+    max-width: 34rem; /* ~544px */
+    font-size: 1.0625rem; /* 17px */
+    line-height: 1.6;
   }
 
   #projects-page .section-title,
@@ -336,10 +345,29 @@
   }
 }
 
+@media (min-width: 1366px) {
+  #projects-page .projects-hero-title {
+    font-size: 3.75rem; /* 60px */
+  }
+
+  #projects-page .projects-hero-copy {
+    font-size: 1.125rem; /* 18px */
+  }
+}
+
 @media (min-width: 1440px) {
   #projects-page .projects-hero-title {
-    max-width: 17ch;
-    font-size: 4.5rem; /* 72px */
-    line-height: 0.95;
+    font-size: 4rem; /* 64px */
+    line-height: 1;
+  }
+
+  #projects-page .projects-hero-copy {
+    max-width: 36rem;
+  }
+}
+
+@media (min-width: 1600px) {
+  #projects-page .projects-hero-title {
+    font-size: 4.125rem; /* 66px cap */
   }
 }
