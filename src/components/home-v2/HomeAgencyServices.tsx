@@ -57,7 +57,7 @@ export default function HomeAgencyServices() {
             <h2 id="agency-services-heading" className="section-title">
               {services.title}
             </h2>
-            <p className="home-agency-lede max-w-xl">{services.subtitle}</p>
+            <p className="home-agency-lede md:max-w-xl">{services.subtitle}</p>
           </div>
           <SecondaryButton
             onClick={() => navigateAppPath("/services")}
@@ -82,12 +82,12 @@ export default function HomeAgencyServices() {
             const tileMotion = reduceMotion
               ? {}
               : {
-                  initial: { opacity: 0, y: 14 },
+                  initial: { opacity: 0, y: 12 },
                   whileInView: { opacity: 1, y: 0 },
                   viewport: { once: true, amount: 0.01, margin: "120px 0px 160px 0px" },
                   transition: {
-                    duration: 0.5,
-                    delay: homepageStaggerDelay(index, 0.05),
+                    duration: 0.42,
+                    delay: homepageStaggerDelay(index, 0.04),
                     ease: [0.22, 1, 0.36, 1] as const,
                   },
                 };

@@ -24,7 +24,7 @@ export default function HomeV2Hero() {
       id="v2-hero"
       className={
         isV3
-          ? "relative overflow-hidden pt-7 pb-10 max-[340px]:pt-6 max-[340px]:pb-8 sm:pt-9 sm:pb-11 md:pt-12 md:pb-12 lg:pt-14 lg:pb-14"
+          ? "home-agency-hero relative overflow-hidden pt-7 pb-10 max-[340px]:pt-6 max-[340px]:pb-8 sm:pt-9 sm:pb-11 md:pt-12 md:pb-12 lg:pt-14 lg:pb-14"
           : "relative overflow-hidden pt-8 pb-10 max-[340px]:pt-7 max-[340px]:pb-8 sm:pt-10 sm:pb-12 md:pt-14 md:pb-14"
       }
     >
@@ -58,7 +58,9 @@ export default function HomeV2Hero() {
           }
         >
           <div
-            className={`min-w-0 ${isV3 ? "space-y-3.5 sm:space-y-4" : "space-y-4 sm:space-y-5"}`}
+            className={`min-w-0 ${
+              isV3 ? "home-agency-hero__copy space-y-3.5 sm:space-y-4" : "space-y-4 sm:space-y-5"
+            }`}
           >
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/14 bg-white/[0.05] px-3 py-1.5 min-[341px]:px-4 min-[341px]:py-2 md:backdrop-blur-md">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#00D2FF] min-[341px]:h-2 min-[341px]:w-2" />
@@ -79,27 +81,37 @@ export default function HomeV2Hero() {
             <p
               className={
                 isV3
-                  ? "hero-subtitle text-body max-w-md sm:max-w-lg"
+                  ? "hero-subtitle text-body md:max-w-lg"
                   : "hero-subtitle text-body max-w-lg text-sm sm:text-base md:text-[1.05rem]"
               }
             >
               {hero.subheadline}
             </p>
 
-            <div className="flex w-full flex-col items-stretch gap-2.5 pt-0.5 min-[390px]:w-auto min-[390px]:flex-row min-[390px]:items-center min-[390px]:gap-3 sm:gap-3.5">
+            <div
+              className={
+                isV3
+                  ? "home-agency-hero__actions flex w-full flex-row flex-wrap items-stretch gap-2.5 pt-1 max-[359px]:flex-col sm:gap-3.5"
+                  : "flex w-full flex-col items-stretch gap-2.5 pt-0.5 min-[390px]:w-auto min-[390px]:flex-row min-[390px]:items-center min-[390px]:gap-3 sm:gap-3.5"
+              }
+            >
               <PrimaryButton
                 onClick={navigateToContact}
-                className={`w-full whitespace-nowrap shadow-[0_8px_32px_rgba(255,255,255,0.12)] min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5${
-                  isV3 ? " home-hero-cta" : " text-sm"
-                }`}
+                className={
+                  isV3
+                    ? "home-hero-cta min-w-0 flex-1 whitespace-nowrap px-5 py-3.5 shadow-[0_8px_32px_rgba(255,255,255,0.12)] max-[359px]:w-full sm:flex-none sm:px-8"
+                    : "w-full whitespace-nowrap text-sm shadow-[0_8px_32px_rgba(255,255,255,0.12)] min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
+                }
               >
                 {hero.primaryCta}
               </PrimaryButton>
               <SecondaryButton
                 onClick={onSecondaryCta}
-                className={`w-full whitespace-nowrap min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5${
-                  isV3 ? " home-hero-cta" : " text-sm"
-                }`}
+                className={
+                  isV3
+                    ? "home-hero-cta min-w-0 flex-1 whitespace-nowrap px-5 py-3.5 max-[359px]:w-full sm:flex-none sm:px-8"
+                    : "w-full whitespace-nowrap text-sm min-[390px]:w-auto min-[341px]:px-8 min-[341px]:py-3.5"
+                }
               >
                 {hero.secondaryCta}
               </SecondaryButton>

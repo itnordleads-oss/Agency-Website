@@ -51,7 +51,7 @@
 .site-footer__brand {
   display: flex;
   min-width: 0;
-  max-width: 22rem;
+  max-width: none;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.875rem;
@@ -79,12 +79,35 @@
 }
 
 .site-footer__description {
-  max-width: 20rem;
+  max-width: none;
   margin: 0;
   color: rgba(255, 255, 255, 0.66);
   font-size: 0.9375rem;
   line-height: 1.6;
   text-wrap: pretty;
+}
+
+@media (max-width: 767px) {
+  .site-footer__top {
+    gap: 1.85rem;
+    padding-block: 2.25rem 1.75rem;
+  }
+
+  .site-footer__clusters {
+    gap: 1.5rem;
+  }
+
+  .site-footer__nav {
+    gap: 1.5rem;
+  }
+
+  .site-footer__cta {
+    min-height: 2.75rem;
+  }
+
+  .site-footer__bottom {
+    padding-block: 1.15rem 1.35rem;
+  }
 }
 
 .site-footer__service-tags {
@@ -325,6 +348,14 @@
 
 /* Tablet / desktop: brand left, navigation right */
 @media (min-width: 768px) {
+  .site-footer__brand {
+    max-width: 22rem;
+  }
+
+  .site-footer__description {
+    max-width: 20rem;
+  }
+
   .site-footer__top {
     grid-template-columns: minmax(14rem, 0.95fr) minmax(0, 1.45fr);
     align-items: start;

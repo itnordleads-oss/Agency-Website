@@ -27,6 +27,7 @@ function canUsePointerTilt(): boolean {
 
 /**
  * Homepage hero visual — animated delivery system from brief to product.
+ * Mobile uses a purpose-built vertical flow; desktop keeps the cinematic stage.
  */
 export default function HomeAgencyHeroPanel() {
   const { homepageV3 } = useSiteCopy();
@@ -96,7 +97,7 @@ export default function HomeAgencyHeroPanel() {
   return (
     <div
       ref={panelRef}
-      className="home-hero-panel relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-white/12 bg-[#0A1220]/80 p-3.5 shadow-[0_20px_60px_rgba(0,0,0,0.28)] sm:max-w-lg sm:rounded-[1.35rem] sm:p-4 lg:ml-auto lg:mr-0 lg:max-w-none"
+      className="home-hero-panel relative mx-auto w-full max-w-none overflow-hidden rounded-2xl border border-white/12 bg-[#0A1220]/80 p-3.5 shadow-[0_20px_60px_rgba(0,0,0,0.28)] sm:max-w-lg sm:rounded-[1.35rem] sm:p-4 lg:ml-auto lg:mr-0 lg:max-w-none"
       aria-label={visual.ariaLabel}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
@@ -133,7 +134,44 @@ export default function HomeAgencyHeroPanel() {
           </span>
         </div>
 
-        <div className="relative aspect-[5/3.05] w-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.025] sm:rounded-2xl">
+        {/* Mobile: vertical delivery flow — purpose-designed, not a shrunk desktop stage */}
+        <div className="home-hero-panel__mobile-flow sm:hidden" aria-hidden>
+          <ol className="home-hero-panel__mobile-steps">
+            {STAGE_NODES.map((node, index) => (
+              <li key={node.id} className="home-hero-panel__mobile-step">
+                <span
+                  className={`home-hero-panel__mobile-node${
+                    node.id === "product" ? " home-hero-panel__mobile-node--launch" : ""
+                  }`}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className={`home-hero-panel__mobile-label${
+                    node.id === "product" ? " home-hero-panel__mobile-label--launch" : ""
+                  }`}
+                >
+                  {node.label}
+                </span>
+                {index < STAGE_NODES.length - 1 ? (
+                  <span className="home-hero-panel__mobile-arrow" aria-hidden>
+                    ↓
+                  </span>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+          <div className="home-hero-panel__mobile-surfaces">
+            {SURFACE_LABELS.map((label) => (
+              <span key={label} className="home-hero-panel__mobile-surface">
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Tablet+: cinematic horizontal stage */}
+        <div className="relative hidden aspect-[5/3.05] w-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.025] sm:block sm:rounded-2xl">
           <svg
             className="absolute inset-0 h-full w-full"
             viewBox="0 0 100 62"

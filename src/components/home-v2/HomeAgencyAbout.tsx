@@ -52,10 +52,10 @@ export default function HomeAgencyAbout() {
               {...(reduceMotion
                 ? {}
                 : {
-                    initial: { opacity: 0, y: 14 },
+                    initial: { opacity: 0, y: 12 },
                     whileInView: { opacity: 1, y: 0 },
                     viewport: { once: true, amount: 0.35 },
-                    transition: { duration: 0.5, ease },
+                    transition: { duration: 0.42, ease },
                   })}
             >
               {aboutPreview.title}
@@ -69,7 +69,7 @@ export default function HomeAgencyAbout() {
                     initial: { opacity: 0, y: 10 },
                     whileInView: { opacity: 1, y: 0 },
                     viewport: { once: true, amount: 0.35 },
-                    transition: { duration: 0.45, delay: 0.04, ease },
+                    transition: { duration: 0.4, delay: 0.04, ease },
                   })}
             >
               {aboutPreview.support}
@@ -112,10 +112,10 @@ export default function HomeAgencyAbout() {
             {...(reduceMotion
               ? {}
               : {
-                  initial: { opacity: 0, y: 18 },
+                  initial: { opacity: 0, y: 14 },
                   whileInView: { opacity: 1, y: 0 },
                   viewport: { once: true, amount: 0.28 },
-                  transition: { duration: 0.5, delay: 0.06, ease },
+                  transition: { duration: 0.42, delay: 0.05, ease },
                 })}
           >
             <p className="home-agency-about__watermark" aria-hidden>
