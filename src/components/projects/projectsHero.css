@@ -128,21 +128,27 @@
 }
 
 .projects-hero-cue {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.35rem 0.55rem;
   margin: 1.5rem 0 0;
   max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
   color: rgba(255, 255, 255, 0.58);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.4;
+  padding-bottom: 0.15rem;
 }
 
 .projects-hero-cue__item {
   display: inline-flex;
+  flex: 0 0 auto;
   align-items: center;
   gap: 0.35rem;
   margin: 0;

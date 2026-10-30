@@ -2,11 +2,10 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import SectionEyebrow from "../SectionEyebrow";
 import ProjectVisual from "./ProjectVisual";
 import type { AgencyProject } from "../../content/agencyProjects";
-import { getFeaturedProjects } from "../../lib/agencyProjects";
+import { getPublishedProjects } from "../../lib/agencyProjects";
 import { useSiteCopy } from "../../lib/useSiteCopy";
 import "./projectsHero.css";
 
-const HERO_CAROUSEL_LIMIT = 5;
 const AUTOPLAY_MS = 5500;
 const TRANSITION_MS = 560;
 
@@ -114,7 +113,9 @@ export default function ProjectsHero() {
   const reducedMotionRef = useRef(prefersReducedMotion());
   const activeIndexRef = useRef(0);
 
-  const showcase = useMemo(() => getFeaturedProjects(HERO_CAROUSEL_LIMIT), []);
+  /** Full published portfolio — hero carousel cycles every live project. */
+  const showcase = useMemo(() => getPublishedProjects(), []);
+  const cueRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAdvancing, setIsAdvancing] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(() => prefersReducedMotion());
@@ -234,6 +235,32 @@ export default function ProjectsHero() {
     }
   }, [activeIndex, count, showcase]);
 
+  // Keep the active indicator visible inside the cue row ONLY.
+  // Never use element.scrollIntoView() here — it hijacks the page's vertical scroll.
+  useEffect(() => {
+    const node = cueRefs.current[activeIndex];
+    const scroller = node?.parentElement;
+    if (!node || !scroller) {
+      return;
+    }
+    const scrollerRect = scroller.getBoundingClientRect();
+    const nodeRect = node.getBoundingClientRect();
+    const leftOverflow = nodeRect.left - scrollerRect.left;
+    const rightOverflow = nodeRect.right - scrollerRect.right;
+    let nextLeft = scroller.scrollLeft;
+    if (leftOverflow < 0) {
+      nextLeft += leftOverflow - 12;
+    } else if (rightOverflow > 0) {
+      nextLeft += rightOverflow + 12;
+    } else {
+      return;
+    }
+    scroller.scrollTo({
+      left: Math.max(0, nextLeft),
+      behavior: reducedMotion ? "auto" : "smooth",
+    });
+  }, [activeIndex, reducedMotion]);
+
   // Start / cleanup autoplay
   useEffect(() => {
     startAutoplay();
@@ -337,13 +364,16 @@ export default function ProjectsHero() {
               <div
                 className="projects-hero__enter projects-hero__enter--cue projects-hero-cue"
                 role="group"
-                aria-label="Featured projects"
+                aria-label="Portfolio projects"
               >
                 {showcase.map((project, index) => {
                   const isActive = index === activeIndex;
                   return (
                     <button
                       key={project.slug}
+                      ref={(node) => {
+                        cueRefs.current[index] = node;
+                      }}
                       type="button"
                       className={`projects-hero-cue__item${isActive ? " is-active" : ""}`}
                       aria-label={`Show ${project.title} project`}

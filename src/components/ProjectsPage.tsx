@@ -273,13 +273,27 @@ function FilterChip({
       type="button"
       onClick={(event) => {
         onClick();
+        // Keep the chip visible in the horizontal filter row only —
+        // never scrollIntoView the page document.
         const button = event.currentTarget;
+        const scroller = button.parentElement;
         window.requestAnimationFrame(() => {
-          button.scrollIntoView({
-            behavior: "smooth",
-            inline: "nearest",
-            block: "nearest",
-          });
+          if (!scroller) {
+            return;
+          }
+          const scrollerRect = scroller.getBoundingClientRect();
+          const buttonRect = button.getBoundingClientRect();
+          const leftOverflow = buttonRect.left - scrollerRect.left;
+          const rightOverflow = buttonRect.right - scrollerRect.right;
+          let nextLeft = scroller.scrollLeft;
+          if (leftOverflow < 0) {
+            nextLeft += leftOverflow - 8;
+          } else if (rightOverflow > 0) {
+            nextLeft += rightOverflow + 8;
+          } else {
+            return;
+          }
+          scroller.scrollTo({ left: Math.max(0, nextLeft), behavior: "smooth" });
         });
       }}
       aria-pressed={active}
