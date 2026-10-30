@@ -9,6 +9,7 @@ import { useSiteCopy } from "../lib/useSiteCopy";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import SectionEyebrow from "./SectionEyebrow";
 import CareersWorkTypes from "./careers/CareersWorkTypes";
+import CareersWorkingHere from "./careers/CareersWorkingHere";
 import { HOME_AGENCY_SHELL } from "./home-v2/homeAgencyLayout";
 import "./careers.css";
 import "./careersType.css";
@@ -30,7 +31,6 @@ function scrollToCareersSection(id: string) {
 export default function CareersPage() {
   const { careersPage, language } = useSiteCopy();
   const reduceMotion = useReducedMotion();
-  const [activePrinciple, setActivePrinciple] = useState(0);
   const [openFaq, setOpenFaq] = useState<string | null>(careersPage.faq?.items?.[0]?.id ?? null);
   const styleRef = useRef<HTMLElement | null>(null);
   const hiringRef = useRef<HTMLElement | null>(null);
@@ -39,9 +39,6 @@ export default function CareersPage() {
   const faqBaseId = useId();
   const openJobs = CAREER_JOBS.filter((job) => job.status === "open");
 
-  const principles = Array.isArray(careersPage.principles?.items)
-    ? careersPage.principles.items
-    : [];
   const workingStyle = Array.isArray(careersPage.workingStyle?.steps)
     ? careersPage.workingStyle.steps
     : [];
@@ -49,7 +46,7 @@ export default function CareersPage() {
   const faqs = Array.isArray(careersPage.faq?.items) ? careersPage.faq.items : [];
   const flowNodes = Array.isArray(careersPage.hero?.flowNodes) ? careersPage.hero.flowNodes : [];
   const roles = Array.isArray(careersPage.hero?.roles) ? careersPage.hero.roles : [];
-  const activePrincipleItem = principles[activePrinciple] ?? principles[0];
+  const firstFaqId = careersPage.faq?.items?.[0]?.id ?? null;
 
   React.useEffect(() => {
     const seo = getAgencyPageSeo("careers");
@@ -62,11 +59,10 @@ export default function CareersPage() {
     return restore;
   }, []);
 
+  // Only reset FAQ when language changes — never on every render object identity.
   React.useEffect(() => {
-    const firstFaqId = careersPage.faq?.items?.[0]?.id ?? null;
     setOpenFaq(firstFaqId);
-    setActivePrinciple(0);
-  }, [language, careersPage.faq?.items]);
+  }, [language, firstFaqId]);
 
   return (
     <main id="careers-page" className="careers-page min-w-0 flex-grow">
@@ -138,50 +134,7 @@ export default function CareersPage() {
         </div>
       </section>
 
-      <section
-        className="careers-section careers-principles"
-        aria-labelledby="working-here-heading"
-      >
-        <div className={`${HOME_AGENCY_SHELL} careers-principles__layout`}>
-          <motion.div className="careers-section__intro" {...reveal(!!reduceMotion)}>
-            <SectionEyebrow label={careersPage.principles.eyebrow} />
-            <h2 id="working-here-heading" className="section-title text-left">
-              {careersPage.principles.title}
-            </h2>
-            <p className="text-body">{careersPage.principles.subtitle}</p>
-          </motion.div>
-          <motion.div className="careers-principles__surface" {...reveal(!!reduceMotion, 0.06)}>
-            <article className="careers-principles__lead">
-              <span className="careers-principles__number">
-                {String(activePrinciple + 1).padStart(2, "0")}
-              </span>
-              <h3>{activePrincipleItem?.title}</h3>
-              <p>{activePrincipleItem?.description}</p>
-            </article>
-            <div
-              className="careers-principles__list"
-              role="list"
-              aria-label={careersPage.principles.listAriaLabel}
-            >
-              {principles.map((principle, index) => (
-                <button
-                  type="button"
-                  role="listitem"
-                  key={principle.title}
-                  className={index === activePrinciple ? "is-active" : ""}
-                  aria-pressed={index === activePrinciple}
-                  onClick={() => setActivePrinciple(index)}
-                  onFocus={() => setActivePrinciple(index)}
-                >
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{principle.title}</strong>
-                  <ArrowRight aria-hidden />
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <CareersWorkingHere reveal={reveal} />
 
       <CareersWorkTypes reveal={reveal} />
 
