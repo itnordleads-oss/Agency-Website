@@ -95,7 +95,7 @@ test.describe("smoke", () => {
       0
     );
     const projectsRegion = page.getByRole("region", { name: /selected projects/i });
-    await expect(projectsRegion.getByRole("link")).toHaveCount(11);
+    await expect(projectsRegion.getByRole("link")).toHaveCount(10);
     await expect(projectsRegion.getByText("Concept Project")).toHaveCount(0);
     for (const title of ["Relay", "Brewnns", "Ridgeline Roofing", "Halden", "Stemline"]) {
       await expect(
@@ -106,32 +106,9 @@ test.describe("smoke", () => {
       projectsRegion.getByRole("link", {
         name: /Open application: MegaPersonals Automation Panel/i,
       })
-    ).toHaveCount(1);
-    await expect(projectsRegion.getByText("Production", { exact: true })).toBeVisible();
+    ).toHaveCount(0);
+    await expect(projectsRegion.getByText("Production", { exact: true })).toHaveCount(0);
     await expect(page.getByRole("region", { name: /interactive demos/i })).toHaveCount(0);
-  });
-
-  test("MegaPersonals automation demo opens all sidebar pages", async ({ page }) => {
-    await page.goto("/demos/megapersonals-automation");
-    await acceptCookiesIfPresent(page);
-    await expect(page.getByRole("heading", { level: 1, name: "Dashboard" })).toBeVisible();
-    await expect(page.getByText(/Portfolio demo/i)).toBeVisible();
-
-    for (const [name, heading] of [
-      ["Accounts", "Accounts"],
-      ["Advertisements", "Advertisements"],
-      ["Gmail Accounts", "Gmail Accounts"],
-      ["Location Targeting", "Location Targeting"],
-      ["Automation", "Automation"],
-      ["Reports", "Reports"],
-      ["Settings", "Settings"],
-    ] as const) {
-      await page
-        .getByRole("navigation", { name: "Demo navigation" })
-        .getByRole("link", { name, exact: true })
-        .click();
-      await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
-    }
   });
 
   test("project detail opens from the portfolio grid", { tag: "@critical" }, async ({ page }) => {
@@ -153,7 +130,6 @@ test.describe("smoke", () => {
       ["ridgeline", "Ridgeline Roofing"],
       ["halden", "Halden"],
       ["stemline", "Stemline"],
-      ["megapersonals-automation", "MegaPersonals Automation Panel"],
       ["diet-soda", "Diet Soda"],
       ["neural-monitor", "Neural Monitor"],
       ["ferro-room", "Ferro Room"],

@@ -476,51 +476,6 @@ export const AGENCY_PROJECTS: AgencyProject[] = [
     ],
   },
   {
-    id: "live-megapersonals-automation",
-    slug: "megapersonals-automation",
-    title: "MegaPersonals Automation Panel",
-    label: "Operations Dashboard Application",
-    shortDescription:
-      "A production-style operations dashboard for managing accounts, workflows, locations, and automation tools.",
-    homepageDescription: "Production operations application for account and ad workflows.",
-    overview:
-      "MegaPersonals Automation Panel is a production operations application. The live product covers dashboard metrics, account tables, advertisement management, Gmail connections, location targeting, automation rules, reports, and workspace settings.",
-    category: "software",
-    services: ["Software Development", "Dashboard UI"],
-    technologies: ["React", "TypeScript", "Vite"],
-    thumbnail: "/projects/megapersonals.jpg",
-    thumbnailAlt: "MegaPersonals Automation Panel dashboard application preview",
-    heroImage: "/projects/megapersonals.jpg",
-    projectType: "Software product",
-    platform: "Web",
-    status: "Live",
-    featured: true,
-    visualMotif: "dashboard",
-    isDemo: false,
-    published: true,
-    projectUrl: "https://hrnordleads-sso.github.io/gallary6/",
-    challenge:
-      "An operations team needed one shell for account provisioning, ad posting, inbox sync, and city coverage without hopping between tools.",
-    solution:
-      "A full product UI with sidebar navigation, KPI cards, tables, maps, charts, and automation controls on a dedicated live deployment.",
-    deliverables: [
-      "Operations dashboard",
-      "Accounts and advertisements modules",
-      "Gmail and location targeting modules",
-      "Automation, reports, and settings",
-    ],
-    outcome: "Published at the gallery deployment and linked from the portfolio.",
-    gallery: [
-      {
-        variant: 1,
-        alt: "MegaPersonals Automation Panel dashboard application preview",
-        layout: "full",
-      },
-      { variant: 2, alt: "MegaPersonals accounts table and status badges", layout: "wide" },
-      { variant: 3, alt: "MegaPersonals automation and activity widgets", layout: "default" },
-    ],
-  },
-  {
     id: "live-diet-soda",
     slug: "diet-soda",
     title: "Diet Soda",
