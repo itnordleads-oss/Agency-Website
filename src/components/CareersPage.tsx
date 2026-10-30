@@ -342,11 +342,17 @@ export default function CareersPage() {
               <p>{careersPage.finalCta.body}</p>
             </div>
             <div className="careers-final__actions">
-              <PrimaryButton onClick={() => scrollToCareersSection("open-positions")}>
+              <PrimaryButton
+                onClick={() => scrollToCareersSection("open-positions")}
+                className="careers-final__button w-full whitespace-nowrap sm:w-auto"
+              >
                 {careersPage.finalCta.primaryCta}
               </PrimaryButton>
-              <SecondaryButton onClick={() => navigateAppPath("/contact")}>
-                <MessageSquare aria-hidden />
+              <SecondaryButton
+                onClick={() => navigateAppPath("/contact")}
+                className="careers-final__button w-full whitespace-nowrap sm:w-auto"
+              >
+                <MessageSquare className="h-4 w-4 shrink-0" aria-hidden />
                 {careersPage.finalCta.secondaryCta}
               </SecondaryButton>
             </div>
