@@ -25,14 +25,31 @@
   display: block;
   min-width: 0;
   height: 100%;
-  padding: 1rem 1.05rem 1.1rem;
+  padding: 1.05rem 1rem 1.15rem;
   color: inherit;
+  text-align: left;
   text-decoration: none;
   background: transparent;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition:
     background-color 200ms ease,
     transform 200ms ease;
+}
+
+@media (max-width: 767px) {
+  .home-agency-services-tile {
+    padding: 1.1rem 1rem 1.2rem;
+  }
+
+  .home-agency-services-icon {
+    height: 2.35rem;
+    width: 2.35rem;
+  }
+
+  .home-agency-services-deco {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
 }
 
 .home-agency-services-grid > li:last-child .home-agency-services-tile {

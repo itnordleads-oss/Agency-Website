@@ -43,7 +43,7 @@ export default function HomeAgencyWork() {
           className="home-agency-work__intro mb-6 flex flex-col gap-3 sm:mb-7 md:mb-8 lg:flex-row lg:items-end lg:justify-between lg:gap-6"
           {...homepageRevealProps(reduceMotion)}
         >
-          <div className="home-agency-work__copy max-w-2xl">
+          <div className="home-agency-work__copy max-w-none md:max-w-2xl">
             <span data-homepage-scroll-ref="work">
               <SectionEyebrow label={workPreview.eyebrow} />
             </span>
@@ -53,7 +53,7 @@ export default function HomeAgencyWork() {
             >
               {workPreview.title}
             </h2>
-            <p className="home-agency-lede home-agency-work__lede max-w-xl">
+            <p className="home-agency-lede home-agency-work__lede max-w-none md:max-w-xl">
               {workPreview.subtitle}
             </p>
           </div>

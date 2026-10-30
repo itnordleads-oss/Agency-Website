@@ -188,13 +188,39 @@
 
 .home-agency-process__copy {
   margin: 0.4rem 0 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1023px) {
+  .home-agency-process__v-item {
+    gap: 0.95rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .home-agency-process__title {
+    font-size: 1.0625rem;
+    font-weight: 650;
+  }
+
+  .home-agency-process__copy {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .home-agency-process__node {
+    height: 2.35rem;
+    width: 2.35rem;
+  }
+
+  .home-agency-process__v-rail {
+    left: 1.35rem;
+  }
+}
+
+@media (min-width: 1024px) {
   .home-agency-process__title {
     font-size: 1.05rem;
   }
