@@ -420,7 +420,10 @@ export default function AboutPage() {
                 {sectionMark}
               </span>
               <SectionEyebrow label={aboutPage.whoWeAre.eyebrow} />
-              <h2 id="about-who-heading" className="about-section-title relative mt-3.5 max-w-none md:max-w-md">
+              <h2
+                id="about-who-heading"
+                className="about-section-title relative mt-3.5 max-w-none md:max-w-md"
+              >
                 {aboutPage.whoWeAre.title}
               </h2>
             </div>
