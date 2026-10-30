@@ -121,7 +121,7 @@ export default function Navbar() {
     <>
       {/* Mobile: fixed so sticky survives overflow-x ancestors; desktop keeps sticky. */}
       <header className="fixed top-0 left-0 right-0 lg:sticky lg:top-0 z-40 w-full border-b border-white/[0.08] bg-[#0C111B]/95 lg:bg-[#0C111B]/90 lg:backdrop-blur-md min-w-0">
-        <div className="max-w-7xl mx-auto px-3 min-[341px]:px-4 sm:px-6 h-16 max-[340px]:h-[4.25rem] min-[341px]:h-20 flex items-center justify-between gap-2 min-[341px]:gap-3 min-w-0">
+        <div className="max-w-7xl mx-auto px-4 min-[375px]:px-[1.125rem] min-[390px]:px-5 sm:px-6 h-16 max-[340px]:h-[4.25rem] min-[341px]:h-20 flex items-center justify-between gap-2 min-[341px]:gap-3 min-w-0">
           <a
             href="/"
             onClick={(event) => {
@@ -198,7 +198,7 @@ export default function Navbar() {
             aria-modal="true"
             aria-label={nav.mobileNavLabel || "Main menu"}
           >
-            <div className="navbar-mobile-menu__inner px-3 min-[341px]:px-4 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-3 min-[341px]:gap-4">
+            <div className="navbar-mobile-menu__inner px-4 min-[375px]:px-[1.125rem] min-[390px]:px-5 sm:px-6 py-5 max-[340px]:py-4 flex flex-col gap-3 min-[341px]:gap-4">
               <nav className="flex flex-col gap-1" aria-label={nav.mobileNavLabel || "Main menu"}>
                 {menuItems.map((item) => {
                   const isActive = activeNavId === item.id;

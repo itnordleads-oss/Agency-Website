@@ -89,7 +89,7 @@ export default function Footer() {
       aria-label={studioChrome.footerAriaLabel}
     >
       <div className="site-footer__accent" aria-hidden="true" />
-      <div className="site-footer__shell mx-auto min-w-0 max-w-7xl px-4 min-[390px]:px-5 sm:px-6 lg:px-8">
+      <div className="site-footer__shell mx-auto min-w-0 max-w-7xl px-4 min-[375px]:px-[1.125rem] min-[390px]:px-5 sm:px-6 lg:px-8">
         <div className="site-footer__top">
           <div className="site-footer__brand">
             <a

@@ -7,7 +7,8 @@ import { HOME_AGENCY_INTRO, HOME_AGENCY_SHELL } from "./homeAgencyLayout";
 import "./homeAgencyValue.css";
 
 /** Same rhythm as HOME_AGENCY_SECTION, but overflow-visible so headings are never clipped. */
-const VALUE_SECTION = "relative min-w-0 overflow-visible py-12 sm:py-14 md:py-16 lg:py-[4.5rem]";
+const VALUE_SECTION =
+  "home-agency-section relative min-w-0 overflow-visible py-14 sm:py-14 md:py-16 lg:py-[4.5rem]";
 
 const VALUE_ICONS: LucideIcon[] = [MessagesSquare, Code2, Layers, RefreshCw];
 

@@ -150,3 +150,126 @@
     letter-spacing: 0.02em;
   }
 }
+
+/* —— Mobile delivery flow (purpose-designed, not shrunk desktop) —— */
+.home-hero-panel__mobile-flow {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 0.85rem 0.9rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* Keep purpose-built mobile flow off tablet/desktop (beats Tailwind order). */
+@media (min-width: 640px) {
+  .home-hero-panel__mobile-flow {
+    display: none !important;
+  }
+}
+
+.home-hero-panel__mobile-steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-hero-panel__mobile-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.15rem minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.75rem;
+  min-height: 2.35rem;
+  padding-bottom: 1.15rem;
+}
+
+.home-hero-panel__mobile-step:last-child {
+  padding-bottom: 0;
+}
+
+.home-hero-panel__mobile-node {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  height: 2.15rem;
+  width: 2.15rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 210, 255, 0.45);
+  background: #0c111b;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #a4f4fd;
+  box-shadow: 0 0 0 4px rgba(10, 18, 32, 0.95);
+}
+
+.home-hero-panel__mobile-node--launch {
+  border-color: rgba(164, 244, 253, 0.75);
+  color: #dffbff;
+}
+
+.home-hero-panel__mobile-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.home-hero-panel__mobile-label--launch {
+  color: #a4f4fd;
+}
+
+.home-hero-panel__mobile-arrow {
+  position: absolute;
+  left: 0.7rem;
+  top: 2.15rem;
+  z-index: 0;
+  font-size: 0.7rem;
+  line-height: 1;
+  color: rgba(0, 210, 255, 0.55);
+}
+
+.home-hero-panel__mobile-surfaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.home-hero-panel__mobile-surface {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.3rem 0.55rem;
+  font-size: 0.625rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #a4f4fd;
+}
+
+@media (max-width: 359px) {
+  .home-hero-panel__mobile-flow {
+    padding: 0.75rem 0.8rem 0.85rem;
+  }
+
+  .home-hero-panel__mobile-label {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-panel__mobile-node,
+  .home-hero-panel__mobile-arrow {
+    transition: none;
+  }
+}
