@@ -1,49 +1,95 @@
 /**
- * Projects page (#projects-page) — scoped mobile/tablet type + rhythm.
- * Desktop keeps approved hero-title / section-title scales.
+ * Projects page (#projects-page) — mobile polish V2 type + rhythm.
+ * Desktop hero scales intentionally larger; mobile stays controlled.
  */
 
 #projects-page {
-  --projects-body: 0.9375rem;
-  --projects-support: 0.875rem;
-  --projects-meta: 0.6875rem;
-  --projects-h3: 1.125rem;
+  --projects-body: 0.9375rem; /* 15px */
+  --projects-support: 0.9375rem; /* 15px */
+  --projects-meta: 0.6875rem; /* 11px */
+  --projects-h3: 1.375rem; /* 22px */
+  --projects-section-y: 3.75rem; /* 60px */
+  --projects-gutter: 1rem; /* 16px */
+}
+
+@media (min-width: 375px) {
+  #projects-page {
+    --projects-gutter: 1.125rem; /* 18px */
+  }
+}
+
+@media (min-width: 390px) {
+  #projects-page {
+    --projects-gutter: 1.25rem; /* 20px */
+  }
+}
+
+@media (min-width: 640px) {
+  #projects-page {
+    --projects-gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #projects-page {
+    --projects-gutter: 2rem;
+  }
+}
+
+/* Shared section shells share page gutters */
+#projects-page .projects-page-shell {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--projects-gutter);
+  padding-right: var(--projects-gutter);
 }
 
 #projects-page .projects-hero-title {
-  max-width: 16ch;
-  margin: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0.7rem 0 0;
   color: #fff;
-  font-size: clamp(2.125rem, 1.55rem + 2.6vw, 2.625rem);
+  font-size: clamp(2.125rem, 1.85rem + 1.4vw, 2.375rem); /* 34–38 */
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.02;
   letter-spacing: -0.03em;
-  text-wrap: balance;
+  text-wrap: pretty;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-align: left;
 }
 
 #projects-page .projects-hero-copy {
-  margin: 0;
-  max-width: 26rem;
+  width: 100%;
+  max-width: none;
+  margin: 0.95rem 0 0;
   color: rgba(255, 255, 255, 0.74);
   font-size: var(--projects-body);
   font-weight: 400;
   line-height: 1.55;
   letter-spacing: 0;
+  text-align: left;
 }
 
 #projects-page .section-title {
-  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  max-width: none;
+  font-size: clamp(1.75rem, 1.45rem + 1.5vw, 2.125rem); /* ~28–34 */
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 #projects-page .projects-section-lede {
+  width: 100%;
+  max-width: none;
   margin: 0;
-  max-width: 42rem;
   color: rgba(255, 255, 255, 0.72);
-  font-size: var(--projects-support);
+  font-size: var(--projects-body);
   font-weight: 400;
   line-height: 1.55;
   letter-spacing: 0;
@@ -52,12 +98,12 @@
 #projects-page .project-card--standard .project-card__title {
   font-size: var(--projects-h3);
   font-weight: 650;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
 }
 
 #projects-page .project-card--standard .project-card__description {
-  font-size: var(--projects-support);
+  font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
@@ -90,21 +136,32 @@
 }
 
 #projects-page .projects-approach__heading {
-  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
-  max-width: 18ch;
+  max-width: none;
+  font-size: clamp(1.75rem, 1.45rem + 1.5vw, 2.125rem);
+  line-height: 1.1;
 }
 
+#projects-page .projects-approach__lede,
 #projects-page .projects-approach__copy {
+  width: 100%;
+  max-width: none;
   font-size: var(--projects-support);
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.72);
 }
 
 #projects-page .projects-approach__step-label {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 650;
   letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.78);
+}
+
+#projects-page .projects-approach__step-desc {
+  max-width: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.58);
 }
 
 #projects-page .projects-final-cta__copy {
@@ -121,43 +178,109 @@
   font-weight: 600;
 }
 
-@media (max-width: 767px) {
+/* 320–359 */
+@media (max-width: 359px) {
+  #projects-page {
+    --projects-section-y: 3.5rem;
+    --projects-h3: 1.25rem; /* 20px */
+  }
+
   #projects-page .projects-hero-title {
-    max-width: 18ch;
-    font-size: clamp(2.125rem, 1.7rem + 2.1vw, 2.5rem);
+    font-size: 2.125rem; /* 34px */
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere; /* long translations only at stress width */
   }
 
-  #projects-page .project-card--standard .project-card__body {
-    padding: 1.05rem 1rem 1.1rem;
+  #projects-page .section-title,
+  #projects-page .projects-approach__heading {
+    font-size: 1.75rem;
   }
+}
 
-  #projects-page .projects-approach__rail {
-    padding-top: 0.35rem;
-    padding-bottom: 1.1rem;
+/* 360–389 incl. 375 */
+@media (min-width: 360px) and (max-width: 389px) {
+  #projects-page .projects-hero-title {
+    font-size: 2.375rem; /* 38px */
+    line-height: 1.02;
+    letter-spacing: -0.03em;
   }
+}
 
-  #projects-page .projects-approach__step {
-    gap: 0.85rem;
-    padding: 0.7rem 0;
+/* 390–430 */
+@media (min-width: 390px) and (max-width: 430px) {
+  #projects-page .projects-hero-title {
+    font-size: 2.625rem; /* 42px */
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+  }
+}
+
+@media (min-width: 431px) and (max-width: 767px) {
+  #projects-page .projects-hero-title {
+    font-size: clamp(2.625rem, 2.1rem + 1.6vw, 2.875rem);
+    line-height: 1.03;
   }
 }
 
 @media (min-width: 375px) and (max-width: 767px) {
-  #projects-page .projects-hero-title {
-    font-size: clamp(2.375rem, 1.85rem + 2.2vw, 2.75rem);
+  #projects-page {
+    --projects-section-y: 4rem; /* 64px */
+    --projects-h3: 1.5rem; /* 24px */
   }
 }
 
+@media (max-width: 767px) {
+  #projects-page .projects-hero-title,
+  #projects-page .projects-hero-copy {
+    max-width: none !important;
+  }
+
+  #projects-page .projects-section-lede,
+  #projects-page .projects-approach__lede,
+  #projects-page .projects-approach__copy {
+    max-width: none;
+  }
+
+  #projects-page .project-card--standard .project-card__body {
+    padding: 1.05rem 1rem 1.15rem;
+    gap: 0.45rem;
+  }
+
+  #projects-page .project-card--standard .project-card__title {
+    font-size: var(--projects-h3);
+  }
+
+  #projects-page .projects-page-section {
+    padding-bottom: var(--projects-section-y);
+  }
+
+  #projects-page .section-title,
+  #projects-page .projects-approach__heading {
+    font-size: clamp(1.875rem, 1.55rem + 1.6vw, 2.125rem);
+    line-height: 1.06;
+  }
+}
+
+/* Tablet */
 @media (min-width: 768px) {
   #projects-page {
     --projects-body: 1rem;
     --projects-support: 0.9375rem;
-    --projects-h3: 1.1875rem;
+    --projects-h3: 1.25rem;
   }
 
   #projects-page .projects-hero-title {
     max-width: 18ch;
-    font-size: clamp(2.75rem, 2.1rem + 1.4vw, 3.25rem);
+    font-size: clamp(2.75rem, 2.1rem + 1.5vw, 3.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+  }
+
+  #projects-page .projects-hero-copy {
+    max-width: 28rem;
+    font-size: 1rem;
+    line-height: 1.6;
   }
 
   #projects-page .section-title,
@@ -165,36 +288,58 @@
     font-size: clamp(1.875rem, 1.55rem + 0.9vw, 2.25rem);
   }
 
-  #projects-page .projects-approach__step-label {
-    font-size: 0.875rem;
+  #projects-page .projects-section-lede {
+    max-width: 42rem;
+  }
+
+  #projects-page .projects-approach__lede {
+    max-width: 36rem;
+  }
+
+  #projects-page .projects-approach__copy {
+    max-width: 34rem;
   }
 }
 
+/* Desktop composition */
 @media (min-width: 1024px) {
   #projects-page .projects-hero-title {
     max-width: 14ch;
-    font-size: clamp(3rem, 2.4rem + 0.9vw, 3.5rem);
-    letter-spacing: -0.032em;
+    font-size: clamp(3.25rem, 2.6rem + 1vw, 3.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.034em;
+  }
+
+  #projects-page .projects-hero-copy {
+    max-width: 26rem;
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.58;
   }
 
   #projects-page .section-title,
   #projects-page .projects-approach__heading {
     font-size: clamp(2.125rem, 1.7rem + 0.7vw, 2.5rem);
   }
-
-  #projects-page .projects-hero-copy {
-    font-size: 1.0625rem;
-  }
 }
 
 @media (min-width: 1280px) {
   #projects-page .projects-hero-title {
-    font-size: 3.75rem;
-    letter-spacing: -0.03em;
+    max-width: 16ch;
+    font-size: 4.25rem; /* 68px */
+    line-height: 0.96;
+    letter-spacing: -0.035em;
   }
 
   #projects-page .section-title,
   #projects-page .projects-approach__heading {
     font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  #projects-page .projects-hero-title {
+    max-width: 17ch;
+    font-size: 4.5rem; /* 72px */
+    line-height: 0.95;
   }
 }

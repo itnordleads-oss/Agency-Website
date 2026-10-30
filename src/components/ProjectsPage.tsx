@@ -131,11 +131,11 @@ export default function ProjectsPage() {
       <ProjectsHero />
 
       <section
-        className="projects-section-reveal relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
+        className="projects-section-reveal projects-page-shell projects-page-section"
         aria-labelledby="all-projects-heading"
       >
-        <div className="mb-5 flex flex-col gap-3 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-6">
-          <div className="space-y-1.5">
+        <div className="mb-5 flex flex-col gap-3.5 md:mb-6 md:flex-row md:items-end md:justify-between md:gap-6">
+          <div className="min-w-0 space-y-2">
             <SectionEyebrow label={projectsPage.grid.eyebrow} />
             <h2
               id="all-projects-heading"
@@ -144,7 +144,7 @@ export default function ProjectsPage() {
             >
               {projectsPage.grid.title}
             </h2>
-            <p className="projects-section-lede max-w-2xl">
+            <p className="projects-section-lede max-w-none md:max-w-2xl">
               {projects.length > 0 ? countLede : projectsPage.grid.emptyLede}
             </p>
           </div>
@@ -177,7 +177,7 @@ export default function ProjectsPage() {
         {visibleProjects.length > 0 ? (
           <div
             key={filter}
-            className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5"
+            className="projects-grid-enter grid grid-cols-1 items-stretch gap-10 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5"
           >
             {visibleProjects.map((project, index) => (
               <ProjectCard key={`${filter}-${project.slug}`} project={project} enterIndex={index} />
@@ -190,10 +190,10 @@ export default function ProjectsPage() {
 
       {interactiveDemos.length > 0 ? (
         <section
-          className="projects-section-reveal relative mx-auto max-w-7xl px-3 pb-6 min-[341px]:px-4 sm:px-6 md:pb-8"
+          className="projects-section-reveal projects-page-shell projects-page-section"
           aria-labelledby="interactive-demos-heading"
         >
-          <div className="mb-5 space-y-1.5 md:mb-6">
+          <div className="mb-5 space-y-2 md:mb-6">
             <h2
               id="interactive-demos-heading"
               className="section-title text-left"
@@ -201,9 +201,11 @@ export default function ProjectsPage() {
             >
               {projectsPage.grid.interactiveTitle}
             </h2>
-            <p className="projects-section-lede max-w-2xl">{projectsPage.grid.interactiveLede}</p>
+            <p className="projects-section-lede max-w-none md:max-w-2xl">
+              {projectsPage.grid.interactiveLede}
+            </p>
           </div>
-          <div className="projects-grid-enter grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5">
+          <div className="projects-grid-enter grid grid-cols-1 items-stretch gap-10 md:grid-cols-2 md:gap-5 xl:grid-cols-3 xl:gap-5">
             {interactiveDemos.map((project, index) => (
               <ProjectCard key={`demo-${project.slug}`} project={project} enterIndex={index} />
             ))}
@@ -213,7 +215,7 @@ export default function ProjectsPage() {
 
       <section
         ref={approachRef}
-        className={`projects-approach projects-section-reveal relative mx-auto max-w-7xl px-3 pb-2 min-[341px]:px-4 sm:px-6 md:pb-4${
+        className={`projects-approach projects-section-reveal projects-page-shell${
           approachVisible ? " projects-approach--visible" : ""
         }`}
         aria-labelledby="projects-approach-heading"
@@ -269,7 +271,17 @@ function FilterChip({
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={(event) => {
+        onClick();
+        const button = event.currentTarget;
+        window.requestAnimationFrame(() => {
+          button.scrollIntoView({
+            behavior: "smooth",
+            inline: "nearest",
+            block: "nearest",
+          });
+        });
+      }}
       aria-pressed={active}
       className={`projects-filter-chip rounded-full border font-semibold uppercase transition-[color,background-color,border-color,box-shadow] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00D2FF] ${
         active
