@@ -65,8 +65,9 @@ function revealProps(reduceMotion: boolean | null, delay = 0) {
     return {};
   }
 
+  // Keep opacity at 1 so offscreen/in-progress reveals stay readable (a11y + e2e).
   return {
-    initial: { opacity: 0, y: 12 },
+    initial: { opacity: 1, y: 12 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, amount: 0.12 },
     transition: { duration: 0.42, delay, ease: [0.22, 1, 0.36, 1] as const },

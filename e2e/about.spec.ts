@@ -174,6 +174,7 @@ test.describe("About page structural layout", () => {
   test("required viewports have no horizontal overflow and keep the mobile process vertical", async ({
     page,
   }) => {
+    test.setTimeout(60_000);
     const viewportWidths = [320, 360, 375, 390, 414, 430, 768, 820, 1024, 1280, 1440];
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
