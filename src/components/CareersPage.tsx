@@ -1,10 +1,11 @@
 import React, { useId, useRef, useState } from "react";
 import { ArrowRight, BriefcaseBusiness, ChevronDown, CircleDot, MessageSquare } from "lucide-react";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { CAREER_FAQS, CAREER_JOBS } from "../content/careers";
+import { CAREER_JOBS } from "../content/careers";
 import { navigateAppPath } from "../App";
 import { getAgencyPageSeo } from "../lib/agencyPageSeo";
 import { applyPageMetadata } from "../lib/pageMetadata";
+import { useSiteCopy } from "../lib/useSiteCopy";
 import { PrimaryButton, SecondaryButton } from "./Buttons";
 import SectionEyebrow from "./SectionEyebrow";
 import CareersWorkTypes from "./careers/CareersWorkTypes";
@@ -12,47 +13,14 @@ import { HOME_AGENCY_SHELL } from "./home-v2/homeAgencyLayout";
 import "./careers.css";
 import "./careersType.css";
 
-const WORKING_PRINCIPLES = [
-  {
-    title: "Meaningful Work",
-    description: "Contribute to software, web, mobile, commerce, and content-focused products.",
-  },
-  {
-    title: "Clear Collaboration",
-    description: "Requirements, progress, and feedback stay visible through delivery.",
-  },
-  {
-    title: "Ownership",
-    description: "Take responsibility for useful work from understanding through review.",
-  },
-  {
-    title: "Continuous Improvement",
-    description: "Learn through implementation, review, iteration, and project decisions.",
-  },
-] as const;
-
-const WORKING_STYLE = [
-  ["Understand", "Know the requirement before implementation."],
-  ["Work", "Keep changes reviewable and manageable."],
-  ["Review", "Use feedback to improve implementation."],
-  ["Deliver", "Refine the work toward a useful release."],
-] as const;
-
-const HIRING_STEPS = [
-  ["Application", "Submit your details for an available role."],
-  ["Review", "We review the application against the role requirements."],
-  ["Conversation", "Relevant candidates may be invited to discuss the role and experience."],
-  ["Next Steps", "Further steps are shared directly with candidates."],
-] as const;
-
 const reveal = (reduceMotion: boolean, delay = 0) =>
   reduceMotion
     ? {}
     : {
-        initial: { opacity: 0, y: 16 },
+        initial: { opacity: 0, y: 14 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true, amount: 0.18 },
-        transition: { duration: 0.46, delay, ease: [0.22, 1, 0.36, 1] as const },
+        transition: { duration: 0.4, delay, ease: [0.22, 1, 0.36, 1] as const },
       };
 
 function scrollToCareersSection(id: string) {
@@ -60,15 +28,28 @@ function scrollToCareersSection(id: string) {
 }
 
 export default function CareersPage() {
+  const { careersPage, language } = useSiteCopy();
   const reduceMotion = useReducedMotion();
   const [activePrinciple, setActivePrinciple] = useState(0);
-  const [openFaq, setOpenFaq] = useState<string | null>(CAREER_FAQS[0]?.id ?? null);
+  const [openFaq, setOpenFaq] = useState<string | null>(careersPage.faq?.items?.[0]?.id ?? null);
   const styleRef = useRef<HTMLElement | null>(null);
   const hiringRef = useRef<HTMLElement | null>(null);
   const styleVisible = useInView(styleRef, { once: true, amount: 0.3 }) || reduceMotion;
   const hiringVisible = useInView(hiringRef, { once: true, amount: 0.3 }) || reduceMotion;
   const faqBaseId = useId();
   const openJobs = CAREER_JOBS.filter((job) => job.status === "open");
+
+  const principles = Array.isArray(careersPage.principles?.items)
+    ? careersPage.principles.items
+    : [];
+  const workingStyle = Array.isArray(careersPage.workingStyle?.steps)
+    ? careersPage.workingStyle.steps
+    : [];
+  const hiringSteps = Array.isArray(careersPage.hiring?.steps) ? careersPage.hiring.steps : [];
+  const faqs = Array.isArray(careersPage.faq?.items) ? careersPage.faq.items : [];
+  const flowNodes = Array.isArray(careersPage.hero?.flowNodes) ? careersPage.hero.flowNodes : [];
+  const roles = Array.isArray(careersPage.hero?.roles) ? careersPage.hero.roles : [];
+  const activePrincipleItem = principles[activePrinciple] ?? principles[0];
 
   React.useEffect(() => {
     const seo = getAgencyPageSeo("careers");
@@ -81,40 +62,47 @@ export default function CareersPage() {
     return restore;
   }, []);
 
+  React.useEffect(() => {
+    const firstFaqId = careersPage.faq?.items?.[0]?.id ?? null;
+    setOpenFaq(firstFaqId);
+    setActivePrinciple(0);
+  }, [language, careersPage.faq?.items]);
+
   return (
     <main id="careers-page" className="careers-page min-w-0 flex-grow">
       <section className="careers-hero" aria-labelledby="careers-hero-title">
         <div className={`${HOME_AGENCY_SHELL} careers-hero__shell`}>
           <div className="careers-hero__layout">
-            <motion.div className="careers-hero__copy" {...reveal(reduceMotion)}>
-              <SectionEyebrow label="Careers" />
+            <motion.div className="careers-hero__copy" {...reveal(!!reduceMotion)}>
+              <SectionEyebrow label={careersPage.hero.eyebrow} />
               <h1 id="careers-hero-title" className="careers-hero__title">
-                Build useful products.
-                <br />
-                Grow with the work.
+                {careersPage.hero.titleLine1}
+                <span className="careers-hero__break" aria-hidden>
+                  {" "}
+                </span>
+                <br className="careers-hero__br" />
+                {careersPage.hero.titleLine2}
               </h1>
-              <p className="careers-hero__support">
-                Software and product work, with shared review.
-              </p>
+              <p className="careers-hero__support">{careersPage.hero.support}</p>
               <div className="careers-hero__actions">
                 <PrimaryButton onClick={() => scrollToCareersSection("open-positions")}>
-                  View Open Positions
+                  {careersPage.hero.primaryCta}
                 </PrimaryButton>
                 <SecondaryButton onClick={() => scrollToCareersSection("working-style")}>
-                  How We Work
+                  {careersPage.hero.secondaryCta}
                 </SecondaryButton>
               </div>
             </motion.div>
 
             <motion.div
               className="careers-flow"
-              aria-label="Collaboration flow from idea to ship"
-              {...reveal(reduceMotion, 0.08)}
+              aria-label={careersPage.hero.flowAriaLabel}
+              {...reveal(!!reduceMotion, 0.08)}
             >
               <div className="careers-flow__topline">
-                <span>Shared delivery</span>
+                <span>{careersPage.hero.sharedDelivery}</span>
                 <span className="careers-flow__status">
-                  <CircleDot aria-hidden /> In motion
+                  <CircleDot aria-hidden /> {careersPage.hero.inMotion}
                 </span>
               </div>
               <div className="careers-flow__path-layer" aria-hidden>
@@ -130,9 +118,9 @@ export default function CareersPage() {
                 </svg>
               </div>
               <div className="careers-flow__nodes">
-                {["Idea", "Collaborate", "Build", "Review", "Ship"].map((label, index) => (
+                {flowNodes.map((label, index) => (
                   <div
-                    key={label}
+                    key={`${label}-${index}`}
                     className={`careers-flow__node careers-flow__node--${index + 1}`}
                   >
                     <span>{String(index + 1).padStart(2, "0")}</span>
@@ -141,7 +129,7 @@ export default function CareersPage() {
                 ))}
               </div>
               <div className="careers-flow__roles" aria-label="Broad contribution areas">
-                {["Engineering", "Product", "Design", "Delivery"].map((role) => (
+                {roles.map((role) => (
                   <span key={role}>{role}</span>
                 ))}
               </div>
@@ -155,23 +143,27 @@ export default function CareersPage() {
         aria-labelledby="working-here-heading"
       >
         <div className={`${HOME_AGENCY_SHELL} careers-principles__layout`}>
-          <motion.div className="careers-section__intro" {...reveal(reduceMotion)}>
-            <SectionEyebrow label="Working here" />
+          <motion.div className="careers-section__intro" {...reveal(!!reduceMotion)}>
+            <SectionEyebrow label={careersPage.principles.eyebrow} />
             <h2 id="working-here-heading" className="section-title text-left">
-              Work where contribution stays visible
+              {careersPage.principles.title}
             </h2>
-            <p className="text-body">
-              Useful work moves forward when context, decisions, and feedback are shared.
-            </p>
+            <p className="text-body">{careersPage.principles.subtitle}</p>
           </motion.div>
-          <motion.div className="careers-principles__surface" {...reveal(reduceMotion, 0.06)}>
+          <motion.div className="careers-principles__surface" {...reveal(!!reduceMotion, 0.06)}>
             <article className="careers-principles__lead">
-              <span className="careers-principles__number">01</span>
-              <h3>{WORKING_PRINCIPLES[activePrinciple]?.title}</h3>
-              <p>{WORKING_PRINCIPLES[activePrinciple]?.description}</p>
+              <span className="careers-principles__number">
+                {String(activePrinciple + 1).padStart(2, "0")}
+              </span>
+              <h3>{activePrincipleItem?.title}</h3>
+              <p>{activePrincipleItem?.description}</p>
             </article>
-            <div className="careers-principles__list" role="list" aria-label="Working principles">
-              {WORKING_PRINCIPLES.map((principle, index) => (
+            <div
+              className="careers-principles__list"
+              role="list"
+              aria-label={careersPage.principles.listAriaLabel}
+            >
+              {principles.map((principle, index) => (
                 <button
                   type="button"
                   role="listitem"
@@ -202,22 +194,20 @@ export default function CareersPage() {
         <div className={HOME_AGENCY_SHELL}>
           <motion.div
             className="careers-section__intro careers-style__intro"
-            {...reveal(reduceMotion)}
+            {...reveal(!!reduceMotion)}
           >
-            <SectionEyebrow label="Working style" />
+            <SectionEyebrow label={careersPage.workingStyle.eyebrow} />
             <h2 id="working-style-heading" className="section-title text-left">
-              Keep the work clear and moving
+              {careersPage.workingStyle.title}
             </h2>
-            <p className="text-body">
-              A shared rhythm for contributing, reviewing, and improving useful work.
-            </p>
+            <p className="text-body">{careersPage.workingStyle.subtitle}</p>
           </motion.div>
           <ol className="careers-style__flow">
-            {WORKING_STYLE.map(([title, description], index) => (
-              <li key={title}>
+            {workingStyle.map((step, index) => (
+              <li key={step.title}>
                 <span className="careers-style__step">{String(index + 1).padStart(2, "0")}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </li>
             ))}
           </ol>
@@ -230,10 +220,10 @@ export default function CareersPage() {
         aria-labelledby="open-positions-heading"
       >
         <div className={HOME_AGENCY_SHELL}>
-          <motion.div className="careers-positions__heading" {...reveal(reduceMotion)}>
-            <SectionEyebrow label="Opportunities" />
+          <motion.div className="careers-positions__heading" {...reveal(!!reduceMotion)}>
+            <SectionEyebrow label={careersPage.positions.eyebrow} />
             <h2 id="open-positions-heading" className="section-title text-left">
-              Open positions
+              {careersPage.positions.title}
             </h2>
           </motion.div>
           {openJobs.length > 0 ? (
@@ -250,24 +240,24 @@ export default function CareersPage() {
                     <span>{job.shortDescription}</span>
                   </div>
                   <span>
-                    View Position <ArrowRight aria-hidden />
+                    {careersPage.positions.viewPosition} <ArrowRight aria-hidden />
                   </span>
                 </a>
               ))}
             </div>
           ) : (
-            <motion.div className="careers-empty" {...reveal(reduceMotion, 0.06)}>
+            <motion.div className="careers-empty" {...reveal(!!reduceMotion, 0.06)}>
               <BriefcaseBusiness aria-hidden />
               <div>
-                <h3>There are currently no open positions.</h3>
-                <p>We’ll publish new opportunities here when they become available.</p>
+                <h3>{careersPage.positions.emptyTitle}</h3>
+                <p>{careersPage.positions.emptyBody}</p>
               </div>
               <button
                 type="button"
                 onClick={() => navigateAppPath("/contact")}
                 className="careers-text-link"
               >
-                Contact Us <ArrowRight aria-hidden />
+                {careersPage.positions.contactCta} <ArrowRight aria-hidden />
               </button>
             </motion.div>
           )}
@@ -282,19 +272,19 @@ export default function CareersPage() {
         <div className={HOME_AGENCY_SHELL}>
           <motion.div
             className="careers-section__intro careers-hiring__intro"
-            {...reveal(reduceMotion)}
+            {...reveal(!!reduceMotion)}
           >
-            <SectionEyebrow label="Hiring journey" />
+            <SectionEyebrow label={careersPage.hiring.eyebrow} />
             <h2 id="hiring-heading" className="section-title text-left">
-              A clear path through the conversation
+              {careersPage.hiring.title}
             </h2>
           </motion.div>
           <ol className="careers-hiring__timeline">
-            {HIRING_STEPS.map(([title, description], index) => (
-              <li key={title}>
+            {hiringSteps.map((step, index) => (
+              <li key={step.title}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{title}</h3>
-                <p>{description}</p>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </li>
             ))}
           </ol>
@@ -303,14 +293,14 @@ export default function CareersPage() {
 
       <section className="careers-section careers-faq" aria-labelledby="careers-faq-heading">
         <div className={`${HOME_AGENCY_SHELL} careers-faq__layout`}>
-          <motion.div className="careers-section__intro" {...reveal(reduceMotion)}>
-            <SectionEyebrow label="FAQ" />
+          <motion.div className="careers-section__intro" {...reveal(!!reduceMotion)}>
+            <SectionEyebrow label={careersPage.faq.eyebrow} />
             <h2 id="careers-faq-heading" className="section-title text-left">
-              A few useful details
+              {careersPage.faq.title}
             </h2>
           </motion.div>
-          <motion.div className="careers-faq__items" {...reveal(reduceMotion, 0.05)}>
-            {CAREER_FAQS.map((faq, index) => {
+          <motion.div className="careers-faq__items" {...reveal(!!reduceMotion, 0.05)}>
+            {faqs.map((faq, index) => {
               const expanded = openFaq === faq.id;
               const buttonId = `${faqBaseId}-faq-${index}`;
               const panelId = `${buttonId}-panel`;
@@ -343,21 +333,21 @@ export default function CareersPage() {
 
       <section className="careers-final" aria-labelledby="careers-final-heading">
         <div className={HOME_AGENCY_SHELL}>
-          <motion.div className="careers-final__panel" {...reveal(reduceMotion)}>
+          <motion.div className="careers-final__panel" {...reveal(!!reduceMotion)}>
             <div>
-              <SectionEyebrow label="Careers" />
+              <SectionEyebrow label={careersPage.finalCta.eyebrow} />
               <h2 id="careers-final-heading" className="section-title">
-                Interested in working with us?
+                {careersPage.finalCta.title}
               </h2>
-              <p>Keep an eye on open roles or get in touch when there is a relevant opportunity.</p>
+              <p>{careersPage.finalCta.body}</p>
             </div>
             <div className="careers-final__actions">
               <PrimaryButton onClick={() => scrollToCareersSection("open-positions")}>
-                View Open Positions
+                {careersPage.finalCta.primaryCta}
               </PrimaryButton>
               <SecondaryButton onClick={() => navigateAppPath("/contact")}>
                 <MessageSquare aria-hidden />
-                Contact Us
+                {careersPage.finalCta.secondaryCta}
               </SecondaryButton>
             </div>
           </motion.div>
