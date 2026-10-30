@@ -145,7 +145,9 @@ export default function ProjectCard({
 
         {project.label && !isCompact ? <p className="project-card__type">{project.label}</p> : null}
 
-        <p className="project-card__description line-clamp-2">{project.shortDescription}</p>
+        <p className="project-card__description line-clamp-3 md:line-clamp-2">
+          {project.shortDescription}
+        </p>
 
         <div className="project-card__meta-row">
           <span className="project-card__category">{categoryLabel}</span>

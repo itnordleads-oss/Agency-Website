@@ -30,8 +30,9 @@ const BENTO_LAYOUT = [
   "lg:col-span-7 lg:col-start-6 lg:row-start-2 about-bento-cell--lead",
 ] as const;
 
+/** Mobile gutters ~16px (320–360), ~18–20px (375–430); sm+ established shell. */
 const ABOUT_SHELL =
-  "relative z-10 mx-auto w-full min-w-0 max-w-7xl px-4 min-[390px]:px-5 sm:px-6 lg:px-8";
+  "relative z-10 mx-auto w-full min-w-0 max-w-7xl px-4 min-[375px]:px-[1.125rem] min-[390px]:px-5 sm:px-6 lg:px-8";
 
 type AboutPrinciple = { title: string; description: string };
 type FlowStep = { label: string };
@@ -64,11 +65,12 @@ function revealProps(reduceMotion: boolean | null, delay = 0) {
     return {};
   }
 
+  // Keep opacity at 1 so offscreen/in-progress reveals stay readable (a11y + e2e).
   return {
-    initial: { y: 14 },
-    whileInView: { y: 0 },
-    viewport: { once: true, amount: 0.15 },
-    transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] as const },
+    initial: { opacity: 1, y: 12 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.12 },
+    transition: { duration: 0.42, delay, ease: [0.22, 1, 0.36, 1] as const },
   };
 }
 
@@ -132,7 +134,7 @@ function AboutHeroVisual({
 
   return (
     <div
-      className="about-hero-system w-full max-w-xl xl:max-w-none"
+      className="about-hero-system w-full max-w-none md:max-w-xl xl:max-w-none"
       role="group"
       aria-label="Studio delivery system"
     >
@@ -355,31 +357,31 @@ export default function AboutPage() {
     >
       {/* 1. Hero */}
       <section
-        className="about-section about-section-hero relative overflow-hidden pb-10 pt-6 md:pb-12 md:pt-8 xl:pb-14"
+        className="about-section about-section-hero relative overflow-hidden pb-10 pt-7 max-[340px]:pt-6 max-[340px]:pb-8 md:pb-12 md:pt-8 xl:pb-14"
         aria-labelledby="about-hero-title"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(920px_circle_at_8%_-5%,rgba(61,129,227,0.2),transparent_52%)] motion-reduce:hidden" />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(640px_circle_at_92%_42%,rgba(0,210,255,0.14),transparent_58%)] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
-          <div className="grid grid-cols-1 items-center gap-7 xl:grid-cols-[0.96fr_1.04fr] xl:gap-12">
-            <div className="about-fade-in min-w-0">
-              <SectionEyebrow label={hero.eyebrow} className="mb-3.5" />
+          <div className="grid grid-cols-1 items-center gap-6 sm:gap-7 xl:grid-cols-[0.96fr_1.04fr] xl:gap-12">
+            <div className="about-fade-in about-hero-copy-block min-w-0">
+              <SectionEyebrow label={hero.eyebrow} className="mb-3" />
               <h1 id="about-hero-title" className="about-hero-title">
                 <span className="about-hero-title__line">{titleLine1}</span>
                 {titleLine2 ? <span className="about-hero-title__line">{titleLine2}</span> : null}
               </h1>
               <p className="about-hero-copy">{hero.subtitle}</p>
-              <div className="about-hero-actions mt-6 flex flex-col gap-3 min-[390px]:flex-row min-[390px]:flex-wrap md:mt-7">
+              <div className="about-hero-actions mt-5 flex w-full flex-row flex-wrap items-stretch gap-2.5 max-[359px]:flex-col sm:mt-6 sm:gap-3 md:mt-7">
                 <PrimaryButton
                   onClick={navigateToContact}
-                  className="about-cta-primary w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
+                  className="about-cta-primary min-w-0 flex-1 whitespace-nowrap px-5 py-3.5 max-[359px]:w-full sm:flex-none sm:px-8"
                 >
                   {hero.primaryCta}
                 </PrimaryButton>
                 <SecondaryButton
                   type="button"
                   onClick={() => navigateAppPath("/services")}
-                  className="about-cta-secondary w-full whitespace-nowrap px-8 py-3.5 min-[390px]:w-auto"
+                  className="about-cta-secondary min-w-0 flex-1 whitespace-nowrap px-5 py-3.5 max-[359px]:w-full sm:flex-none sm:px-8"
                 >
                   {hero.secondaryCta}
                 </SecondaryButton>
@@ -402,7 +404,7 @@ export default function AboutPage() {
 
       {/* 2. Who We Are */}
       <section
-        className="about-section about-section-who relative py-12 md:py-16 xl:py-20"
+        className="about-section about-section-who relative py-14 md:py-16 xl:py-20"
         aria-labelledby="about-who-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
@@ -419,7 +421,10 @@ export default function AboutPage() {
                 {sectionMark}
               </span>
               <SectionEyebrow label={aboutPage.whoWeAre.eyebrow} />
-              <h2 id="about-who-heading" className="about-section-title relative mt-3.5 max-w-md">
+              <h2
+                id="about-who-heading"
+                className="about-section-title relative mt-3.5 max-w-none md:max-w-md"
+              >
                 {aboutPage.whoWeAre.title}
               </h2>
             </div>
@@ -457,7 +462,7 @@ export default function AboutPage() {
                   event.preventDefault();
                   navigateAppPath("/services");
                 }}
-                className="group inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D81E3]"
+                className="group inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D81E3]"
               >
                 {aboutPage.whoWeAre.exploreServices}
                 <ArrowRight
@@ -472,13 +477,13 @@ export default function AboutPage() {
 
       {/* 3. Working principles — bento */}
       <section
-        className="about-section relative py-12 md:py-16 xl:py-20"
+        className="about-section relative py-14 md:py-16 xl:py-20"
         aria-labelledby="about-principles-heading"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(800px_circle_at_50%_100%,rgba(61,129,227,0.11),transparent_62%)] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-7 max-w-xl xl:mb-8 xl:max-w-[48%]"
+            className="mb-6 max-w-none md:max-w-xl md:mb-7 xl:mb-8 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.principles.eyebrow} />
@@ -525,13 +530,13 @@ export default function AboutPage() {
 
       {/* 4. Capabilities */}
       <section
-        className="about-section relative py-12 md:py-16 xl:py-20"
+        className="about-section relative py-14 md:py-16 xl:py-20"
         aria-labelledby="about-focus-heading"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-6 max-w-xl xl:mb-7 xl:max-w-[48%]"
+            className="mb-5 max-w-none md:max-w-xl md:mb-6 xl:mb-7 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.focusAreas.eyebrow} />
@@ -545,7 +550,7 @@ export default function AboutPage() {
                 event.preventDefault();
                 navigateAppPath("/services");
               }}
-              className="group mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
+              className="group mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
             >
               {aboutPage.focusAreas.exploreServices}
               <ArrowRight
@@ -565,7 +570,7 @@ export default function AboutPage() {
               >
                 <button
                   type="button"
-                  className="about-capability-button relative grid w-full grid-cols-[auto_1fr_auto] items-start gap-3 py-4 pl-11 text-left sm:gap-5 sm:py-5 sm:pl-14 md:py-6"
+                  className="about-capability-button relative grid w-full grid-cols-1 items-start gap-1.5 py-4 text-left sm:grid-cols-[auto_1fr_auto] sm:gap-5 sm:py-5 sm:pl-14 md:py-6"
                   aria-pressed={activeFocusArea === index}
                   onMouseEnter={() => setActiveFocusArea(index)}
                   onFocus={() => setActiveFocusArea(index)}
@@ -576,10 +581,12 @@ export default function AboutPage() {
                   </span>
                   <div className="relative z-10 min-w-0">
                     <h3 className="about-capability-title">{item.title}</h3>
-                    <p className="about-capability-description max-w-3xl">{item.description}</p>
+                    <p className="about-capability-description max-w-none md:max-w-3xl">
+                      {item.description}
+                    </p>
                   </div>
                   <ArrowRight
-                    className="about-capability-arrow relative z-10 mt-1.5 h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 motion-reduce:transform-none sm:mt-2"
+                    className="about-capability-arrow relative z-10 mt-1.5 hidden h-5 w-5 shrink-0 text-[#A4F4FD]/0 transition-all duration-300 motion-reduce:transform-none sm:mt-2 sm:block"
                     aria-hidden
                   />
                 </button>
@@ -591,12 +598,12 @@ export default function AboutPage() {
 
       {/* 5. Process timeline */}
       <section
-        className="about-section about-section-process relative py-12 md:py-16 xl:py-20"
+        className="about-section about-section-process relative py-14 md:py-16 xl:py-20"
         aria-labelledby="about-process-heading"
       >
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="mb-8 max-w-xl xl:mb-9 xl:max-w-[48%]"
+            className="mb-6 max-w-none md:max-w-xl md:mb-8 xl:mb-9 xl:max-w-[48%]"
             {...revealProps(reduceMotion)}
           >
             <SectionEyebrow label={aboutPage.process.eyebrow} />
@@ -612,35 +619,35 @@ export default function AboutPage() {
 
       {/* 6. CTA */}
       <section
-        className="about-section about-section-cta relative pb-12 pt-4 md:pb-16 md:pt-6 xl:pb-20 xl:pt-2"
+        className="about-section about-section-cta relative pb-14 pt-4 md:pb-16 md:pt-6 xl:pb-20 xl:pt-2"
         aria-labelledby="about-final-cta-heading"
         data-floating-prompt-suppression
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent to-[#3D81E3]/[0.04] motion-reduce:hidden" />
         <div className={ABOUT_SHELL}>
           <motion.div
-            className="about-cta-panel relative overflow-hidden rounded-3xl px-5 py-9 sm:px-10 sm:py-11 md:px-12 md:py-12"
+            className="about-cta-panel relative overflow-hidden rounded-2xl px-4 py-8 max-[340px]:px-3.5 max-[340px]:py-7 sm:rounded-3xl sm:px-10 sm:py-11 md:px-12 md:py-12"
             {...revealProps(reduceMotion)}
           >
             <div className="about-cta-grid pointer-events-none absolute inset-0 motion-reduce:hidden" />
             <div className="about-cta-noise pointer-events-none absolute inset-0 motion-reduce:hidden" />
             <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#00d2ff]/18 blur-[80px] motion-reduce:hidden" />
             <div className="relative z-10 mx-auto max-w-2xl text-center">
-              <h2 id="about-final-cta-heading" className="about-section-title">
+              <h2 id="about-final-cta-heading" className="about-section-title text-balance">
                 {aboutPage.finalCta.title}
               </h2>
               <p className="about-cta-copy">{aboutPage.finalCta.subtitle}</p>
-              <div className="about-cta-actions mt-6 flex flex-col items-center justify-center gap-3.5 sm:mt-7 sm:flex-row sm:gap-5">
+              <div className="about-cta-actions mt-5 flex w-full flex-col items-stretch justify-center gap-2.5 sm:mt-7 sm:flex-row sm:items-center sm:gap-5">
                 <PrimaryButton
                   onClick={navigateToContact}
-                  className="about-cta-primary w-full whitespace-nowrap px-8 py-3.5 sm:w-auto"
+                  className="about-cta-primary w-full whitespace-nowrap px-5 py-3.5 sm:w-auto sm:px-8"
                 >
                   {aboutPage.finalCta.primaryCta}
                 </PrimaryButton>
                 <button
                   type="button"
                   onClick={() => navigateAppPath("/services")}
-                  className="group inline-flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
+                  className="group inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap text-sm font-semibold text-[#A4F4FD] transition-colors hover:text-white"
                 >
                   {finalSecondaryCta}
                   <ArrowRight

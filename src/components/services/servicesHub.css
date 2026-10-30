@@ -519,7 +519,8 @@
   background: rgba(255, 255, 255, 0.015);
 }
 
-@media (min-width: 640px) {
+/* Keep a single-column feed on phones; two columns from tablet. */
+@media (min-width: 768px) {
   .services-overview-board {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -547,7 +548,7 @@
     transform 180ms ease;
 }
 
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1023px) {
   .services-overview-board > li:nth-child(odd) {
     border-right: 1px solid rgba(255, 255, 255, 0.08);
   }
@@ -1349,11 +1350,17 @@
 
 .services-process-step__body p {
   margin: 0.4rem 0 0;
-  max-width: 18rem;
+  max-width: none;
   font-size: 0.875rem;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.62);
   transition: color 220ms ease;
+}
+
+@media (min-width: 768px) {
+  .services-process-step__body p {
+    max-width: 22rem;
+  }
 }
 
 .services-process-step.is-active .services-process-step__body p {
@@ -2947,16 +2954,20 @@
 
 @media (max-width: 639px) {
   .service-blueprint-visual {
-    min-height: 17rem;
+    min-height: 15.5rem;
   }
 
   .services-principle-canvas,
   .services-principle-canvas__content {
-    min-height: 19rem;
+    min-height: 0;
+  }
+
+  .services-principle-canvas__content {
+    padding: 1.15rem 1rem 1.25rem;
   }
 
   .services-principle-canvas__diagram {
-    min-height: 8.5rem;
+    min-height: 7.25rem;
   }
 }
 
@@ -3532,7 +3543,7 @@
   .services-hero-system__mobile-axis span {
     letter-spacing: 0.04em;
     padding: 0.3rem 0.35rem;
-    font-size: 0.5625rem;
+    font-size: 0.625rem; /* 10px — keep flow labels legible */
   }
 
   .services-hero-system__mobile-node {
@@ -3546,7 +3557,7 @@
   }
 
   .services-hero-system__mobile-node .services-hero-system__node-label {
-    font-size: 0.6875rem;
+    font-size: 0.6875rem; /* 11px */
   }
 }
 
@@ -3620,26 +3631,27 @@
   }
 }
 
-/* ── Services Hub mobile/tablet type system (desktop preserved) ── */
+/* ── Services Hub mobile polish V2 type + rhythm (desktop preserved) ── */
 #services-page {
-  --services-body: 0.9375rem;
-  --services-support: 0.875rem;
-  --services-meta: 0.6875rem;
-  --services-h3: 1.125rem;
+  --services-body: 0.9375rem; /* 15px */
+  --services-support: 0.9375rem; /* 15px */
+  --services-meta: 0.6875rem; /* 11px */
+  --services-h3: 1.1875rem; /* 19px */
+  --services-section-y: 3.75rem; /* 60px */
 }
 
 /* Hero shell — mobile-first composition; desktop keeps two-column layout */
 #services-page .services-hero {
-  padding-top: 2rem;
-  padding-bottom: 2.65rem;
+  padding-top: 1.75rem;
+  padding-bottom: 2.5rem;
 }
 
 #services-page .services-hero-layout {
-  gap: 2.25rem;
+  gap: 2rem;
 }
 
 #services-page .services-hero-eyebrow {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.7rem;
 }
 
 #services-page .services-hero-title {
@@ -3647,30 +3659,30 @@
   width: 100%;
   margin: 0;
   color: #fff;
-  font-size: clamp(2.125rem, 1.9rem + 1.1vw, 2.375rem);
+  font-size: clamp(2.125rem, 1.85rem + 1.4vw, 2.375rem); /* 34–38 */
   font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.028em;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   text-wrap: pretty;
   overflow-wrap: break-word;
 }
 
 #services-page .services-hero-subtitle {
   width: 100%;
-  max-width: 28rem;
-  margin: 1.15rem 0 0;
+  max-width: none;
+  margin: 1rem 0 0;
   color: rgba(255, 255, 255, 0.74);
-  font-size: 0.9375rem;
+  font-size: var(--services-body);
   font-weight: 400;
-  line-height: 1.58;
+  line-height: 1.55;
   letter-spacing: 0;
 }
 
 #services-page .services-hero-actions {
   display: flex;
   flex-flow: row wrap;
-  gap: 0.75rem;
-  margin-top: 1.45rem;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
 }
 
 #services-page .services-hero-cta {
@@ -3682,7 +3694,7 @@
   justify-content: center;
   padding: 0.75rem 1rem;
   white-space: nowrap;
-  font-size: 0.875rem;
+  font-size: 0.875rem; /* 14px */
   font-weight: 600;
   letter-spacing: 0;
 }
@@ -3695,11 +3707,13 @@
 }
 
 #services-page .section-title {
-  font-size: clamp(1.625rem, 1.35rem + 1.2vw, 1.875rem);
+  max-width: none;
+  font-size: clamp(1.75rem, 1.45rem + 1.5vw, 2.125rem); /* ~28–34 */
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 #services-page [id^="eyebrow-"] > span {
@@ -3793,7 +3807,8 @@
 
 #services-page .services-section-lede,
 #services-page .services-why-intro {
-  max-width: 42rem;
+  max-width: none;
+  width: 100%;
   margin: 0;
   color: rgba(255, 255, 255, 0.72);
   font-size: var(--services-body);
@@ -3803,7 +3818,7 @@
 }
 
 #services-page .services-why-intro {
-  max-width: 24rem;
+  max-width: none;
   font-size: var(--services-support);
 }
 
@@ -3846,47 +3861,51 @@
 
 /* 320–359: controlled mobile display type */
 @media (max-width: 359px) {
+  #services-page {
+    --services-section-y: 3.5rem;
+  }
+
   #services-page .services-hero {
-    padding-top: 1.75rem;
+    padding-top: 1.6rem;
     padding-bottom: 2.25rem;
   }
 
   #services-page .services-hero-layout {
-    gap: 1.9rem;
+    gap: 1.75rem;
   }
 
   #services-page .services-hero-title {
     font-size: 2.125rem; /* 34px */
-    line-height: 1.08;
+    line-height: 1.03;
     letter-spacing: -0.025em;
-    text-wrap: unset;
   }
 
   #services-page .services-hero-subtitle {
-    margin-top: 1rem;
-    font-size: 0.9375rem;
-    line-height: 1.55;
+    margin-top: 0.9rem;
   }
 
   #services-page .services-hero-actions {
     flex-direction: column;
     gap: 0.55rem;
-    margin-top: 1.25rem;
+    margin-top: 1.2rem;
   }
 
   #services-page .services-hero-cta {
     width: 100%;
     min-width: 0;
   }
+
+  #services-page .section-title {
+    font-size: 1.75rem; /* 28px */
+  }
 }
 
 /* 360–389: primary phone band (incl. 375) */
 @media (min-width: 360px) and (max-width: 389px) {
   #services-page .services-hero-title {
-    /* 35px yields 3 near-equal lines at 375 — more balanced than 36px's ragged 4 */
-    font-size: 2.1875rem;
-    line-height: 1.09;
-    letter-spacing: -0.028em;
+    font-size: 2.375rem; /* 38px at 375 */
+    line-height: 1.04;
+    letter-spacing: -0.03em;
     text-wrap: pretty;
   }
 }
@@ -3894,26 +3913,31 @@
 /* 390–430: larger phones */
 @media (min-width: 390px) and (max-width: 430px) {
   #services-page .services-hero-title {
-    font-size: 2.375rem; /* 38px */
-    line-height: 1.09;
-    letter-spacing: -0.03em;
-    text-wrap: unset;
+    font-size: 2.5rem; /* 40px */
+    line-height: 1.04;
+    letter-spacing: -0.032em;
   }
 }
 
 @media (min-width: 431px) and (max-width: 767px) {
   #services-page .services-hero-title {
-    font-size: clamp(2.4375rem, 2rem + 1.4vw, 2.6875rem);
-    line-height: 1.08;
+    font-size: clamp(2.5rem, 2rem + 1.5vw, 2.75rem);
+    line-height: 1.05;
     letter-spacing: -0.03em;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  #services-page {
+    --services-section-y: 4rem; /* 64px */
   }
 }
 
 @media (max-width: 767px) {
   #services-page {
     --services-body: 0.9375rem;
-    --services-support: 0.875rem;
-    --services-h3: 1.125rem;
+    --services-support: 0.9375rem;
+    --services-h3: 1.1875rem;
   }
 
   #services-page .services-hero-title {
@@ -3922,15 +3946,29 @@
   }
 
   #services-page .services-hero-subtitle {
-    max-width: 34rem;
+    max-width: none !important;
+  }
+
+  #services-page .services-section-lede,
+  #services-page .services-why-intro {
+    max-width: none;
   }
 
   #services-page .services-overview-tile {
-    padding: 1.05rem 1rem 1.15rem;
+    padding: 1.1rem 1rem 1.2rem;
+    text-align: left;
+  }
+
+  #services-page .services-overview-tile__title {
+    font-size: 1.1875rem; /* 19px */
+  }
+
+  #services-page .services-overview-tile__copy {
+    font-size: 0.9375rem;
   }
 
   #services-page .services-process-step__body h3 {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 650;
     letter-spacing: -0.01em;
     line-height: 1.25;
@@ -3941,8 +3979,8 @@
   }
 
   #services-page .services-process-step__body p {
-    font-size: 0.8125rem;
-    line-height: 1.5;
+    font-size: 0.9375rem;
+    line-height: 1.55;
   }
 
   #services-page .services-process-step__node {
@@ -3952,14 +3990,15 @@
 
   #services-page .services-faq-row__question {
     font-size: 0.9375rem;
+    min-height: 2.75rem;
   }
 
   #services-page .services-principle-canvas__title {
-    font-size: 1.125rem;
+    font-size: 1.1875rem;
   }
 
   #services-page .services-principle-canvas__copy {
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
   }
 
   #services-page .services-hero-system__label {
@@ -3973,15 +4012,32 @@
     font-weight: 600;
   }
 
+  #services-page .services-hero-system__summary-title {
+    font-size: 1.0625rem;
+  }
+
+  #services-page .services-hero-system__summary-copy {
+    font-size: 0.875rem;
+    max-width: none;
+  }
+
   #services-page .services-blueprint-selector__tab {
     font-size: 0.75rem;
     letter-spacing: 0.04em;
   }
 
-  /* Hero → overview separation */
+  #services-page .services-blueprint-panel {
+    min-height: 0;
+  }
+
   #services-page .services-section {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: var(--services-section-y);
+    padding-bottom: var(--services-section-y);
+  }
+
+  #services-page .section-title {
+    font-size: clamp(1.875rem, 1.55rem + 1.6vw, 2.125rem); /* 30–34 */
+    line-height: 1.06;
   }
 }
 
@@ -4016,6 +4072,7 @@
 
   #services-page .services-hero-subtitle {
     margin-top: 1rem;
+    max-width: 28rem;
     font-size: 1rem;
     line-height: 1.6;
   }
@@ -4037,6 +4094,14 @@
     line-height: 1.12;
   }
 
+  #services-page .services-section-lede {
+    max-width: 42rem;
+  }
+
+  #services-page .services-why-intro {
+    max-width: 24rem;
+  }
+
   #services-page .services-overview-tile__title {
     font-size: 1.1875rem;
   }
@@ -4047,6 +4112,11 @@
 
   #services-page .services-blueprint-panel__title {
     font-size: clamp(1.375rem, 1.1rem + 0.7vw, 1.625rem);
+  }
+
+  #services-page .services-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }
 

@@ -1,5 +1,12 @@
 .projects-approach {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .projects-approach {
+    padding-bottom: 2rem;
+  }
 }
 
 .projects-approach__layout {
@@ -21,15 +28,21 @@
 
 .projects-approach__heading {
   margin: 0.45rem 0 0;
-  max-width: 22ch;
+  max-width: none;
   font-size: clamp(1.3rem, 2.3vw, 1.7rem);
   line-height: 1.18;
   letter-spacing: -0.02em;
 }
 
+@media (min-width: 768px) {
+  .projects-approach__heading {
+    max-width: 22ch;
+  }
+}
+
 .projects-approach__lede {
   margin: 0.65rem 0 0;
-  max-width: 36rem;
+  max-width: none;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
@@ -37,10 +50,20 @@
 
 .projects-approach__copy {
   margin: 0;
-  max-width: 34rem;
+  max-width: none;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.7);
+}
+
+@media (min-width: 768px) {
+  .projects-approach__lede {
+    max-width: 36rem;
+  }
+
+  .projects-approach__copy {
+    max-width: 34rem;
+  }
 }
 
 .projects-approach__step-copy {
@@ -51,9 +74,9 @@
 
 .projects-approach__step-desc {
   margin: 0;
-  max-width: 18rem;
-  font-size: 0.75rem;
-  line-height: 1.45;
+  max-width: none;
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.55);
 }
 

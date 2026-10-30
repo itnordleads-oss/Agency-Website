@@ -47,7 +47,7 @@ export default function ServicesOverviewGrid({ overview, services }: ServicesOve
           <h2 id="services-overview-title" className="section-title">
             {overview.title}
           </h2>
-          <p className="services-section-lede max-w-2xl">{overview.subtitle}</p>
+          <p className="services-section-lede max-w-none md:max-w-2xl">{overview.subtitle}</p>
         </div>
 
         <ul className="services-overview-board m-0 list-none p-0">

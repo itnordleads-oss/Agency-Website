@@ -108,12 +108,12 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
           <h2 id="services-spotlight-title" className="section-title">
             {copy.title}
           </h2>
-          <p className="services-section-lede max-w-2xl">{copy.subtitle}</p>
+          <p className="services-section-lede max-w-none md:max-w-2xl">{copy.subtitle}</p>
         </div>
 
         <div
           ref={selectorRef}
-          className="services-blueprint-selector mb-8"
+          className="services-blueprint-selector mb-6 md:mb-8"
           role="tablist"
           aria-label={copy.title}
           id={tablistId}
@@ -133,7 +133,16 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
                 ref={(node) => {
                   tabRefs.current[service.id] = node;
                 }}
-                onClick={() => setActiveId(service.id)}
+                onClick={() => {
+                  setActiveId(service.id);
+                  window.requestAnimationFrame(() => {
+                    tabRefs.current[service.id]?.scrollIntoView({
+                      behavior: "smooth",
+                      inline: "nearest",
+                      block: "nearest",
+                    });
+                  });
+                }}
                 onMouseEnter={() => {
                   if (
                     typeof window !== "undefined" &&
@@ -167,7 +176,7 @@ export default function ServicesSpotlight({ copy, services }: ServicesSpotlightP
               <ServiceIcon serviceId={activeService.id} className="h-5 w-5" />
             </div>
             <h3 className="services-blueprint-panel__title">{activeService.title}</h3>
-            <p className="services-blueprint-panel__copy max-w-sm">
+            <p className="services-blueprint-panel__copy max-w-none md:max-w-sm">
               {activeService.shortDescription}
             </p>
             <div className="space-y-2.5">
